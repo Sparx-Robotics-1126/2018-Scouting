@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:autofillHints="Chicken Nuggets"
-    android:background="@drawable/sparxgradiant"
+    android:background="@drawable/sparxgradient"
     tools:context="steamworks.sparx1126.com.powerup.MainActivity">
 
     <ImageView
