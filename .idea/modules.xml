@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/2018-Scouting.iml" filepath="$PROJECT_DIR$/2018-Scouting.iml" />
+      <module fileurl="file://C:\Users\usx06487\StudioProjects\2018-Scouting\2018-Scouting.iml" filepath="C:\Users\usx06487\StudioProjects\2018-Scouting\2018-Scouting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\usx06487\StudioProjects\2018-Scouting\app\app.iml" filepath="C:\Users\usx06487\StudioProjects\2018-Scouting\app\app.iml" />
+    </modules>
+  </component>
+</project>

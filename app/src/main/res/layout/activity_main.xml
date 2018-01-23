@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/powerup_bckgrd" />
 
     <AutoCompleteTextView
-        android:id="@+id/scoutername"
+        android:id="@+id/studentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
