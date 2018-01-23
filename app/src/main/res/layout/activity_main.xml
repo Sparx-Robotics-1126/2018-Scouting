@@ -19,13 +19,14 @@
 
     <AutoCompleteTextView
         android:id="@+id/scoutername"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="AutoCompleteTextView"
-        android:textSize="36sp" />
+        android:hint="Scouter Name"
+        android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM' "
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/button2"
