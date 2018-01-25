@@ -1,4 +1,4 @@
-package steamworks.sparx1126.com.powerup;
+package sparx1126.com.powerup;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("steamworks.sparx1126.com.powerup", appContext.getPackageName());
+        assertEquals("steamworks.sparx1126.com.sparx1126.com.sparx1126.com.powerup", appContext.getPackageName());
     }
 }

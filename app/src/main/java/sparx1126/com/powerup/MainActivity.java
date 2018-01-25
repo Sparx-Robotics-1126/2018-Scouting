@@ -1,4 +1,4 @@
-package steamworks.sparx1126.com.powerup;
+package sparx1126.com.powerup;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // student selection
-        studenName = findViewById(R.id.studentName);
+        studenName = findViewById(R.id.studentNameText);
         studenName.setOnItemClickListener(studentSelectedFunction);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
         studenName.setAdapter(adapter);
