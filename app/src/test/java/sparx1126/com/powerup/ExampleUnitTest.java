@@ -1,4 +1,4 @@
-package steamworks.sparx1126.com.powerup;
+package sparx1126.com.powerup;
 
 import org.junit.Test;
 
