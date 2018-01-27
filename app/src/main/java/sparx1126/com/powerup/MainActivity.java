@@ -7,9 +7,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity {
     String[] studentList = {"Felix", "Huang"};
     AutoCompleteTextView studenName;
+    BlueAlliance blueAlliance = BlueAlliance.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,16 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
         // student selection
         studenName = findViewById(R.id.studentNameText);
-        studenName.setOnItemClickListener(studentSelectedFunction);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
         studenName.setAdapter(adapter);
         studenName.setThreshold(1);
+        studenName.setOnItemClickListener(studentSelectedFunction);
+
+        blueAlliance.refreshData();
     }
 
     private final AdapterView.OnItemClickListener studentSelectedFunction = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
-            String selectedStudent = (String) parent.getItemAtPosition(pos);
+            //String selectedStudent = (String) parent.getItemAtPosition(pos);
             //System.out.println("onItemClick " + selectedStudent);
         }
     };
