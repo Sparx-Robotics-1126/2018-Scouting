@@ -83,14 +83,13 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/auto"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout2"
         android:layout_centerHorizontal="true"
         android:textSize="90sp"
-
-        android:text="Autonomous" />
+        android:text="@string/autonomous" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -178,8 +177,123 @@
             android:id="@+id/teleop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Teleop"
+            android:text
+            android:textSize="95sp" />
+
+        <TextView
+            android:id="@+id/Switch"
+            android:layout_width="430dp
+"
+            android:layout_height="wrap_content"
+            android:text="Times scored switch"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="430dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Times scored scale" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="430dp"
+            android:textSize="30sp"
+            android:layout_height="wrap_content"
+            android:text="Times placed cube in exchange" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="430dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Cubes picked up from floor" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="430dp"
+            android:textSize="30sp"
+            android:layout_height="wrap_content"
+            android:text="Cubes acquired from players" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Effectively Played defense" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/Endgame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End Game"
             android:textSize="95sp"
-            android:text="Teleop" />
+            />
+
+        <TextView
+            android:id="@+id/Climbbtnlabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="45sp"
+            android:text="Climb:" />
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Rung" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Other robot" />
+
+        <RadioButton
+            android:id="@+id/radioButton6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Doesn't Climb" />
+
+        <CheckBox
+            android:id="@+id/climbOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="45sp"
+            android:text="Can be climbed on" />
+
+        <RadioButton
+            android:id="@+id/ClimbOn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Holds 1 robot" />
+
+        <RadioButton
+            android:id="@+id/ClimbOn2"
+            android:layout_width="match_parent"
+            android:textSize="30sp"
+            android:layout_height="wrap_content"
+            android:text="Holds 2 robots" />
+
+        <CheckBox
+            android:id="@+id/Climb15secs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="Can Climb under 15 seconds" />
     </LinearLayout>
 
 </LinearLayout>
