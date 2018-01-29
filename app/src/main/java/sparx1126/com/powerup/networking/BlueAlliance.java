@@ -1,10 +1,9 @@
-package sparx1126.com.powerup;
+package sparx1126.com.powerup.networking;
 
 
 import org.json.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,8 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import sparx1126.com.powerup.utilities.Event;
+import sparx1126.com.powerup.utilities.Team;
 
 /**
  * Created by Papa on 1/27/18.
@@ -27,7 +28,7 @@ public class BlueAlliance implements okhttp3.Callback {
     String YEAR = "2018";
     private static BlueAlliance blueAlliance;
     Map<String, Event> eventsByKeyMap = new HashMap<>();
-    Map<String, Event> teamsByKeyMap = new HashMap<>();
+    Map<String, Team> teamsByKeyMap = new HashMap<>();
     public static synchronized BlueAlliance getInstance() {
         if (blueAlliance == null)
             blueAlliance = new BlueAlliance();
@@ -64,15 +65,15 @@ public class BlueAlliance implements okhttp3.Callback {
                         Event event = new Event(eventObj);
                         eventsByKeyMap.put(valueOfKey, event);
                     }
-                    System.out.println(eventsByKeyMap);
+                    //System.out.println(eventsByKeyMap);
                 }
                 else if(response.request().url().toString().contains(TEAMS)) {
                     JSONArray teamsArray = new JSONArray(response.body().string());
                     for (int i = 0; i < teamsArray.length(); i++) {
-                        JSONObject eventObj = teamsArray.getJSONObject(i);
-                        String valueOfKey = eventObj.getString(Event.KEY);
-                        Event event = new Event(eventObj);
-                        eventsByKeyMap.put(valueOfKey, event);
+                        JSONObject teamObj = teamsArray.getJSONObject(i);
+                        String valueOfKey = teamObj.getString(Team.KEY);
+                        Team team = new Team(teamObj);
+                        teamsByKeyMap.put(valueOfKey, team);
                 }
                     System.out.println(teamsByKeyMap);
 

@@ -1,4 +1,4 @@
-package sparx1126.com.powerup;
+package sparx1126.com.powerup.utilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,9 +7,9 @@ import org.json.JSONObject;
  * Created by Papa on 1/27/18.
  */
 
-public class Event {
-    public static String END_DATE = "end_date";
+public class Team {
     public static String KEY = "key";
+    /*public static String END_DATE = "end_date";
     public static String LOCATION = "location_name";
     public static String NAME = "name";
     public static String START_DATE = "start_date";
@@ -20,10 +20,10 @@ public class Event {
     String end_date;
     String wk;
     String location;
-    String key;
+    String key;*/
 
-    public Event(JSONObject eventObj) {
-        try {
+    public Team(JSONObject eventObj) {
+        /*try {
             name = eventObj.getString(NAME);
             location = eventObj.getString(LOCATION);
             key = eventObj.getString(KEY);
@@ -32,7 +32,6 @@ public class Event {
             wk= eventObj.getString(WEEK);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-
+        }*/
     }
 }

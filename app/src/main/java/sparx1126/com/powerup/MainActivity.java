@@ -7,10 +7,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.Response;
+import sparx1126.com.powerup.networking.BlueAlliance;
 
 public class MainActivity extends AppCompatActivity {
     String[] studentList = {"Felix", "Huang"};
