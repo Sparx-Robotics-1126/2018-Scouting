@@ -1,9 +1,13 @@
 package sparx1126.com.powerup.networking;
 
 
+import android.util.Log;
+
 import org.json.*;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +30,10 @@ public class BlueAlliance implements okhttp3.Callback {
     String EVENTS = "events";
     String TEAMS = "teams";
     String YEAR = "2018";
+    String EVENT = "event";
+    String TEAM = "team";
     private static BlueAlliance blueAlliance;
+    ArrayList<String> currentTeamEvents = new ArrayList<>();
     Map<String, Event> eventsByKeyMap = new HashMap<>();
     Map<String, Team> teamsByKeyMap = new HashMap<>();
     public static synchronized BlueAlliance getInstance() {
@@ -38,13 +45,39 @@ public class BlueAlliance implements okhttp3.Callback {
     private BlueAlliance() {
     }
 
-    void refreshData() {
+    public void fetchEventData() {
         Request requestEvents = new Request.Builder()
                 .addHeader("X-TBA-Auth-Key", KEY)
                 .url(BASE_URL+EVENTS+"/"+YEAR)
                 .build();
 
         client.newCall(requestEvents).enqueue(this);
+    }
+
+    public void fetchTeamData(String eventKey) {
+        Request requestEvents = new Request.Builder()
+                .addHeader("X-TBA-Auth-Key", KEY)
+                .url(BASE_URL+EVENT+"/"+eventKey+"/"+TEAMS)
+                .build();
+
+        client.newCall(requestEvents).enqueue(this);
+    }
+
+    public void fetchTeamEvents(String teamCode) {
+        Log.e("Fetched Team Events", "");
+        Request requestEvents = new Request.Builder()
+                .addHeader("X-TBA-Auth-Key", KEY)
+                .url(BASE_URL+TEAM+"/"+teamCode+"/"+EVENTS+"2018"+"/"+"simple")
+                .build();
+
+        client.newCall(requestEvents).enqueue(this);
+    }
+
+    public ArrayList<String> getTeamEvents(int teamNumber) {
+        System.out.println("Method called by main");
+        String teamCode = "frc" + Integer.toString(teamNumber);
+        fetchTeamEvents(teamCode);
+        return currentTeamEvents;
     }
 
     @Override
@@ -57,13 +90,32 @@ public class BlueAlliance implements okhttp3.Callback {
         if (response.isSuccessful()) {
             //System.out.println(response.body().string());
             try {
-                if(response.request().url().toString().contains(EVENTS)) {
+                if (response.request().url().toString().contains(EVENTS)) {
                     JSONArray eventsArray = new JSONArray(response.body().string());
+
+                    //checks if it is just for a specific team or multiple
+                    if(eventsArray.length() > 5) {
                     for (int i = 0; i < eventsArray.length(); i++) {
                         JSONObject eventObj = eventsArray.getJSONObject(i);
                         String valueOfKey = eventObj.getString(Event.KEY);
                         Event event = new Event(eventObj);
                         eventsByKeyMap.put(valueOfKey, event);
+
+//                        for(String key: eventsByKeyMap.keySet()) {
+//                            fetchTeamData(key);
+//                        }
+                        fetchTeamData("2018ohcl");
+
+
+                         }
+                    } else {
+                        currentTeamEvents = new ArrayList<>();
+                        for (int i = 0; i < eventsArray.length(); i++) {
+                            Log.e("Number of events", Integer.toString(eventsArray.length()));
+                            JSONObject eventObj = eventsArray.getJSONObject(i);
+                            Event event = new Event(eventObj);
+                            currentTeamEvents.add(event.getName());
+                        }
                     }
                     //System.out.println(eventsByKeyMap);
                 }
@@ -73,11 +125,17 @@ public class BlueAlliance implements okhttp3.Callback {
                         JSONObject teamObj = teamsArray.getJSONObject(i);
                         String valueOfKey = teamObj.getString(Team.KEY);
                         Team team = new Team(teamObj);
-                        teamsByKeyMap.put(valueOfKey, team);
-                }
-                    System.out.println(teamsByKeyMap);
+                        String url = response.request().url().toString();
+                        String[] urlParts = url.split("/");
+//                        String eventKey = urlParts[6];
+//                        if(team.getNumber().equals(Integer.toString(1126))) {
+//                            Log.i("Found 1126",eventKey);
+//                        }
 
-            } }catch (JSONException e) {
+//                        teamsByKeyMap.put(valueOfKey, team);
+                    }
+            }
+             }catch (JSONException e) {
                 e.printStackTrace();
             }
         }

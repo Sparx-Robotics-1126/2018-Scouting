@@ -19,6 +19,31 @@ public class Event {
     String startdate;
     String end_date;
     String wk;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public String getWk() {
+        return wk;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
     String location;
     String key;
 

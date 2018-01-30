@@ -9,29 +9,53 @@ import org.json.JSONObject;
 
 public class Team {
     public static String KEY = "key";
-    /*public static String END_DATE = "end_date";
-    public static String LOCATION = "location_name";
-    public static String NAME = "name";
-    public static String START_DATE = "start_date";
-    public static String WEEK = "week";
+    public static String TEAM_NUMBER = "team_number";
+    public static String NICKNAME = "nickname";
+    public static String CITY = "city";
+    public static String STATE_PROV = "state_prov";
+    public static String ROOKIE_YEAR = "rookie_year";
 
+    public String getNumber() {
+        return number;
+    }
+
+    public String getTeamKey() {
+        return teamKey;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getRookieYear() {
+        return rookieYear;
+    }
+
+    String number;
+    String teamKey;
     String name;
-    String startdate;
-    String end_date;
-    String wk;
-    String location;
-    String key;*/
+    String city;
+    String state;
+    String rookieYear;
 
-    public Team(JSONObject eventObj) {
-        /*try {
-            name = eventObj.getString(NAME);
-            location = eventObj.getString(LOCATION);
-            key = eventObj.getString(KEY);
-            end_date = eventObj.getString(END_DATE);
-            startdate= eventObj.getString(START_DATE);
-            wk= eventObj.getString(WEEK);
+    public Team(JSONObject teamObj) {
+        try {
+            number = teamObj.getString(TEAM_NUMBER);
+            teamKey = teamObj.getString(KEY);
+            name = teamObj.getString(NICKNAME);
+            city = teamObj.getString(CITY);
+            state = teamObj.getString(STATE_PROV);
+            rookieYear = teamObj.getString(ROOKIE_YEAR);
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }

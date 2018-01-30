@@ -2,13 +2,14 @@ package sparx1126.com.powerup;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import okhttp3.Call;
-import okhttp3.Response;
+import java.util.ArrayList;
+
 import sparx1126.com.powerup.networking.BlueAlliance;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,15 @@ public class MainActivity extends AppCompatActivity {
         studenName.setThreshold(1);
         studenName.setOnItemClickListener(studentSelectedFunction);
 
-        blueAlliance.refreshData();
+        blueAlliance.fetchEventData();;
+
+        //code to get what meets our team is in
+        ArrayList<String> sparxEvents = blueAlliance.getTeamEvents(1126);
+        Log.e("NUMBER SPARX EVENTS" , Integer.toString(sparxEvents.size()));
+        for(int i = 0; i < sparxEvents.size(); i++) {
+            Log.e("SPARX Event 1" , sparxEvents.get(i));
+
+        }
     }
 
     private final AdapterView.OnItemClickListener studentSelectedFunction = new AdapterView.OnItemClickListener() {
