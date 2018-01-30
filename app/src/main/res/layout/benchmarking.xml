@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     >
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/sparxRedLight"
@@ -33,10 +32,12 @@
                     />
 
                 <EditText
+                    android:id="@+id/teamnumberinput"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
                     android:maxLength="4"
+                    android:digits="number"
                     />
 
 
@@ -65,7 +66,6 @@
                 android:hint="Type of Drive System"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 />
-                <!--important add auto complete-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -383,9 +383,9 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -396,6 +396,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toss"
+                    android:textSize="25sp"
+                    android:layout_weight="1"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Place"
+                    android:textSize="25sp"
+                    android:layout_weight="1"/>
+            </RadioGroup>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -410,7 +427,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            <!--toss or place-->
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toss"
+                    android:textSize="25sp"
+                    android:layout_weight="1"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Place"
+                    android:textSize="25sp"
+                    android:layout_weight="1"/>
+            </RadioGroup>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -424,6 +457,7 @@
                 <RadioGroup
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     >
                     <RadioButton
                         android:layout_width="wrap_content"
@@ -509,7 +543,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            <!--would you need another how high can it be or other stats for attaching to robot-->
         </LinearLayout>
+        <!--done-->
     </LinearLayout>
 </ScrollView>
