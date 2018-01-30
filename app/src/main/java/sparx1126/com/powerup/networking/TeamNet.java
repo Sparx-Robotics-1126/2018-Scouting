@@ -1,4 +1,4 @@
-package sparx1126.com.powerup.utilities;
+package sparx1126.com.powerup.networking;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,7 +7,7 @@ import org.json.JSONObject;
  * Created by Papa on 1/27/18.
  */
 
-public class Team {
+public class TeamNet {
     public static String KEY = "key";
     public static String TEAM_NUMBER = "team_number";
     public static String NICKNAME = "nickname";
@@ -46,7 +46,7 @@ public class Team {
     String state;
     String rookieYear;
 
-    public Team(JSONObject teamObj) {
+    public TeamNet(JSONObject teamObj) {
         try {
             number = teamObj.getString(TEAM_NUMBER);
             teamKey = teamObj.getString(KEY);

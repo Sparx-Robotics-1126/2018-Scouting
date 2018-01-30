@@ -1,4 +1,4 @@
-package sparx1126.com.powerup.utilities;
+package sparx1126.com.powerup.networking;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,7 +7,7 @@ import org.json.JSONObject;
  * Created by Papa on 1/27/18.
  */
 
-public class Event {
+public class EventNet {
     public static String END_DATE = "end_date";
     public static String KEY = "key";
     public static String LOCATION = "location_name";
@@ -47,7 +47,7 @@ public class Event {
     String location;
     String key;
 
-    public Event(JSONObject eventObj) {
+    public EventNet(JSONObject eventObj) {
         try {
             name = eventObj.getString(NAME);
             location = eventObj.getString(LOCATION);
