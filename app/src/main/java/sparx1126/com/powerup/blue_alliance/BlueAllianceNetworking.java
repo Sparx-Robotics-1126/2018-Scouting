@@ -10,6 +10,7 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Response;
+import sparx1126.com.powerup.utilities.JSONParser;
 import sparx1126.com.powerup.utilities.Networking;
 
 public class BlueAllianceNetworking {
@@ -33,7 +34,10 @@ public class BlueAllianceNetworking {
 
     private static Networking network;
     private static BlueAllianceNetworking instance;
+    private JSONParser jsonParser;
 
+    // synchronized means that the method cannot be executed by two threads at the same time
+    // hence protected so that it always returns the same instance
     public static synchronized BlueAllianceNetworking getInstance() {
         if (instance == null)
             instance = new BlueAllianceNetworking();
@@ -42,16 +46,17 @@ public class BlueAllianceNetworking {
 
     private BlueAllianceNetworking() {
         network = Networking.getInstance();
+        jsonParser = JSONParser.getInstance();
     }
 
-    public void getEventsSparxsIsIn(CallbackEvents _callback) {
-        getTeamEvents(SPARX_TEAM_KEY, _callback);
+    public void downloadEventsSparxsIsIn(CallbackEvents _callback) {
+        downloadTeamEvents(SPARX_TEAM_KEY, _callback);
     }
 
     // made this private because why do we care of other team events???
-    private void getTeamEvents(String _key, final CallbackEvents _callback) {
+    private void downloadTeamEvents(String _key, final CallbackEvents _callback) {
         String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
-        network.getBlueAllianceData(url_tail, new okhttp3.Callback() {
+        network.downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 _callback.onFailure(e.getMessage());
@@ -60,20 +65,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Map<String, BlueAllianceEvent> rtnMap = new HashMap<>();
-
-                    try {
-                        //Log.d("getTeamEvents", response.body().string());
-                        JSONArray eventsArray = new JSONArray(response.body().string());
-                        for (int i = 0; i < eventsArray.length(); i++) {
-                            JSONObject eventObj = eventsArray.getJSONObject(i);
-                            BlueAllianceEvent event = new BlueAllianceEvent(eventObj);
-                            rtnMap.put(event.getKey(), event);
-                        }
-                        Log.d("getTeamEvents", rtnMap.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Map<String, BlueAllianceEvent> rtnMap = jsonParser.parseTeamEvents(response.body().string());
                     _callback.onSuccess(rtnMap);
                 }
                 else {
@@ -83,9 +75,9 @@ public class BlueAllianceNetworking {
         });
     }
 
-    public void getEventTeams(String _key, final CallbackTeams _callback) {
+    public void downloadEventTeams(String _key, final CallbackTeams _callback) {
         String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
-        network.getBlueAllianceData(url_tail, new okhttp3.Callback() {
+        network.downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 _callback.onFailure(e.getMessage());
@@ -94,20 +86,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Map<String, BlueAllianceTeam> rtnMap = new HashMap<>();
-
-                    try {
-                        //Log.d("getEventTeams", response.body().string());
-                        JSONArray teamsArray = new JSONArray(response.body().string());
-                        for (int i = 0; i < teamsArray.length(); i++) {
-                            JSONObject teamObj = teamsArray.getJSONObject(i);
-                            BlueAllianceTeam team = new BlueAllianceTeam(teamObj);
-                            rtnMap.put(team.getKey(), team);
-                        }
-                        Log.d("getEventTeams", rtnMap.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Map<String, BlueAllianceTeam> rtnMap = jsonParser.parseEventTeams(response.body().string());
                     _callback.onSuccess(rtnMap);
                 }
                 else {

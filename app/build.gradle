@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "steamworks.sparx1126.com.sparx1126.com.sparx1126.com.powerup"
+        applicationId "com.sparx1126.com.powerup"
         minSdkVersion 22
         targetSdkVersion 26
         versionCode 1

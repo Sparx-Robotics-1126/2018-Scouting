@@ -28,9 +28,9 @@ public class Networking {
         client = new OkHttpClient();
     }
 
-    public void getBlueAllianceData(String _url_tail, okhttp3.Callback _callback) {
+    public void downloadBlueAllianceData(String _url_tail, okhttp3.Callback _callback) {
         String url = BLUE_ALLIANCE_BASE_URL + _url_tail;
-        Log.d("getBlueAllianceData", url);
+        Log.d("dBlueAllianceData", url);
         Request requestEvents = new Request.Builder()
                 .addHeader(BLUE_ALLIANCE_AUTH_HEADER, BLUE_ALLIANCE_KEY)
                 .url(url)

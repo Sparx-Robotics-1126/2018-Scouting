@@ -19,14 +19,14 @@ public class BlueAllianceEvent {
     private String startDate;
     private String endDate;
 
-    BlueAllianceEvent(JSONObject eventObj) {
+    public BlueAllianceEvent(JSONObject eventObj) {
         try {
             key = eventObj.getString(KEY);
             name = eventObj.getString(NAME);
             week= eventObj.getString(WEEK);
             location = eventObj.getString(LOCATION);
-            endDate = eventObj.getString(END_DATE);
             startDate= eventObj.getString(START_DATE);
+            endDate = eventObj.getString(END_DATE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -47,5 +47,21 @@ public class BlueAllianceEvent {
     }
     public String getEndDate() {
         return endDate;
+    }
+
+    public JSONObject getJSONObject(BlueAllianceEvent _input) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(KEY, key);
+            json.put(NAME, name);
+            json.put(WEEK, week);
+            json.put(LOCATION, location);
+            json.put(START_DATE, startDate);
+
+            json.put(END_DATE, endDate);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

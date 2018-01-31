@@ -12,10 +12,12 @@ import java.util.Map;
 
 import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
 import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
+import sparx1126.com.powerup.utilities.FileIO;
 
 public class MainActivity extends AppCompatActivity {
     private static final String[] studentList = {"Felix", "Huang"};
     private static BlueAllianceNetworking blueAlliance;
+    private static FileIO fileIO;
     private AutoCompleteTextView studentNameAutoTextView;
 
     @Override
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         blueAlliance = BlueAllianceNetworking.getInstance();
+        fileIO = FileIO.getInstance(this);
 
         // student selection
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
@@ -39,13 +42,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        blueAlliance.getEventsSparxsIsIn(new BlueAllianceNetworking.CallbackEvents() {
+        blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.CallbackEvents() {
             @Override
             public void onFailure(String _reason) {
-                Log.e("getEventsSparxsIsIn", _reason);
+                Log.e("dEventsSparxsIsIn", _reason);
             }
             @Override
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
+                fileIO.storeTeamEvents(_result);
+                Map<String, BlueAllianceEvent> rtnMap = fileIO.fetchTeamEvents();
+                Log.d("dEventsSparxsIsIn", rtnMap.toString());
             }
         });
     }
