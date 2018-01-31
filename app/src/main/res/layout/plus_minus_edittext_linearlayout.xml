@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/btn_minus"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/minus"
+        android:backgroundTint="@color/sparxRedDark"
+        android:textColor="@color/black"/>
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:focusable="false"
+        android:text="@string/zero"
+        tools:ignore="LabelFor" />
+
+    <Button
+        android:id="@+id/btn_plus"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/plus"
+        android:backgroundTint="@color/sparxRedDark"
+        android:textColor="@color/black"/>
+</LinearLayout>

@@ -3,4 +3,5 @@
     <color name="sparxRedDark">#800c0a</color>
     <color name="sparxRedLight">#DB0000</color>
     <color name="colorAccent">#40acff</color>
+    <color name="black">#000000</color>
 </resources>
