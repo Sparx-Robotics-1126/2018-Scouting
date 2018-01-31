@@ -1,18 +1,12 @@
-package sparx1126.com.powerup.components;
-
-/**
- * Created by jcascino20 on 1/29/2018.
- */
+package sparx1126.com.powerup.data_components;
 
 public class BenchmarkData {
+    private int teamnumber;
+
     public int getTeamnumber() {
         return teamnumber;
     }
-
     public void setTeamnumber(int teamnumber) {
         this.teamnumber = teamnumber;
     }
-
-    int teamnumber;
-
 }

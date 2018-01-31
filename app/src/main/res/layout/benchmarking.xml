@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/sparxRedLight"
         android:orientation="vertical"
-        android:padding="5dp"
-        >
+        android:padding="5dp">
         <!--intro-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="25sp"
                     android:text="Team Number:"
-                    />
+                    android:textSize="25sp"/>
 
                 <EditText
                     android:id="@+id/teamnumberinput"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:maxLength="4"
                     android:digits="number"
-                    />
-
+                    android:maxLength="4"
+                    android:textSize="25sp"/>
 
 
             </LinearLayout>
@@ -51,81 +46,81 @@
             android:layout_height="wrap_content"
             android:background="@color/sparxRedDark"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="About"
-                android:textStyle="bold"
                 android:textSize="25sp"
-                    />
+                android:textStyle="bold"/>
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:textSize="25sp"
-                android:hint="Type of Drive System"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                />
+                android:hint="Type of Drive System"
+                android:textSize="25sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Speed (ft/s):"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    />
+                    android:textSize="25sp"/>
 
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
                     android:inputType="number"
+                    android:textSize="25sp"/>
 
-                    />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Height (ft):"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    />
+                    android:textSize="25sp"/>
+
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
                     android:inputType="number"
+                    android:textSize="25sp"/>
 
-                    />
-                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weight (lb):"
-                    android:textSize="25sp"
                     android:layout_weight="1"
-                    />
+                    android:text="Weight (lb):"
+                    android:textSize="25sp"/>
+
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
                     android:inputType="number"
+                    android:textSize="25sp"/>
 
-
-                    />
             </LinearLayout>
+
         </LinearLayout>
         <!--Start-->
         <LinearLayout
@@ -138,66 +133,61 @@
                 android:layout_height="wrap_content"
                 android:text="Start"
                 android:textSize="25sp"
-                android:textStyle="bold"
-
-                />
-
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Preferred to Start"
-                android:textSize="25sp" />
+                android:textSize="25sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Left"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Center"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Right"
-                    android:textSize="25sp"
-
-                    />
+                    android:textSize="25sp"/>
 
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Can Start"
-                android:textSize="25sp" />
+                android:textSize="25sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -207,54 +197,56 @@
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Left"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Center"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Right"
-                    android:textSize="25sp"
-                    />
+                    android:textSize="25sp"/>
+
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Can Start With Cube"
-                    android:textSize="25sp"
                     android:layout_weight="1"
-                    />
+                    android:text="Can Start With Cube"
+                    android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -262,41 +254,42 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/sparxRedDark"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Auto"
-                android:textStyle="bold"
                 android:textSize="25sp"
-                />
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Move Past Line"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
+
             <TextView
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Can Score in Auto"
-                android:textSize="25sp"
-                />
+                android:textSize="25sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -305,25 +298,25 @@
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Scale"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Switch"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
                 />
             </LinearLayout>
 
@@ -332,218 +325,266 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Teleop"
-                android:textStyle="bold"
-                android:textSize="25sp"/>
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Acquire from Floor"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Get from Portal/Vault"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Deposit to Vault"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
+
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Score Switch"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
+
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Toss"
-                    android:textSize="25sp"
-                    android:layout_weight="1"/>
+                    android:textSize="25sp"/>
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Place"
-                    android:textSize="25sp"
-                    android:layout_weight="1"/>
+                    android:textSize="25sp"/>
+
             </RadioGroup>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Score Scale"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Toss"
-                    android:textSize="25sp"
-                    android:layout_weight="1"/>
+                    android:textSize="25sp"/>
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Place"
-                    android:textSize="25sp"
-                    android:layout_weight="1"/>
+                    android:textSize="25sp"/>
+
             </RadioGroup>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
                     android:text="Preferred Cube Pick Up Location"
-                    />
+                    android:textSize="25sp"/>
+
                 <RadioGroup
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Floor"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"/>
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Portal"
                         android:textSize="25sp"/>
+
                 </RadioGroup>
+
             </LinearLayout>
+
         </LinearLayout>
         <!--End-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/sparxRedDark"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Climbing"
                 android:textSize="25sp"
                 android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Climb Rung"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:layout_weight="1"
                     android:text="How High Can it Be (ft)?"
-                    android:layout_weight="1"/>
+                    android:textSize="25sp"/>
+
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    />
+                    android:inputType="number"/>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Has Rungs"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Attach to Robot"
                     android:textSize="25sp"/>
+
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
+
         </LinearLayout>
         <!--done-->
     </LinearLayout>
+
 </ScrollView>
