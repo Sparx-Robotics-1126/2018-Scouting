@@ -17,12 +17,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView2"
                 style="@style/NormalTextView"
                 android:text="Team Number:" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/scouteamnuminput"
                 style="@style/ShortEditText"
                 android:hint="Team #"
                 android:inputType="number" />
@@ -44,6 +43,7 @@
 
             <RadioButton
                 android:layout_width="146dp"
+                android:id="@+id/blueAlliancebuttton"
                 android:layout_height="match_parent"
                 android:text="Blue"
                 android:textSize="45sp" />
@@ -72,7 +72,7 @@
                 android:textSize="70sp" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/matchnumimput"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
