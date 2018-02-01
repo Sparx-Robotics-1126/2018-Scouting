@@ -9,17 +9,6 @@ import sparx1126.com.powerup.utilities.JSONParser;
 import sparx1126.com.powerup.utilities.Networking;
 
 public class BlueAllianceNetworking {
-
-    public interface CallbackEvents {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceEvent> _result);
-    }
-
-    public interface CallbackTeams {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceTeam> _result);
-    }
-
     private static final String YEAR = "2018";
     private static final String SPARX_TEAM_KEY = "frc1126";
     // intention is for {event_key} to be substituted
@@ -89,5 +78,15 @@ public class BlueAllianceNetworking {
                 }
             }
         });
+    }
+
+    public interface CallbackEvents {
+        void onFailure(String _reason);
+        void onSuccess(Map<String, BlueAllianceEvent> _result);
+    }
+
+    public interface CallbackTeams {
+        void onFailure(String _reason);
+        void onSuccess(Map<String, BlueAllianceTeam> _result);
     }
 }
