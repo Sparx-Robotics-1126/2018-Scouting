@@ -156,4 +156,41 @@
         <item name="android:layout_marginRight">10dp</item>
     </style>
 
+    <style name="J_ShortEditText" parent="android:Widget.EditText">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:inputType">number</item>
+        <item name="android:digits">1234567890</item>
+    </style>
+
+    <style name="J_checkBox" parent="android:Widget.EditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:buttonTint">@color/black</item>
+    </style>
+
+    <style name="J_designLayout" parent="android:Widget.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="J_radioButton" parent="android:Widget.EditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="J_basicTextView" parent="android:Widget.EditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
 </resources>

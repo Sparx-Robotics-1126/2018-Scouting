@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+ <!--FINISH  style="@style/J_basicTextView" for all textviews-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,9 +11,8 @@
         android:padding="5dp">
         <!--intro-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,11 +29,8 @@
 
                 <EditText
                     android:id="@+id/teamnumberinput"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:digits="number"
-                    android:maxLength="4"
-                    android:textSize="25sp"/>
+                    style="@style/J_ShortEditText"
+                    android:maxLength="4" />
 
 
             </LinearLayout>
@@ -42,10 +38,9 @@
         </LinearLayout>
         <!--Base-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/J_designLayout"
             android:background="@color/sparxRedDark"
-            android:orientation="vertical">
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,10 +69,9 @@
                     android:textSize="25sp"/>
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"/>
+                    android:id="@+id/speed"
+                    style="@style/J_ShortEditText"
+                    />
 
             </LinearLayout>
 
@@ -94,10 +88,8 @@
                     android:textSize="25sp"/>
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"/>
+                    android:id="@+id/height"
+                    style="@style/J_ShortEditText"/>
 
             </LinearLayout>
 
@@ -114,19 +106,16 @@
                     android:textSize="25sp"/>
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"/>
+                    android:id="@+id/weight"
+                    style="@style/J_ShortEditText"/>
 
             </LinearLayout>
 
         </LinearLayout>
         <!--Start-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            >
 
             <TextView
                 android:layout_width="match_parent"
@@ -148,8 +137,9 @@
                 android:orientation="horizontal">
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,8 +149,7 @@
                     android:textSize="25sp"/>
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,8 +159,7 @@
                     android:textSize="25sp"/>
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -196,8 +184,7 @@
 
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -207,8 +194,7 @@
                     android:textSize="25sp"/>
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -218,8 +204,7 @@
                     android:textSize="25sp"/>
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -244,25 +229,21 @@
                     android:textSize="25sp"/>
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
         </LinearLayout>
         <!--Auto-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/J_designLayout"
             android:background="@color/sparxRedDark"
-            android:orientation="vertical">
+            >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:text="Auto"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -271,24 +252,20 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Can Move Past Line"
-                    android:textSize="25sp"/>
+                    style="@style/J_basicTextView"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:layout_marginTop="15dp"
                 android:text="Can Score in Auto"
-                android:textSize="25sp"/>
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -297,42 +274,34 @@
 
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Scale"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Switch"
-                    android:textSize="25sp"/>
-                />
+                    />
             </LinearLayout>
 
         </LinearLayout>
         <!--Teleop-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            >
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:text="Teleop"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -340,15 +309,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Acquire from Floor"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
 
             </LinearLayout>
 
@@ -358,15 +325,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Get from Portal/Vault"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
 
             </LinearLayout>
 
@@ -376,15 +341,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Deposit to Vault"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -393,15 +356,14 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Score Switch"
-                    android:textSize="25sp"/>
+
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
             </LinearLayout>
 
             <RadioGroup
@@ -410,18 +372,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_radioButton"
                     android:text="Toss"
-                    android:textSize="25sp"/>
+                    />
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_radioButton"
                     android:text="Place"
-                    android:textSize="25sp"/>
+                    />
 
             </RadioGroup>
 
@@ -435,11 +393,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Score Scale"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    />
 
             </LinearLayout>
 
@@ -449,18 +409,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_radioButton"
                     android:text="Toss"
-                    android:textSize="25sp"/>
+                    />
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_radioButton"
                     android:text="Place"
-                    android:textSize="25sp"/>
+                    />
 
             </RadioGroup>
 
@@ -473,7 +429,9 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:text="Preferred Cube Pick Up Location"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    />
 
                 <RadioGroup
                     android:layout_width="200dp"
@@ -481,16 +439,12 @@
                     android:orientation="vertical">
 
                     <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Floor"
-                        android:textSize="25sp"/>
+                        style="@style/J_radioButton"
+                        android:text="Floor" />
 
                     <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Portal"
-                        android:textSize="25sp"/>
+                        style="@style/J_radioButton"
+                        android:text="Portal" />
 
                 </RadioGroup>
 
@@ -499,17 +453,18 @@
         </LinearLayout>
         <!--End-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/J_designLayout"
             android:background="@color/sparxRedDark"
-            android:orientation="vertical">
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Climbing"
                 android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -521,11 +476,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Climb Rung"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
@@ -538,13 +494,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="How High Can it Be (ft)?"
-                    android:textSize="25sp"/>
+                    android:text="How High Can it be From Platform(ft)?"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    />
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
+                    android:id="@+id/climbheight"
+                    style="@style/J_ShortEditText"/>
 
             </LinearLayout>
 
@@ -558,11 +515,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Has Rungs"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
@@ -576,11 +534,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Can Attach to Robot"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"/>
+
             </LinearLayout>
 
         </LinearLayout>

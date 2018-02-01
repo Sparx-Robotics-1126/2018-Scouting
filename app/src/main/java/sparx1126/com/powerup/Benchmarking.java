@@ -1,5 +1,6 @@
 package sparx1126.com.powerup;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -12,6 +13,8 @@ import sparx1126.com.powerup.data_components.BenchmarkData;
 public class Benchmarking extends AppCompatActivity {
     private BenchmarkData currentData;
     private EditText teamnumber;
+    private EditText speed;
+
 
 
     @Override
@@ -33,8 +36,8 @@ public class Benchmarking extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                currentData.setTeamnumber(Integer.getInteger(s.toString()));
-                Log.e("afterTextChanged", Integer.toString(currentData.getTeamnumber()));
+                currentData.setTeamnumber(Integer.parseInt(s.toString()));
+                //Log.d("afterTextChanged", Integer.toString(currentData.getTeamnumber()));
             }
         });
     }
