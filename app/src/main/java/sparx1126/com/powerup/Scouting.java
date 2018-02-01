@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import sparx1126.com.powerup.data_components.ScoutingData;
 
@@ -62,6 +65,4 @@ public class Scouting extends AppCompatActivity {
     });
     blueAlliancecolor = findViewById(R.id.blueAlliancebuttton);
 
-    }
-
-}
+}}

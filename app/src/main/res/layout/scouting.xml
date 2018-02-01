@@ -41,18 +41,26 @@
                 android:text="Alliance Color"
                 android:textSize="45sp" />
 
-            <RadioButton
-                android:layout_width="146dp"
-                android:id="@+id/blueAlliancebuttton"
+            <RadioGroup
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Blue"
-                android:textSize="45sp" />
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:layout_width="146dp"
-                android:layout_height="match_parent"
-                android:text="Red"
-                android:textSize="45sp" />
+                <RadioButton
+                    android:id="@+id/radioButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Blue"
+                    android:textSize="40sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Red"
+                    android:textSize="40sp" />
+            </RadioGroup>
 
         </LinearLayout>
 
