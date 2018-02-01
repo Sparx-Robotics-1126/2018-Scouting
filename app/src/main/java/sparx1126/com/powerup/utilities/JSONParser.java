@@ -27,18 +27,49 @@ public class JSONParser {
     private JSONParser() {
     }
 
-    public Map<String, BlueAllianceEvent> parseTeamEvents(String _contentInJSONForm) {
-        Map<String, BlueAllianceEvent> rtnMap = new HashMap<>();
+    public Map<String, BlueAllianceEvent> teamEventsStringIntoMap(String _input) {
+        Map<String, BlueAllianceEvent> output = new HashMap<>();
 
         try {
-            //Log.d("parseTeamEvents", _contentInJSONForm);
-            JSONArray array = new JSONArray(_contentInJSONForm);
+            //Log.d("teamEventsStringIntoMap", _input);
+            JSONArray array = new JSONArray(_input);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 BlueAllianceEvent item = new BlueAllianceEvent(obj);
+                output.put(item.getKey(), item);
+            }
+            Log.d("teamEventsStringIntoMap", output.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+
+    public String teamEventsMapIntoString(Map<String, BlueAllianceEvent> _input) {
+        JSONArray output = new JSONArray();
+        for (Map.Entry<String, BlueAllianceEvent> entry : _input.entrySet())
+        {
+            BlueAllianceEvent event = entry.getValue();
+            JSONObject eventJSONObject = event.getJSONObject(event);
+            output.put(eventJSONObject);
+        }
+
+        return output.toString();
+    }
+
+    public Map<String, BlueAllianceTeam> eventTeamsStringIntoMap(String _contentInJSONForm) {
+        Map<String, BlueAllianceTeam> rtnMap = new HashMap<>();
+
+        try {
+            //Log.d("eventTeamsStringIntoMap", _contentInJSONForm);
+            JSONArray array = new JSONArray(_contentInJSONForm);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                BlueAllianceTeam item = new BlueAllianceTeam(obj);
                 rtnMap.put(item.getKey(), item);
             }
-            Log.d("parseTeamEvents", rtnMap.toString());
+            Log.d("eventTeamsStringIntoMap", rtnMap.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -46,22 +77,15 @@ public class JSONParser {
         return rtnMap;
     }
 
-    public Map<String, BlueAllianceTeam> parseEventTeams(String _contentInJSONForm) {
-        Map<String, BlueAllianceTeam> rtnMap = new HashMap<>();
-
-        try {
-            //Log.d("parseEventTeams", _contentInJSONForm);
-            JSONArray array = new JSONArray(_contentInJSONForm);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                BlueAllianceTeam item = new BlueAllianceTeam(obj);
-                rtnMap.put(item.getKey(), item);
-            }
-            Log.d("parseEventTeams", rtnMap.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public String eventTeamsMapIntoString(Map<String, BlueAllianceTeam> _input) {
+        JSONArray output = new JSONArray();
+        for (Map.Entry<String, BlueAllianceTeam> entry : _input.entrySet())
+        {
+            BlueAllianceTeam event = entry.getValue();
+            //JSONObject eventJSONObject = event.getJSONObject(event);
+            //output.put(eventJSONObject);
         }
 
-        return rtnMap;
+        return output.toString();
     }
 }

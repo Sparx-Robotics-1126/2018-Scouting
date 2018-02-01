@@ -1,11 +1,6 @@
 package sparx1126.com.powerup.blue_alliance;
 
-import android.util.Log;
-
-import org.json.*;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -65,7 +60,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Map<String, BlueAllianceEvent> rtnMap = jsonParser.parseTeamEvents(response.body().string());
+                    Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(response.body().string());
                     _callback.onSuccess(rtnMap);
                 }
                 else {
@@ -86,7 +81,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Map<String, BlueAllianceTeam> rtnMap = jsonParser.parseEventTeams(response.body().string());
+                    Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(response.body().string());
                     _callback.onSuccess(rtnMap);
                 }
                 else {

@@ -41,17 +41,11 @@ public class FileIO {
     }
 
     public void storeTeamEvents(Map<String, BlueAllianceEvent> _input) {
-        JSONArray jsonArray = new JSONArray();
-        for (Map.Entry<String, BlueAllianceEvent> entry : _input.entrySet())
-        {
-            BlueAllianceEvent event = entry.getValue();
-            JSONObject eventJSONObject = event.getJSONObject(event);
-            jsonArray.put(eventJSONObject);
-        }
+        String jsonString = jsonParser.teamEventsMapIntoString(_input);
 
         try {
             FileWriter  outputStream = new FileWriter(TEAM_EVENTS_FILE_PATH);
-            outputStream.write(jsonArray.toString());
+            outputStream.write(jsonString);
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +62,7 @@ public class FileIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Map<String, BlueAllianceEvent> rtnMap = jsonParser.parseTeamEvents(fileContentInJSONForm);
+        Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
         return rtnMap;
     }
 }
