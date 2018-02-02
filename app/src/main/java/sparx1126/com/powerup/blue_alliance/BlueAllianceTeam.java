@@ -48,4 +48,19 @@ public class BlueAllianceTeam {
     public String getRookieYear() {
         return rookieYear;
     }
+
+    public JSONObject getJSONObject(BlueAllianceTeam _input) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(KEY, key);
+            json.put(TEAM_NUMBER, number);
+            json.put(NICKNAME, name);
+            json.put(CITY, city);
+            json.put(STATE_PROV, state);
+            json.put(ROOKIE_YEAR, rookieYear);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 }

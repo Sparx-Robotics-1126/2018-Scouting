@@ -8,6 +8,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.drive.Drive;
+
 import java.util.Map;
 
 import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
@@ -19,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
     private static BlueAllianceNetworking blueAlliance;
     private static FileIO fileIO;
     private AutoCompleteTextView studentNameAutoTextView;
+
+    //google
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int REQUEST_CODE_SIGN_IN = 0;
+    //AIzaSyD8qCUS1ZGsFI_tMcKOWwh4V6EMJWeROz8
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +60,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
                 fileIO.storeTeamEvents(_result);
-                Map<String, BlueAllianceEvent> rtnMap = fileIO.fetchTeamEvents();
-                Log.d("dEventsSparxsIsIn", rtnMap.toString());
+                //Map<String, BlueAllianceEvent> rtnMap = fileIO.fetchTeamEvents();
+                //Log.d("dEventsSparxsIsIn", rtnMap.toString());
+                mGoogleSignInClient = buildGoogleSignInClient();
+                startActivityForResult(mGoogleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);
             }
         });
+    }
+
+    /** Build a Google SignIn client. */
+    private GoogleSignInClient buildGoogleSignInClient() {
+        GoogleSignInOptions signInOptions =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestScopes(Drive.SCOPE_FILE)
+                        .build();
+        return GoogleSignIn.getClient(this, signInOptions);
     }
 }
