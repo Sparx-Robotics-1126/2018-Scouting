@@ -225,6 +225,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/start_w_cube"
                     style="@style/J_checkBox"/>
 
             </LinearLayout>
@@ -257,7 +258,8 @@
                     />
 
                 <CheckBox
-                    style="@style/J_checkBox"/>
+                    style="@style/J_checkBox"
+                    android:id="@+id/move_past_line"/>
 
             </LinearLayout>
 
@@ -275,6 +277,7 @@
 
 
                 <CheckBox
+                    android:id="@+id/auto_scale"
                     style="@style/J_checkBox"
                     />
 
@@ -284,6 +287,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/auto_switch"
                     style="@style/J_checkBox"
                     />
 
@@ -320,6 +324,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/acquire_floor"
                     style="@style/J_checkBox"
                     />
 
@@ -338,6 +343,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/get_from_portal"
                     style="@style/J_checkBox"
                     />
 
@@ -356,6 +362,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/deposit_vault"
                     style="@style/J_checkBox"
                     />
             </LinearLayout>
@@ -371,6 +378,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/score_switch"
                     style="@style/J_checkBox"
                     />
             </LinearLayout>
@@ -404,6 +412,7 @@
 
                 <CheckBox
                     style="@style/J_checkBox"
+                    android:id="@+id/score_scale"
                     />
 
             </LinearLayout>
@@ -470,6 +479,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/climb_rung"
                     style="@style/J_checkBox"/>
 
             </LinearLayout>
@@ -501,6 +511,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/has_rungs"
                     style="@style/J_checkBox"/>
 
             </LinearLayout>
@@ -514,6 +525,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/attach_robot"
                     style="@style/J_checkBox"
                     />
 
