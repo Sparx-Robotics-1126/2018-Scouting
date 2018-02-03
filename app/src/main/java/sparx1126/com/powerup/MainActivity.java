@@ -1,5 +1,6 @@
 package sparx1126.com.powerup;
 
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 
@@ -20,11 +22,12 @@ import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
 import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.FileIO;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final String[] studentList = {"Felix", "Huang"};
     private static BlueAllianceNetworking blueAlliance;
     private static FileIO fileIO;
     private AutoCompleteTextView studentNameAutoTextView;
+    private static final int REQUEST_CODE_RESOLUTION = 1;
 
     //google
     //key generated in Goolgle API website for THIS App. It goes in the manifest.
@@ -87,12 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("onConnectionSuspended", "good");
                         }
                     })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override
-                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                            Log.d("onConnectionFailed", "good");
-                        }
-                    })
+                    .addOnConnectionFailedListener(this)
                     .build();
         }
 
@@ -110,4 +108,31 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // Called whenever the API client fails to connect.
+        Log.e("onConnectionFailed", "GoogleApiClient connection failed: " + connectionResult.toString());
+
+        if (!connectionResult.hasResolution()) {
+
+            // show the localized error dialog.
+            GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), 0).show();
+            return;
+        }
+
+        /**
+         *  The failure has a resolution. Resolve it.
+         *  Called typically when the app is not yet authorized, and an  authorization
+         *  dialog is displayed to the user.
+         */
+
+        try {
+
+            connectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
+
+        } catch (IntentSender.SendIntentException e) {
+
+            Log.e("onConnectionFailed", "Exception while starting resolution activity", e);
+        }
+    }
 }
