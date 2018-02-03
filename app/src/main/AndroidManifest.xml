@@ -14,6 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD8qCUS1ZGsFI_tMcKOWwh4V6EMJWeROz8" />
+        <meta-data android:name="com.google.android.gms.version" android:value="11.8.0" />
         <activity android:name="sparx1126.com.powerup.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

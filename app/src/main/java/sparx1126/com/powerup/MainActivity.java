@@ -1,6 +1,8 @@
 package sparx1126.com.powerup;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -8,9 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 
 import java.util.Map;
@@ -26,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private AutoCompleteTextView studentNameAutoTextView;
 
     //google
-    private GoogleSignInClient mGoogleSignInClient;
-    private static final int REQUEST_CODE_SIGN_IN = 0;
-    //AIzaSyD8qCUS1ZGsFI_tMcKOWwh4V6EMJWeROz8
+    //key generated in Goolgle API website for THIS App. It goes in the manifest.
+    // AIzaSyD8qCUS1ZGsFI_tMcKOWwh4V6EMJWeROz8
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +63,51 @@ public class MainActivity extends AppCompatActivity {
                 fileIO.storeTeamEvents(_result);
                 //Map<String, BlueAllianceEvent> rtnMap = fileIO.fetchTeamEvents();
                 //Log.d("dEventsSparxsIsIn", rtnMap.toString());
-                mGoogleSignInClient = buildGoogleSignInClient();
-                startActivityForResult(mGoogleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);
             }
         });
     }
 
-    /** Build a Google SignIn client. */
-    private GoogleSignInClient buildGoogleSignInClient() {
-        GoogleSignInOptions signInOptions =
-                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(Drive.SCOPE_FILE)
-                        .build();
-        return GoogleSignIn.getClient(this, signInOptions);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGoogleApiClient == null) {
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+
+                        @Override
+                        public void onConnected(@Nullable Bundle bundle) {
+                            Log.d("onConnected", "good");
+                        }
+
+                        @Override
+                        public void onConnectionSuspended(int i) {
+                            Log.d("onConnectionSuspended", "good");
+                        }
+                    })
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                            Log.d("onConnectionFailed", "good");
+                        }
+                    })
+                    .build();
+        }
+
+        mGoogleApiClient.connect();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null) {
+
+            // disconnect Google Android Drive API connection.
+            mGoogleApiClient.disconnect();
+        }
+        super.onPause();
+    }
+
 }
