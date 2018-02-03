@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,11 @@ public class BlueAllianceNetworking {
         void onSuccess(Map<String, BlueAllianceEvent> _result);
     }
 
+    public interface CallbackMatches {
+        void onFailure(String _reason);
+        void onSuccess(Map<String, BlueAllianceMatch> _result);
+    }
+
     public interface CallbackTeams {
         void onFailure(String _reason);
         void onSuccess(Map<String, BlueAllianceTeam> _result);
@@ -30,6 +36,7 @@ public class BlueAllianceNetworking {
     private static String EVENT_TEAMS_URL_TAIL = "event/{event_key}/teams";
     // intention is for {team_key} to be substituted
     private static String TEAM_EVENTS_URL_TAIL = "team/{team_key}/events/" + YEAR;
+    private static String EVENT_MATCHES_URL_TAIL = "event/{event_key}/matches/simple";
 
     private static Networking network;
     private static BlueAllianceNetworking instance;
@@ -42,6 +49,49 @@ public class BlueAllianceNetworking {
 
     private BlueAllianceNetworking() {
         network = Networking.getInstance();
+    }
+
+    /**
+     *  gets the matches in an event
+     *  returns an arrayList of the matches
+     */
+    public void getEventMatches(String _key, final CallbackMatches _callback ) {
+        String url_tail = (EVENT_MATCHES_URL_TAIL).replace("{event_key}", _key);
+//        Log.e("Event Matches URL Tail", url_tail);
+
+        network.getBlueAllianceData(url_tail, new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                _callback.onFailure(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Map<String, BlueAllianceMatch> rtnMap = new HashMap<>();
+
+                    try {
+                        //Log.d("getTeamEvents", response.body().string());
+                        JSONArray array = new JSONArray(response.body().string());
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject matchObj = array.getJSONObject(i);
+                            BlueAllianceMatch match = new BlueAllianceMatch(matchObj);
+                            rtnMap.put(match.getKey(), match);
+//                            JSONObject eventObj = eventsArray.getJSONObject(i);
+//                            BlueAllianceEvent event = new BlueAllianceEvent(eventObj);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    _callback.onSuccess(rtnMap);
+                }
+                else {
+                    _callback.onFailure(response.message());
+                }
+            }
+        });
+
     }
 
     public void getEventsSparxsIsIn(CallbackEvents _callback) {
@@ -70,7 +120,6 @@ public class BlueAllianceNetworking {
                             BlueAllianceEvent event = new BlueAllianceEvent(eventObj);
                             rtnMap.put(event.getKey(), event);
                         }
-                        Log.d("getTeamEvents", rtnMap.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -83,7 +132,9 @@ public class BlueAllianceNetworking {
         });
     }
 
-    public void getEventTeams(String _key, final CallbackTeams _callback) {
+
+
+    public void getEventTeams(final String _key, final CallbackTeams _callback) {
         String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
         network.getBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
@@ -95,7 +146,6 @@ public class BlueAllianceNetworking {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Map<String, BlueAllianceTeam> rtnMap = new HashMap<>();
-
                     try {
                         //Log.d("getEventTeams", response.body().string());
                         JSONArray teamsArray = new JSONArray(response.body().string());
@@ -116,4 +166,5 @@ public class BlueAllianceNetworking {
             }
         });
     }
+
 }

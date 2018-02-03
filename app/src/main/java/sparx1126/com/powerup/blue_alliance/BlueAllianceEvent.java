@@ -25,11 +25,23 @@ public class BlueAllianceEvent {
             name = eventObj.getString(NAME);
             week= eventObj.getString(WEEK);
             location = eventObj.getString(LOCATION);
-            endDate = eventObj.getString(END_DATE);
             startDate= eventObj.getString(START_DATE);
+            endDate = eventObj.getString(END_DATE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public String toString() {
+        String response = "";
+        response+= KEY + ": " + key + "\n";
+        response+= NAME + ": " + name + "\n";
+        response+= WEEK + ": " + week + "\n";
+        response+= LOCATION + ": " + location + "\n";
+        response+= START_DATE + ": " + startDate + "\n";
+        response+= END_DATE + ": " + endDate + "\n";
+        return response;
     }
 
     public String getKey() { return key; }
