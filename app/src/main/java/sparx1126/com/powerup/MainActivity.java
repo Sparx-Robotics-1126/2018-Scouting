@@ -1,9 +1,7 @@
 package sparx1126.com.powerup;
 
-import android.content.IntentSender;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,28 +9,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
-
 import java.util.Map;
 
 import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
 import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.FileIO;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity {
     private static final String[] studentList = {"Felix", "Huang"};
     private static BlueAllianceNetworking blueAlliance;
     private static FileIO fileIO;
     private AutoCompleteTextView studentNameAutoTextView;
-    private static final int REQUEST_CODE_RESOLUTION = 1;
-
-    //google
-    //key generated in Goolgle API website for THIS App. It goes in the manifest.
-    // AIzaSyD8qCUS1ZGsFI_tMcKOWwh4V6EMJWeROz8
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,73 +53,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 fileIO.storeTeamEvents(_result);
                 //Map<String, BlueAllianceEvent> rtnMap = fileIO.fetchTeamEvents();
                 //Log.d("dEventsSparxsIsIn", rtnMap.toString());
+                Intent intent = new Intent(getBaseContext(), CreateFileActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mGoogleApiClient == null) {
-
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(Drive.API)
-                    .addScope(Drive.SCOPE_FILE)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-
-                        @Override
-                        public void onConnected(@Nullable Bundle bundle) {
-                            Log.d("onConnected", "good");
-                        }
-
-                        @Override
-                        public void onConnectionSuspended(int i) {
-                            Log.d("onConnectionSuspended", "good");
-                        }
-                    })
-                    .addOnConnectionFailedListener(this)
-                    .build();
-        }
-
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mGoogleApiClient != null) {
-
-            // disconnect Google Android Drive API connection.
-            mGoogleApiClient.disconnect();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // Called whenever the API client fails to connect.
-        Log.e("onConnectionFailed", "GoogleApiClient connection failed: " + connectionResult.toString());
-
-        if (!connectionResult.hasResolution()) {
-
-            // show the localized error dialog.
-            GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), 0).show();
-            return;
-        }
-
-        /**
-         *  The failure has a resolution. Resolve it.
-         *  Called typically when the app is not yet authorized, and an  authorization
-         *  dialog is displayed to the user.
-         */
-
-        try {
-
-            connectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
-
-        } catch (IntentSender.SendIntentException e) {
-
-            Log.e("onConnectionFailed", "Exception while starting resolution activity", e);
-        }
     }
 }
