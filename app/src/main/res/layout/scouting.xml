@@ -17,12 +17,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView2"
                 style="@style/NormalTextView"
+                android:autofillHints="0"
                 android:text="Team Number:" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/scouteamnuminput"
                 style="@style/ShortEditText"
                 android:hint="Team #"
                 android:inputType="number" />
@@ -42,17 +42,27 @@
                 android:text="Alliance Color"
                 android:textSize="45sp" />
 
-            <RadioButton
-                android:layout_width="146dp"
+            <RadioGroup
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Blue"
-                android:textSize="45sp" />
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:layout_width="146dp"
-                android:layout_height="match_parent"
-                android:text="Red"
-                android:textSize="45sp" />
+                <RadioButton
+                    android:id="@+id/blueAlliancebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Blue"
+                    android:textSize="40sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/redAlliancebtn"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Red"
+                    android:textSize="40sp" />
+            </RadioGroup>
 
         </LinearLayout>
 
@@ -72,13 +82,11 @@
                 android:textSize="70sp" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/matchnumimput"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:autofillHints="Number"
                 android:ems="10"
-                android:hint="Number"
                 android:inputType="textPersonName"
                 android:textSize="60sp" />
         </LinearLayout>
@@ -99,7 +107,7 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/autolinecheck"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:text="Crossed Auto Line"
@@ -107,24 +115,28 @@
 
             <CheckBox
                 android:layout_width="match_parent"
+                android:id="@+id/scoreswitchcheck"
                 android:layout_height="80dp"
                 android:text="Scored Switch"
                 android:textSize="50sp" />
 
             <CheckBox
                 android:layout_width="match_parent"
+                android:id="@+id/scorescalecheck"
                 android:layout_height="80dp"
                 android:text="Scored Scale"
                 android:textSize="50sp" />
 
             <CheckBox
                 android:layout_width="match_parent"
+                android:id="@+id/pickupcubecheck"
                 android:layout_height="80dp"
                 android:text="Pickup Up Cube"
                 android:textSize="50sp" />
 
             <CheckBox
                 android:layout_width="match_parent"
+                android:id="@+id/cubexchangecheck"
                 android:layout_height="80dp"
                 android:text="Place Cube in exchange"
                 android:textSize="50sp" />
@@ -145,6 +157,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:id="@+id/startLeftbtn"
                     android:layout_weight="1"
                     android:text="Left"
                     android:textSize="15sp" />
@@ -152,12 +165,13 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:id="@+id/startCenterbtn"
                     android:layout_weight="1"
                     android:text="Center"
                     android:textSize="15sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/startRightbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -272,7 +286,7 @@
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/playeddefensecheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Effectively Played defense"
@@ -300,21 +314,21 @@
                 android:textSize="45sp" />
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/climbRung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rung"
                 android:textSize="30sp" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/climbRobot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Other robot"
                 android:textSize="30sp" />
 
             <RadioButton
-                android:id="@+id/radioButton6"
+                android:id="@+id/climbDoesnt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Doesn't Climb"
@@ -347,6 +361,13 @@
                 android:layout_height="wrap_content"
                 android:text="Can Climb under 15 seconds"
                 android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/submitbutton"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:textSize="30sp"
+                android:text="Submit" />
 
         </LinearLayout>
 
