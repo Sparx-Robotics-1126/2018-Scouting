@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/sparx_gradient"
+    android:textSize="120sp"
     android:orientation="vertical">
     <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background=" #f2f2f2"
+        android:layout_width="match_parent"
+        android:background="@color/sparxRedDark"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/teamnumberlabel"
@@ -29,7 +30,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/sparxRedDark"
+        android:background="@color/sparxRedLight"
         android:orientation="horizontal">
 
         <TextView
@@ -37,9 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="Matches Played"
             android:textColor=" #000000"
-            android:textSize="20sp"
-            android:text="Matches Played" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/matchesplayed"
@@ -49,24 +50,27 @@
             android:textColor=" #000000"
             android:inputType="number" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="@color/sparxRedDark"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/crosslinelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Crossed the line:"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:text="Crossed the line:" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/attemptsforcrossline"
@@ -74,57 +78,61 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor=" #000000"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/sparxRedLight"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/scoreswitchlabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
+                android:text="Scored with switch:"
                 android:textColor=" #000000"
-                android:text="Scored with switch:" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/attemptsforscoreswitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
                 android:textColor=" #000000"
-                />
+                android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="@color/sparxRedDark"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/pickedupcubelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
+                android:text="Picked Up Cube:"
                 android:textColor=" #000000"
-                android:text="Picked Up Cube:" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/attemptsforpickedupcube"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
                 android:textColor=" #000000"
-                />
+                android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/sparxRedLight"
             android:orientation="horizontal">
 
             <TextView
@@ -132,56 +140,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Placed Cube In Exchange:"
                 android:textColor=" #000000"
-                android:textSize="20sp"
-                android:text="Placed Cube In Exchange:" />
+                android:textSize="20sp" />
 
-            <CheckBox
-                android:id="@+id/checkBox2"
+            <RadioButton
+                android:id="@+id/radioButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Yes" />
 
-            <CheckBox
-                android:id="@+id/checkBox4"
+            <RadioButton
+                android:id="@+id/radioButton5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="No" />
-
-            <EditText
-                android:id="@+id/attemptsforplacedcubeinexchange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor=" #000000"
-                android:textSize="20sp"
-                />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="@color/sparxRedDark"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/RobotStartingPlacelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Robot Starting Place:"
                 android:textColor=" #000000"
-                android:textSize="20sp"
-                android:text="Robot Starting Place:" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/attemptsforRobotStartingPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
                 android:textColor=" #000000"
-                />
+                android:textSize="20sp" />
+
         </LinearLayout>
+
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/AutoScoutingData"
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>
