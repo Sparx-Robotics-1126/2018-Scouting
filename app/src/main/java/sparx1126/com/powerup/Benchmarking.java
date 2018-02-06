@@ -33,7 +33,7 @@ public class Benchmarking extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                currentData.setTeamnumber(Integer.getInteger(s.toString()));
+                currentData.setTeamnumber(Integer.parseInt(s.toString()));
                 Log.e("afterTextChanged", Integer.toString(currentData.getTeamnumber()));
             }
         });

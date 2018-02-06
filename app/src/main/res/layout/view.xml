@@ -185,10 +185,12 @@
         </LinearLayout>
 
         <ExpandableListView
-            android:layout_width="match_parent"
+            android:id="@+id/autoscoutingdata"
             android:layout_height="match_parent"
-            android:id="@+id/AutoScoutingData"
-            android:layout_weight="1" />
+            android:layout_width="match_parent"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            android:divider="@color/colorAccent"
+            android:dividerHeight="0.5dp" />
     </LinearLayout>
 
 </LinearLayout>
