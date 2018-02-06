@@ -8,4 +8,5 @@
     <dimen name="text_size_small">17sp</dimen>
     <dimen name="layout_margin_normal">10dp</dimen>
     <dimen name="margin_topbottom_default">8dp</dimen>
+    <dimen name="main_text_size">35dp</dimen>
 </resources>

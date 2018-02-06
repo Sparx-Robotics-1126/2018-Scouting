@@ -157,19 +157,21 @@
     </style>
 
     <style name="J_ShortEditText">
-        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_width">100sp</item>
+        <!--can we get some java up in here-->
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">@dimen/main_text_size</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:inputType">number</item>
-        <item name="android:digits">1234567890</item>
+        <item name="android:digits">1234567890.</item>
+        <item name="android:maxLength">5</item>
     </style>
 
     <style name="J_checkBox">
-        <item name="android:layout_width">25dp</item>
-        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:buttonTint">@color/black</item>
-
+        <item name="android:textSize">@dimen/main_text_size</item>
     </style>
 
     <style name="J_designLayout">
@@ -182,14 +184,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">@dimen/main_text_size</item>
+        <item name="android:buttonTint">@color/black</item>
     </style>
 
     <style name="J_basicTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">@dimen/main_text_size</item>
         <item name="android:textColor">@color/black</item>
 
     </style>
