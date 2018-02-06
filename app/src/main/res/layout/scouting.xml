@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainScrollView"
     style="@style/Screen"
     android:background="@drawable/sparx_gradient">
@@ -149,10 +150,15 @@
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="300dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Starting Positon"
                     android:textSize="40sp" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -177,6 +183,7 @@
                     android:layout_weight="1"
                     android:text="Right"
                     android:textSize="15sp" />
+                </RadioGroup>
             </LinearLayout>
 
         </LinearLayout>
@@ -307,11 +314,19 @@
                 android:textSize="95sp" />
 
             <TextView
-                android:id="@+id/Climbbtnlabel"
+                android:id="@+id/Climbing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Climb:"
-                android:textSize="45sp" />
+                android:text="Climbs on:"
+                android:textSize="45sp"
+                tools:ignore="DuplicateIds" />
+
+
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/climbRung"
@@ -333,6 +348,7 @@
                 android:layout_height="wrap_content"
                 android:text="Doesn't Climb"
                 android:textSize="30sp" />
+            </RadioGroup>
 
             <CheckBox
                 android:id="@+id/climbOn"
@@ -340,6 +356,11 @@
                 android:layout_height="wrap_content"
                 android:text="Can be climbed on"
                 android:textSize="45sp" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/ClimbOn1"
@@ -354,6 +375,7 @@
                 android:layout_height="wrap_content"
                 android:text="Holds 2 robots"
                 android:textSize="30sp" />
+            </RadioGroup>
 
             <CheckBox
                 android:id="@+id/Climb15secs"
