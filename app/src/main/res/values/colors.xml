@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="sparxRedDark">#800c0a</color>
+    <color name="sparxRedMedium">#B40000</color>
+    <color name="sparxRedOne">#D51000</color>
     <color name="sparxRedLight">#DB0000</color>
     <color name="colorAccent">#40acff</color>
     <color name="black">#000000</color>
+    <color name="sparxRedVeryLight">#FF0000</color>
+    <color name="benchmarking_secondary_color">@color/sparxRedMedium</color>
+
 </resources>
