@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("steamworks.sparx1126.com.sparx1126.com.sparx1126.com.powerup", appContext.getPackageName());
+        assertEquals("sparx1126.com.powerup", appContext.getPackageName());
     }
 }
