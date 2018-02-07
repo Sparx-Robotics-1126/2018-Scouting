@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/sparx_gradient"
     android:orientation="vertical">
+
     <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background=" #f2f2f2"
+        android:layout_width="match_parent"
+        android:background="@color/sparxRedDark"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/teamnumberlabel"
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:text="Enter Team Number" />
 
         <EditText
@@ -26,147 +27,12 @@
             android:layout_weight="1"
             android:inputType="number"/>
     </LinearLayout>
-    <LinearLayout
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/sparxRedDark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/numberofmatchesplayed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor=" #000000"
-            android:textSize="20sp"
-            android:text="Matches Played" />
-
-        <EditText
-            android:id="@+id/matchesplayed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor=" #000000"
-            android:inputType="number" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/crosslinelabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:text="Crossed the line:" />
-
-            <EditText
-                android:id="@+id/attemptsforcrossline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor=" #000000"
-                android:textSize="20sp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/scoreswitchlabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor=" #000000"
-                android:text="Scored with switch:" />
-
-            <EditText
-                android:id="@+id/attemptsforscoreswitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor=" #000000"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/pickedupcubelabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor=" #000000"
-                android:text="Picked Up Cube:" />
-
-            <EditText
-                android:id="@+id/attemptsforpickedupcube"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor=" #000000"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/placedcubeinexchangelabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor=" #000000"
-                android:textSize="20sp"
-                android:text="Placed Cube In Exchange:" />
-
-            <EditText
-                android:id="@+id/attemptsforplacedcubeinexchange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor=" #000000"
-                android:textSize="20sp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/RobotStartingPlacelabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor=" #000000"
-                android:textSize="20sp"
-                android:text="Robot Starting Place:" />
-
-            <EditText
-                android:id="@+id/attemptsforRobotStartingPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor=" #000000"
-                />
-        </LinearLayout>
-    </LinearLayout>
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@color/black"
+        android:dividerHeight="0.5dp" />
 
 </LinearLayout>
