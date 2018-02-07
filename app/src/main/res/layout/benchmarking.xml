@@ -2,231 +2,203 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/sparxRedLight"
+        android:background="@color/sparxRedOne"
         android:orientation="vertical"
         android:padding="5dp">
+
+
+
+
+
+        <!-- fix checkboxes to look better and bbe bigger-->
+
+
+
+
         <!--intro-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            style="@style/J_designLayout"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Team Number:"
-                    android:textSize="25sp"/>
+                    android:text="Team Number"
+                    style="@style/J_basicTextView"
+                    android:paddingBottom="@dimen/margin_topbottom_default"
+                    android:paddingTop="@dimen/margin_topbottom_default"
+                    />
 
                 <EditText
                     android:id="@+id/teamnumberinput"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:digits="number"
+                    style="@style/J_ShortEditText"
                     android:maxLength="4"
-                    android:textSize="25sp"/>
+                    android:digits="1234567890"
+                />
 
 
             </LinearLayout>
-
         </LinearLayout>
-        <!--Base-->
+        <!--About-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/sparxRedDark"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            android:background="@color/benchmarking_secondary_color"
+            >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="About"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                style="@style/J_basicTextView"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"/>
 
             <AutoCompleteTextView
+                android:id="@+id/driveAutoComplete"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:layout_height="60dp"
+                android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:hint="Type of Drive System"
-                android:textSize="25sp"/>
+                android:textSize="@dimen/main_text_size"
+                />
+            <!--need java!!! @ height-->
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Speed (ft/s):"
-                    android:textSize="25sp"/>
+                    android:paddingBottom="@dimen/margin_topbottom_default"
+                    android:paddingTop="@dimen/margin_topbottom_default"
+                    />
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"/>
+                    android:id="@+id/speed"
+                    style="@style/J_ShortEditText"
+                    />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Height (ft):"
-                    android:textSize="25sp"/>
+                    android:paddingBottom="@dimen/margin_topbottom_default"
+                    android:paddingTop="@dimen/margin_topbottom_default"
+                    />
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"/>
+                    android:id="@+id/height"
+                    style="@style/J_ShortEditText"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Weight (lb):"
-                    android:textSize="25sp"/>
+                    android:paddingBottom="@dimen/margin_topbottom_default"
+                    android:paddingTop="@dimen/margin_topbottom_default"
+                    />
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"/>
+                    android:id="@+id/weight"
+                    style="@style/J_ShortEditText"/>
 
             </LinearLayout>
 
         </LinearLayout>
         <!--Start-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            >
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:text="Start"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                style="@style/J_basicTextView"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:text="Preferred to Start"
-                android:textSize="25sp"/>
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_checkBox"
                     android:text="Left"
-                    android:textSize="25sp"/>
+                    android:layout_weight="1"
+                    />
+
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_checkBox"
                     android:text="Center"
-                    android:textSize="25sp"/>
+                    android:layout_weight="1"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_checkBox"
                     android:text="Right"
-                    android:textSize="25sp"/>
+                    android:layout_weight="1"
+                    />
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                style="@style/J_basicTextView"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:text="Can Start"
-                android:textSize="25sp"/>
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_checkBox"
                     android:text="Left"
-                    android:textSize="25sp"/>
+                    android:layout_weight="1"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_checkBox"
                     android:text="Center"
-                    android:textSize="25sp"/>
+                    android:layout_weight="1"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_checkBox"
                     android:text="Right"
-                    android:textSize="25sp"/>
+                    android:layout_weight="1"
+                    />
 
             </LinearLayout>
 
@@ -237,353 +209,336 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Start With Cube"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/start_w_cube"
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
         </LinearLayout>
         <!--Auto-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/sparxRedDark"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            android:background="@color/benchmarking_secondary_color"
+            >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:text="Auto"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Can Move Past Line"
-                    android:textSize="25sp"/>
+                    style="@style/J_basicTextView"
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    android:id="@+id/move_past_line"/>
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                style="@style/J_basicTextView"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:text="Can Score in Auto"
-                android:textSize="25sp"/>
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/auto_scale"
+                    style="@style/J_checkBox"
+                    />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Scale"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/auto_switch"
+                    style="@style/J_checkBox"
+                    />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Switch"
-                    android:textSize="25sp"/>
-                />
+                    />
             </LinearLayout>
 
         </LinearLayout>
         <!--Teleop-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            >
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:text="Teleop"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Acquire from Floor"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/acquire_floor"
+                    style="@style/J_checkBox"
+                    />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Get from Portal/Vault"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/get_from_portal"
+                    style="@style/J_checkBox"
+                    />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Deposit to Vault"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/deposit_vault"
+                    style="@style/J_checkBox"
+                    />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginBottom="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Score Switch"
-                    android:textSize="25sp"/>
+
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/score_switch"
+                    style="@style/J_checkBox"
+                    />
             </LinearLayout>
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:id="@+id/toss_switch"
+                    style="@style/J_radioButton"
                     android:text="Toss"
-                    android:textSize="25sp"/>
+                    />
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:id="@+id/place_switch"
+                    style="@style/J_radioButton"
                     android:text="Place"
-                    android:textSize="25sp"/>
+                    />
 
             </RadioGroup>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginBottom="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Score Scale"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/J_checkBox"
+                    android:id="@+id/score_scale"
+                    />
 
             </LinearLayout>
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:id="@+id/toss_scale"
+                    style="@style/J_radioButton"
                     android:text="Toss"
-                    android:textSize="25sp"/>
+                    />
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:id="@+id/place_scale"
+                    style="@style/J_radioButton"
                     android:text="Place"
-                    android:textSize="25sp"/>
+                    />
 
             </RadioGroup>
 
-            <LinearLayout
+            <TextView
+                style="@style/J_basicTextView"
+                android:text="Preferred Cube Pick Up Location"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                />
+
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_topbottom_default">
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:text="Preferred Cube Pick Up Location"
-                    android:textSize="25sp"/>
+                <RadioButton
+                    android:id="@+id/pref_floor"
+                    style="@style/J_radioButton"
+                    android:text="Floor"
+                    />
 
-                <RadioGroup
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/pref_portal"
+                    style="@style/J_radioButton"
+                    android:text="Portal" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Floor"
-                        android:textSize="25sp"/>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Portal"
-                        android:textSize="25sp"/>
-
-                </RadioGroup>
-
-            </LinearLayout>
+            </RadioGroup>
 
         </LinearLayout>
         <!--End-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/sparxRedDark"
-            android:orientation="vertical">
+            style="@style/J_designLayout"
+            android:background="@color/benchmarking_secondary_color"
+            >
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_basicTextView"
                 android:text="Climbing"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Climb Rung"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/climb_rung"
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="How High Can it Be (ft)?"
-                    android:textSize="25sp"/>
+                    style="@style/J_basicTextView"
+                    android:text="How High Can it be From Platform(ft)?"
+                    android:paddingTop="@dimen/margin_topbottom_default"
+                    android:paddingBottom="@dimen/margin_topbottom_default"
+                    />
 
                 <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
+                    android:id="@+id/climbheight"
+                    style="@style/J_ShortEditText"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Has Rungs"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/has_rungs"
+                    style="@style/J_checkBox"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/J_basicTextView"
                     android:text="Can Attach to Robot"
-                    android:textSize="25sp"/>
+                    />
 
                 <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/attach_robot"
+                    style="@style/J_checkBox"
+                    />
+
             </LinearLayout>
 
         </LinearLayout>
+        <!--button-->
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:text="SUBMIT"
+            android:background="#6E6E6E"
+            android:layout_marginTop="4dp"
+            />
         <!--done-->
     </LinearLayout>
 
