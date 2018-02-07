@@ -1,6 +1,5 @@
 package sparx1126.com.powerup;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,11 +12,13 @@ import java.util.Map;
 
 import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
 import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
+import sparx1126.com.powerup.google_drive.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.FileIO;
 
 public class MainActivity extends AppCompatActivity {
     private static final String[] studentList = {"Felix", "Huang"};
     private static BlueAllianceNetworking blueAlliance;
+    private static GoogleDriveNetworking googleDrive;
     private static FileIO fileIO;
     private AutoCompleteTextView studentNameAutoTextView;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         blueAlliance = BlueAllianceNetworking.getInstance();
+        googleDrive = GoogleDriveNetworking.getInstance(this);
         fileIO = FileIO.getInstance(this);
 
         // student selection
@@ -51,11 +53,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
                 fileIO.storeTeamEvents(_result);
-                //Map<String, BlueAllianceEvent> rtnMap = fileIO.fetchTeamEvents();
-                //Log.d("dEventsSparxsIsIn", rtnMap.toString());
-                Intent intent = new Intent(getBaseContext(), CreateFileActivity.class);
-                startActivity(intent);
             }
         });
+
+        googleDrive.uploadContentToGoogleDrive("This is a file", "Hello.txt");
     }
 }
