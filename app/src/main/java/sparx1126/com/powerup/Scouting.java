@@ -16,9 +16,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
 import sparx1126.com.powerup.data_components.ScoutingData;
+import sparx1126.com.powerup.utilities.DataCollection;
 
 public class Scouting extends AppCompatActivity {
-    private ScoutingData scoutingData;
     private EditText teamnum;
     private RadioButton blueAlliancecolor;
     private RadioButton redAlliancecolor;
@@ -50,7 +50,7 @@ public class Scouting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scouting);
 
-        scoutingData = new ScoutingData();
+
         teamnum = findViewById(R.id.scouteamnuminput);
         redAlliancecolor = findViewById(R.id.redAlliancebtn);
         blueAlliancecolor = findViewById(R.id.blueAlliancebtn);
@@ -81,6 +81,7 @@ public class Scouting extends AppCompatActivity {
         submitbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ScoutingData scoutingData = new ScoutingData();
                 if(!teamnum.getText().toString().isEmpty()) {
                     scoutingData.setTeamnumber(Integer.parseInt(teamnum.getText().toString()));
                 }
@@ -133,6 +134,8 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setClimbunder15secs(climbunder15secs.isChecked());
 
                 Log.d("scoutingdata", scoutingData.toString());
+                DataCollection.getInstance().addScoutingData(scoutingData);
+                Log.d("Testing data woop", DataCollection.getInstance().getScoutingDataMap().toString());
 
             }
 
