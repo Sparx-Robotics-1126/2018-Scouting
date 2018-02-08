@@ -91,40 +91,27 @@ public class Scouting extends AppCompatActivity {
                     scoutingData.setMatchnum(Integer.parseInt(matchnum.getText().toString()));
                 }
                 scoutingData.setAutolinecheck(autolinecheck.isChecked());
-                scoutingData.setScorescalecheck(scorescalecheck.isChecked());
-                scoutingData.setScoreswitchcheck(scoreswitchcheck.isChecked());
-                scoutingData.setPickedupcubecheck(pickupcubecheck.isChecked());
-                scoutingData.setCubexhangecheck(cubexchangecheck.isChecked());
-                if(startLeftbtn.isChecked()){
-                    scoutingData.setStartingPosition("Left");
-                }
-                else if(startCenterbtn.isChecked()){
-                    scoutingData.setStartingPosition("Center");
-                }
-                else if(startRightbtn.isChecked()){
-                    scoutingData.setStartingPosition("Right");
-                }
+                scoutingData.setAutoScoredScale(scorescalecheck.isChecked());
+                scoutingData.setAutoScoredSwitch(scoreswitchcheck.isChecked());
+                scoutingData.setAutoPickedUpCube(pickupcubecheck.isChecked());
+                scoutingData.setAutoCubeExchange(cubexchangecheck.isChecked());
+                scoutingData.setAutoStartedLeft(startLeftbtn.isChecked());
+                scoutingData.setAutoStartedCenter(startCenterbtn.isChecked());
+                scoutingData.setAutoStartedRight(startRightbtn.isChecked());
                 scoutingData.setTimesscoredswitch(timeScoreswitch.getValue());
                 scoutingData.setTimescoredscale(timeScorescale.getValue());
                 scoutingData.setTimesplacedexchange(timesPlacedexhange.getValue());
                 scoutingData.setTimesPickedfromfloor(timesPickedfromFloor.getValue());
                 scoutingData.setCubesfromplayers(cubesfromplayers.getValue());
                 scoutingData.setPlayeddefense(playeddefense.isChecked());
-                if(climbRung.isChecked()){
-                    scoutingData.setClimbmethod(" Climbed on Rung");
-                }
-                else if(climbRobot.isChecked()){
-                    scoutingData.setClimbmethod(" Climbed onOther Robot");
-                }
-                else if(climbDoesnt.isChecked()){
-                    scoutingData.setClimbmethod("Didn't Climb");
-                }
-                scoutingData.setClimbOn(climbOn.isChecked());
+                scoutingData.setClimbRung(climbRung.isChecked());
+                scoutingData.setClimbOnRobot(climbRobot.isChecked());
+
                 if(hold1.isChecked()){
-                    scoutingData.setCanHold(" Holds 1 Robot");
+                    scoutingData.setNumRobotsHeld(1);
                 }
                 else if(hold2.isChecked()){
-                    scoutingData.setCanHold(" Holds 2 Robots");
+                    scoutingData.setNumRobotsHeld(2);
                 }
                 scoutingData.setClimbunder15secs(climbunder15secs.isChecked());
 
