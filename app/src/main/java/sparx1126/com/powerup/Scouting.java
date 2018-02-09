@@ -50,7 +50,7 @@ public class Scouting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scouting);
-        googleDrive = GoogleDriveNetworking.getInstance(this);
+        googleDrive = GoogleDriveNetworking.getInstance();
 
         teamnum = findViewById(R.id.scouteamnuminput);
         redAlliancecolor = findViewById(R.id.redAlliancebtn);
@@ -135,8 +135,7 @@ public class Scouting extends AppCompatActivity {
                 String epochstring = String.valueOf(epoch);
 
                 String fileName = "ScoutingData_" + epochstring;
-                 googleDrive.uploadContentToGoogleDrive(scoutingData.toString(),fileName);
-
+                googleDrive.uploadContentToGoogleDrive(scoutingData.toString(), fileName, Scouting.this);
             }
 
 

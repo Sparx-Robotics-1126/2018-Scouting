@@ -12,7 +12,7 @@ import okhttp3.Response;
 import sparx1126.com.powerup.utilities.JSONParser;
 
 public class BlueAllianceNetworking {
-    private static final String TAG = "BlueAllianceNetworking";
+    private static final String TAG = "BlueAllianceNetworking ";
     private static final String BLUE_ALLIANCE_BASE_URL ="http://www.thebluealliance.com/api/v3/";
     // header for authetication
     private static final String BLUE_ALLIANCE_AUTH_HEADER = "X-TBA-Auth-Key";

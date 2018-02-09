@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,7 +22,7 @@ import sparx1126.com.powerup.google_drive.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.FileIO;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity ";
     private static final String[] studentList = {"Felix", "Huang"};
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
     private static BlueAllianceNetworking blueAlliance;
@@ -37,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         blueAlliance = BlueAllianceNetworking.getInstance();
         fileIO = FileIO.getInstance(this);
-        googleDrive = GoogleDriveNetworking.getInstance(this);
-        // if failed auto sign in then ask user to select account
+        googleDrive = GoogleDriveNetworking.getInstance();
+        // if failed auto sign then googleDrive will return an internt to try to
+        // sign in by asking the user to select an account
         // This is done only once here in MainActivity
-        if(!googleDrive.autoSignIn()) {
-            startActivityForResult(googleDrive.getSignInIntent(), GOOGLE_REQUEST_CODE_SIGN_IN);
+        Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
+        if(tryAutoSignInIntent != null) {
+            startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
         }
 
         // student selection
@@ -58,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
         blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.CallbackEvents() {
             @Override
-            public void onFailure(String _reason) {
-                Log.e(TAG, _reason);
+            public void onFailure(String _msg) {
+                Log.e(TAG, _msg);
             }
             @Override
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
+                Log.d(TAG, "Got Events!");
                 fileIO.storeTeamEvents(_result);
             }
         });
@@ -73,16 +77,20 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GOOGLE_REQUEST_CODE_SIGN_IN:
+                String msg = "Signed In!";
                 if (resultCode != RESULT_OK) {
-                    Log.e(TAG, "Sign-in failed result not OK.");
+                    msg = "Sign-in failed result not OK.";
+                    Log.e(TAG, msg);
                     finish();
                 }
                 else {
-                    if(!googleDrive.tryInitializeDriveClient(data)) {
-                        Log.e(TAG, "Sign-in failed.");
+                    if(!googleDrive.tryInitializeDriveClient(data, this)) {
+                        msg = "Sign-in failed.";
+                        Log.e(TAG, msg);
                         finish();
                     }
                 }
+                Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
                 break;
         }
     }
