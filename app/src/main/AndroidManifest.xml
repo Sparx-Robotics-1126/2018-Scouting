@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="sparx1126.com.powerup.Scouting">
+        <activity android:name="sparx1126.com.powerup.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

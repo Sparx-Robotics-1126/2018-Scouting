@@ -1,9 +1,9 @@
 package sparx1126.com.powerup.google_drive;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -31,76 +31,66 @@ import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GoogleDriveNetworking extends Activity {
+public class GoogleDriveNetworking {
     private static final String TAG = "GoogleDriveNetworking";
-    private static final int REQUEST_CODE_SIGN_IN = 0;
 
     private DriveResourceClient googleDriveResourceClient;
     private DriveClient googleDriveClient;
+    private GoogleSignInClient googleSignInClient;
     private static GoogleDriveNetworking instance;
-    private static Activity parentActivity;
+    private static Context context;
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
-    public static synchronized GoogleDriveNetworking getInstance(Activity _activity) {
-        parentActivity = _activity;
+    public static synchronized GoogleDriveNetworking getInstance(Context _context) {
+        context = _context;
         if (instance == null)
             instance = new GoogleDriveNetworking();
         return instance;
     }
 
     private GoogleDriveNetworking() {
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(Drive.SCOPE_FILE)
+                .requestScopes(Drive.SCOPE_APPFOLDER)
+                .build();
+        googleSignInClient = GoogleSignIn.getClient((Activity)context, signInOptions);
+    }
+
+    // To be called once by MainActivity
+    public boolean autoSignIn() {
         Set<Scope> requiredScopes = new HashSet<>(2);
         requiredScopes.add(Drive.SCOPE_FILE);
         requiredScopes.add(Drive.SCOPE_APPFOLDER);
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(parentActivity);
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(context);
         if (signInAccount != null && signInAccount.getGrantedScopes().containsAll(requiredScopes)) {
             initializeDriveClient(signInAccount);
-        } else {
-            GoogleSignInOptions signInOptions =
-                    new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestScopes(Drive.SCOPE_FILE)
-                            .requestScopes(Drive.SCOPE_APPFOLDER)
-                            .build();
-            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(parentActivity, signInOptions);
-            startActivityForResult(googleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);
+            return true;
         }
+        return false;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_SIGN_IN:
-                if (resultCode != RESULT_OK) {
-                    // Sign-in may fail or be cancelled by the user. For this sample, sign-in is
-                    // required and is fatal. For apps where sign-in is optional, handle
-                    // appropriately
-                    Log.e(TAG, "Sign-in failed result not OK.");
-                    finish();
-                    return;
-                }
+    public Intent getSignInIntent() {
+        return googleSignInClient.getSignInIntent();
+    }
 
-                Task<GoogleSignInAccount> getAccountTask =
-                        GoogleSignIn.getSignedInAccountFromIntent(data);
-                if (getAccountTask.isSuccessful()) {
-                    initializeDriveClient(getAccountTask.getResult());
-                } else {
-                    Log.e(TAG, "Sign-in failed.");
-                    finish();
-                }
-                break;
+    public boolean tryInitializeDriveClient(Intent _data) {
+        Task<GoogleSignInAccount> accountTask =
+                GoogleSignIn.getSignedInAccountFromIntent(_data);
+        if (accountTask.isSuccessful()) {
+            initializeDriveClient(accountTask.getResult());
+            return true;
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        return false;
     }
 
     private void initializeDriveClient(GoogleSignInAccount signInAccount) {
-        googleDriveClient = Drive.getDriveClient(parentActivity, signInAccount);
-        googleDriveResourceClient = Drive.getDriveResourceClient(parentActivity, signInAccount);
+        googleDriveClient = Drive.getDriveClient(context, signInAccount);
+        googleDriveResourceClient = Drive.getDriveResourceClient(context, signInAccount);
     }
 
     private void showMessage(String message) {
-        Toast.makeText(parentActivity, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     public void uploadContentToGoogleDrive(final String _content, final String _fileName) {
@@ -126,20 +116,20 @@ public class GoogleDriveNetworking extends Activity {
                         return googleDriveResourceClient.createFile(parent, changeSet, contents);
                     }
                 })
-                .addOnSuccessListener(parentActivity,
+                .addOnSuccessListener((Activity)context,
                         new OnSuccessListener<DriveFile>() {
                             @Override
                             public void onSuccess(DriveFile driveFile) {
                                 showMessage("Created file " + _fileName);
-                                finish();
+                                //finish();
                             }
                         })
-                .addOnFailureListener(parentActivity, new OnFailureListener() {
+                .addOnFailureListener((Activity)context, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "Unable to create file", e);
                         showMessage("Error while trying to create the file " + _fileName);
-                        finish();
+                        //finish();
                     }
                 });
     }
