@@ -56,6 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        googleDrive.uploadContentToGoogleDrive("This is a file", "Hello.txt");
+      // googleDrive.uploadContentToGoogleDrive("This is a file", "Hello.txt");
     }
 }
