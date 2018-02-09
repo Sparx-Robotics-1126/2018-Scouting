@@ -73,31 +73,64 @@ public class View extends AppCompatActivity {
         // for testing
         if(teamsScouted.containsKey(1126)) {
             List<ScoutingData> teamDatas = teamsScouted.get(1126);
-            int climbunder15secs;
-            int numRobotsHeld;
-            int climbRung;
-            int climbOnRobot;
-            int playeddefense;
-            int timesPickedfromfloor;
-            int cubesfromplayers;
-            int timesplacedexchange;
-            int timescoredscale;
-            int timesscoredswitch;
-            int autoStartedLeft;
-            int autoStartedCenter;
-            int autoStartedRight;
-            int autoScoredSwitch;
-            int autoScoredScale;
-            int autoPickedUpCube;
-            int autoCubeExchange;
-            int autolinecheck;
+            int climbunder15secs = 0;
+            int numRobotsHeld = 0;
+            int climbRung = 0;
+            int climbOnRobot = 0;
+            int playeddefense = 0;
+            int timesPickedfromfloor = 0;
+            int cubesfromplayers = 0;
+            int timesplacedexchange = 0;
+            int timescoredscale = 0;
+            int timesscoredswitch = 0;
+            int autoStartedLeft = 0;
+            int autoStartedCenter = 0;
+            int autoStartedRight = 0;
+            int autoScoredSwitch = 0;
+            int autoScoredScale = 0;
+            int autoPickedUpCube = 0;
+            int autoCubeExchange = 0;
+            int autolinecheck = 0;
 
 
 
             List<String> scouting = new ArrayList<>();
             scouting.add("<font color=\"black\"><b>Matches scouted: </b></font>" + teamDatas.size());
+            for (ScoutingData sd :  teamDatas) {
+                if(sd.isClimbunder15secs()) {
+                    climbunder15secs++;
+                }
 
-        }
+                    numRobotsHeld += sd.getNumRobotsHeld();
+                if(sd.getClimbRung()) {
+                    climbRung++;
+                }
+                if(sd.getClimbOnRobot()) {
+                    climbOnRobot++;
+                }
+                if(sd.isPlayeddefense()) {
+                    playeddefense++;
+                }
+                 timesPickedfromfloor +=  timesPickedfromfloor;
+                 cubesfromplayers += cubesfromplayers;
+                 timesplacedexchange +=  timesplacedexchange;
+                 timescoredscale += timescoredscale;
+                 timesscoredswitch += timesscoredswitch;
+                if(sd.getAutoStartedLeft()) {
+                    autoStartedLeft++;
+                }
+                
+                 autoStartedCenter++;
+                 autoStartedRight;
+                 autoScoredSwitch;
+                 autoScoredScale;
+                 autoPickedUpCube;
+                 autoCubeExchange;
+                 autolinecheck;
+
+            }
+
+            }
         else {
             Log.e(TAG, "team not found");
         }
