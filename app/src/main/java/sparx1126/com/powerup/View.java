@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -11,16 +12,22 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import sparx1126.com.powerup.custom_layouts.CustomExpandableListAdapter;
+import sparx1126.com.powerup.data_components.ScoutingData;
+import sparx1126.com.powerup.utilities.DataCollection;
 
 
 public class View extends AppCompatActivity {
+    private static final String TAG = "View";
+
+    //temporaryteamlist
+    List<String> teamlistnew;
+    private DataCollection dataCollection;
 
     private EditText teamnumber;
-    //temporaryteamlist
-    List<String> teamlistnew = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +35,11 @@ public class View extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view);
 
+        teamlistnew = new ArrayList<>();
         teamlistnew.add("1126");
         teamlistnew.add("123");
+
+        dataCollection = DataCollection.getInstance();
 
         teamnumber = findViewById(R.id.teamnumber);
         teamnumber.addTextChangedListener(new TextWatcher() {
@@ -57,200 +67,77 @@ public class View extends AppCompatActivity {
 
     private HashMap<String, List<String>> getData() {
         HashMap<String, List<String>> expandableListDetail = new HashMap<>();
-        /*TeamData displayedInfo = TeamData.getCurrentTeam();
-        BenchmarkingData benchmarkingData = displayedInfo.getBenchmarkingData();
-        boolean benchmarked = benchmarkingData.isBenchmarkingWasDoneButton();
-        List<String> drives = new ArrayList<>();
-        if (benchmarkingData.getDriveSystem().isEmpty()) {
-            drives.add("<font color=\"black\"><b>Drive System: </b></font> ");
-        } else {
-            drives.add("<font color=\"black\"><b>Drive System: </b></font> " + benchmarkingData.getDriveSystem());
-        }
 
-        String drivesSpeed = "";
-        if (benchmarkingData.getDrivesSpeed() != Double.MAX_VALUE) {
-            drivesSpeed = String.valueOf(benchmarkingData.getDrivesSpeed());
-        }
-        if (drivesSpeed.isEmpty()) {
-            drives.add("<font color=\"black\"><b>Speed: </b></font> ");
-        } else {
-            drives.add("<font color=\"black\"><b>Speed: </b></font> " + drivesSpeed + "m/s");
-        }
-        if (!benchmarked) {
-            drives.add("<font color=\"black\"><b>Can play defense: </b></font>");
-        } else {
-            drives.add("<font color=\"black\"><b>Can play defense: </b></font>" + benchmarkingData.isCanPlayDefenseBenchButton());
-        }
+        Map<Integer, List<ScoutingData>> teamsScouted = dataCollection.getScoutingDataMap();
 
-        List<String> shooting = new ArrayList<>();
-        if (!benchmarked) {
-            shooting.add("<font color=\"black\"><b>Can shoot high: </b></font>");
-        } else {
-            shooting.add("<font color=\"black\"><b>Can shoot high: </b></font>" + benchmarkingData.isAbilityToShootHighGoalBenchButton());
-        }
-        if (!benchmarked) {
-            shooting.add("<font color=\"black\"><b>Can shoot low: </b></font>");
-
-        } else {
-            shooting.add("<font color=\"black\"><b>Can shoot low: </b></font>" + benchmarkingData.isAbilityToShootLowGoalBenchButton());
-
-        }
-        if (benchmarkingData.getTypeOfShooterBenchInput().isEmpty()) {
-            shooting.add("<font color=\"black\"><b>Type of shooter: </b></font>");
-        } else {
-            shooting.add("<font color=\"black\"><b>Type of shooter: </b></font>" + benchmarkingData.getTypeOfShooterBenchInput());
-        }
-        String ballsPerSecond = "";
-        if (benchmarkingData.getBallsPerSecondBenchInput() != Double.MAX_VALUE) {
-            ballsPerSecond = String.valueOf(benchmarkingData.getBallsPerSecondBenchInput());
-        }
-        shooting.add("<font color=\"black\"><b>Balls per second: </b></font>" + ballsPerSecond);
-        String ballsInCycleInput = "";
-        if (benchmarkingData.getBallsInCycleBenchInput() != Integer.MAX_VALUE) {
-            ballsInCycleInput = String.valueOf(benchmarkingData.getBallsInCycleBenchInput());
-        }
-        shooting.add("<font color=\"black\"><b>Balls in one high cycle: </b></font>" + ballsInCycleInput);
-        String cycleTimeHighBenchInput = "";
-        if (benchmarkingData.getCycleTimeHighBenchInput() != 2147483647) {
-            cycleTimeHighBenchInput = String.valueOf(benchmarkingData.getCycleTimeHighBenchInput());
-        }
-        shooting.add("<font color=\"black\"><b>Cycle time High: </b></font>" + cycleTimeHighBenchInput);
-        String cycleTimeLowBenchInput = "";
-        if (benchmarkingData.getCycleTimeLowBenchInput() != Integer.MAX_VALUE) {
-            cycleTimeLowBenchInput = String.valueOf(benchmarkingData.getCycleTimeLowBenchInput());
-        }
-        String cycleNumberLowBenchInput = "";
-        if (benchmarkingData.getCycleNumberLowBenchInput() != Integer.MAX_VALUE) {
-            cycleNumberLowBenchInput = String.valueOf(benchmarkingData.getCycleNumberLowBenchInput());
-        }
-        shooting.add("<font color=\"black\"><b>Number of low cycles: </b></font>" + cycleNumberLowBenchInput);
-        shooting.add("<font color=\"black\"><b>Cycle time low: </b></font>" + cycleTimeLowBenchInput);
-        String shootingRangeBenchInput = "";
-        if (benchmarkingData.getShootingRangeBenchInput() != Double.MAX_VALUE) {
-            shootingRangeBenchInput = String.valueOf(benchmarkingData.getShootingRangeBenchInput());
-        }
-        shooting.add("<font color=\"black\"><b>Shooting range: </b></font>" + shootingRangeBenchInput);
-        if (benchmarkingData.getPreferredShootingLocationBenchInput().isEmpty()) {
-            shooting.add("<font color=\"black\"><b>Preferred shooting place: </b></font>");
-        } else {
-            shooting.add("<font color=\"black\"><b>Preferred shooting place: </b></font>" + benchmarkingData.getPreferredShootingLocationBenchInput());
-        }
-
-        String accuracyHighBenchInput = "";
-        if (benchmarkingData.getAccuracyHighBenchInput() != Double.MAX_VALUE) {
-            accuracyHighBenchInput = String.valueOf(benchmarkingData.getAccuracyHighBenchInput());
-        }
-        if (accuracyHighBenchInput.isEmpty()) {
-            shooting.add("<font color=\"black\"><b>High Goal accuracy: </b></font>" + accuracyHighBenchInput);
-        } else {
-            shooting.add("<font color=\"black\"><b>High Goal accuracy: </b></font>" + accuracyHighBenchInput + "%");
-        }
-        if (!benchmarked) {
-            shooting.add("<font color=\"black\"><b>Can get balls from Hopper: </b></font>");
-
-        } else {
-            shooting.add("<font color=\"black\"><b>Can get balls from Hopper: </b></font>" + benchmarkingData.isPickupBallHopperBenchButton());
-
-        }
-        if (!benchmarked) {
-            shooting.add("<font color=\"black\"><b>Can get balls from Floor: </b></font>");
-
-        } else {
-            shooting.add("<font color=\"black\"><b>Can get balls from Floor: </b></font>" + benchmarkingData.isPickupBallFloorBenchButton());
-
-        }
-        if (!benchmarked) {
-            shooting.add("<font color=\"black\"><b>Can get balls from Human: </b></font>");
-
-        } else {
-            shooting.add("<font color=\"black\"><b>Can get balls from Human: </b></font>" + benchmarkingData.isPickupBallHumanBenchButton());
-
-        }
-        String preferredBall = "";
-        if (benchmarkingData.getPickupBallPreferredBenchInput().equals("radioBallHuman")) {
-            preferredBall = "Human Player";
-        }
-        if (benchmarkingData.getPickupBallPreferredBenchInput().equals("radioBallHopper")) {
-            preferredBall = "Hopper";
-        }
-        if (benchmarkingData.getPickupBallPreferredBenchInput().equals("radioBallFloor")) {
-            preferredBall = "Floor";
-        }
-        shooting.add("<font color=\"black\"><b>Prefers to get balls from: </b></font>" + preferredBall);
-        String maximumBallCapacity = "";
-        if (benchmarkingData.getMaximumBallCapacityBenchInput() != Integer.MAX_VALUE) {
-            maximumBallCapacity = Integer.toString(benchmarkingData.getMaximumBallCapacityBenchInput());
-        }
-        if (maximumBallCapacity.isEmpty()) {
-            shooting.add("<font color=\"black\"><b>Can hold: </b></font>");
-        } else {
-            shooting.add("<font color=\"black\"><b>Can hold: </b></font>" + maximumBallCapacity + " balls");
-        }
-        List<String> gears = new ArrayList<>();
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Can Score Gears: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Can Score Gears: </b></font>" + benchmarkingData.isCanScoreGearsBenchButton());
-        }
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Can score gears left: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Can score gears left: </b></font>" + benchmarkingData.isCanGearLeftBench());
-        }
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Can score gears Center: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Can score gears Center: </b></font>" + benchmarkingData.isCanGearCenterBench());
-        }
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Can score gears Right: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Can score gears Right: </b></font>" + benchmarkingData.isCanGearRightBench());
-        }
-        String preferredGearScoring = "";
-        if (benchmarkingData.getRadioPreferredGear().equals("radioGearRight")) {
-            preferredGearScoring = "Right";
-        }
-        if (benchmarkingData.getRadioPreferredGear().equals("radioGearCenter")) {
-            preferredGearScoring = "Center";
-        }
-        if (benchmarkingData.getRadioPreferredGear().equals("radioGearLeft")) {
-            preferredGearScoring = "Left";
-        }
-        gears.add("<font color=\"black\"><b>Prefers to score gears: </b></font>" + preferredGearScoring);
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Can get gears from floor: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Can get gears from floor: </b></font>" + benchmarkingData.isPickupGearFloorBenchButton());
-        }
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Can get gears from retrieval: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Can get gears from retrieval: </b></font>" + benchmarkingData.isPickupGearRetrievalBenchButton());
-        }
+        // for testing
+        if(teamsScouted.containsKey(1126)) {
+            List<ScoutingData> teamDatas = teamsScouted.get(1126);
+            int climbunder15secs = 0;
+            int numRobotsHeld = 0;
+            int climbRung = 0;
+            int climbOnRobot = 0;
+            int playeddefense = 0;
+            int timesPickedfromfloor = 0;
+            int cubesfromplayers = 0;
+            int timesplacedexchange = 0;
+            int timescoredscale = 0;
+            int timesscoredswitch = 0;
+            int autoStartedLeft = 0;
+            int autoStartedCenter = 0;
+            int autoStartedRight = 0;
+            int autoScoredSwitch = 0;
+            int autoScoredScale = 0;
+            int autoPickedUpCube = 0;
+            int autoCubeExchange = 0;
+            int autolinecheck = 0;
 
 
-        String gearPickup = "";
-        if (benchmarkingData.getPickupGearPreferred().equals("radioFloor")) {
-            gearPickup = "Floor";
-        }
-        if (benchmarkingData.getPickupGearPreferred().equals("radioZone")) {
-            gearPickup = "Retrieval Zone";
-        }
-        if (!benchmarked) {
-            gears.add("<font color=\"black\"><b>Has an active gear system: </b></font>");
-        } else {
-            gears.add("<font color=\"black\"><b>Has an active gear system: </b></font>" + benchmarkingData.isHasActiveGearSystemButton());
-        }
-        gears.add("<font color=\"black\"><b>Preferred gear pickup location: </b></font>" + gearPickup);
-        String cycleTimeGearsBenchInput = "";
-        if (benchmarkingData.getCycleTimeGearsBenchInput() != Integer.MAX_VALUE) {
-            cycleTimeGearsBenchInput = String.valueOf(benchmarkingData.getCycleTimeGearsBenchInput());
-        }
-        gears.add("<font color=\"black\"><b>Cycle time: </b></font>" + cycleTimeGearsBenchInput);
 
-        List<String> scouting = new ArrayList<>();
-        scouting.add("<font color=\"black\"><b>Matches scouted: </b></font>" + displayedInfo.getScoutingDatas().size());
+            List<String> scouting = new ArrayList<>();
+            scouting.add("<font color=\"black\"><b>Matches scouted: </b></font>" + teamDatas.size());
+            for (ScoutingData sd :  teamDatas) {
+                if(sd.isClimbunder15secs()) {
+                    climbunder15secs++;
+                }
+
+                    numRobotsHeld += sd.getNumRobotsHeld();
+                if(sd.getClimbRung()) {
+                    climbRung++;
+                }
+                if(sd.getClimbOnRobot()) {
+                    climbOnRobot++;
+                }
+                if(sd.isPlayeddefense()) {
+                    playeddefense++;
+                }
+                 timesPickedfromfloor +=  timesPickedfromfloor;
+                 cubesfromplayers += cubesfromplayers;
+                 timesplacedexchange +=  timesplacedexchange;
+                 timescoredscale += timescoredscale;
+                 timesscoredswitch += timesscoredswitch;
+                if(sd.getAutoStartedLeft()) {
+                    autoStartedLeft++;
+                }
+                
+                 autoStartedCenter++;
+                 autoStartedRight;
+                 autoScoredSwitch;
+                 autoScoredScale;
+                 autoPickedUpCube;
+                 autoCubeExchange;
+                 autolinecheck;
+
+            }
+
+            }
+        else {
+            Log.e(TAG, "team not found");
+        }
+
+        /*
+
+
         float hoppersDumped = 0;
         float gearsScoredRight = 0;
         float gearsScoredCenter = 0;

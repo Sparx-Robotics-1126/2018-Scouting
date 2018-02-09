@@ -13,11 +13,6 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
     private static DataCollection theDataCollection;
-
-    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
-        return scoutingDataMap;
-    }
-
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
 
     public static synchronized DataCollection getInstance(){
@@ -41,5 +36,9 @@ public class DataCollection {
             newList.add(data);
             scoutingDataMap.put(key, newList);
         }
+    }
+
+    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
+        return scoutingDataMap;
     }
 }
