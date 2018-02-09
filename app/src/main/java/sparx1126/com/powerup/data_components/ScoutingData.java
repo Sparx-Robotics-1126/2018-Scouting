@@ -1,7 +1,5 @@
 package sparx1126.com.powerup.data_components;
 
-import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
-
 public class ScoutingData {
     private int teamnumber;
     private String allianceColor;

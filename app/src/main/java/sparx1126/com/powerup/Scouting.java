@@ -14,7 +14,7 @@ import java.util.Calendar;
 
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
 import sparx1126.com.powerup.data_components.ScoutingData;
-import sparx1126.com.powerup.google_drive.GoogleDriveNetworking;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
 
 public class Scouting extends AppCompatActivity {

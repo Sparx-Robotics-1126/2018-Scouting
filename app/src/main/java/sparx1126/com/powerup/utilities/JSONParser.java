@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
-import sparx1126.com.powerup.blue_alliance.BlueAllianceTeam;
+import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class JSONParser {
     private static JSONParser instance;

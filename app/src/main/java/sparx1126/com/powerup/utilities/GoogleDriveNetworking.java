@@ -1,4 +1,4 @@
-package sparx1126.com.powerup.google_drive;
+package sparx1126.com.powerup.utilities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -85,10 +85,6 @@ public class GoogleDriveNetworking {
         googleDriveResourceClient = Drive.getDriveResourceClient(_context, signInAccount);
     }
 
-    private void showMessage(String message, Context _context) {
-        Toast.makeText(_context, message, Toast.LENGTH_LONG).show();
-    }
-
     public void uploadContentToGoogleDrive(final String _content, final String _fileName, final Context _context) {
         if(googleDriveResourceClient != null) {
             final Task<DriveFolder> rootFolderTask = googleDriveResourceClient.getRootFolder();
@@ -132,5 +128,9 @@ public class GoogleDriveNetworking {
         else {
             showMessage("Not Connected to Google Drive", _context);
         }
+    }
+
+    private void showMessage(String message, Context _context) {
+        Toast.makeText(_context, TAG + message, Toast.LENGTH_LONG).show();
     }
 }

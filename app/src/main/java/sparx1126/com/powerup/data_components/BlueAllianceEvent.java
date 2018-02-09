@@ -1,4 +1,4 @@
-package sparx1126.com.powerup.blue_alliance;
+package sparx1126.com.powerup.data_components;
 
 import org.json.JSONException;
 import org.json.JSONObject;
