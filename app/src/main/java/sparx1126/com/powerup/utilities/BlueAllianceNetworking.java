@@ -1,6 +1,8 @@
-package sparx1126.com.powerup.blue_alliance;
+package sparx1126.com.powerup.utilities;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,10 +11,21 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sparx1126.com.powerup.utilities.JSONParser;
+import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class BlueAllianceNetworking {
-    private static final String TAG = "BlueAllianceNetworking";
+    public interface CallbackEvents {
+        void onFailure(String _reason);
+        void onSuccess(Map<String, BlueAllianceEvent> _result);
+    }
+
+    public interface CallbackTeams {
+        void onFailure(String _reason);
+        void onSuccess(Map<String, BlueAllianceTeam> _result);
+    }
+
+    private static final String TAG = "BlueAllianceNetworking ";
     private static final String BLUE_ALLIANCE_BASE_URL ="http://www.thebluealliance.com/api/v3/";
     // header for authetication
     private static final String BLUE_ALLIANCE_AUTH_HEADER = "X-TBA-Auth-Key";
@@ -43,16 +56,17 @@ public class BlueAllianceNetworking {
         jsonParser = JSONParser.getInstance();
     }
 
-    public void downloadEventsSparxsIsIn(CallbackEvents _callback) {
-        downloadTeamEvents(SPARX_TEAM_KEY, _callback);
+    public void downloadEventsSparxsIsIn(CallbackEvents _callback, Context _context) {
+        downloadTeamEvents(SPARX_TEAM_KEY, _callback, _context);
     }
 
     // made this private because why do we care of other team events???
-    private void downloadTeamEvents(String _key, final CallbackEvents _callback) {
+    private void downloadTeamEvents(String _key, final CallbackEvents _callback, final Context _context) {
         String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                showMessage(e.getMessage(), _context);
                 _callback.onFailure(e.getMessage());
             }
 
@@ -63,17 +77,19 @@ public class BlueAllianceNetworking {
                     _callback.onSuccess(rtnMap);
                 }
                 else {
+                    showMessage(response.message(), _context);
                     _callback.onFailure(response.message());
                 }
             }
         });
     }
 
-    public void downloadEventTeams(String _key, final CallbackTeams _callback) {
+    public void downloadEventTeams(String _key, final CallbackTeams _callback, final Context _context) {
         String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                showMessage(e.getMessage(), _context);
                 _callback.onFailure(e.getMessage());
             }
 
@@ -84,6 +100,7 @@ public class BlueAllianceNetworking {
                     _callback.onSuccess(rtnMap);
                 }
                 else {
+                    showMessage(response.message(), _context);
                     _callback.onFailure(response.message());
                 }
             }
@@ -101,13 +118,7 @@ public class BlueAllianceNetworking {
         regularHttpClient.newCall(requestEvents).enqueue(_callback);
     }
 
-    public interface CallbackEvents {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceEvent> _result);
-    }
-
-    public interface CallbackTeams {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceTeam> _result);
+    private void showMessage(String message, Context _context) {
+        Toast.makeText(_context, TAG + message, Toast.LENGTH_LONG).show();
     }
 }

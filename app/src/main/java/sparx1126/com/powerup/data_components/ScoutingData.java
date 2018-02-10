@@ -1,10 +1,27 @@
 package sparx1126.com.powerup.data_components;
 
-import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
-
 public class ScoutingData {
     private int teamnumber;
     private String allianceColor;
+    private int matchnum;
+    private boolean climbunder15secs;
+    private int numRobotsHeld;
+    private boolean climbRung;
+    private boolean climbOnRobot;
+    private boolean playeddefense;
+    private int timesPickedfromfloor;
+    private int cubesfromplayers;
+    private int timesplacedexchange;
+    private int timescoredscale;
+    private int timesscoredswitch;
+    private boolean autoStartedLeft;
+    private boolean autoStartedCenter;
+    private boolean autoStartedRight;
+    private boolean autoScoredSwitch;
+    private boolean autoScoredScale;
+    private boolean autoPickedUpCube;
+    private boolean autoCubeExchange;
+    private boolean autolinecheck;
 
     public boolean isClimbunder15secs() {
         return climbunder15secs;
@@ -14,34 +31,30 @@ public class ScoutingData {
         this.climbunder15secs = climbunder15secs;
     }
 
-    private boolean climbunder15secs;
-    public String getCanHold() {
-        return canHold;
+    public int getNumRobotsHeld() {
+        return numRobotsHeld;
     }
 
-    public void setCanHold(String canHold) {
-        this.canHold = canHold;
+    public void setNumRobotsHeld(int numRobotsHeld) {
+        this.numRobotsHeld = numRobotsHeld;
     }
 
-    private String canHold;
-    public boolean isClimbOn() {
-        return climbOn;
+    public boolean getClimbRung() {
+        return climbRung;
     }
 
-    public void setClimbOn(boolean climbOn) {
-        this.climbOn = climbOn;
+    public void setClimbRung(boolean climbRung) {
+        this.climbRung = climbRung;
     }
 
-    private boolean climbOn;
-    public String getClimbmethod() {
-        return climbmethod;
+    public boolean getClimbOnRobot() {
+        return climbOnRobot;
     }
 
-    public void setClimbmethod(String climbmethod) {
-        this.climbmethod = climbmethod;
+    public void setClimbOnRobot(boolean climbOnRobot) {
+        this.climbOnRobot = climbOnRobot;
     }
 
-    private String climbmethod;
     public boolean isPlayeddefense() {
         return playeddefense;
     }
@@ -50,7 +63,6 @@ public class ScoutingData {
         this.playeddefense = playeddefense;
     }
 
-    private boolean playeddefense;
     public int getTimesPickedfromfloor() {
         return timesPickedfromfloor;
     }
@@ -59,7 +71,6 @@ public class ScoutingData {
         this.timesPickedfromfloor = timesPickedfromfloor;
     }
 
-    private int timesPickedfromfloor;
     public int getCubesfromplayers() {
         return cubesfromplayers;
     }
@@ -67,9 +78,6 @@ public class ScoutingData {
     public void setCubesfromplayers(int cubesfromplayers) {
         this.cubesfromplayers = cubesfromplayers;
     }
-
-    private int cubesfromplayers;
-
 
     public int getTimesplacedexchange() {
         return timesplacedexchange;
@@ -79,7 +87,6 @@ public class ScoutingData {
         this.timesplacedexchange = timesplacedexchange;
     }
 
-    private int timesplacedexchange;
     public int getTimescoredscale() {
         return timescoredscale;
     }
@@ -87,8 +94,6 @@ public class ScoutingData {
     public void setTimescoredscale(int timescoredscale) {
         this.timescoredscale = timescoredscale;
     }
-
-    private int timescoredscale;
 
     public int getTimesscoredswitch() {
         return timesscoredswitch;
@@ -98,87 +103,61 @@ public class ScoutingData {
         this.timesscoredswitch = timesscoredswitch;
     }
 
-    private int timesscoredswitch;
-
-    public String getStartingPosition() {
-        return startingPosition;
+    public boolean getAutoStartedLeft() {
+        return autoStartedLeft;
     }
 
-    public void setStartingPosition(String startingPosition) {
-        this.startingPosition = startingPosition;
+    public void setAutoStartedLeft(boolean autoStartedLeft) {
+        this.autoStartedLeft = autoStartedLeft;
     }
 
-    private String startingPosition;
-
-    public String getStartRightbtn() {
-        return startRightbtn;
+    public boolean getAutoStartedCenter() {
+        return autoStartedCenter;
     }
 
-    public void setStartRightbtn(String startRightbtn) {
-        this.startRightbtn = startRightbtn;
+    public void setAutoStartedCenter(boolean autoStartedCenter) {
+        this.autoStartedCenter = autoStartedCenter;
     }
 
-    private String startRightbtn;
-
-    public String getStartLeftbtn() {
-        return startLeftbtn;
+    public boolean getAutoStartedRight() {
+        return autoStartedRight;
     }
 
-    public void setStartLeftbtn(String startLeftbtn) {
-        this.startLeftbtn = startLeftbtn;
+    public void setAutoStartedRight(boolean autoStartedRight) {
+        this.autoStartedRight = autoStartedRight;
     }
 
-    private String startLeftbtn;
-
-    public String getStartCenterbtn() {
-        return startCenterbtn;
+    public boolean isAutoScoredSwitch() {
+        return autoScoredSwitch;
     }
 
-    public void setStartCenterbtn(String startCenterbtn) {
-        this.startCenterbtn = startCenterbtn;
+    public void setAutoScoredSwitch(boolean autoScoredSwitch) {
+        this.autoScoredSwitch = autoScoredSwitch;
     }
 
-    private String startCenterbtn;
-
-    public boolean isScoreswitchcheck() {
-        return scoreswitchcheck;
+    public boolean isAutoScoredScale() {
+        return autoScoredScale;
     }
 
-    public void setScoreswitchcheck(boolean scoreswitchcheck) {
-        this.scoreswitchcheck = scoreswitchcheck;
+    public void setAutoScoredScale(boolean autoScoredScale) {
+        this.autoScoredScale = autoScoredScale;
     }
 
-    private boolean scoreswitchcheck;
-
-    public boolean isScorescalecheck() {
-        return scorescalecheck;
+    public boolean isAutoPickedUpCube() {
+        return autoPickedUpCube;
     }
 
-    public void setScorescalecheck(boolean scorescalecheck) {
-        this.scorescalecheck = scorescalecheck;
+    public void setAutoPickedUpCube(boolean autoPickedUpCube) {
+        this.autoPickedUpCube = autoPickedUpCube;
     }
 
-    private boolean scorescalecheck;
-
-    public boolean isPickedupcubecheck() {
-        return pickedupcubecheck;
+    public boolean isAutoCubeExchange() {
+        return autoCubeExchange;
     }
 
-    public void setPickedupcubecheck(boolean pickedupcubecheck) {
-        this.pickedupcubecheck = pickedupcubecheck;
+    public void setAutoCubeExchange(boolean autoCubeExchange) {
+        this.autoCubeExchange = autoCubeExchange;
     }
-
-    private boolean pickedupcubecheck;
-
-    public boolean isCubexhangecheck() {
-        return cubexhangecheck;
-    }
-
-    public void setCubexhangecheck(boolean cubexhangecheck) {
-        this.cubexhangecheck = cubexhangecheck;
-    }
-
-    private boolean cubexhangecheck;
 
     public boolean isAutolinecheck() {
         return autolinecheck;
@@ -188,7 +167,6 @@ public class ScoutingData {
         this.autolinecheck = autolinecheck;
     }
 
-    private boolean autolinecheck;
     public int getMatchnum() {
         return matchnum;
     }
@@ -196,8 +174,6 @@ public class ScoutingData {
     public void setMatchnum(int matchnum) {
         this.matchnum = matchnum;
     }
-
-    private int matchnum;
 
     public String getAllianceColor() {
         return allianceColor;
@@ -222,26 +198,23 @@ public class ScoutingData {
         returnString += "Alliance Color:" + allianceColor + "\n";
         returnString += "Match Number:" + String.valueOf(matchnum) +"\n";
         returnString += "Crossed Auto Line:" + autolinecheck + "\n";
-        returnString += "Scored Switch:" + scoreswitchcheck + "\n";
-        returnString += "Scored Scale:" + scorescalecheck + "\n";
-        returnString += "Picked Up Cube:" + pickedupcubecheck + "\n";
-        returnString += "Placed cube in exchange:" + cubexhangecheck + "\n";
-        returnString += "Starting postion:" + startingPosition + "\n";
+        returnString += "Scored Switch:" + autoScoredSwitch + "\n";
+        returnString += "Scored Scale:" + autoScoredScale + "\n";
+        returnString += "Picked Up Cube:" + autoPickedUpCube + "\n";
+        returnString += "Placed cube in exchange:" + autoCubeExchange + "\n";
+        returnString += "Started Left:" + autoStartedLeft + "\n";
+        returnString += "Started Center:" + autoStartedCenter + "\n";
+        returnString += "Started Right:" + autoStartedRight + "\n";
         returnString += "Times scored switch:" + timesscoredswitch + "\n";
         returnString += "Times scored scale:" + timescoredscale + "\n";
         returnString += "Times placed cube in exchange:" + timesplacedexchange + "\n";
         returnString += "Times picked up cube from floor:" + timesPickedfromfloor + "\n";
         returnString += "Times cubes acquired from player:" + cubesfromplayers + "\n";
         returnString += "Effectively played defense:" + playeddefense + "\n";
-        returnString += "Climb:" + climbmethod + "\n";
-        returnString += "Can be climbed on:" + climbOn + "\n";
-        returnString += "Can hold:" + canHold + "\n";
+        returnString += "Climb Rung:" + climbRung + "\n";
+        returnString += "Climb On Robot:" + climbOnRobot + "\n";
+        returnString += "numRobotsHeld:" + numRobotsHeld + "\n";
         returnString += "Can Climb under 15 seconds:" + climbunder15secs + "\n";
-
-
-
-
-
 
         return returnString;
     }

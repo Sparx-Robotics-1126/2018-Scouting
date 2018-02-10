@@ -116,14 +116,14 @@
 
             <CheckBox
                 android:layout_width="match_parent"
-                android:id="@+id/scoreswitchcheck"
+                android:id="@+id/autoScoredSwitch"
                 android:layout_height="80dp"
                 android:text="Scored Switch"
                 android:textSize="50sp" />
 
             <CheckBox
                 android:layout_width="match_parent"
-                android:id="@+id/scorescalecheck"
+                android:id="@+id/autoScoredScale"
                 android:layout_height="80dp"
                 android:text="Scored Scale"
                 android:textSize="50sp" />
