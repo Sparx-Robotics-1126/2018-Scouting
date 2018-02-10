@@ -9,8 +9,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+
+import java.util.Calendar;
+
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
 import sparx1126.com.powerup.data_components.ScoutingData;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
 
 public class Scouting extends AppCompatActivity {
@@ -24,7 +28,7 @@ public class Scouting extends AppCompatActivity {
     private CheckBox scorescalecheck;
     private CheckBox pickupcubecheck;
     private CheckBox cubexchangecheck;
-    private RadioButton startLeftbtn ;
+    private RadioButton startLeftbtn;
     private RadioButton startCenterbtn;
     private RadioButton startRightbtn;
     private PlusMinusEditTextLinearLayout timeScoreswitch;
@@ -40,54 +44,55 @@ public class Scouting extends AppCompatActivity {
     private RadioButton hold1;
     private RadioButton hold2;
     private CheckBox climbunder15secs;
+    private static GoogleDriveNetworking googleDrive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scouting);
-
+        googleDrive = GoogleDriveNetworking.getInstance();
 
         teamnum = findViewById(R.id.scouteamnuminput);
         redAlliancecolor = findViewById(R.id.redAlliancebtn);
         blueAlliancecolor = findViewById(R.id.blueAlliancebtn);
         autolinecheck = findViewById(R.id.autolinecheck);
-        scorescalecheck = findViewById(R.id.scorescalecheck);
-        scoreswitchcheck =findViewById(R.id.scoreswitchcheck);
-        pickupcubecheck =findViewById(R.id.pickupcubecheck);
-        cubexchangecheck =findViewById(R.id.cubexchangecheck);
+        scorescalecheck = findViewById(R.id.autoScoredScale);
+        scoreswitchcheck = findViewById(R.id.autoScoredSwitch);
+        pickupcubecheck = findViewById(R.id.pickupcubecheck);
+        cubexchangecheck = findViewById(R.id.cubexchangecheck);
         matchnum = findViewById(R.id.matchnumimput);
         timeScoreswitch = findViewById(R.id.timesscoredswitchpicker);
-        timeScorescale =findViewById(R.id.timesscoredscalepicker);
-        timesPlacedexhange =findViewById(R.id.timesplacedexchangepicker);
-        timesPickedfromFloor =findViewById(R.id.cubesfromfloorpicker);
-        cubesfromplayers =findViewById(R.id.cubesfromfloorpicker);
-        startLeftbtn =findViewById(R.id.startLeftbtn);
-        startCenterbtn =findViewById(R.id.startCenterbtn);
+        timeScorescale = findViewById(R.id.timesscoredscalepicker);
+        timesPlacedexhange = findViewById(R.id.timesplacedexchangepicker);
+        timesPickedfromFloor = findViewById(R.id.cubesfromfloorpicker);
+        cubesfromplayers = findViewById(R.id.cubesfromfloorpicker);
+        startLeftbtn = findViewById(R.id.startLeftbtn);
+        startCenterbtn = findViewById(R.id.startCenterbtn);
         startRightbtn = findViewById(R.id.startRightbtn);
-        playeddefense=findViewById(R.id.playeddefensecheck);
-        climbRung=findViewById(R.id.climbRung);
-        climbRobot=findViewById(R.id.climbRobot);
-        climbDoesnt=findViewById(R.id.climbDoesnt);
-        climbOn=findViewById(R.id.climbOn);
-        hold1=findViewById(R.id.ClimbOn1);
-        hold2=findViewById(R.id.ClimbOn2);
-        climbunder15secs=findViewById(R.id.Climb15secs);
-        submitbutton=findViewById(R.id.submitbutton);
+        playeddefense = findViewById(R.id.playeddefensecheck);
+        climbRung = findViewById(R.id.climbRung);
+        climbRobot = findViewById(R.id.climbRobot);
+        climbDoesnt = findViewById(R.id.climbDoesnt);
+        climbOn = findViewById(R.id.climbOn);
+        hold1 = findViewById(R.id.ClimbOn1);
+        hold2 = findViewById(R.id.ClimbOn2);
+        climbunder15secs = findViewById(R.id.Climb15secs);
+        submitbutton = findViewById(R.id.submitbutton);
 
         submitbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ScoutingData scoutingData = new ScoutingData();
-                if(!teamnum.getText().toString().isEmpty()) {
+                if (!teamnum.getText().toString().isEmpty()) {
                     scoutingData.setTeamnumber(Integer.parseInt(teamnum.getText().toString()));
                 }
-                if(redAlliancecolor.isChecked()){
+                if (redAlliancecolor.isChecked()) {
                     scoutingData.setAllianceColor("Red");
-                }
-                else if(blueAlliancecolor.isChecked()){
+                } else if (blueAlliancecolor.isChecked()) {
                     scoutingData.setAllianceColor("Blue");
 
                 }
-                if(!teamnum.getText().toString().isEmpty()) {
+                if (!teamnum.getText().toString().isEmpty()) {
                     scoutingData.setMatchnum(Integer.parseInt(matchnum.getText().toString()));
                 }
                 scoutingData.setAutolinecheck(autolinecheck.isChecked());
@@ -118,9 +123,23 @@ public class Scouting extends AppCompatActivity {
                 Log.d("scoutingdata", scoutingData.toString());
                 DataCollection.getInstance().addScoutingData(scoutingData);
                 Log.d("Testing data woop", DataCollection.getInstance().getScoutingDataMap().toString());
+                long epoch = getEpoch();
+                String epochstring = String.valueOf(epoch);
 
+                String fileName = "ScoutingData_" + epochstring;
+                googleDrive.uploadContentToGoogleDrive(scoutingData.toString(), fileName, Scouting.this);
             }
+
+
+
 
         });
 
-}}
+    }
+
+    public long getEpoch() {
+        Calendar c = Calendar.getInstance();
+        return c.getTime().getTime();
+    }
+}
+

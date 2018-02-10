@@ -1,8 +1,8 @@
 package sparx1126.com.powerup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,16 +10,20 @@ import android.widget.AutoCompleteTextView;
 
 import java.util.Map;
 
-import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
-import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
-import sparx1126.com.powerup.google_drive.GoogleDriveNetworking;
+import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
+import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.Logger;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity ";
     private static final String[] studentList = {"Felix", "Huang"};
+    private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
+    private static Logger logger;
     private static BlueAllianceNetworking blueAlliance;
-    private static GoogleDriveNetworking googleDrive;
     private static FileIO fileIO;
+    private static GoogleDriveNetworking googleDrive;
     private AutoCompleteTextView studentNameAutoTextView;
 
     @Override
@@ -28,9 +32,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logger = Logger.getInstance();
         blueAlliance = BlueAllianceNetworking.getInstance();
-        googleDrive = GoogleDriveNetworking.getInstance(this);
         fileIO = FileIO.getInstance(this);
+        googleDrive = GoogleDriveNetworking.getInstance();
+        // if failed auto sign then googleDrive will return an internt to try to
+        // sign in by asking the user to select an account
+        // This is done only once here in MainActivity
+        Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
+        if(tryAutoSignInIntent != null) {
+            startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+        }
+        else {
+            logger.Log(TAG, "Logged into Google Drive!", Logger.MSG_TYPE.NORMAL, this);
+        }
 
         // student selection
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
@@ -41,21 +56,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                 String selectedStudent = (String) parent.getItemAtPosition(pos);
-                Log.d("onItemClick", selectedStudent);
             }
         });
 
         blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.CallbackEvents() {
             @Override
-            public void onFailure(String _reason) {
-                Log.e("dEventsSparxsIsIn", _reason);
+            public void onFailure(String _msg) {
+                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
             }
             @Override
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
+                logger.Log(TAG, "Got Events!", Logger.MSG_TYPE.NORMAL, null);
                 fileIO.storeTeamEvents(_result);
             }
-        });
+        }, this);
+    }
 
-        googleDrive.uploadContentToGoogleDrive("This is a file", "Hello.txt");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case GOOGLE_REQUEST_CODE_SIGN_IN:
+                String msg = "Signed In!";
+                if (resultCode != RESULT_OK) {
+                    logger.Log(TAG, "Sign-in failed result not OK.", Logger.MSG_TYPE.ERROR, this);
+                    finish();
+                }
+                else {
+                    if(!googleDrive.tryInitializeDriveClient(data, this)) {
+                        logger.Log(TAG, "Sign-in failed.", Logger.MSG_TYPE.ERROR, this);
+                        finish();
+                    }
+                }
+                break;
+        }
     }
 }
