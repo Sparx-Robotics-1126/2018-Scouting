@@ -119,14 +119,20 @@ public class View extends AppCompatActivity {
                 if(sd.getAutoStartedLeft()) {
                     autoStartedLeft++;
                 }
-                
-                 autoStartedCenter++;
-                 autoStartedRight;
-                 autoScoredSwitch;
-                 autoScoredScale;
-                 autoPickedUpCube;
-                 autoCubeExchange;
-                 autolinecheck;
+
+                if(sd.getAutoStartedCenter()) {
+                    autoStartedCenter++;
+                }
+                if(sd.getAutoStartedRight()) {
+                    autoStartedRight++;
+                }
+                if(sd.setTimesscoredswitch()) {
+                    autoScoredSwitch++;
+                }
+                 autoScoredScale++;
+                 autoPickedUpCube++;
+                 autoCubeExchange++;
+                 autolinecheck++;
 
             }
 

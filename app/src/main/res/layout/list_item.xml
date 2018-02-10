@@ -10,4 +10,5 @@
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />
+
 </LinearLayout>
