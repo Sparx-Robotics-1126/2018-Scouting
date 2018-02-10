@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         if(tryAutoSignInIntent != null) {
             startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
         }
+        else {
+            logger.Log(TAG, "Logged into Google Drive!", Logger.MSG_TYPE.NORMAL, this);
+        }
 
         // student selection
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
