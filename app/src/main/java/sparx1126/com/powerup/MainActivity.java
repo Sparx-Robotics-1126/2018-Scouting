@@ -15,6 +15,7 @@ import java.util.Map;
 
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.Logger;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
     private Button loginButton;
+    private static DataCollection dataCollection;
     private AutoCompleteTextView studentNameAutoTextView;
 
     @Override
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         blueAlliance = BlueAllianceNetworking.getInstance();
         fileIO = FileIO.getInstance(this);
         googleDrive = GoogleDriveNetworking.getInstance();
-
+        dataCollection = DataCollection.getInstance();
         // if failed auto sign then googleDrive will return an internt to try to
         // sign in by asking the user to select an account
         // This is done only once here in MainActivity
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             logger.Log(TAG, "Logged into Google Drive!", Logger.MSG_TYPE.NORMAL, this);
         }
-loginButton = findViewById(R.id.logInButton);
+        loginButton = findViewById(R.id.logInButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +89,7 @@ loginButton = findViewById(R.id.logInButton);
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
                 logger.Log(TAG, "Got Events!", Logger.MSG_TYPE.NORMAL, null);
                 fileIO.storeTeamEvents(_result);
+                dataCollection.setEventsWeAreIn(_result);
             }
         }, this);
     }
