@@ -112,7 +112,7 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 BenchmarkData benchmarkData = new BenchmarkData();
-                if(!team_number_input.getText())
+                //if(!team_number_input.getText())
 
             }
         });
