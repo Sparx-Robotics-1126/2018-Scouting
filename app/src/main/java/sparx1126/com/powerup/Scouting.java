@@ -56,8 +56,8 @@ public class Scouting extends AppCompatActivity {
         redAlliancecolor = findViewById(R.id.redAlliancebtn);
         blueAlliancecolor = findViewById(R.id.blueAlliancebtn);
         autolinecheck = findViewById(R.id.autolinecheck);
-        scorescalecheck = findViewById(R.id.scorescalecheck);
-        scoreswitchcheck = findViewById(R.id.scoreswitchcheck);
+        scorescalecheck = findViewById(R.id.autoScoredScale);
+        scoreswitchcheck = findViewById(R.id.autoScoredSwitch);
         pickupcubecheck = findViewById(R.id.pickupcubecheck);
         cubexchangecheck = findViewById(R.id.cubexchangecheck);
         matchnum = findViewById(R.id.matchnumimput);
