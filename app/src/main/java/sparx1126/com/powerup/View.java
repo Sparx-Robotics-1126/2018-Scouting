@@ -120,13 +120,13 @@ public class View extends AppCompatActivity {
                     autoStartedLeft++;
                 }
                 
-                 autoStartedCenter++;
-                 autoStartedRight;
-                 autoScoredSwitch;
-                 autoScoredScale;
-                 autoPickedUpCube;
-                 autoCubeExchange;
-                 autolinecheck;
+//                 autoStartedCenter++;
+//                 autoStartedRight;
+//                 autoScoredSwitch;
+//                 autoScoredScale;
+//                 autoPickedUpCube;
+//                 autoCubeExchange;
+//                 autolinecheck;
 
             }
 
