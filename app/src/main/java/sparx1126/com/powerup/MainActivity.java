@@ -59,7 +59,7 @@ loginButton = findViewById(R.id.logInButton);
                 String studentName = studentNameAutoTextView.getText().toString();
                         for(String student: studentList){
                             if(student.equals(studentName)){
-                                Intent intent = new Intent(MainActivity.this, Directory.class);
+                                Intent intent = new Intent(MainActivity.this, Scouting.class);
                                 startActivity(intent);
                             }
                         }
