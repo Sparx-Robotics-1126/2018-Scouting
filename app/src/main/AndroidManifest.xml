@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name="sparx1126.com.powerup.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +22,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Directory"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Admin"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Benchmarking"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Scouting"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".View"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

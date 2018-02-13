@@ -1,4 +1,4 @@
-package sparx1126.com.powerup.blue_alliance;
+package sparx1126.com.powerup.data_components;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ public class BlueAllianceEvent {
     private String startDate;
     private String endDate;
 
-    BlueAllianceEvent(JSONObject eventObj) {
+    public BlueAllianceEvent(JSONObject eventObj) {
         try {
             key = eventObj.getString(KEY);
             name = eventObj.getString(NAME);
@@ -59,5 +59,21 @@ public class BlueAllianceEvent {
     }
     public String getEndDate() {
         return endDate;
+    }
+
+    public JSONObject getJSONObject(BlueAllianceEvent _input) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(KEY, key);
+            json.put(NAME, name);
+            json.put(WEEK, week);
+            json.put(LOCATION, location);
+            json.put(START_DATE, startDate);
+
+            json.put(END_DATE, endDate);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+
+    <Button
+        android:id="@+id/benchmark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Benchmark" />
+
+    <Button
+        android:id="@+id/scouting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scouting" />
+
+    <Button
+    android:id="@+id/view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="View" />
+    <Button
+        android:id="@+id/admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Admin" />
+
+</LinearLayout>

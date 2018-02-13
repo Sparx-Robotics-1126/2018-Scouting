@@ -2,6 +2,56 @@
     <string name="app_name">Power Up</string>
     <string name="minus">-</string>
     <string name="zero">0</string>
+    <string name="team_selected">team selected</string>
+    <string name="red_alliance">Red Alliance</string>
+    <string name="blue_alliance">Blue Alliance</string>
+    <string name="pref_event">eventText</string>
     <string name="plus">+</string>
     <string name="autonomous">"Autonomous"</string>
+    <string name="pref_name">Sparx-prefs</string>
+    <string-array name="students">
+        <item>Michael Anderson</item>
+        <item>Tyler Armstrong</item>
+        <item>Owen Aser</item>
+        <item>Kevin Bates</item>
+        <item>Jaren Cascino</item>
+        <item>Nick Canstronova</item>
+        <item>Zack Charlebois</item>
+        <item>Peter Compton</item>
+        <item>Andrew D\'Ambrosio</item>
+        <item>Adam Daniels</item>
+        <item>Spenser Dewey</item>
+        <item>Skyler Ferrante</item>
+        <item>Justin Fici</item>
+        <item>Jeffary Graf</item>
+        <item>Jack Griebel</item>
+        <item>James Hart</item>
+        <item>Nathan Hunt</item>
+        <item>Brian Jimenez</item>
+        <item>Jaret Mongeon</item>
+        <item>Michael Geraci</item>
+        <item>Giovanni Mannino</item>
+        <item>Olivia Markovitz</item>
+        <item>Aaron Mayernik</item>
+        <item>Ryan McVeigh</item>
+        <item>Alex Monroe</item>
+        <item>Ronan Moody</item>
+        <item>Allison Morgan</item>
+        <item>Tyler Mosher</item>
+        <item>Ethen Nguyen</item>
+        <item>Logan Ogden</item>
+        <item>Nicolas Pietrantoni</item>
+        <item>Darwinch Pray</item>
+        <item>Peyton Roemer</item>
+        <item>Justin Rogers</item>
+        <item>Levi Seibert</item>
+        <item>Mason Seibert</item>
+        <item>Niko Stathopoulos</item>
+        <item>Andrew Thompson</item>
+        <item>David Tomer</item>
+        <item>Emory Towne</item>
+        <item>Liana Tutt</item>
+        <item>Alessandria Vigneri</item>
+    </string-array>
 </resources>
+

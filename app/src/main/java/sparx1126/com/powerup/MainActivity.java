@@ -1,5 +1,7 @@
 package sparx1126.com.powerup;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,28 +9,27 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
-import sparx1126.com.powerup.blue_alliance.BlueAllianceMatch;
-import sparx1126.com.powerup.blue_alliance.BlueAllianceNetworking;
-import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
-import sparx1126.com.powerup.blue_alliance.BlueAllianceTeam;
+import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
+import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
+import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.Logger;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String[] studentList = {"Aaron Mayernik", "Adam Gesner", "Adam Daniels", "Aidan Cheeseman", "Andrew D'Ambrosio", "Andrew Ophardt",
-                                                 "Andrew Thompson", "Andrew Bixler", "Brandon Connor", "Brian Jimenez", "Chris Voigt", "Colin Thompson",
-                                                 "Darwinch Pray", "David Tomer", "Drew Moulton", "Emory Towne", "Ethan Nguyen", "Evan Hart", "Felix Huang",
-                                                 "Giovanni Mannino", "Gus Pellett", "Helena Robinson", "Jack Griebel", "James Hart", "Jaren Cascino",
-                                                 "JD Thomann", "Jensen Li", "Joshua Ramph", "JT Mongeon", "Justin Fici", "Justin Rogers", "Karina Bryant",
-                                                 "Kevin Bates", "Logan Ogden", "Mason Seibert", "Matthew Connor", "Michael Geraci", "Michael Anderson",
-                                                 "Nathan Hunt", "Nick Castronova", "Nolan White", "Olivia Markovitz", "Owen Aser", "Peyton Roemer", "Rebekah Mayernik",
-                                                 "Ruoyan Li", "Ryan Mcveigh", "Skyler Ferrante", "Spencer Griebel", "Spenser Dewey", "Thomas Shannon", "Tyler Armstrong",
-                                                 "Tyler Mosher", "Tyler Baker", "Zach Rogers", "Zachary Charlebois"};
+    private static final String TAG = "MainActivity ";
+    private String[] studentList;
+    private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
+    private static Logger logger;
     private static BlueAllianceNetworking blueAlliance;
+    private static FileIO fileIO;
+    private static GoogleDriveNetworking googleDrive;
+    private Button loginButton;
+    private static DataCollection dataCollection;
     private AutoCompleteTextView studentNameAutoTextView;
 
     @Override
@@ -36,32 +37,80 @@ public class MainActivity extends AppCompatActivity {
         // This came from AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        blueAlliance = BlueAllianceNetworking.getInstance();
 
+        logger = Logger.getInstance();
+        blueAlliance = BlueAllianceNetworking.getInstance();
+        fileIO = FileIO.getInstance(this);
+        googleDrive = GoogleDriveNetworking.getInstance();
+        dataCollection = DataCollection.getInstance();
+        // if failed auto sign then googleDrive will return an internt to try to
+        // sign in by asking the user to select an account
+        // This is done only once here in MainActivity
+        Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
+        if(tryAutoSignInIntent != null) {
+            startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+        }
+        else {
+            logger.Log(TAG, "Logged into Google Drive!", Logger.MSG_TYPE.NORMAL, this);
+        }
+        loginButton = findViewById(R.id.logInButton);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String studentName = studentNameAutoTextView.getText().toString();
+                        for(String student: studentList){
+                            if(student.equals(studentName)){
+                                Intent intent = new Intent(MainActivity.this, Directory.class);
+                                startActivity(intent);
+                            }
+                        }
+                                           }
+                                       });
         // student selection
+        studentList = getResources().getStringArray(R.array.students);
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
         studentNameAutoTextView.setAdapter(adapter);
         studentNameAutoTextView.setThreshold(1);
-        studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
-                String selectedStudent = (String) parent.getItemAtPosition(pos);
-                Log.d("onItemClick", selectedStudent);
-            }
-        });
+//        studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+//                String selectedStudent = (String) parent.getItemAtPosition(pos);
+//            }
+//        });
 
-        blueAlliance.getEventMatches("2016nytr", new BlueAllianceNetworking.CallbackMatches() {
+        blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.CallbackEvents() {
             @Override
-            public void onFailure(String _reason) {
-                Log.e("getEventMatches Error", _reason);
+            public void onFailure(String _msg) {
+                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
             }
             @Override
-            public void onSuccess(Map<String, BlueAllianceMatch> _result) {
-                for(Map.Entry<String, BlueAllianceMatch> entry : _result.entrySet()) {
-                    Log.e(entry.getKey(), entry.getValue().toString());
+            public void onSuccess(Map<String, BlueAllianceEvent> _result) {
+                logger.Log(TAG, "Got Events!", Logger.MSG_TYPE.NORMAL, null);
+                fileIO.storeTeamEvents(_result);
+                dataCollection.setEventsWeAreIn(_result);
+            }
+        }, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case GOOGLE_REQUEST_CODE_SIGN_IN:
+                String msg = "Signed In!";
+                if (resultCode != RESULT_OK) {
+                    logger.Log(TAG, "Sign-in failed result not OK.", Logger.MSG_TYPE.ERROR, this);
+                    finish();
                 }
-            }
-        });
+                else {
+                    if(!googleDrive.tryInitializeDriveClient(data, this)) {
+                        logger.Log(TAG, "Sign-in failed.", Logger.MSG_TYPE.ERROR, this);
+                        finish();
+                    }
+                }
+                break;
+        }
     }
 }
