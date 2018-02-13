@@ -63,13 +63,13 @@ public class Scouting extends AppCompatActivity {
         matchnum = findViewById(R.id.matchnumimput);
         matchButton = findViewById(R.id.matchButton);
         teamLayout = findViewById(R.id.teamLayout);
-        //teamLayout.setVisibility(View.INVISIBLE);
+        teamLayout.setVisibility(View.INVISIBLE);
         allianceColor = findViewById(R.id.allianceColor);
         //allianceColor.setVisibility(View.INVISIBLE);
         allianceLayout =findViewById(R.id.allianceLayout);
-        //allianceLayout.setVisibility(View.INVISIBLE);
+        allianceLayout.setVisibility(View.INVISIBLE);
         autoLayout =findViewById(R.id.autoLayout);
-        //autoLayout.setVisibility(View.INVISIBLE);
+        autoLayout.setVisibility(View.INVISIBLE);
         autolinecheck = findViewById(R.id.autolinecheck);
         //autolinecheck.setVisibility(View.INVISIBLE);
         scorescalecheck = findViewById(R.id.autoScoredScale);
@@ -81,7 +81,7 @@ public class Scouting extends AppCompatActivity {
         cubexchangecheck = findViewById(R.id.cubexchangecheck);
         //cubexchangecheck.setVisibility(View.INVISIBLE);
         teleLayout =findViewById(R.id.teleLayout);
-        //teleLayout.setVisibility(View.INVISIBLE);
+        teleLayout.setVisibility(View.INVISIBLE);
         timeScoreswitch = findViewById(R.id.timesscoredswitchpicker);
         //timeScoreswitch.setVisibility(View.INVISIBLE);
         timeScorescale = findViewById(R.id.timesscoredscalepicker);
@@ -101,7 +101,7 @@ public class Scouting extends AppCompatActivity {
         playeddefense = findViewById(R.id.playeddefensecheck);
         //playeddefense.setVisibility(View.INVISIBLE);
         climbLayout = findViewById(R.id.climbLayout);
-        //climbLayout.setVisibility(View.INVISIBLE);
+        climbLayout.setVisibility(View.INVISIBLE);
         climbRung = findViewById(R.id.climbRung);
         //climbRung.setVisibility(View.INVISIBLE);
         climbRobot = findViewById(R.id.climbRobot);

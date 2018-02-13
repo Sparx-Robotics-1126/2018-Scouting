@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import java.util.Map;
 
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
@@ -87,6 +88,18 @@ loginButton = findViewById(R.id.logInButton);
             public void onSuccess(Map<String, BlueAllianceEvent> _result) {
                 logger.Log(TAG, "Got Events!", Logger.MSG_TYPE.NORMAL, null);
                 fileIO.storeTeamEvents(_result);
+            }
+        }, this);
+
+        blueAlliance.downloadEventMatches("2018ohcl",new BlueAllianceNetworking.CallbackMatches() {
+            @Override
+            public void onFailure(String _msg) {
+                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
+            }
+            @Override
+            public void onSuccess(Map<String, BlueAllianceMatch> _result) {
+                logger.Log(TAG, "Got Matches!", Logger.MSG_TYPE.NORMAL, null);
+                _result.toString();
             }
         }, this);
     }
