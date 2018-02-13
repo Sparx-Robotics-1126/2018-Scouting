@@ -15,7 +15,10 @@
 
         <!-- fix checkboxes - change to on/off button
 
-        linearlayout style-->
+                    android:button="@null"
+                    android:drawableRight="@android:drawable/btn_radio"
+                    android:text="test"
+    -->
 
 
 
@@ -153,24 +156,21 @@
 
                 <CheckBox
                     android:id="@+id/pref_left"
-                    style="@style/J_checkBox"
+                    style="@style/J_word_checkBox"
                     android:text="Left"
-                    android:layout_weight="1"
                     />
 
 
                 <CheckBox
                     android:id="@+id/pref_center"
-                    style="@style/J_checkBox"
+                    style="@style/J_word_checkBox"
                     android:text="Center"
-                    android:layout_weight="1"
                     />
 
                 <CheckBox
                     android:id="@+id/pref_right"
-                    style="@style/J_checkBox"
+                    style="@style/J_word_checkBox"
                     android:text="Right"
-                    android:layout_weight="1"
                     />
 
             </LinearLayout>
@@ -190,23 +190,20 @@
 
                 <CheckBox
                     android:id="@+id/can_left"
-                    style="@style/J_checkBox"
+                    style="@style/J_word_checkBox"
                     android:text="Left"
-                    android:layout_weight="1"
                     />
 
                 <CheckBox
                     android:id="@+id/can_center"
-                    style="@style/J_checkBox"
+                    style="@style/J_word_checkBox"
                     android:text="Center"
-                    android:layout_weight="1"
                     />
 
                 <CheckBox
                     android:id="@+id/can_right"
-                    style="@style/J_checkBox"
+                    style="@style/J_word_checkBox"
                     android:text="Right"
-                    android:layout_weight="1"
                     />
 
             </LinearLayout>
@@ -225,6 +222,7 @@
                 <CheckBox
                     android:id="@+id/start_w_cube"
                     style="@style/J_checkBox"
+                    android:layoutDirection="rtl"
                     />
 
             </LinearLayout>
@@ -283,17 +281,15 @@
 
 
                 <CheckBox
-                    android:id="@+id/auto_scale"
-                    style="@style/J_checkBox"
+                    android:id="@+id/auto_switch"
+                    style="@style/J_word_checkBox"
                     android:text="Switch"
-                    android:layout_weight="1"
                     />
 
                 <CheckBox
-                    android:id="@+id/auto_switch"
-                    style="@style/J_checkBox"
+                    android:id="@+id/auto_scale"
+                    style="@style/J_word_checkBox"
                     android:text="Scale"
-                    android:layout_weight="1"
                     />
 
             </LinearLayout>
