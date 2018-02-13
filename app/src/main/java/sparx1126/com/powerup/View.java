@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,288 +66,194 @@ public class View extends AppCompatActivity {
 
     private HashMap<String, List<String>> getData() {
         HashMap<String, List<String>> expandableListDetail = new HashMap<>();
+    //Scouting Data for testing
+        ScoutingData tempdata = new ScoutingData();
+        tempdata.setClimbunder15secs(true);
+        tempdata.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata);
+        ScoutingData tempdata2 = new ScoutingData();
+        tempdata2.setClimbunder15secs(false);
+        tempdata2.setNumRobotsHeld(2);
+        tempdata2.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata2);
+        ScoutingData tempdata3 = new ScoutingData();
+        tempdata3.setClimbRung(true);
+        tempdata3.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata3);
+        ScoutingData tempdata4 = new ScoutingData();
+        tempdata4.setClimbOnRobot(true);
+        tempdata4.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata4);
+        ScoutingData tempdata5 = new ScoutingData();
+        tempdata5.setPlayeddefense(true);
+        tempdata5.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata5);
+        ScoutingData tempdata6 = new ScoutingData();
+        tempdata6.setTimesPickedfromfloor(3);
+        tempdata6.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata6);
+        ScoutingData tempdata7 = new ScoutingData();
+        tempdata7.setCubesfromplayers(1);
+        tempdata7.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata7);
+        ScoutingData tempdata8 = new ScoutingData();
+        tempdata8.setTimesplacedexchange(3);
+        tempdata8.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata8);
+        ScoutingData tempdata9 = new ScoutingData();
+        tempdata9.setTimesscoredswitch(3);
+        tempdata9.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata8);
+        ScoutingData tempdata11 = new ScoutingData();
+        tempdata11.setAutoStartedLeft(true);
+        tempdata11.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata11);
+        ScoutingData tempdata12 = new ScoutingData();
+        tempdata12.setAutoStartedCenter(false);
+        tempdata12.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata12);
+        ScoutingData tempdata13 = new ScoutingData();
+        tempdata13.setAutoStartedRight(false);
+        tempdata13.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata13);
+        ScoutingData tempdata14 = new ScoutingData();
+        tempdata14.setAutoScoredSwitch(true);
+        tempdata14.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata14);
+        ScoutingData tempdata15 = new ScoutingData();
+        tempdata15.setAutoScoredScale(false);
+        tempdata15.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata15);
+        ScoutingData tempdata16 = new ScoutingData();
+        tempdata16.setAutoPickedUpCube(true);
+        tempdata16.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata16)
+        ScoutingData tempdata17 = new ScoutingData();
+        tempdata17.setAutoCubeExchange(true);
+        tempdata17.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata17);
+        ScoutingData tempdata18 = new ScoutingData();
+        tempdata18.setAutolinecheck(true);
+        tempdata18.setTeamnumber(1126);
+        dataCollection.addScoutingData(tempdata18);
 
+
+
+
+
+
+
+        Log.e("Felix Was Here" ,  dataCollection.getScoutingDataMap().toString());
         Map<Integer, List<ScoutingData>> teamsScouted = dataCollection.getScoutingDataMap();
 
         // for testing
-        if(teamsScouted.containsKey(1126)) {
+        if (teamsScouted.containsKey(1126)) {
             List<ScoutingData> teamDatas = teamsScouted.get(1126);
-            int climbunder15secs = 0;
-            int numRobotsHeld = 0;
-            int climbRung = 0;
-            int climbOnRobot = 0;
-            int playeddefense = 0;
-            int timesPickedfromfloor = 0;
-            int cubesfromplayers = 0;
-            int timesplacedexchange = 0;
-            int timescoredscale = 0;
-            int timesscoredswitch = 0;
-            int autoStartedLeft = 0;
-            int autoStartedCenter = 0;
-            int autoStartedRight = 0;
-            int autoScoredSwitch = 0;
-            int autoScoredScale = 0;
-            int autoPickedUpCube = 0;
-            int autoCubeExchange = 0;
-            int autolinecheck = 0;
-
+            float climbunder15secs = 0;
+            float numRobotsHeld = 0;
+            float climbRung = 0;
+            float climbOnRobot = 0;
+            float playeddefense = 0;
+            float timesPickedfromfloor = 0;
+            float cubesfromplayers = 0;
+            float timesplacedexchange = 0;
+            float timescoredscale = 0;
+            float timesscoredswitch = 0;
+            float autoStartedLeft = 0;
+            float autoStartedCenter = 0;
+            float autoStartedRight = 0;
+            float autoScoredSwitch = 0;
+            float autoScoredScale = 0;
+            float autoPickedUpCube = 0;
+            float autoCubeExchange = 0;
+            float autolinecheck = 0;
 
 
             List<String> scouting = new ArrayList<>();
             scouting.add("<font color=\"black\"><b>Matches scouted: </b></font>" + teamDatas.size());
-            for (ScoutingData sd :  teamDatas) {
-                if(sd.isClimbunder15secs()) {
+            for (ScoutingData sd : teamDatas) {
+                if (sd.isClimbunder15secs()) {
                     climbunder15secs++;
+                    Log.e("Felix was here", Float.toHexString(climbunder15secs));
                 }
 
-                    numRobotsHeld += sd.getNumRobotsHeld();
-                if(sd.getClimbRung()) {
+                numRobotsHeld += sd.getNumRobotsHeld();
+                if (sd.getClimbRung()) {
                     climbRung++;
                 }
-                if(sd.getClimbOnRobot()) {
+                if (sd.getClimbOnRobot()) {
                     climbOnRobot++;
                 }
-                if(sd.isPlayeddefense()) {
+                if (sd.isPlayeddefense()) {
                     playeddefense++;
                 }
-                 timesPickedfromfloor +=  timesPickedfromfloor;
-                 cubesfromplayers += cubesfromplayers;
-                 timesplacedexchange +=  timesplacedexchange;
-                 timescoredscale += timescoredscale;
-                 timesscoredswitch += timesscoredswitch;
-                if(sd.getAutoStartedLeft()) {
+                timesPickedfromfloor += timesPickedfromfloor;
+                cubesfromplayers += cubesfromplayers;
+                timesplacedexchange += timesplacedexchange;
+                timescoredscale += timescoredscale;
+                timesscoredswitch += timesscoredswitch;
+                if (sd.getAutoStartedLeft()) {
                     autoStartedLeft++;
                 }
 
-                if(sd.getAutoStartedCenter()) {
+                if (sd.getAutoStartedCenter()) {
                     autoStartedCenter++;
                 }
-                if(sd.getAutoStartedRight()) {
+                if (sd.getAutoStartedRight()) {
                     autoStartedRight++;
                 }
-                if(sd.setTimesscoredswitch()) {
+                if (sd.isAutoScoredSwitch()) {
                     autoScoredSwitch++;
                 }
-                 autoScoredScale++;
-                 autoPickedUpCube++;
-                 autoCubeExchange++;
-                 autolinecheck++;
+                if (sd.isAutoScoredScale()) {
+                    autoScoredScale++;
+                }
+                if (sd.isAutoPickedUpCube()) {
+                    autoPickedUpCube++;
+                }
+                if (sd.isAutoCubeExchange()) {
+                    autoCubeExchange++;
+                }
+                if (sd.isAutolinecheck()) {
+                    autolinecheck++;
+
+                }
 
             }
-
+            if (teamDatas.size() != 0) {
+                climbunder15secs = climbunder15secs / teamDatas.size();
+                numRobotsHeld = numRobotsHeld / teamDatas.size();
+                climbRung = climbRung / teamDatas.size();
+                climbOnRobot = climbOnRobot / teamDatas.size();
+                playeddefense = playeddefense / teamDatas.size();
+                timesPickedfromfloor = timesPickedfromfloor / teamDatas.size();
+                cubesfromplayers = cubesfromplayers / teamDatas.size();
+                timesplacedexchange = timesplacedexchange / teamDatas.size();
+                timescoredscale = timescoredscale / teamDatas.size();
+                timesscoredswitch = timesscoredswitch / teamDatas.size();
+                autoStartedLeft = autoStartedLeft / teamDatas.size();
+                autoStartedCenter = autoStartedCenter / teamDatas.size();
+                autoStartedRight = autoStartedRight / teamDatas.size();
+                autoScoredSwitch = autoScoredSwitch / teamDatas.size();
+                autoScoredScale = autoScoredScale / teamDatas.size();
+                autoPickedUpCube = autoPickedUpCube / teamDatas.size();
+                autoCubeExchange = autoCubeExchange / teamDatas.size();
+                autolinecheck = autolinecheck / teamDatas.size();
             }
-        else {
-            Log.e(TAG, "team not found");
-        }
+            scouting.add("<font color=\"black\"><b>AUTO</b></font>");
+            scouting.add("<font color=\"black\"><b></b></font>");
+            scouting.add("<font color=\"black\"><b> Number of times climbed under 15 seconds. ; </b></font>" + climbunder15secs);
 
-        /*
-
-
-        float hoppersDumped = 0;
-        float gearsScoredRight = 0;
-        float gearsScoredCenter = 0;
-        float gearsScoredLeft = 0;
-        float didScale = 0;
-        float gearsScored = 0;
-        float gearsDelivered = 0;
-        float gearsCollectedFromFloor = 0;
-        float gearsCollectedFromHuman = 0;
-        float crossedBaseline = 0;
-        int highAutoShooting = 0;
-        int lowAutoShooting = 0;
-        int noAutoShooting = 0;
-        int highTeleop = 0;
-        String highTeleopString = "";
-        int lowTeleop = 0;
-        String lowTeleopString = "";
-        float fuelInHighCycle = 0;
-        //float numberOfHighCycles = 0;        <<<<<< NEED TO ADD OR I NEED GLASSES
-        float fuelInLowCycle = 0;
-        float numberOfLowCycles = 0;
-        float fuelCollectedHuman = 0;
-        float fuelCollectedHopper = 0;
-        float fuelCollectedFloor = 0;
-        int highGoalAcc = 0;
-        String highGoalAccString = "";
-
-        for (ScoutingData sd : displayedInfo.getScoutingDatas()) {
-            hoppersDumped += sd.getHoppersDumped();
-            gearsScored += sd.getGearsScored();
-            gearsCollectedFromFloor += sd.getGearsCollectedFromFloor();
-            gearsCollectedFromHuman += sd.getGearsFromHuman();
-            fuelInHighCycle += sd.getBallsInHighCycle();
-            fuelInLowCycle += sd.getFuelInLowCycle();
-            fuelCollectedHuman += sd.getBallsFromHuman();
-            fuelCollectedHopper += sd.getBallsFromHopper();
-            fuelCollectedFloor += sd.getBallsFromFloor();
-
-            if (Objects.equals(sd.getHighGoalAccuracy(), "Great")) {
-                highGoalAcc += 2;
-            } else if (Objects.equals(sd.getHighGoalAccuracy(), "OK")) {
-                highGoalAcc++;
-            } else if (Objects.equals(sd.getHighGoalAccuracy(), "Poor")) {
-                //USELESS BUT I ADDED FOR SOME REASON
-            }
-
-            if (Objects.equals(sd.getAutoShooting(), "Shoots High")) {
-                highAutoShooting++;
-            } else if (Objects.equals(sd.getAutoShooting(), "Shoots Low")) {
-                lowAutoShooting++;
-            } else if (Objects.equals(sd.getAutoShooting(), "Doesn't Shoot")) {
-                noAutoShooting++;
-            }
-
-
-            if (sd.isCrossedBaseline()) {
-                crossedBaseline++;
-            }
-            if (sd.isGearScoredRightAuto()) {
-                gearsScoredRight++;
-            }
-            if (sd.isGearScoredCenterAuto()) {
-                gearsScoredCenter++;
-            }
-            if (sd.isGearScoredLeftAuto()) {
-                gearsScoredLeft++;
-            }
-            if (sd.isDidScale()) {
-                didScale++;
-            }
+            expandableListDetail.put("Scouting", scouting);
 
         }
-        if (displayedInfo.getScoutingDatas().size() != 0) {
-            hoppersDumped = hoppersDumped / displayedInfo.getScoutingDatas().size();
-            gearsScored = gearsScored / displayedInfo.getScoutingDatas().size();
-            gearsDelivered = gearsDelivered / displayedInfo.getScoutingDatas().size();
-            gearsCollectedFromFloor = gearsCollectedFromFloor / displayedInfo.getScoutingDatas().size();
-            gearsCollectedFromHuman = gearsCollectedFromHuman / displayedInfo.getScoutingDatas().size();
-            highTeleop = (highTeleop / displayedInfo.getScoutingDatas().size());
-            numberOfLowCycles = (numberOfLowCycles / displayedInfo.getScoutingDatas().size());
-            fuelCollectedHuman = (fuelCollectedHuman / displayedInfo.getScoutingDatas().size());
-            fuelCollectedHopper = (fuelCollectedHopper / displayedInfo.getScoutingDatas().size());
-            fuelCollectedFloor = (fuelCollectedFloor / displayedInfo.getScoutingDatas().size());
-            if (highTeleop == 0) {
-                highTeleopString = "Never";
-            } else if ((highTeleop > 0) && (highTeleop < 1)) {
-                highTeleopString = "rarely";
-            } else if (highTeleop == 1) {
-                highTeleopString = "Sometimes";
-            } else if ((highTeleop > 1) && (highTeleop < 2)) {
-                highTeleopString = "Often";
-            } else if (highTeleop == 2) {
-                highTeleopString = "Very often";
+        else{
+                Log.e(TAG, "team not found");
             }
-            if (lowTeleop == 0) {
-                lowTeleopString = "Never";
-            } else if ((lowTeleop > 0) && (highTeleop < 1)) {
-                lowTeleopString = "rarely";
-            } else if (lowTeleop == 1) {
-                lowTeleopString = "Sometimes";
-            } else if ((lowTeleop > 1) && (highTeleop < 2)) {
-                lowTeleopString = "Often";
-            } else if (lowTeleop == 2) {
-                lowTeleopString = "Very often";
-            }
-            if (highGoalAcc == 0) {
-                highGoalAccString = "Really bad";
-            } else if ((highGoalAcc > 0) && (highGoalAcc < 1)) {
-                highGoalAccString = "poor";
-            } else if (highGoalAcc == 1) {
-                highGoalAccString = "ok";
-            } else if ((highGoalAcc > 1) && (highGoalAcc < 2)) {
-                highGoalAccString = "pretty decent";
-            } else if (highGoalAcc == 2) {
-                highGoalAccString = "very good";
-            }
-            highAutoShooting = (highAutoShooting / displayedInfo.getScoutingDatas().size()) * 100;
-            lowAutoShooting = (lowAutoShooting / displayedInfo.getScoutingDatas().size()) * 100;
-            noAutoShooting = (noAutoShooting / displayedInfo.getScoutingDatas().size()) * 100;
-            crossedBaseline = (crossedBaseline / displayedInfo.getScoutingDatas().size()) * 100;
-            gearsScoredRight = (gearsScoredRight / displayedInfo.getScoutingDatas().size()) * 100;
-            gearsScoredCenter = (gearsScoredCenter / displayedInfo.getScoutingDatas().size()) * 100;
-            gearsScoredLeft = (gearsScoredLeft / displayedInfo.getScoutingDatas().size()) * 100;
-            didScale = (didScale / displayedInfo.getScoutingDatas().size()) * 100;
-            fuelInHighCycle = (fuelInHighCycle / displayedInfo.getScoutingDatas().size()) * 100;
-            fuelInLowCycle = (fuelInLowCycle / displayedInfo.getScoutingDatas().size()) * 100;
+
+
+            return expandableListDetail;
         }
-
-        scouting.add("<font color=\"black\"><b>AUTO</b></font>");
-        scouting.add("<font color=\"black\"><b></b></font>");
-
-        scouting.add("<font color=\"black\"><b>Percent of matches baseline crossed:  </b></font>" + crossedBaseline + "%");
-        scouting.add("<font color=\"black\"><b>Average hoppers dumped:  </b></font>" + hoppersDumped);
-        scouting.add("<font color=\"black\"><b>Percent of gears scored right:  </b></font>" + gearsScoredRight + "%");
-        scouting.add("<font color=\"black\"><b>Percent of gears scored center:  </b></font>" + gearsScoredCenter + "%");
-        scouting.add("<font color=\"black\"><b>Percent of gears scored left:  </b></font>" + gearsScoredLeft + "%");
-        scouting.add("<font color=\"black\"><b>Percent of times shot high:  </b></font>" + highAutoShooting + "%");
-        scouting.add("<font color=\"black\"><b>Percent of times shot low:  </b></font>" + lowAutoShooting + "%");
-        scouting.add("<font color=\"black\"><b>Percent of times did not shoot:  </b></font>" + noAutoShooting + "%");
-
-        scouting.add("<font color=\"black\"><b>TELEOP</b></font>");
-        scouting.add("<font color=\"black\"><b></b></font>");
-
-        scouting.add("<font color=\"black\"><b>Gears</b></font>");
-        scouting.add("<font color=\"black\"><b>Average gears scored:  </b></font>" + gearsScored);
-        scouting.add("<font color=\"black\"><b>Average gears collected from floor:  </b></font>" + gearsCollectedFromFloor);
-        scouting.add("<font color=\"black\"><b>Average gears collected from human:  </b></font>" + gearsCollectedFromHuman);
-        scouting.add("<font color=\"black\"><b></b></font>");
-
-        scouting.add("<font color=\"black\"><b>FUEL</b></font>");
-        scouting.add("<font color=\"black\"><b></b></font>");
-
-        scouting.add("<font color=\"black\"><b>Scores in high goal </b></font>" + highTeleopString);
-        scouting.add("<font color=\"black\"><b>Scores in low goal </b></font>" + lowTeleopString);
-        scouting.add("<font color=\"black\"><b>Average fuel in high cycle: </b></font>" + fuelInHighCycle);
-        scouting.add("<font color=\"black\"><b>Average amount of high cycles: </b></font>" + "(not currently in code)");
-        scouting.add("<font color=\"black\"><b>Average fuel in low cycle: </b></font>" + fuelInLowCycle);
-        scouting.add("<font color=\"black\"><b>Average number of low cycles: </b></font>" + numberOfLowCycles);
-        scouting.add("<font color=\"black\"><b>Average fuel collected from human: </b></font>" + fuelCollectedHuman);
-        scouting.add("<font color=\"black\"><b>Average fuel collected from hopper: </b></font>" + fuelCollectedHopper);
-        scouting.add("<font color=\"black\"><b>Average fuel collected from floor: </b></font>" + fuelCollectedFloor);
-        scouting.add("<font color=\"black\"><b>High goal accuracy: </b></font>" + highGoalAccString);
-        scouting.add("<font color=\"black\"><b></b></font>");
-
-        scouting.add("<font color=\"black\"><b>END GAME</b></font>");
-        scouting.add("<font color=\"black\"><b></b></font>");
-
-        scouting.add("<font color=\"black\"><b>Percent of matches scaled:  </b></font>" + didScale + "%");
-        scouting.add("<font color=\"black\"><b>Usually scaled from: JK not adding this because it's a manually entered string</b></font>");
-
-
-        List<String> scaling = new ArrayList<>();
-        if (!benchmarked) {
-            scaling.add("<font color=\"black\"><b>Can scale: </b></font>");
-        } else {
-            scaling.add("<font color=\"black\"><b>Can scale: </b></font>" + benchmarkingData.isAbilityScaleBenchButton());
-        }
-        if (benchmarkingData.getPreferredPlacesScaleInput().isEmpty()) {
-            scaling.add("<font color=\"black\"><b>Prefers to scale from: </b></font>");
-        } else {
-            scaling.add("<font color=\"black\"><b>Prefers to scale from: </b></font>" + benchmarkingData.getPreferredPlacesScaleInput());
-        }
-
-        List<String> auto = new ArrayList<>();
-        String autoAbilities = "";
-        if (benchmarkingData.getAutoAbilitiesBench() != null) {
-            autoAbilities = benchmarkingData.getAutoAbilitiesBench();
-        }
-        auto.add("<font color=\"black\"><b>Can </b></font>" + autoAbilities);
-
-        List<String> otherComments = new ArrayList<>();
-        if (benchmarkingData.getCommentsBench().isEmpty()) {
-            otherComments.add("<font color=\"black\"><b>Comments: </b></font>");
-        } else {
-            otherComments.add("<font color=\"black\"><b>Comments: </b></font>" + benchmarkingData.getCommentsBench());
-        }
-        expandableListDetail.put("Drives", drives);
-        expandableListDetail.put("Shooting", shooting);
-        expandableListDetail.put("Gears", gears);
-        // expandableListDetail.put("Low Goal", lowGoal);
-        expandableListDetail.put("Scaling", scaling);
-        expandableListDetail.put("Auto", auto);
-        expandableListDetail.put("Other Comments", otherComments);
-        expandableListDetail.put("Scouting", scouting);*/
-        return expandableListDetail;
     }
-}
+
 
