@@ -165,6 +165,7 @@
         <item name="android:inputType">number</item>
         <item name="android:digits">1234567890.</item>
         <item name="android:maxLength">5</item>
+        <item name="android:hint">00.00</item>
     </style>
 
     <style name="J_checkBox">
@@ -172,6 +173,18 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:buttonTint">@color/black</item>
         <item name="android:textSize">@dimen/main_text_size</item>
+        <item name="android:text">SWBFII</item>
+        <item name="android:textColor">#00000000</item>
+        <item name="android:layoutDirection">rtl</item>
+    </style>
+<!--parent these 2 /\  \/  -->
+    <style name="J_word_checkBox">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:buttonTint">@color/black</item>
+        <item name="android:textSize">@dimen/main_text_size</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="J_designLayout">
@@ -203,6 +216,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="J_hiddenRadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/main_text_size</item>
+        <item name="android:buttonTint">@color/sparxRedOne</item>
     </style>
 
 </resources>
