@@ -41,11 +41,11 @@ public class Benchmarking extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.benchmarking);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.benchmarking);
 
-        currentData = new BenchmarkData();
+            currentData = new BenchmarkData();
 
         teamnumber = findViewById(R.id.teamnumberinput);
         teamnumber.addTextChangedListener(new TextWatcher() {

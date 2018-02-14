@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 
 import java.util.Calendar;
@@ -18,11 +20,13 @@ import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
 
 public class Scouting extends AppCompatActivity {
-    private EditText teamnum;
-    private RadioButton blueAlliancecolor;
-    private RadioButton redAlliancecolor;
+    private TextView teamnum;
+    private LinearLayout teamLayout;
+    private  LinearLayout allianceLayout;
+    private TextView allianceColor;
     private EditText matchnum;
     private Button submitbutton;
+    private LinearLayout autoLayout;
     private CheckBox autolinecheck;
     private CheckBox scoreswitchcheck;
     private CheckBox scorescalecheck;
@@ -31,18 +35,21 @@ public class Scouting extends AppCompatActivity {
     private RadioButton startLeftbtn;
     private RadioButton startCenterbtn;
     private RadioButton startRightbtn;
+    private LinearLayout teleLayout;
     private PlusMinusEditTextLinearLayout timeScoreswitch;
     private PlusMinusEditTextLinearLayout timeScorescale;
     private PlusMinusEditTextLinearLayout timesPlacedexhange;
     private PlusMinusEditTextLinearLayout timesPickedfromFloor;
     private PlusMinusEditTextLinearLayout cubesfromplayers;
     private CheckBox playeddefense;
+    private LinearLayout climbLayout;
     private RadioButton climbRung;
     private RadioButton climbRobot;
     private RadioButton climbDoesnt;
     private CheckBox climbOn;
     private RadioButton hold1;
     private RadioButton hold2;
+    private Button matchButton;
     private CheckBox climbunder15secs;
     private static GoogleDriveNetworking googleDrive;
 
@@ -52,33 +59,65 @@ public class Scouting extends AppCompatActivity {
         setContentView(R.layout.scouting);
         googleDrive = GoogleDriveNetworking.getInstance();
 
-        teamnum = findViewById(R.id.scouteamnuminput);
-        redAlliancecolor = findViewById(R.id.redAlliancebtn);
-        blueAlliancecolor = findViewById(R.id.blueAlliancebtn);
-        autolinecheck = findViewById(R.id.autolinecheck);
-        scorescalecheck = findViewById(R.id.autoScoredScale);
-        scoreswitchcheck = findViewById(R.id.autoScoredSwitch);
-        pickupcubecheck = findViewById(R.id.pickupcubecheck);
-        cubexchangecheck = findViewById(R.id.cubexchangecheck);
-        matchnum = findViewById(R.id.matchnumimput);
-        timeScoreswitch = findViewById(R.id.timesscoredswitchpicker);
-        timeScorescale = findViewById(R.id.timesscoredscalepicker);
-        timesPlacedexhange = findViewById(R.id.timesplacedexchangepicker);
-        timesPickedfromFloor = findViewById(R.id.cubesfromfloorpicker);
-        cubesfromplayers = findViewById(R.id.cubesfromfloorpicker);
-        startLeftbtn = findViewById(R.id.startLeftbtn);
-        startCenterbtn = findViewById(R.id.startCenterbtn);
-        startRightbtn = findViewById(R.id.startRightbtn);
-        playeddefense = findViewById(R.id.playeddefensecheck);
-        climbRung = findViewById(R.id.climbRung);
-        climbRobot = findViewById(R.id.climbRobot);
-        climbDoesnt = findViewById(R.id.climbDoesnt);
-        climbOn = findViewById(R.id.climbOn);
-        hold1 = findViewById(R.id.ClimbOn1);
-        hold2 = findViewById(R.id.ClimbOn2);
-        climbunder15secs = findViewById(R.id.Climb15secs);
-        submitbutton = findViewById(R.id.submitbutton);
 
+        matchnum = findViewById(R.id.matchnumimput);
+        matchButton = findViewById(R.id.matchButton);
+        teamLayout = findViewById(R.id.teamLayout);
+        teamLayout.setVisibility(View.INVISIBLE);
+        allianceColor = findViewById(R.id.allianceColor);
+        //allianceColor.setVisibility(View.INVISIBLE);
+        allianceLayout =findViewById(R.id.allianceLayout);
+        allianceLayout.setVisibility(View.INVISIBLE);
+        autoLayout =findViewById(R.id.autoLayout);
+        autoLayout.setVisibility(View.INVISIBLE);
+        autolinecheck = findViewById(R.id.autolinecheck);
+        //autolinecheck.setVisibility(View.INVISIBLE);
+        scorescalecheck = findViewById(R.id.autoScoredScale);
+        //scorescalecheck.setVisibility(View.INVISIBLE);
+        scoreswitchcheck = findViewById(R.id.autoScoredSwitch);
+        //scoreswitchcheck.setVisibility(View.INVISIBLE);
+        pickupcubecheck = findViewById(R.id.pickupcubecheck);
+        //pickupcubecheck.setVisibility(View.INVISIBLE);
+        cubexchangecheck = findViewById(R.id.cubexchangecheck);
+        //cubexchangecheck.setVisibility(View.INVISIBLE);
+        teleLayout =findViewById(R.id.teleLayout);
+        teleLayout.setVisibility(View.INVISIBLE);
+        timeScoreswitch = findViewById(R.id.timesscoredswitchpicker);
+        //timeScoreswitch.setVisibility(View.INVISIBLE);
+        timeScorescale = findViewById(R.id.timesscoredscalepicker);
+        //timeScorescale.setVisibility(View.INVISIBLE);
+        timesPlacedexhange = findViewById(R.id.timesplacedexchangepicker);
+        //timesPlacedexhange.setVisibility(View.INVISIBLE);
+        timesPickedfromFloor = findViewById(R.id.cubesfromfloorpicker);
+        //timesPickedfromFloor.setVisibility(View.INVISIBLE);
+        cubesfromplayers = findViewById(R.id.cubesfromfloorpicker);
+        //cubesfromplayers.setVisibility(View.INVISIBLE);
+        startLeftbtn = findViewById(R.id.startLeftbtn);
+        //startLeftbtn.setVisibility(View.INVISIBLE);
+        startCenterbtn = findViewById(R.id.startCenterbtn);
+        //startCenterbtn.setVisibility(View.INVISIBLE);
+        startRightbtn = findViewById(R.id.startRightbtn);
+        //startRightbtn.setVisibility(View.INVISIBLE);
+        playeddefense = findViewById(R.id.playeddefensecheck);
+        //playeddefense.setVisibility(View.INVISIBLE);
+        climbLayout = findViewById(R.id.climbLayout);
+        climbLayout.setVisibility(View.INVISIBLE);
+        climbRung = findViewById(R.id.climbRung);
+        //climbRung.setVisibility(View.INVISIBLE);
+        climbRobot = findViewById(R.id.climbRobot);
+        //climbRobot.setVisibility(View.INVISIBLE);
+        climbDoesnt = findViewById(R.id.climbDoesnt);
+        //climbDoesnt.setVisibility(View.INVISIBLE);
+        climbOn = findViewById(R.id.climbOn);
+        //climbOn.setVisibility(View.INVISIBLE);
+        hold1 = findViewById(R.id.ClimbOn1);
+        //hold1.setVisibility(View.INVISIBLE);
+        hold2 = findViewById(R.id.ClimbOn2);
+        //hold2.setVisibility(View.INVISIBLE);
+        climbunder15secs = findViewById(R.id.Climb15secs);
+        //climbunder15secs.setVisibility(View.INVISIBLE);
+        submitbutton = findViewById(R.id.submitbutton);
+        //submitbutton.setVisibility(View.INVISIBLE);
         submitbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,12 +125,12 @@ public class Scouting extends AppCompatActivity {
                 if (!teamnum.getText().toString().isEmpty()) {
                     scoutingData.setTeamnumber(Integer.parseInt(teamnum.getText().toString()));
                 }
-                if (redAlliancecolor.isChecked()) {
-                    scoutingData.setAllianceColor("Red");
-                } else if (blueAlliancecolor.isChecked()) {
-                    scoutingData.setAllianceColor("Blue");
-
-                }
+//                if (redAlliancecolor.isChecked()) {
+//                    scoutingData.setAllianceColor("Red");
+//                } else if (blueAlliancecolor.isChecked()) {
+//                    scoutingData.setAllianceColor("Blue");
+//
+//                }
                 if (!teamnum.getText().toString().isEmpty()) {
                     scoutingData.setMatchnum(Integer.parseInt(matchnum.getText().toString()));
                 }

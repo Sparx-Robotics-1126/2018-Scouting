@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class BlueAllianceNetworking {
@@ -23,6 +24,10 @@ public class BlueAllianceNetworking {
     public interface CallbackTeams {
         void onFailure(String _reason);
         void onSuccess(Map<String, BlueAllianceTeam> _result);
+    }
+    public interface CallbackMatches {
+        void onFailure(String _reason);
+        void onSuccess(Map<String, BlueAllianceMatch> _result);
     }
 
     private static final String TAG = "BlueAllianceNetworking ";
@@ -38,6 +43,7 @@ public class BlueAllianceNetworking {
     private static String EVENT_TEAMS_URL_TAIL = "event/{event_key}/teams";
     // intention is for {team_key} to be substituted
     private static String TEAM_EVENTS_URL_TAIL = "team/{team_key}/events/" + YEAR;
+     private static String EVENT_MATCHES_URL_TAIL = "event/{event_key}/matches/simple";
 
     private OkHttpClient regularHttpClient;
     private static BlueAllianceNetworking instance;
@@ -97,6 +103,29 @@ public class BlueAllianceNetworking {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(response.body().string());
+                    _callback.onSuccess(rtnMap);
+                }
+                else {
+                    showMessage(response.message(), _context);
+                    _callback.onFailure(response.message());
+                }
+            }
+        });
+    }
+
+    public void downloadEventMatches(String _eventKey, final CallbackMatches _callback, final Context _context) {
+        String url_tail = (EVENT_MATCHES_URL_TAIL).replace("{event_key}", _eventKey);
+        downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                showMessage(e.getMessage(), _context);
+                _callback.onFailure(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(response.body().string());
                     _callback.onSuccess(rtnMap);
                 }
                 else {
