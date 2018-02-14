@@ -32,6 +32,18 @@ public class BlueAllianceEvent {
         }
     }
 
+
+    public String toString() {
+        String response = "";
+        response+= KEY + ": " + key + "\n";
+        response+= NAME + ": " + name + "\n";
+        response+= WEEK + ": " + week + "\n";
+        response+= LOCATION + ": " + location + "\n";
+        response+= START_DATE + ": " + startDate + "\n";
+        response+= END_DATE + ": " + endDate + "\n";
+        return response;
+    }
+
     public String getKey() { return key; }
     public String getName() {
         return name;
