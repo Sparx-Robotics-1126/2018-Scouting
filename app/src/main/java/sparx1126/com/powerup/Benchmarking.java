@@ -1,5 +1,6 @@
 package sparx1126.com.powerup;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
+import sparx1126.com.powerup.utilities.Logger;
 
 public class Benchmarking extends AppCompatActivity {
     private BenchmarkData currentData;
@@ -37,6 +39,8 @@ public class Benchmarking extends AppCompatActivity {
     private RadioButton toss_scale;
     private RadioButton pref_floor;
     private RadioButton pref_portal;
+    private static Logger logger;
+    private SharedPreferences settings;
 
 
 
@@ -44,8 +48,17 @@ public class Benchmarking extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.benchmarking);
-
             currentData = new BenchmarkData();
+        settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+
+        logger = Logger.getInstance();
+
+        SharedPreferences.Editor editor = settings.edit();
+
+        logger.Log("selectedTeam", settings.getString("selectedTeam", "could not get selected team"), Logger.MSG_TYPE.ERROR, this);
+
+
+
 
         teamnumber = findViewById(R.id.teamnumberinput);
         teamnumber.addTextChangedListener(new TextWatcher() {

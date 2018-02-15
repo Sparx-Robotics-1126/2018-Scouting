@@ -2,6 +2,7 @@ package sparx1126.com.powerup;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;
     private static DataCollection dataCollection;
     private AutoCompleteTextView studentNameAutoTextView;
+    private SharedPreferences settings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         else {
             logger.Log(TAG, "Logged into Google Drive!", Logger.MSG_TYPE.NORMAL, this);
         }
+
+
         loginButton = findViewById(R.id.logInButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
