@@ -19,13 +19,19 @@ import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
+import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.Logger;
 
 
 public class Admin extends AppCompatActivity {
     private static final String TAG = "Admin";
     private SharedPreferences settings;
+    private BlueAllianceNetworking blueAlliance;
     private Spinner eventSpinner;
+    private static Logger logger;
     private ArrayAdapter<String> eventAdapter;
     private List<String> eventsWeAreInList;
     private List<String> eventSpinnerList;
@@ -44,10 +50,10 @@ public class Admin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin);
-
+        logger = Logger.getInstance();
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         dataCollection = DataCollection.getInstance();
-
+        blueAlliance = BlueAllianceNetworking.getInstance();
 
         eventSpinner = (Spinner) findViewById(R.id.eventSpinner);
         Map<String, BlueAllianceEvent> eventsWeAreIn = dataCollection.getEventsWeAreIn();
@@ -112,7 +118,7 @@ public class Admin extends AppCompatActivity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean(getString(R.string.red_alliance), !blueSelected);
                 editor.apply();
-
+                Admin.this.downloadTeams();
 
                 finish();
             }
@@ -147,6 +153,20 @@ public class Admin extends AppCompatActivity {
         }
     };
 
+    private void downloadTeams() {
+        String eventKey = getEventName();
+        blueAlliance.downloadEventTeams(eventKey, new BlueAllianceNetworking.CallbackTeams() {
+            @Override
+            public void onFailure(String _msg) {
+                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
+            }
+            @Override
+            public void onSuccess(Map<String, BlueAllianceTeam> _result) {
+                logger.Log(TAG, "Got Teams!", Logger.MSG_TYPE.NORMAL, null);
+                dataCollection.setTeamsInEvent(_result);
+            }
+        },this);
+    }
 
     private String getEventName() {
         String eventName = "";

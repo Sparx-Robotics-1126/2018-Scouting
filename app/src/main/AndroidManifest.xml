@@ -25,6 +25,8 @@
 
         <activity android:name=".Directory"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".CheckList"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Admin"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Benchmarking"
