@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.data_components.ScoutingData;
 
 /**
@@ -16,6 +17,7 @@ public class DataCollection {
     private static DataCollection theDataCollection;
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
+    private Map<String, BlueAllianceTeam> teamsInEventMap;
 
     public static synchronized DataCollection getInstance(){
         if(theDataCollection == null ) {
@@ -50,5 +52,13 @@ public class DataCollection {
 
     public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
+    }
+
+    public void setTeamsInEvent (Map<String, BlueAllianceTeam> _Data){
+        teamsInEventMap = _Data;
+    }
+
+    public Map<String, BlueAllianceTeam> getTeamsInEventMap(){
+        return teamsInEventMap;
     }
 }

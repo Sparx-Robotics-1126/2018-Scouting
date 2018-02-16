@@ -19,6 +19,7 @@ public class Directory extends AppCompatActivity {
     private Button scouting;
     private Button benchmarking;
     private Button admin;
+    private Button checklist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,16 @@ public class Directory extends AppCompatActivity {
         scouting = findViewById(R.id.scouting);
         benchmarking = findViewById(R.id.benchmark);
         admin =findViewById(R.id.admin);
+        checklist = findViewById(R.id.checklist);
 
+        checklist.setOnClickListener(new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                Intent intent = new Intent(Directory.this, CheckList.class);
+                startActivity(intent);
+            }
+        });
         view.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override

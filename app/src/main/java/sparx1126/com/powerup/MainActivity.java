@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 String studentName = studentNameAutoTextView.getText().toString();
                         for(String student: studentList){
                             if(student.equals(studentName)){
-                                Intent intent = new Intent(MainActivity.this, Scouting.class);
+                                Intent intent = new Intent(MainActivity.this, Directory.class);
                                 startActivity(intent);
                             }
                         }
