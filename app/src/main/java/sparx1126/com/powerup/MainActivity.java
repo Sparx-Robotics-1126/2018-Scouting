@@ -1,59 +1,84 @@
 package sparx1126.com.powerup;
 
-
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
-import sparx1126.com.powerup.utilities.DataCollection;
-import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity ";
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
     private SharedPreferences settings;
-    private String[] studentList;
+    SharedPreferences.Editor editor;
     private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
-    private Button loginButton;
-    private AutoCompleteTextView studentNameAutoTextView;
 
+    private String[] studentList;
+    private AutoCompleteTextView studentNameAutoTextView;
+    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // This came from AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+        editor = settings.edit();
 
         fileIO = FileIO.getInstance();
         // This is done only once here in MainActivity
         fileIO.InitializeStorage(this);
         googleDrive = GoogleDriveNetworking.getInstance();
-        // if failed auto sign then googleDrive will return an intent to try to
-        // sign in by asking the user to select an account
-        // This is done only once here in MainActivity
-        Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
-        if(tryAutoSignInIntent != null) {
-            startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+
+        if(isInternetConnected() && isOnline()) {
+            // This is done only once here in MainActivity
+            Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
+            // if failed auto sign then googleDrive will return an intent to try to
+            // sign in by asking the user to select an account
+            if(tryAutoSignInIntent != null) {
+                startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+            }
+            else {
+                String msg = "Logged into Google Drive!";
+                Log.d(TAG, msg);
+                Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
+            }
         }
         else {
-            String msg = "Logged into Google Drive!";
-            Log.d(TAG, msg);
-            Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(TAG);
+            builder.setMessage("No Internet: Remember to Connect and Upload later!");
+            builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            Dialog noInternetDialog = builder.create();
+            noInternetDialog.show();
         }
 
+        studentList = getResources().getStringArray(R.array.students);
+
+        studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
+        studentNameAutoTextView.setAdapter(adapter);
+        studentNameAutoTextView.setThreshold(1);
 
         loginButton = findViewById(R.id.logInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 String studentName = studentNameAutoTextView.getText().toString();
                 for (String student : studentList) {
                     if (student.equals(studentName)) {
-                        SharedPreferences.Editor editor = settings.edit();
                         editor.putString(getResources().getString(R.string.pref_scouter), studentName);
                         editor.apply();
                         Intent intent = new Intent(MainActivity.this, Directory.class);
@@ -72,28 +96,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // student selection
-        studentList = getResources().getStringArray(R.array.students);
-        studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
-        studentNameAutoTextView.setAdapter(adapter);
-        studentNameAutoTextView.setThreshold(1);
-
         restorePreferences();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if(settings.getInt(getResources().getString(R.string.team_selected), Integer.MAX_VALUE) == Integer.MAX_VALUE){
-            Intent intent = new Intent(MainActivity.this, Admin.class);
-            startActivity(intent);
-        }
-        else {
-            setupTeamList();
-            setupMatchMap();
-        }
     }
 
     @Override
@@ -101,23 +104,50 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GOOGLE_REQUEST_CODE_SIGN_IN:
-                String msg = "Signed In!";
-                if (resultCode != RESULT_OK) {
-                    String erroMsg = "Sign-in failed result not OK.";
-                    Log.d(TAG, erroMsg);
-                    Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
-                    finish();
-                }
-                else {
-                    if(!googleDrive.tryInitializeDriveClient(data, this)) {
+                if (resultCode == RESULT_OK) {
+                    if(googleDrive.tryInitializeDriveClient(data, this)) {
+                        String msg = "Signed Into Google!";
+                        Log.d(TAG, msg);
+                        Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
+                    }
+                    else {
                         String erroMsg = "Sign-in failed.";
-                        Log.d(TAG, erroMsg);
+                        Log.e(TAG, erroMsg);
                         Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
                         finish();
                     }
                 }
+                else {
+                    String erroMsg = "Sign-in failed result not OK.";
+                    Log.e(TAG, erroMsg);
+                    Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
+                    finish();
+                }
                 break;
         }
+    }
+
+    private boolean isInternetConnected() {
+        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean connected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        return connected;
+    }
+
+    public Boolean isOnline() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            return reachable;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void restorePreferences() {
@@ -125,18 +155,6 @@ public class MainActivity extends AppCompatActivity {
         if (!scouterName.isEmpty()) {
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
-        }
-
-        List<BenchmarkingData> benchmarkingDatas = dbHelper.getAllBenchmarkingData();
-        for(BenchmarkingData benchmarkingData : benchmarkingDatas) {
-            TeamData.setTeamData(benchmarkingData.getTeamNumber(), benchmarkingData.getEventName());
-            TeamData.getCurrentTeam().setBenchmarkingData(benchmarkingData);
-        }
-
-        List<ScoutingData> scoutingDatas = dbHelper.getAllScoutingDatas();
-        for(ScoutingData scoutingData : scoutingDatas) {
-            TeamData.setTeamData(scoutingData.getTeamNumber(), scoutingData.getEventName());
-            TeamData.getCurrentTeam().addScoutingData(scoutingData);
         }
     }
 }

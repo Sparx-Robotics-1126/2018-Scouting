@@ -21,6 +21,8 @@ import java.util.Map;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 
 
 public class Admin extends AppCompatActivity {
@@ -29,10 +31,12 @@ public class Admin extends AppCompatActivity {
     SharedPreferences.Editor editor;
     private BlueAllianceNetworking blueAlliance;
     private static DataCollection dataCollection;
+    private static FileIO fileIO;
+    private static GoogleDriveNetworking googleDrive;
 
-    Dialog eventsWeAreInDialog;
-    Dialog matchesDialog;
-    Dialog teamsDialog;
+    private Dialog eventsWeAreInDialog;
+    private Dialog matchesDialog;
+    private Dialog teamsDialog;
     private Spinner eventSpinner;
     private ToggleButton blueSelectedToggle;
     private RadioButton teamNumber1SelectedButton;

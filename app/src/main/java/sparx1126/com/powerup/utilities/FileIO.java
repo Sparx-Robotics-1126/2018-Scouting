@@ -144,21 +144,6 @@ public class FileIO {
         return rtnMap;
     }
 
-    public void storeScouting(Map<Integer, List<ScoutingData>> _input) {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
-
-        String jsonString = jsonParser.scoutingMapIntoString(_input);
-
-        try {
-            FileWriter  outputStream = new FileWriter(TEAM_EVENTS_FILE_PATH);
-            outputStream.write(jsonString);
-            outputStream.close();
-            Log.d(TAG, "Stored Team Events");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public Map<String, BlueAllianceEvent> fetchScouting() {
         if(!intialized) throw new AssertionError("Not Initialized!" + this);
 
