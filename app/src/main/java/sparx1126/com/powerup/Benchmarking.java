@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
+import sparx1126.com.powerup.utilities.Logger;
 
 public class Benchmarking extends AppCompatActivity {
 
