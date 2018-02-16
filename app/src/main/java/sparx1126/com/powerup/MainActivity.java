@@ -11,29 +11,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
-import java.util.Map;
-
-import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
-import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.FileIO;
-import sparx1126.com.powerup.utilities.Logger;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity ";
-    private String[] studentList;
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
-    private static Logger logger;
-    private static BlueAllianceNetworking blueAlliance;
+    private SharedPreferences settings;
+    private String[] studentList;
     private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
     private Button loginButton;
-    private static DataCollection dataCollection;
     private AutoCompleteTextView studentNameAutoTextView;
-    private SharedPreferences settings;
 
 
     @Override
@@ -42,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logger = Logger.getInstance();
-        blueAlliance = BlueAllianceNetworking.getInstance();
-        fileIO = FileIO.getInstance(this);
+        settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+
+        fileIO = FileIO.getInstance();
+        // This is done only once here in MainActivity
+        fileIO.InitializeStorage(this);
         googleDrive = GoogleDriveNetworking.getInstance();
-        dataCollection = DataCollection.getInstance();
-        // if failed auto sign then googleDrive will return an internt to try to
+        // if failed auto sign then googleDrive will return an intent to try to
         // sign in by asking the user to select an account
         // This is done only once here in MainActivity
         Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
@@ -55,61 +49,51 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
         }
         else {
-            logger.Log(TAG, "Logged into Google Drive!", Logger.MSG_TYPE.NORMAL, this);
+            String msg = "Logged into Google Drive!";
+            Log.d(TAG, msg);
+            Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
         }
 
 
         loginButton = findViewById(R.id.logInButton);
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String studentName = studentNameAutoTextView.getText().toString();
-                        for(String student: studentList){
-                            if(student.equals(studentName)){
-                                Intent intent = new Intent(MainActivity.this, Directory.class);
-                                startActivity(intent);
-                            }
-                        }
-                                           }
-                                       });
+                for (String student : studentList) {
+                    if (student.equals(studentName)) {
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(getResources().getString(R.string.pref_scouter), studentName);
+                        editor.apply();
+                        Intent intent = new Intent(MainActivity.this, Directory.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+
         // student selection
         studentList = getResources().getStringArray(R.array.students);
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
         studentNameAutoTextView.setAdapter(adapter);
         studentNameAutoTextView.setThreshold(1);
-//        studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
-//                String selectedStudent = (String) parent.getItemAtPosition(pos);
-//            }
-//        });
 
-        blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.CallbackEvents() {
-            @Override
-            public void onFailure(String _msg) {
-                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
-            }
-            @Override
-            public void onSuccess(Map<String, BlueAllianceEvent> _result) {
-                logger.Log(TAG, "Got Events!", Logger.MSG_TYPE.NORMAL, null);
-                fileIO.storeTeamEvents(_result);
-                dataCollection.setEventsWeAreIn(_result);
-            }
-        }, this);
+        restorePreferences();
+    }
 
-        blueAlliance.downloadEventMatches("2018ohcl",new BlueAllianceNetworking.CallbackMatches() {
-            @Override
-            public void onFailure(String _msg) {
-                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
-            }
-            @Override
-            public void onSuccess(Map<String, BlueAllianceMatch> _result) {
-                logger.Log(TAG, "Got Matches!", Logger.MSG_TYPE.NORMAL, null);
-                _result.toString();
-            }
-        }, this);
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(settings.getInt(getResources().getString(R.string.team_selected), Integer.MAX_VALUE) == Integer.MAX_VALUE){
+            Intent intent = new Intent(MainActivity.this, Admin.class);
+            startActivity(intent);
+        }
+        else {
+            setupTeamList();
+            setupMatchMap();
+        }
     }
 
     @Override
@@ -119,16 +103,40 @@ public class MainActivity extends AppCompatActivity {
             case GOOGLE_REQUEST_CODE_SIGN_IN:
                 String msg = "Signed In!";
                 if (resultCode != RESULT_OK) {
-                    logger.Log(TAG, "Sign-in failed result not OK.", Logger.MSG_TYPE.ERROR, this);
+                    String erroMsg = "Sign-in failed result not OK.";
+                    Log.d(TAG, erroMsg);
+                    Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else {
                     if(!googleDrive.tryInitializeDriveClient(data, this)) {
-                        logger.Log(TAG, "Sign-in failed.", Logger.MSG_TYPE.ERROR, this);
+                        String erroMsg = "Sign-in failed.";
+                        Log.d(TAG, erroMsg);
+                        Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
                         finish();
                     }
                 }
                 break;
+        }
+    }
+
+    private void restorePreferences() {
+        String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
+        if (!scouterName.isEmpty()) {
+            studentNameAutoTextView.setText(scouterName);
+            studentNameAutoTextView.dismissDropDown();
+        }
+
+        List<BenchmarkingData> benchmarkingDatas = dbHelper.getAllBenchmarkingData();
+        for(BenchmarkingData benchmarkingData : benchmarkingDatas) {
+            TeamData.setTeamData(benchmarkingData.getTeamNumber(), benchmarkingData.getEventName());
+            TeamData.getCurrentTeam().setBenchmarkingData(benchmarkingData);
+        }
+
+        List<ScoutingData> scoutingDatas = dbHelper.getAllScoutingDatas();
+        for(ScoutingData scoutingData : scoutingDatas) {
+            TeamData.setTeamData(scoutingData.getTeamNumber(), scoutingData.getEventName());
+            TeamData.getCurrentTeam().addScoutingData(scoutingData);
         }
     }
 }

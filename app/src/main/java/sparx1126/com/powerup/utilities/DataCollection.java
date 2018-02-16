@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.data_components.ScoutingData;
 
@@ -16,8 +18,11 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 public class DataCollection {
     private static DataCollection theDataCollection;
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
+    private Map<Integer, BenchmarkData> benchmarkDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
+    private Map<String, BlueAllianceMatch> matchesInEventMap;
+    private static FileIO fileIO;
 
     public static synchronized DataCollection getInstance(){
         if(theDataCollection == null ) {
@@ -28,19 +33,35 @@ public class DataCollection {
 
     private DataCollection(){
         scoutingDataMap = new HashMap<Integer, List<ScoutingData>>();
+        benchmarkDataMap = new HashMap<Integer, BenchmarkData>();
+        fileIO = FileIO.getInstance();
     }
 
-    public void addScoutingData(ScoutingData data){
-        Integer key = data.getTeamnumber();
+    public void addScoutingData(ScoutingData _data){
+        Integer key = _data.getTeamnumber();
         if(scoutingDataMap.containsKey(key)){
-            scoutingDataMap.get(key).add(data);
+            scoutingDataMap.get(key).add(_data);
         }
         else {
             List<ScoutingData> newList = new ArrayList<ScoutingData>();
-            newList.add(data);
+            newList.add(_data);
             scoutingDataMap.put(key, newList);
         }
     }
+
+    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
+        return scoutingDataMap;
+    }
+
+    public void addBenchmarkData(BenchmarkData _data){
+        Integer key = _data.getTeamnumber();
+        benchmarkDataMap.put(key, _data);
+    }
+
+    public Map<Integer, BenchmarkData> getBenchmarkDataMap() {
+        return benchmarkDataMap;
+    }
+
 
     public void setEventsWeAreIn(Map<String, BlueAllianceEvent> _eventData){
         eventsWeAreInMap = _eventData;
@@ -50,15 +71,19 @@ public class DataCollection {
         return eventsWeAreInMap;
     }
 
-    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
-        return scoutingDataMap;
-    }
-
     public void setTeamsInEvent (Map<String, BlueAllianceTeam> _Data){
         teamsInEventMap = _Data;
     }
 
     public Map<String, BlueAllianceTeam> getTeamsInEventMap(){
         return teamsInEventMap;
+    }
+
+    public void setEventMatches (Map<String, BlueAllianceMatch> _Data){
+        matchesInEventMap = _Data;
+    }
+
+    public Map<String, BlueAllianceMatch> getMatchesInEventMap(){
+        return matchesInEventMap;
     }
 }
