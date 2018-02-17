@@ -9,6 +9,11 @@
     <string name="plus">+</string>
     <string name="autonomous">"Autonomous"</string>
     <string name="pref_name">Sparx-prefs</string>
+    <string name="pref_scouter">pref_scouter</string>
+    <string name="pref_SelectedEvent">pref_SelectedEvent</string>
+    <string name="pref_BlueAlliance">pref_BlueAlliance</string>
+    <string name="pref_TeamPosition">pref_TeamPosition</string>
+    <string name="selectEvent">Select Event</string>
     <string-array name="students">
         <item>Michael Anderson</item>
         <item>Tyler Armstrong</item>

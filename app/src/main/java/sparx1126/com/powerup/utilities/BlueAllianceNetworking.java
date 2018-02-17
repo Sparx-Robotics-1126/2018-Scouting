@@ -2,7 +2,6 @@ package sparx1126.com.powerup.utilities;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Map;
@@ -16,18 +15,8 @@ import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class BlueAllianceNetworking {
-    public interface CallbackEvents {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceEvent> _result);
-    }
-
-    public interface CallbackTeams {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceTeam> _result);
-    }
-    public interface CallbackMatches {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceMatch> _result);
+    public interface Callback {
+        abstract void handleFinishDownload();
     }
 
     private static final String TAG = "BlueAllianceNetworking ";
@@ -48,6 +37,8 @@ public class BlueAllianceNetworking {
     private OkHttpClient regularHttpClient;
     private static BlueAllianceNetworking instance;
     private JSONParser jsonParser;
+    private static FileIO fileIO;
+    private static DataCollection dataCollection;
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -60,67 +51,68 @@ public class BlueAllianceNetworking {
     private BlueAllianceNetworking() {
         regularHttpClient = new OkHttpClient();
         jsonParser = JSONParser.getInstance();
+        fileIO = FileIO.getInstance();
+        dataCollection = DataCollection.getInstance();
     }
 
-    public void downloadEventsSparxsIsIn(CallbackEvents _callback, Context _context) {
-        downloadTeamEvents(SPARX_TEAM_KEY, _callback, _context);
+    public void downloadEventsSparxsIsIn(Context _context, Callback _callback) {
+        downloadTeamEvents(SPARX_TEAM_KEY, _context, _callback);
     }
 
     // made this private because why do we care of other team events???
-    private void downloadTeamEvents(String _key, final CallbackEvents _callback, final Context _context) {
+    private void downloadTeamEvents(String _key, final Context _context, final Callback _callback) {
         String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showMessage(e.getMessage(), _context);
-                _callback.onFailure(e.getMessage());
+                throw new AssertionError(e.getMessage() + this);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(response.body().string());
-                    _callback.onSuccess(rtnMap);
+                    fileIO.storeTeamEvents(response.body().string());
+                    dataCollection.setEventsWeAreIn(rtnMap);
+                    _callback.handleFinishDownload();
                 }
                 else {
-                    showMessage(response.message(), _context);
-                    _callback.onFailure(response.message());
+                    throw new AssertionError(response.message() + this);
                 }
             }
         });
     }
 
-    public void downloadEventTeams(String _key, final CallbackTeams _callback, final Context _context) {
+    public void downloadEventTeams(String _key, final Context _context, final Callback _callback) {
         String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showMessage(e.getMessage(), _context);
-                _callback.onFailure(e.getMessage());
+                throw new AssertionError(e.getMessage() + this);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(response.body().string());
-                    _callback.onSuccess(rtnMap);
+                    fileIO.storeEventTeams(response.body().string());
+                    dataCollection.setTeamsInEvent(rtnMap);
+                    _callback.handleFinishDownload();
                 }
                 else {
-                    showMessage(response.message(), _context);
-                    _callback.onFailure(response.message());
+                    throw new AssertionError(response.message() + this);
                 }
             }
         });
     }
 
-    public void downloadEventMatches(String _eventKey, final CallbackMatches _callback, final Context _context) {
+    public void downloadEventMatches(String _eventKey, final Context _context, final Callback _callback) {
         String url_tail = (EVENT_MATCHES_URL_TAIL).replace("{event_key}", _eventKey);
 
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showMessage(e.getMessage(), _context);
-                _callback.onFailure(e.getMessage());
+                throw new AssertionError(e.getMessage() + this);
             }
 
             @Override
@@ -128,11 +120,12 @@ public class BlueAllianceNetworking {
                 if (response.isSuccessful()) {
                     //Log.e("JT Mongeon", response.body().string());
                     Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(response.body().string());
-                    _callback.onSuccess(rtnMap);
+                    fileIO.storeEventMatches(response.body().string());
+                    dataCollection.setEventMatches(rtnMap);
+                    _callback.handleFinishDownload();
                 }
                 else {
-                    showMessage(response.message(), _context);
-                    _callback.onFailure(response.message());
+                    throw new AssertionError(response.message() + this);
                 }
             }
         });
@@ -147,9 +140,5 @@ public class BlueAllianceNetworking {
                 .build();
 
         regularHttpClient.newCall(requestEvents).enqueue(_callback);
-    }
-
-    private void showMessage(String message, Context _context) {
-        Toast.makeText(_context, TAG + message, Toast.LENGTH_LONG).show();
     }
 }
