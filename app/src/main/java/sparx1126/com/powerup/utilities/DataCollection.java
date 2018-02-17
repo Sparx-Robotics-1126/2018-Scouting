@@ -1,10 +1,13 @@
 package sparx1126.com.powerup.utilities;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sparx1126.com.powerup.R;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.data_components.ScoutingData;
@@ -18,6 +21,8 @@ public class DataCollection {
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
+    private SharedPreferences settings;
+
 
     public static synchronized DataCollection getInstance(){
         if(theDataCollection == null ) {
@@ -54,8 +59,9 @@ public class DataCollection {
         return scoutingDataMap;
     }
 
-    public void setTeamsInEvent (Map<String, BlueAllianceTeam> _Data){
+    public Map<String, BlueAllianceTeam> setTeamsInEvent (Map<String, BlueAllianceTeam> _Data){
         teamsInEventMap = _Data;
+        return _Data;
     }
 
     public Map<String, BlueAllianceTeam> getTeamsInEventMap(){
