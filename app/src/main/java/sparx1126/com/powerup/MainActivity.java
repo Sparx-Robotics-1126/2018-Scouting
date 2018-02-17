@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -49,26 +50,6 @@ public class MainActivity extends AppCompatActivity {
         fileIO.InitializeStorage(this);
         googleDrive = GoogleDriveNetworking.getInstance();
 
-        if(isInternetConnected() && isOnline()) {
-            // This is done only once here in MainActivity
-            Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
-            // if failed auto sign then googleDrive will return an intent to try to
-            // sign in by asking the user to select an account
-            if(tryAutoSignInIntent != null) {
-                startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
-            }
-            else {
-                String msg = "Logged into Google Drive!";
-                Log.d(TAG, msg);
-                Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
-            }
-        }
-        else {
-            String msg = "No Internet: Remember to Connect and Upload later!";
-            Log.d(TAG, msg);
-            showOkayDialog(msg);
-        }
-
         studentList = getResources().getStringArray(R.array.students);
 
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
@@ -82,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
                 if (studentNameFound) {
                     editor.putString(getResources().getString(R.string.pref_scouter), studentName);
-                    studentNameAutoTextView.dismissDropDown();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
                     Log.d(TAG, getResources().getString(R.string.pref_scouter));
                 }
                 else {
@@ -106,7 +88,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        tryConnectToGoogleDrive();
         restorePreferences();
+    }
+
+    private void tryConnectToGoogleDrive() {
+        if(isInternetConnected() && isOnline()) {
+            // This is done only once here in MainActivity
+            Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
+            // if failed auto sign then googleDrive will return an intent to try to
+            // sign in by asking the user to select an account
+            if(tryAutoSignInIntent != null) {
+                startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+            }
+            else {
+                String msg = "Logged into Google Drive!";
+                Log.d(TAG, msg);
+                Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            String msg = "No Internet: Remember to Connect and Upload later!";
+            Log.d(TAG, msg);
+            showOkayDialog(msg);
+        }
+    }
+
+    private void restorePreferences() {
+        String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
+        if (!scouterName.isEmpty()) {
+            studentNameAutoTextView.setText(scouterName);
+            studentNameAutoTextView.dismissDropDown();
+        }
+    }
+
+    private boolean isInternetConnected() {
+        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean connected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        return connected;
+    }
+
+    public Boolean isOnline() {
+        boolean reachable = false;
+
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+            int returnVal = p1.waitFor();
+            reachable = (returnVal==0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return reachable;
     }
 
     @Override
@@ -135,37 +174,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isInternetConnected() {
-        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean connected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        return connected;
-    }
-
-    public Boolean isOnline() {
-        try {
-            Toast.makeText(this, TAG + "Checking Internet conection...", Toast.LENGTH_LONG).show();
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
-            return reachable;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private void restorePreferences() {
-        String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
-        if (!scouterName.isEmpty()) {
-            studentNameAutoTextView.setText(scouterName);
-            studentNameAutoTextView.dismissDropDown();
-        }
-    }
-
     private void showOkayDialog(String _msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -178,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Dialog noInternetDialog = builder.create();
-        noInternetDialog.show();
+        Dialog dialog = builder.create();
+        dialog.show();
     }
 }

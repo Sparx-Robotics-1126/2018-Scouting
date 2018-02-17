@@ -4,7 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BlueAllianceMatch {
     // keys from thebluealliance.com API
@@ -19,10 +20,12 @@ public class BlueAllianceMatch {
     private String key;
     private String compLevel;
     private String matchNumber;
-    private List<String> blueTeamKeys;
-    private List<String> redTeamKeys;
+    private Map<Integer, String> blueTeamKeys;
+    private Map<Integer, String> redTeamKeys;
 
     public BlueAllianceMatch(JSONObject eventObj) {
+        blueTeamKeys = new HashMap<>();
+        redTeamKeys = new HashMap<>();
         try {
             key = eventObj.getString(KEY);
             compLevel = eventObj.getString(COMP_LEVEL);
@@ -31,12 +34,12 @@ public class BlueAllianceMatch {
             JSONObject redObj = allianceObj.getJSONObject(RED);
             JSONArray redTeamKeysArray = redObj.getJSONArray(TEAM_KEYS);
             for(int i = 0; i < redTeamKeysArray.length(); i++){
-                redTeamKeys.add(redTeamKeysArray.getString(i));
+                redTeamKeys.put(i+1, redTeamKeysArray.getString(i));
             }
             JSONObject blueObj = allianceObj.getJSONObject(BLUE);
             JSONArray blueTeamKeysArray = blueObj.getJSONArray(TEAM_KEYS);
             for(int i = 0; i < blueTeamKeysArray.length(); i++){
-                blueTeamKeys.add(blueTeamKeysArray.getString(i));
+                blueTeamKeys.put(i+1, blueTeamKeysArray.getString(i));
             }
 
         } catch (JSONException e) {
@@ -54,7 +57,7 @@ public class BlueAllianceMatch {
             json.put(COMP_LEVEL,compLevel);
             json.put(MATCH_NUMBER, matchNumber);
             JSONArray blueTeamKeysArray = new JSONArray();
-            for(String team : blueTeamKeys){
+            for(String team : blueTeamKeys.values()){
                 blueTeamKeysArray.put(team);
             }
             JSONObject blueObj = new JSONObject();
@@ -62,9 +65,8 @@ public class BlueAllianceMatch {
 
 
             JSONArray redTeamKeysArray = new JSONArray();
-            for(String team : redTeamKeys){
+            for(String team : redTeamKeys.values()){
                 redTeamKeysArray.put(team);
-
             }
             JSONObject redObj = new JSONObject();
             redObj.put(TEAM_KEYS, redTeamKeysArray);

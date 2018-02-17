@@ -40,7 +40,6 @@ public class JSONParser {
                 BlueAllianceEvent item = new BlueAllianceEvent(obj);
                 output.put(item.getKey(), item);
             }
-            Log.d("teamEventsString", output.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
