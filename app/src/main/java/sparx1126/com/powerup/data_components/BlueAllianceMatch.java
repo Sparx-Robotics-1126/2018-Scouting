@@ -1,9 +1,12 @@
 package sparx1126.com.powerup.data_components;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BlueAllianceMatch {
@@ -19,10 +22,29 @@ public class BlueAllianceMatch {
     private String key;
     private String compLevel;
     private String matchNumber;
+
+    public String getCompLevel() {
+        return compLevel;
+    }
+
+    public String getMatchNumber() {
+        return matchNumber;
+    }
+
+    public List<String> getBlueTeamKeys() {
+        return blueTeamKeys;
+    }
+
+    public List<String> getRedTeamKeys() {
+        return redTeamKeys;
+    }
+
     private List<String> blueTeamKeys;
     private List<String> redTeamKeys;
 
     public BlueAllianceMatch(JSONObject eventObj) {
+        blueTeamKeys = new ArrayList<String>();
+        redTeamKeys = new ArrayList<String>();
         try {
             key = eventObj.getString(KEY);
             compLevel = eventObj.getString(COMP_LEVEL);

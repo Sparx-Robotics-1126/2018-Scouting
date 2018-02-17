@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, this);
 
-        blueAlliance.downloadEventMatches("2018ohcl",new BlueAllianceNetworking.CallbackMatches() {
+        blueAlliance.downloadEventMatches("2017ohcl",new BlueAllianceNetworking.CallbackMatches() {
             @Override
             public void onFailure(String _msg) {
                 logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Map<String, BlueAllianceMatch> _result) {
                 logger.Log(TAG, "Got Matches!", Logger.MSG_TYPE.NORMAL, null);
-                _result.toString();
+                dataCollection.setMatchesInEventMap(_result);
             }
         }, this);
     }

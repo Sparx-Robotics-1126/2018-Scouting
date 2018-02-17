@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.data_components.ScoutingData;
@@ -18,6 +19,17 @@ public class DataCollection {
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
+
+    public Map<String, BlueAllianceMatch> getMatchesInEventMap() {
+        return matchesInEventMap;
+    }
+
+    public void setMatchesInEventMap(Map<String, BlueAllianceMatch> matchesInEventMap) {
+        this.matchesInEventMap = matchesInEventMap;
+    }
+
+    private Map<String, BlueAllianceMatch> matchesInEventMap;
+
 
     public static synchronized DataCollection getInstance(){
         if(theDataCollection == null ) {

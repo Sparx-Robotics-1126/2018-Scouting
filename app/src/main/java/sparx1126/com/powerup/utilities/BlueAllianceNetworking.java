@@ -37,7 +37,7 @@ public class BlueAllianceNetworking {
     // Key generated in thebluealliance.com for access
     // This key is Hiram's key (expires in 30 days)
     private static final String BLUE_ALLIANCE_KEY = "0i1rgva3Y8G14rZS4dWDHcPNaw6EVMb9uSI9jW7diochnHpH8Y4nIhT0iHwj0hCq";
-    private static final String YEAR = "2018";
+    private static final String YEAR = "2017";
     private static final String SPARX_TEAM_KEY = "frc1126";
     // intention is for {event_key} to be substituted
     private static String EVENT_TEAMS_URL_TAIL = "event/{event_key}/teams";
@@ -115,6 +115,7 @@ public class BlueAllianceNetworking {
 
     public void downloadEventMatches(String _eventKey, final CallbackMatches _callback, final Context _context) {
         String url_tail = (EVENT_MATCHES_URL_TAIL).replace("{event_key}", _eventKey);
+
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -125,6 +126,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    //Log.e("JT Mongeon", response.body().string());
                     Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(response.body().string());
                     _callback.onSuccess(rtnMap);
                 }
