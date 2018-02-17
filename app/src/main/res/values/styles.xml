@@ -158,26 +158,19 @@
 
     <style name="J_ShortEditText">
         <item name="android:layout_width">100sp</item>
-        <!--can we get some java up in here-->
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/main_text_size</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:inputType">number</item>
         <item name="android:digits">1234567890.</item>
         <item name="android:maxLength">5</item>
-        <item name="android:hint">00.00</item>
+        <item name="android:gravity">right</item>
     </style>
 
-    <style name="J_checkBox">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:buttonTint">@color/black</item>
-        <item name="android:textSize">@dimen/main_text_size</item>
-        <item name="android:text">SWBFII</item>
-        <item name="android:textColor">#00000000</item>
+    <style name="J_checkBox" parent="J_word_checkBox">
         <item name="android:layoutDirection">rtl</item>
     </style>
-<!--parent these 2 /\  \/  -->
+
     <style name="J_word_checkBox">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -8,18 +8,6 @@
         android:background="@color/sparxRedOne"
         android:orientation="vertical"
         android:padding="5dp">
-
-
-
-
-
-        <!-- fix checkboxes - change to on/off button
-
-    -->
-
-
-
-
         <!--intro-->
         <LinearLayout
             style="@style/J_designLayout"
@@ -41,7 +29,6 @@
                     style="@style/J_ShortEditText"
                     android:maxLength="4"
                     android:digits="1234567890"
-                    android:hint=""
                 />
 
 
@@ -63,7 +50,7 @@
             <AutoCompleteTextView
                 android:id="@+id/drive_auto_complete"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="60sp"
                 android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:hint="Type of Drive System"
                 android:textSize="@dimen/main_text_size"
