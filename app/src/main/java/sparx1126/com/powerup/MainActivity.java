@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.Arrays;
 
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static GoogleDriveNetworking googleDrive;
 
     private String[] studentList;
+    ArrayAdapter<String> studentArryAdapter;
     private AutoCompleteTextView studentNameAutoTextView;
     private Button loginButton;
 
@@ -60,17 +64,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(TAG);
-            builder.setMessage("No Internet: Remember to Connect and Upload later!");
-            builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            Dialog noInternetDialog = builder.create();
-            noInternetDialog.show();
+            String msg = "No Internet: Remember to Connect and Upload later!";
+            Log.d(TAG, msg);
+            showOkayDialog(msg);
         }
 
         studentList = getResources().getStringArray(R.array.students);
@@ -79,19 +75,33 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
         studentNameAutoTextView.setAdapter(adapter);
         studentNameAutoTextView.setThreshold(1);
+        studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String studentName = studentNameAutoTextView.getText().toString();
+                boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
+                if (studentNameFound) {
+                    editor.putString(getResources().getString(R.string.pref_scouter), studentName);
+                    studentNameAutoTextView.dismissDropDown();
+                    Log.d(TAG, getResources().getString(R.string.pref_scouter));
+                }
+                else {
+                    editor.putString(getResources().getString(R.string.pref_scouter), "");
+                    Log.d(TAG, "");
+                }
+
+                editor.apply();
+            }
+        });
 
         loginButton = findViewById(R.id.logInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String studentName = studentNameAutoTextView.getText().toString();
-                for (String student : studentList) {
-                    if (student.equals(studentName)) {
-                        editor.putString(getResources().getString(R.string.pref_scouter), studentName);
-                        editor.apply();
-                        Intent intent = new Intent(MainActivity.this, Directory.class);
-                        startActivity(intent);
-                    }
+                String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
+                if (!scouterName.isEmpty()) {
+                    Intent intent = new Intent(MainActivity.this, Directory.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -111,17 +121,15 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
                     }
                     else {
-                        String erroMsg = "Sign-in failed.";
+                        String erroMsg = "Sign-in Into Goolgle failed: Trying again later!.";
                         Log.e(TAG, erroMsg);
-                        Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
-                        finish();
+                        showOkayDialog(erroMsg);
                     }
                 }
                 else {
-                    String erroMsg = "Sign-in failed result not OK.";
+                    String erroMsg = "Sign-in Into Goolgle result not OK: Trying again later!.";
                     Log.e(TAG, erroMsg);
-                    Toast.makeText(this, TAG + erroMsg, Toast.LENGTH_LONG).show();
-                    finish();
+                    showOkayDialog(erroMsg);
                 }
                 break;
         }
@@ -139,12 +147,12 @@ public class MainActivity extends AppCompatActivity {
 
     public Boolean isOnline() {
         try {
+            Toast.makeText(this, TAG + "Checking Internet conection...", Toast.LENGTH_LONG).show();
             Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
             int returnVal = p1.waitFor();
             boolean reachable = (returnVal==0);
             return reachable;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -156,5 +164,21 @@ public class MainActivity extends AppCompatActivity {
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
         }
+    }
+
+    private void showOkayDialog(String _msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(TAG);
+        builder.setMessage(_msg);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        Dialog noInternetDialog = builder.create();
+        noInternetDialog.show();
     }
 }
