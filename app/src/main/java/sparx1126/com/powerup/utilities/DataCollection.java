@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.data_components.ScoutingData;
 
 /**
@@ -13,12 +14,8 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
     private static DataCollection theDataCollection;
-
-    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
-        return scoutingDataMap;
-    }
-
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
+    private Map<String, BlueAllianceEvent > eventsWeAreInMap;
 
     public static synchronized DataCollection getInstance(){
         if(theDataCollection == null ) {
@@ -41,5 +38,17 @@ public class DataCollection {
             newList.add(data);
             scoutingDataMap.put(key, newList);
         }
+    }
+
+    public void setEventsWeAreIn(Map<String, BlueAllianceEvent> _eventData){
+        eventsWeAreInMap = _eventData;
+    }
+
+    public Map<String, BlueAllianceEvent> getEventsWeAreIn(){
+        return eventsWeAreInMap;
+    }
+
+    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
+        return scoutingDataMap;
     }
 }

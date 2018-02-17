@@ -10,63 +10,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/sparx_gradient"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/team"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/NormalTextView"
-                android:autofillHints="0"
-                android:text="Team Number:" />
-
-            <EditText
-                android:id="@+id/scouteamnuminput"
-                style="@style/ShortEditText"
-                android:hint="Team #"
-                android:inputType="number" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/color"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="293dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:text="Alliance Color"
-                android:textSize="45sp" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/blueAlliancebtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Blue"
-                    android:textSize="40sp" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/redAlliancebtn"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Red"
-                    android:textSize="40sp" />
-            </RadioGroup>
-
-        </LinearLayout>
-
         <LinearLayout
             android:id="@+id/match"
             android:layout_width="match_parent"
@@ -91,21 +34,74 @@
                 android:inputType="textPersonName"
                 android:textSize="60sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_centerHorizontal="true"
-            android:text="@string/autonomous"
-            android:textSize="90sp" />
+         <Button
+             android:layout_width="match_parent"
+             android:id="@+id/matchButton"
+             android:textSize="30sp"
+             android:text="Submit Match Number"
+             android:layout_height="wrap_content" />
 
         <LinearLayout
+            android:id="@+id/teamLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/NormalTextView"
+                android:text="Team Number:" />
+
+            <TextView
+                style="@style/NormalTextView"
+                android:id="@+id/teamnumber"
+                android:text="" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/allianceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="293dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:text="Alliance Color"
+                android:textSize="45sp" />
+            <TextView
+                android:id="@+id/allianceColor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:textSize="45sp" />
+
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/autoLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/auto"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout2"
+                android:layout_centerHorizontal="true"
+                android:text="@string/autonomous"
+                android:textSize="90sp" />
 
             <CheckBox
                 android:id="@+id/autolinecheck"
@@ -116,14 +112,14 @@
 
             <CheckBox
                 android:layout_width="match_parent"
-                android:id="@+id/scoreswitchcheck"
+                android:id="@+id/autoScoredSwitch"
                 android:layout_height="80dp"
                 android:text="Scored Switch"
                 android:textSize="50sp" />
 
             <CheckBox
                 android:layout_width="match_parent"
-                android:id="@+id/scorescalecheck"
+                android:id="@+id/autoScoredScale"
                 android:layout_height="80dp"
                 android:text="Scored Scale"
                 android:textSize="50sp" />
@@ -189,9 +185,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/teleLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tele"
             android:orientation="vertical">
 
             <TextView
@@ -303,6 +299,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/climbLayout"
             android:layout_height="match_parent"
             android:orientation="vertical">
 

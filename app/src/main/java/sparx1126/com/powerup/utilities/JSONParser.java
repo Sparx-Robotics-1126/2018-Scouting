@@ -9,8 +9,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import sparx1126.com.powerup.blue_alliance.BlueAllianceEvent;
-import sparx1126.com.powerup.blue_alliance.BlueAllianceTeam;
+import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class JSONParser {
     private static JSONParser instance;
@@ -70,6 +71,24 @@ public class JSONParser {
                 rtnMap.put(item.getKey(), item);
             }
             Log.d("eventTeamsStringIntoMap", rtnMap.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return rtnMap;
+    }
+    public Map<String, BlueAllianceMatch> eventMatchesStringIntoMap(String _contentInJSONForm) {
+        Map<String, BlueAllianceMatch> rtnMap = new HashMap<>();
+
+        try {
+            //Log.d("eventTeamsStringIntoMap", _contentInJSONForm);
+            JSONArray array = new JSONArray(_contentInJSONForm);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                BlueAllianceMatch item = new BlueAllianceMatch(obj);
+                rtnMap.put(item.getKey(), item);
+            }
+            Log.d("eventMatchesStringInM", rtnMap.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

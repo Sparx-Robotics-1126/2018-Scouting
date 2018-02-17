@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sparx_gradient"
+    android:background="@drawable/#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@color/sparxRedDark"
+        android:background="@color/sparxRedMedium"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/teamnumberlabel"
@@ -27,12 +27,12 @@
             android:layout_weight="1"
             android:inputType="number"/>
     </LinearLayout>
+
     <ExpandableListView
         android:id="@+id/expandableListView"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:layout_height="match_parent"
         android:divider="@color/black"
-        android:dividerHeight="0.5dp" />
-
+        android:dividerHeight="0.5dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 </LinearLayout>
