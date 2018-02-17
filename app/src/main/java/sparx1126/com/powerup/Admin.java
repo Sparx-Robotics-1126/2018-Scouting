@@ -3,6 +3,7 @@ package sparx1126.com.powerup;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,20 +13,27 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-
+import android.content.SharedPreferences;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
+import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.Logger;
 
 
 public class Admin extends AppCompatActivity {
     private static final String TAG = "Admin";
     private SharedPreferences settings;
+    private BlueAllianceNetworking blueAlliance;
     private Spinner eventSpinner;
+    private static Logger logger;
     private ArrayAdapter<String> eventAdapter;
     private List<String> eventsWeAreInList;
     private List<String> eventSpinnerList;
@@ -39,14 +47,21 @@ public class Admin extends AppCompatActivity {
     private boolean teamNumberSelected = false;
     private Button stuffSelectedButton;
     private static DataCollection dataCollection;
+    private boolean blueSelected;
+    private int teamNumberIndex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin);
+        logger = Logger.getInstance();
+        dataCollection = DataCollection.getInstance();
+        blueAlliance = BlueAllianceNetworking.getInstance();
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
-        dataCollection = DataCollection.getInstance();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.apply();
 
 
         eventSpinner = (Spinner) findViewById(R.id.eventSpinner);
@@ -57,7 +72,7 @@ public class Admin extends AppCompatActivity {
             eventSpinnerList.add(eventName);
         }
 
-        eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventSpinnerList);
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventSpinnerList);
         eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eventSpinner.setAdapter(eventAdapter);
 
@@ -110,21 +125,26 @@ public class Admin extends AppCompatActivity {
             public void onClick(View v) {
                 boolean blueSelected = blueSelectedToggle.isChecked();
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean(getString(R.string.red_alliance), !blueSelected);
+                String selectedTeam = "red" + teamNumberIndex;
+                if(blueSelected) {
+                    selectedTeam = "blue" + teamNumberIndex;
+                }
+                editor.putString("selectedTeam", selectedTeam);
+                editor.putString("selectedEvent", getEventName());
                 editor.apply();
-
+                Admin.this.downloadTeams();
 
                 finish();
             }
         });
         showButtons();
-        //restorePreferences();
+        restorePreferences();
     }
 
     private final View.OnClickListener teamNumberSelectionFunction = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int teamNumberIndex = Integer.MAX_VALUE;
+            teamNumberIndex = Integer.MAX_VALUE;
             if (teamNumberOneSelectedButton.isChecked()) {
                 teamNumberIndex = 0;
             } else if (teamNumber2SelectedButton.isChecked()) {
@@ -147,6 +167,20 @@ public class Admin extends AppCompatActivity {
         }
     };
 
+    private void downloadTeams() {
+        String eventKey = getEventName();
+        blueAlliance.downloadEventTeams(eventKey, new BlueAllianceNetworking.CallbackTeams() {
+            @Override
+            public void onFailure(String _msg) {
+                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
+            }
+            @Override
+            public void onSuccess(Map<String, BlueAllianceTeam> _result) {
+                logger.Log(TAG, "Got Teams!", Logger.MSG_TYPE.NORMAL, null);
+                dataCollection.setTeamsInEvent(_result);
+            }
+        },this);
+    }
 
     private String getEventName() {
         String eventName = "";
@@ -157,24 +191,62 @@ public class Admin extends AppCompatActivity {
     }
 
     private void restorePreferences() {
-        String eventName = settings.getString(getResources().getString(R.string.pref_event), "");
-        if (!eventName.isEmpty() && (eventAdapter != null)) {
+        String spinnerEvent = settings.getString("selectedEvent", "DNE");
 
-            //fillInEvents(dbHelper.createEventsWeAreInNameCursor(), eventsWeAreInList);
-           // fillInEvents(dbHelper.createAllEventsCursor(), eventsNearTodayList);
+//        // Initializing a String Array
+//       final String[] EVENTCHOICES = new String[]{
+//                "Select Event",
+//                "2018ohcl",
+//                "2018nyro",
+//        };
+//
+//        if(spinnerEvent.toLowerCase().equals("2018ohcl")) {
+//            eventSpinner.setSelection(1);
+//        }
+//        if(spinnerEvent.toLowerCase().equals("2018nyro")) {
+//            eventSpinner.setSelection(2);
+//        } else {
+//            eventSpinner.setSelection(0);
+//        }
+        ArrayList<String> newEventSpinnerList = new ArrayList<>();
 
-            // MIKE get list
-            setupEventSpinner(eventsWeAreInList);
-            eventSpinner.setSelection(eventAdapter.getPosition(eventName));
+        for(String event: eventSpinnerList) {
+            if(event.equals(spinnerEvent)) {
+                newEventSpinnerList.add(0, event);
+            } else {
+                newEventSpinnerList.add(event);
+            }
         }
 
-        int teamIndex = settings.getInt(getResources().getString(R.string.team_selected), Integer.MAX_VALUE);
-        if (teamIndex == 0) {
-            teamNumberOneSelectedButton.setChecked(true);
-        } else if (teamIndex == 1) {
-            teamNumber2SelectedButton.setChecked(true);
-        } else if (teamIndex == 2) {
-            teamNumber3SelectedButton.setChecked(true);
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, newEventSpinnerList);
+        eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        eventSpinner.setAdapter(eventAdapter);
+
+
+        if(!spinnerEvent.equals("DNE")) {
+            eventSelected = true;
+            String eventName = settings.getString(getResources().getString(R.string.pref_event), "");
+            if (!eventName.isEmpty() && (eventAdapter != null)) {
+                setupEventSpinner(eventsWeAreInList);
+                eventSpinner.setSelection(eventAdapter.getPosition(eventName));
+            }
+            showButtons();
+            String teamStringIndex = settings.getString("selectedTeam", "could not get selected team");
+            if (teamStringIndex.charAt(0) == 'b') {
+                blueSelectedToggle.setChecked(true);
+            } else {
+                blueSelectedToggle.setChecked(false);
+            }
+
+            int teamIndex = Integer.parseInt(teamStringIndex.substring(teamStringIndex.length() - 1));
+
+            if (teamIndex == 0) {
+                teamNumberOneSelectedButton.setChecked(true);
+            } else if (teamIndex == 1) {
+                teamNumber2SelectedButton.setChecked(true);
+            } else if (teamIndex == 2) {
+                teamNumber3SelectedButton.setChecked(true);
+            }
         }
     }
 
@@ -185,7 +257,7 @@ public class Admin extends AppCompatActivity {
             eventSpinnerList.add(eventName);
         }
 
-        eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventSpinnerList);
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventSpinnerList);
         eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eventSpinner.setAdapter(eventAdapter);
     }

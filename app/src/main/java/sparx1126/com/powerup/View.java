@@ -127,7 +127,7 @@ public class View extends AppCompatActivity {
         ScoutingData tempdata16 = new ScoutingData();
         tempdata16.setAutoPickedUpCube(true);
         tempdata16.setTeamnumber(1126);
-        dataCollection.addScoutingData(tempdata16)
+        dataCollection.addScoutingData(tempdata16);
         ScoutingData tempdata17 = new ScoutingData();
         tempdata17.setAutoCubeExchange(true);
         tempdata17.setTeamnumber(1126);
