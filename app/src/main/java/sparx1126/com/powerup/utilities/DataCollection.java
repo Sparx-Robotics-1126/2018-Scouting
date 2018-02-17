@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sparx1126.com.powerup.Admin;
 import sparx1126.com.powerup.R;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
@@ -22,6 +23,7 @@ public class DataCollection {
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
     private SharedPreferences settings;
+    public Admin downloader = new Admin();
 
 
     public static synchronized DataCollection getInstance(){
@@ -65,6 +67,7 @@ public class DataCollection {
     }
 
     public Map<String, BlueAllianceTeam> getTeamsInEventMap(){
+        downloader.downloadTeams();
         return teamsInEventMap;
     }
 }

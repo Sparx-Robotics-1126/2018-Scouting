@@ -238,7 +238,7 @@ public class Admin extends AppCompatActivity {
         }
     };
 
-    private void downloadTeams() {
+    public void downloadTeams() {
         String eventKey = getEventName();
         blueAlliance.downloadEventTeams(eventKey, new BlueAllianceNetworking.CallbackTeams() {
             @Override
