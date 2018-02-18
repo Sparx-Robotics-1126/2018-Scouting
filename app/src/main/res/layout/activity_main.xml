@@ -27,7 +27,7 @@
         android:layout_below="@+id/studentNameAutoText"
         android:layout_marginEnd="23dp"
         android:layout_marginTop="242dp"
-        android:text="Benchmarking -->"
+        android:text="Benchmarking -->>"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold" />

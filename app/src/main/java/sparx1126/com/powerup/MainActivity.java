@@ -89,13 +89,17 @@ public class MainActivity extends AppCompatActivity {
                         } else if(y2 > y1 && isVertSwipe) {
                             //down swipe
                             if(isStudentName()) {
-
+                                Intent intent = new Intent(MainActivity.this, CheckList.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_down);
                             }
                             Toast.makeText(MainActivity.this, "Swipe Down", Toast.LENGTH_SHORT).show();
                         } else if(y2 < y1 && isVertSwipe) {
                             //up swipe
                             if(isStudentName()) {
-
+                                Intent intent = new Intent(MainActivity.this, View.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down);
                             }
                             Toast.makeText(MainActivity.this, "Swipe Up", Toast.LENGTH_SHORT).show();
                         }
