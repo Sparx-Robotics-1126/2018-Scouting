@@ -61,51 +61,70 @@ public class BlueAllianceNetworking {
 
     // made this private because why do we care of other team events???
     private void downloadTeamEvents(String _key, final Context _context, final Callback _callback) {
-        String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
-        downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                throw new AssertionError(e.getMessage() + this);
-            }
+        String localData = fileIO.fetchTeamEvents();
+        if(localData.isEmpty()) {
+            String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
+            downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    throw new AssertionError(e.getMessage() + this);
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String data = response.body().string();
-                    Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(data);
-                    dataCollection.setEventsWeAreIn(rtnMap);
-                    fileIO.storeTeamEvents(data);
-                    _callback.handleFinishDownload();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        // the response needs to be copied into a String variable
+                        String data = response.body().string();
+                        Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(data);
+                        dataCollection.setEventsWeAreIn(rtnMap);
+                        fileIO.storeTeamEvents(data);
+                        _callback.handleFinishDownload();
+                    } else {
+                        throw new AssertionError(response.message() + this);
+                    }
                 }
-                else {
-                    throw new AssertionError(response.message() + this);
-                }
-            }
-        });
+            });
+        }
+        else {
+            Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(localData);
+            dataCollection.setEventsWeAreIn(rtnMap);
+            Log.e("Hiram", rtnMap.toString());
+            _callback.handleFinishDownload();
+        }
     }
 
     public void downloadEventTeams(String _key, final Context _context, final Callback _callback) {
-        String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
-        downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                throw new AssertionError(e.getMessage() + this);
-            }
+        String localData = fileIO.fetchEventTeams();
+        if(localData.isEmpty()) {
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String data = response.body().string();
-                    Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(data);
-                    fileIO.storeEventTeams(data);
-                    dataCollection.setTeamsInEvent(rtnMap);
-                    _callback.handleFinishDownload();
+            String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
+            downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    throw new AssertionError(e.getMessage() + this);
                 }
-                else {
-                    throw new AssertionError(response.message() + this);
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        // the response needs to be copied into a String variable
+                        String data = response.body().string();
+                        Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(data);
+                        fileIO.storeEventTeams(data);
+                        dataCollection.setTeamsInEvent(rtnMap);
+                        _callback.handleFinishDownload();
+                    } else {
+                        throw new AssertionError(response.message() + this);
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(localData);
+            dataCollection.setTeamsInEvent(rtnMap);
+            Log.e("Hiram", rtnMap.toString());
+            _callback.handleFinishDownload();
+        }
     }
 
     public void downloadEventMatches(String _eventKey, final Context _context, final Callback _callback) {
@@ -119,6 +138,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    // the response needs to be copied into a String variable
                     String data = response.body().string();
                     Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(data);
                     fileIO.storeEventMatches(data);

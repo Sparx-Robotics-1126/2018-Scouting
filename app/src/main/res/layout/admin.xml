@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Spinner
         android:id="@+id/eventSpinner"
@@ -11,42 +12,52 @@
         android:layout_marginRight="15dp"
         android:background="@android:drawable/btn_dropdown" />
 
-    <ToggleButton
-        android:id="@+id/blueSelectedToggle"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/my_btn_toggle"
-        android:text="Toggle Button"
-        android:textOff="Red Alliance"
-        android:textOn="Blue Alliance"
-        android:textColor="@color/colorWhite"/>
-
-    <RadioGroup android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <RadioButton android:id="@+id/team1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Team 1" />
-
-        <RadioButton android:id="@+id/team2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Team 2" />
-
-        <RadioButton android:id="@+id/team3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Team 3" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/selectStuff"
+    <LinearLayout
+        android:id="@+id/adminSelectionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Position" />
+        android:orientation="vertical">
 
+        <ToggleButton
+            android:id="@+id/blueSelectedToggle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/my_btn_toggle"
+            android:text="Toggle Button"
+            android:textColor="@color/colorWhite"
+            android:textOff="Red Alliance"
+            android:textOn="Blue Alliance" />
 
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/team1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Team 1" />
+
+            <RadioButton
+                android:id="@+id/team2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Team 2" />
+
+            <RadioButton
+                android:id="@+id/team3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Team 3" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/selectStuff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Position" />
+
+    </LinearLayout>
 
 </LinearLayout>

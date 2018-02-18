@@ -13,6 +13,7 @@
     <string name="pref_BlueAlliance">pref_BlueAlliance</string>
     <string name="pref_TeamPosition">pref_TeamPosition</string>
     <string name="selectEvent">Select Event</string>
+    <string name="tablet_Configured">tablet_Configured</string>
     <string-array name="students">
         <item>Michael Anderson</item>
         <item>Tyler Armstrong</item>
@@ -40,7 +41,6 @@
         <item>Ryan McVeigh</item>
         <item>Alex Monroe</item>
         <item>Ronan Moody</item>
-        <item>Allison Morgan</item>
         <item>Tyler Mosher</item>
         <item>Ethen Nguyen</item>
         <item>Logan Ogden</item>
@@ -56,6 +56,16 @@
         <item>Emory Towne</item>
         <item>Liana Tutt</item>
         <item>Alessandria Vigneri</item>
+        <item>Felix Huang</item>
+        <item>Jaren Cascino</item>
+    </string-array>
+    <string-array name="admins">
+        <item>Jack Griebel</item>
+        <item>Jaret Mongeon</item>
+        <item>Michael Geraci</item>
+        <item>Alex Monroe</item>
+        <item>Felix Huang</item>
+        <item>Jaren Cascino</item>
     </string-array>
 </resources>
 

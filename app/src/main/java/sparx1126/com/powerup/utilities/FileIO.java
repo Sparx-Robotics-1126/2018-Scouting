@@ -58,7 +58,7 @@ public class FileIO {
     }
 
     public void storeTeamEvents(String _input) {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+        assert !intialized;
 
         try {
             FileWriter  outputStream = new FileWriter(TEAM_EVENTS_FILE_PATH);
@@ -70,8 +70,8 @@ public class FileIO {
         }
     }
 
-    public Map<String, BlueAllianceEvent> fetchTeamEvents() {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+    public String fetchTeamEvents() {
+        assert !intialized;
 
         File fileHandle = new File(TEAM_EVENTS_FILE_PATH);
         String fileContentInJSONForm = "";
@@ -82,12 +82,11 @@ public class FileIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
-        return rtnMap;
+        return fileContentInJSONForm;
     }
 
     public void storeEventMatches(String _input) {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+        assert !intialized;
 
         try {
             FileWriter  outputStream = new FileWriter(EVENT_MATCHES_FILE_PATH);
@@ -100,7 +99,7 @@ public class FileIO {
     }
 
     public Map<String, BlueAllianceEvent> fetchEventMatches() {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+        assert !intialized;
 
         File fileHandle = new File(EVENT_MATCHES_FILE_PATH);
         String fileContentInJSONForm = "";
@@ -116,7 +115,7 @@ public class FileIO {
     }
 
     public void storeEventTeams(String _input) {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+        assert !intialized;
 
         try {
             FileWriter  outputStream = new FileWriter(EVENT_TEAMS_FILE_NAME);
@@ -128,8 +127,8 @@ public class FileIO {
         }
     }
 
-    public Map<String, BlueAllianceTeam> fetchEventTeams() {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+    public String fetchEventTeams() {
+        assert !intialized;
 
         File fileHandle = new File(EVENT_TEAMS_FILE_NAME);
         String fileContentInJSONForm = "";
@@ -140,12 +139,11 @@ public class FileIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(fileContentInJSONForm);
-        return rtnMap;
+        return fileContentInJSONForm;
     }
 
     public Map<String, BlueAllianceEvent> fetchScouting() {
-        if(!intialized) throw new AssertionError("Not Initialized!" + this);
+        assert !intialized;
 
         File fileHandle = new File(TEAM_EVENTS_FILE_PATH);
         String fileContentInJSONForm = "";

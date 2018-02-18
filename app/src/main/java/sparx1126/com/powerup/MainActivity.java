@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,19 +22,18 @@ import java.util.Arrays;
 
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
+import sparx1126.com.powerup.utilities.NetworkStatus;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity ";
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
     private SharedPreferences settings;
-    SharedPreferences.Editor editor;
-    private static FileIO fileIO;
+    private SharedPreferences.Editor editor;
     private static GoogleDriveNetworking googleDrive;
+    private static NetworkStatus networkStatus;
 
     private String[] studentList;
-    ArrayAdapter<String> studentArryAdapter;
     private AutoCompleteTextView studentNameAutoTextView;
-    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +43,13 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         editor = settings.edit();
 
-        fileIO = FileIO.getInstance();
+        FileIO fileIO = FileIO.getInstance();
         // This is done only once here in MainActivity
         fileIO.InitializeStorage(this);
         googleDrive = GoogleDriveNetworking.getInstance();
+        networkStatus = NetworkStatus.getInstance();
+        // This is done only once here in MainActivity
+        networkStatus.SetConnectivityManager((ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE));
 
         studentList = getResources().getStringArray(R.array.students);
 
@@ -63,9 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
                 if (studentNameFound) {
                     editor.putString(getResources().getString(R.string.pref_scouter), studentName);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
                     Log.d(TAG, getResources().getString(R.string.pref_scouter));
+                    dismissKeyboard();
                 }
                 else {
                     editor.putString(getResources().getString(R.string.pref_scouter), "");
@@ -76,26 +76,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loginButton = findViewById(R.id.logInButton);
+        Button loginButton = findViewById(R.id.logInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
                 if (!scouterName.isEmpty()) {
-                    Intent intent = new Intent(MainActivity.this, Directory.class);
-                    startActivity(intent);
+                    boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
+                    if(isTableConfigured) {
+                        Intent intent = new Intent(MainActivity.this, Directory.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        String[] adminList = getResources().getStringArray(R.array.admins);
+                        boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
+
+                        if(adminNameFound) {
+                            Intent intent = new Intent(MainActivity.this, Admin.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                            builder.setTitle(TAG);
+                            builder.setMessage("Have an Admin Setup Tablet");
+                            builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    finish();
+                                }
+                            });
+
+                            Dialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
                 }
             }
         });
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         tryConnectToGoogleDrive();
         restorePreferences();
     }
 
     private void tryConnectToGoogleDrive() {
-        if(isInternetConnected() && isOnline()) {
+        if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
             // This is done only once here in MainActivity
             Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
             // if failed auto sign then googleDrive will return an intent to try to
@@ -121,31 +146,8 @@ public class MainActivity extends AppCompatActivity {
         if (!scouterName.isEmpty()) {
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
+            dismissKeyboard();
         }
-    }
-
-    private boolean isInternetConnected() {
-        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean connected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        return connected;
-    }
-
-    public Boolean isOnline() {
-        boolean reachable = false;
-
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            int returnVal = p1.waitFor();
-            reachable = (returnVal==0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return reachable;
     }
 
     @Override
@@ -160,15 +162,15 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
                     }
                     else {
-                        String erroMsg = "Sign-in Into Goolgle failed: Trying again later!.";
-                        Log.e(TAG, erroMsg);
-                        showOkayDialog(erroMsg);
+                        String errorMsg = "Sign-in Into Google failed: Trying again later!.";
+                        Log.e(TAG, errorMsg);
+                        showOkayDialog(errorMsg);
                     }
                 }
                 else {
-                    String erroMsg = "Sign-in Into Goolgle result not OK: Trying again later!.";
-                    Log.e(TAG, erroMsg);
-                    showOkayDialog(erroMsg);
+                    String errorMsg = "Sign-in Into Google result not OK: Trying again later!.";
+                    Log.e(TAG, errorMsg);
+                    showOkayDialog(errorMsg);
                 }
                 break;
         }
@@ -188,5 +190,15 @@ public class MainActivity extends AppCompatActivity {
 
         Dialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void dismissKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 }

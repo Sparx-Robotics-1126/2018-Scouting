@@ -19,6 +19,7 @@ public class PlusMinusEditTextLinearLayout extends LinearLayout implements View.
         super(_context, _attrs);
 
         LayoutInflater layoutInflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert layoutInflater != null;
         View view = layoutInflater.inflate(R.layout.plus_minus_edittext_linearlayout, this);
 
         if(view != null) {
@@ -41,6 +42,5 @@ public class PlusMinusEditTextLinearLayout extends LinearLayout implements View.
         }
     }
 
-    public void setValue(int _value){editText.setText(Integer.toString(_value));}
     public int getValue(){return Integer.parseInt(editText.getText().toString());}
 }

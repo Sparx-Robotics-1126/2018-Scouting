@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -21,28 +22,23 @@ import java.util.Map;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
-import sparx1126.com.powerup.utilities.FileIO;
-import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
-
 
 public class Admin extends AppCompatActivity {
     private static final String TAG = "Admin ";
     private SharedPreferences settings;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
     private BlueAllianceNetworking blueAlliance;
     private static DataCollection dataCollection;
-    private static FileIO fileIO;
-    private static GoogleDriveNetworking googleDrive;
 
     private Dialog eventsWeAreInDialog;
     private Dialog matchesDialog;
     private Dialog teamsDialog;
     private Spinner eventSpinner;
+    private LinearLayout adminSelectionLayout;
     private ToggleButton blueSelectedToggle;
     private RadioButton teamNumber1SelectedButton;
     private RadioButton teamNumber2SelectedButton;
     private RadioButton teamNumber3SelectedButton;
-    private Button stuffSelectedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +63,7 @@ public class Admin extends AppCompatActivity {
 
         eventSpinner = findViewById(R.id.eventSpinner);
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selectedItem = eventSpinner.getSelectedItem().toString();
@@ -77,6 +74,7 @@ public class Admin extends AppCompatActivity {
                     blueAlliance.downloadEventMatches(selectedItem, Admin.this, new BlueAllianceNetworking.Callback() {
                         @Override
                         public void handleFinishDownload() {
+                            // this needs to run on the ui thread because of ui components in it
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -87,10 +85,12 @@ public class Admin extends AppCompatActivity {
 
                                         @Override
                                         public void handleFinishDownload() {
+                                            // this needs to run on the ui thread because of ui components in it
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     teamsDialog.dismiss();
+                                                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
                                                     showButtons();
                                                 }
                                             });
@@ -109,12 +109,14 @@ public class Admin extends AppCompatActivity {
 
         });
 
-        blueSelectedToggle = (ToggleButton) findViewById(R.id.blueSelectedToggle);
-        teamNumber1SelectedButton = (RadioButton) findViewById(R.id.team1);
-        teamNumber2SelectedButton = (RadioButton) findViewById(R.id.team2);
-        teamNumber3SelectedButton = (RadioButton) findViewById(R.id.team3);
+        adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
 
-        stuffSelectedButton = (Button) findViewById(R.id.selectStuff);
+        blueSelectedToggle = findViewById(R.id.blueSelectedToggle);
+        teamNumber1SelectedButton = findViewById(R.id.team1);
+        teamNumber2SelectedButton = findViewById(R.id.team2);
+        teamNumber3SelectedButton = findViewById(R.id.team3);
+
+        Button stuffSelectedButton = findViewById(R.id.selectStuff);
         stuffSelectedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +131,7 @@ public class Admin extends AppCompatActivity {
                     else {
                         editor.putInt(getResources().getString(R.string.pref_TeamPosition), 3);
                     }
+                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), true);
                     editor.apply();
                     finish();
                 }
@@ -144,6 +147,7 @@ public class Admin extends AppCompatActivity {
         blueAlliance.downloadEventsSparxsIsIn(this, new BlueAllianceNetworking.Callback() {
             @Override
             public void handleFinishDownload() {
+                // this needs to run on the ui thread because of ui components in it
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -159,9 +163,7 @@ public class Admin extends AppCompatActivity {
                             }
                         } else {
                             eventSpinnerList.add(getResources().getString(R.string.selectEvent));
-                            for (String eventName : data.keySet()) {
-                                eventSpinnerList.add(eventName);
-                            }
+                            eventSpinnerList.addAll(data.keySet());
                         }
                         SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
                         eventSpinner.setAdapter(eventAdapter);
@@ -194,17 +196,9 @@ public class Admin extends AppCompatActivity {
         String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
 
         if (!pref_SelectedEvent.isEmpty()) {
-            stuffSelectedButton.setVisibility(View.VISIBLE);
-            blueSelectedToggle.setVisibility(View.VISIBLE);
-            teamNumber1SelectedButton.setVisibility(View.VISIBLE);
-            teamNumber2SelectedButton.setVisibility(View.VISIBLE);
-            teamNumber3SelectedButton.setVisibility(View.VISIBLE);
+            adminSelectionLayout.setVisibility(View.VISIBLE);
         } else {
-            stuffSelectedButton.setVisibility(View.INVISIBLE);
-            blueSelectedToggle.setVisibility(View.INVISIBLE);
-            teamNumber1SelectedButton.setVisibility(View.INVISIBLE);
-            teamNumber2SelectedButton.setVisibility(View.INVISIBLE);
-            teamNumber3SelectedButton.setVisibility(View.INVISIBLE);
+            adminSelectionLayout.setVisibility(View.INVISIBLE);
         }
     }
 }
