@@ -13,7 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveClient;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveFolder;
@@ -81,7 +80,6 @@ public class GoogleDriveNetworking {
     }
 
     private void initializeDriveClient(GoogleSignInAccount signInAccount, Context _context) {
-        DriveClient googleDriveClient = Drive.getDriveClient(_context, signInAccount);
         googleDriveResourceClient = Drive.getDriveResourceClient(_context, signInAccount);
     }
 

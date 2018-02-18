@@ -7,13 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
-import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class JSONParser {
     private static JSONParser instance;

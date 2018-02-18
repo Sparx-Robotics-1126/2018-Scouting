@@ -26,10 +26,8 @@ public class NetworkStatus {
         if(cm == null) throw new AssertionError("No Connectivity Manager!" + this);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean connected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
 
-        return connected;
+        return ((activeNetwork != null) && activeNetwork.isConnectedOrConnecting());
     }
 
     public Boolean isOnline() {

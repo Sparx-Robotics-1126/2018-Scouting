@@ -1,6 +1,7 @@
 package sparx1126.com.powerup.utilities;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
@@ -16,12 +17,12 @@ import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class BlueAllianceNetworking {
     public interface Callback {
-        abstract void handleFinishDownload();
+        void handleFinishDownload();
     }
 
     private static final String TAG = "BlueAllianceNetworking ";
     private static final String BLUE_ALLIANCE_BASE_URL ="http://www.thebluealliance.com/api/v3/";
-    // header for authetication
+    // header for authentication
     private static final String BLUE_ALLIANCE_AUTH_HEADER = "X-TBA-Auth-Key";
     // Key generated in thebluealliance.com for access
     // This key is Hiram's key (expires in 30 days)
@@ -32,11 +33,11 @@ public class BlueAllianceNetworking {
     private static String EVENT_TEAMS_URL_TAIL = "event/{event_key}/teams";
     // intention is for {team_key} to be substituted
     private static String TEAM_EVENTS_URL_TAIL = "team/{team_key}/events/" + YEAR;
-     private static String EVENT_MATCHES_URL_TAIL = "event/{event_key}/matches/simple";
+    private static String EVENT_MATCHES_URL_TAIL = "event/{event_key}/matches/simple";
 
-    private OkHttpClient regularHttpClient;
+    private final OkHttpClient regularHttpClient;
     private static BlueAllianceNetworking instance;
-    private JSONParser jsonParser;
+    private static JSONParser jsonParser;
     private static FileIO fileIO;
     private static DataCollection dataCollection;
 
@@ -56,22 +57,21 @@ public class BlueAllianceNetworking {
     }
 
     public void downloadEventsSparxsIsIn(Context _context, Callback _callback) {
-        downloadTeamEvents(SPARX_TEAM_KEY, _context, _callback);
+        downloadTeamEvents(SPARX_TEAM_KEY, _callback);
     }
 
-    // made this private because why do we care of other team events???
-    private void downloadTeamEvents(String _key, final Context _context, final Callback _callback) {
+    public void downloadTeamEvents(String _key, final Callback _callback) {
         String localData = fileIO.fetchTeamEvents();
         if(localData.isEmpty()) {
             String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
             downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     throw new AssertionError(e.getMessage() + this);
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     if (response.isSuccessful()) {
                         // the response needs to be copied into a String variable
                         String data = response.body().string();
@@ -93,21 +93,20 @@ public class BlueAllianceNetworking {
         }
     }
 
-    public void downloadEventTeams(String _key, final Context _context, final Callback _callback) {
+    public void downloadEventTeams(String _key, final Callback _callback) {
         String localData = fileIO.fetchEventTeams();
         if(localData.isEmpty()) {
 
             String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
             downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     throw new AssertionError(e.getMessage() + this);
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     if (response.isSuccessful()) {
-                        // the response needs to be copied into a String variable
                         String data = response.body().string();
                         Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(data);
                         fileIO.storeEventTeams(data);
@@ -127,18 +126,17 @@ public class BlueAllianceNetworking {
         }
     }
 
-    public void downloadEventMatches(String _eventKey, final Context _context, final Callback _callback) {
+    public void downloadEventMatches(String _eventKey, final Callback _callback) {
         String url_tail = (EVENT_MATCHES_URL_TAIL).replace("{event_key}", _eventKey);
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 throw new AssertionError(e.getMessage() + this);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    // the response needs to be copied into a String variable
                     String data = response.body().string();
                     Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(data);
                     fileIO.storeEventMatches(data);

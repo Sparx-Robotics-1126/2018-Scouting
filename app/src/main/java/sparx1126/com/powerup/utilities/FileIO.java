@@ -6,14 +6,10 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
-import sparx1126.com.powerup.data_components.BlueAllianceMatch;
-import sparx1126.com.powerup.data_components.BlueAllianceTeam;
-import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class FileIO {
     private static final String TAG = "FileIO ";
@@ -22,12 +18,12 @@ public class FileIO {
     private static final String EVENT_MATCHES_FILE_NAME ="eventMatches.json";
     private static final String EVENT_TEAMS_FILE_NAME ="eventTeams.json";
     private static final String SCOUTING_FILE_NAME ="scoutingData.json";
-    private static final String BENCHMArK_FILE_NAME ="benchmarkData.json";
+    private static final String BENCHMARK_FILE_NAME ="benchmarkData.json";
     private static String TEAM_EVENTS_FILE_PATH;
     private static String EVENT_MATCHES_FILE_PATH;
     private static FileIO instance;
-    private JSONParser jsonParser;
-    private boolean intialized;
+    private static JSONParser jsonParser;
+    private boolean initialized;
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -46,7 +42,7 @@ public class FileIO {
     public void InitializeStorage(Context _context) {
         File dir = new File(_context.getCacheDir(), FOLDER_NAME);
         if(!dir.exists()) {
-            dir.mkdir();
+            if(!dir.mkdir()) throw new AssertionError("Could not make directory!" + this);
         }
 
         Log.d(TAG, "Storage Path:" + dir.getPath());
@@ -54,11 +50,11 @@ public class FileIO {
 
         TEAM_EVENTS_FILE_PATH = dir.getPath() + "/" + TEAM_EVENTS_FILE_NAME;
         EVENT_MATCHES_FILE_PATH = dir.getPath() + "/" + EVENT_MATCHES_FILE_NAME;
-        intialized = true;
+        initialized = true;
     }
 
     public void storeTeamEvents(String _input) {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         try {
             FileWriter  outputStream = new FileWriter(TEAM_EVENTS_FILE_PATH);
@@ -71,7 +67,7 @@ public class FileIO {
     }
 
     public String fetchTeamEvents() {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         File fileHandle = new File(TEAM_EVENTS_FILE_PATH);
         String fileContentInJSONForm = "";
@@ -86,20 +82,20 @@ public class FileIO {
     }
 
     public void storeEventMatches(String _input) {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         try {
             FileWriter  outputStream = new FileWriter(EVENT_MATCHES_FILE_PATH);
             outputStream.write(_input);
             outputStream.close();
-            Log.d(TAG, "Stored Evemt Matches");
+            Log.d(TAG, "Stored Event Matches");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Map<String, BlueAllianceEvent> fetchEventMatches() {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         File fileHandle = new File(EVENT_MATCHES_FILE_PATH);
         String fileContentInJSONForm = "";
@@ -110,12 +106,11 @@ public class FileIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
-        return rtnMap;
+        return jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
     }
 
     public void storeEventTeams(String _input) {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         try {
             FileWriter  outputStream = new FileWriter(EVENT_TEAMS_FILE_NAME);
@@ -128,7 +123,7 @@ public class FileIO {
     }
 
     public String fetchEventTeams() {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         File fileHandle = new File(EVENT_TEAMS_FILE_NAME);
         String fileContentInJSONForm = "";
@@ -143,7 +138,7 @@ public class FileIO {
     }
 
     public Map<String, BlueAllianceEvent> fetchScouting() {
-        assert !intialized;
+        if (!initialized) throw new AssertionError("Not Initialize" + this);
 
         File fileHandle = new File(TEAM_EVENTS_FILE_PATH);
         String fileContentInJSONForm = "";
@@ -154,7 +149,6 @@ public class FileIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
-        return rtnMap;
+        return jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
     }
 }

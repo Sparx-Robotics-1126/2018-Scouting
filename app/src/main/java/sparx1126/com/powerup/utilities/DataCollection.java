@@ -11,14 +11,10 @@ import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.data_components.ScoutingData;
 
-/**
- * Created by Papa on 2/5/18.
- */
-
 public class DataCollection {
     private static DataCollection theDataCollection;
-    private Map<Integer, List<ScoutingData>> scoutingDataMap;
-    private Map<Integer, BenchmarkData> benchmarkDataMap;
+    private final Map<Integer, List<ScoutingData>> scoutingDataMap;
+    private final Map<Integer, BenchmarkData> benchmarkDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
     private Map<String, BlueAllianceMatch> matchesInEventMap;
@@ -32,8 +28,8 @@ public class DataCollection {
     }
 
     private DataCollection(){
-        scoutingDataMap = new HashMap<Integer, List<ScoutingData>>();
-        benchmarkDataMap = new HashMap<Integer, BenchmarkData>();
+        scoutingDataMap = new HashMap<>();
+        benchmarkDataMap = new HashMap<>();
         fileIO = FileIO.getInstance();
     }
 
@@ -43,7 +39,7 @@ public class DataCollection {
             scoutingDataMap.get(key).add(_data);
         }
         else {
-            List<ScoutingData> newList = new ArrayList<ScoutingData>();
+            List<ScoutingData> newList = new ArrayList<>();
             newList.add(_data);
             scoutingDataMap.put(key, newList);
         }

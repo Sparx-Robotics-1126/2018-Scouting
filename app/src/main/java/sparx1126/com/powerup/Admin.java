@@ -71,7 +71,7 @@ public class Admin extends AppCompatActivity {
                     editor.putString(getResources().getString(R.string.pref_SelectedEvent), selectedItem);
                     editor.apply();
                     matchesDialog.show();
-                    blueAlliance.downloadEventMatches(selectedItem, Admin.this, new BlueAllianceNetworking.Callback() {
+                    blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
                         @Override
                         public void handleFinishDownload() {
                             // this needs to run on the ui thread because of ui components in it
@@ -81,7 +81,7 @@ public class Admin extends AppCompatActivity {
                                     String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
                                     matchesDialog.dismiss();
                                     teamsDialog.show();
-                                    blueAlliance.downloadEventTeams(pref_SelectedEvent, Admin.this, new BlueAllianceNetworking.Callback() {
+                                    blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
 
                                         @Override
                                         public void handleFinishDownload() {
