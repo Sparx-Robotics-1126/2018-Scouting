@@ -4,13 +4,17 @@ package sparx1126.com.powerup;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.Map;
 
@@ -34,13 +38,75 @@ public class MainActivity extends AppCompatActivity {
     private static DataCollection dataCollection;
     private AutoCompleteTextView studentNameAutoTextView;
     private SharedPreferences settings;
-
+    private RelativeLayout wholeScreen;
+    float x1;
+    float x2;
+    float y1;
+    float y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // This came from AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        wholeScreen = findViewById(R.id.wholeView);
+
+        //all of this ys highlighted but it works so android studio can stick that warning where the sun don't shine
+        //https://stackoverflow.com/questions/35787430/detecting-swipes-click-hold-on-one-view-android
+        wholeScreen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        y1 = event.getY();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        y2 = event.getY();
+                        boolean isVertSwipe = isVertSwipe(x1, x2, y1, y2);
+
+                        if (x1 > x2 && !isVertSwipe) {
+                            //https://stackoverflow.com/questions/5641103/how-to-use-toast-when-i-cant-use-this-as-context
+                            //left swipe
+                            Toast.makeText(MainActivity.this, "Left swipe", Toast.LENGTH_SHORT).show();
+                            if(isStudentName()) {
+                                Intent intent = new Intent(MainActivity.this, Benchmarking.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                Toast.makeText(MainActivity.this, "Right swipe", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else if (x2 > x1 && !isVertSwipe) {
+                            //right swipe
+                            if(isStudentName()) {
+                                Intent intent = new Intent(MainActivity.this, Scouting.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            }
+                            Toast.makeText(MainActivity.this, "Right swipe", Toast.LENGTH_SHORT).show();
+
+                        } else if(y2 > y1 && isVertSwipe) {
+                            //down swipe
+                            if(isStudentName()) {
+
+                            }
+                            Toast.makeText(MainActivity.this, "Swipe Down", Toast.LENGTH_SHORT).show();
+                        } else if(y2 < y1 && isVertSwipe) {
+                            //up swipe
+                            if(isStudentName()) {
+
+                            }
+                            Toast.makeText(MainActivity.this, "Swipe Up", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        return true;
+                }
+
+                return false;
+            }
+        });
 
         logger = Logger.getInstance();
         blueAlliance = BlueAllianceNetworking.getInstance();
@@ -59,20 +125,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        loginButton = findViewById(R.id.logInButton);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String studentName = studentNameAutoTextView.getText().toString();
-                        for(String student: studentList){
-                            if(student.equals(studentName)){
-                                Intent intent = new Intent(MainActivity.this, Directory.class);
-                                startActivity(intent);
-                            }
-                        }
-                                           }
-                                       });
+
         // student selection
         studentList = getResources().getStringArray(R.array.students);
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
@@ -130,5 +184,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public boolean isStudentName() {
+        String studentName = studentNameAutoTextView.getText().toString();
+                for (String student : studentList) {
+                    if (student.equals(studentName)) {
+                        return true;
+                    }
+                }
+                return false;
+    }
+
+    public boolean isVertSwipe(float x1, float x2, float y1, float y2) {
+        float xDifference = Math.abs(x1-x2);
+        float yDifference = Math.abs(y1-y2);
+
+        return yDifference > xDifference;
     }
 }
