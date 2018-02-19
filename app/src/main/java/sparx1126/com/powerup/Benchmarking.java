@@ -120,7 +120,7 @@ public class Benchmarking extends AppCompatActivity {
         prefGroup = findViewById(R.id.prefStartGroup);
 
 
-        //resets the choices
+        //resets the choices3
         chooseAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

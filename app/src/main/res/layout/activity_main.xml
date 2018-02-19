@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sparx_gradient"
+    android:background="@color/backgroundColor"
     tools:context="sparx1126.com.powerup.MainActivity"
     android:id="@+id/wholeView">
 
@@ -17,32 +17,38 @@
         android:layout_marginTop="106dp"
         android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM' "
         android:hint="Scouter Name"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColorHint="@color/accentColorHint"
+        android:textColor="@color/accentColor"
+        android:shadowColor="@color/textColor"/>
 
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/toScouting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="21dp"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:textColor="@color/backgroundColor"
+        android:textSize="19sp"
+        android:text="Scouting" />
+
+    <Button
+        android:id="@+id/toBenchmarking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/studentNameAutoText"
-        android:layout_marginEnd="23dp"
-        android:layout_marginTop="242dp"
-        android:text="Benchmarking -->>"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="65dp"
-        android:text="Scouting"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:layout_alignTop="@+id/toScouting"
+        android:layout_marginEnd="22dp"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="Benchmarking"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

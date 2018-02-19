@@ -185,7 +185,8 @@
                 android:id="@+id/rankStartTextView"
                 style="@style/J_basicTextView"
                 android:layout_marginTop="@dimen/margin_topbottom_default"
-                android:text="1. none 2. none 3. none" />
+                android:text="Top Start Pos: 1. none 2. none 3. none"
+                android:textSize="33dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

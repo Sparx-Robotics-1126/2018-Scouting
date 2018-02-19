@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     float y1;
     float y2;
 
+    private Button toBenchmarking;
+    private Button toScouting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // This came from AppCompatActivity
@@ -51,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         wholeScreen = findViewById(R.id.wholeView);
 
-        //all of this ys highlighted but it works so android studio can stick that warning where the sun don't shine
+        toScouting = findViewById(R.id.toScouting);
+        toBenchmarking = findViewById(R.id.toBenchmarking);
+
+
+
+        //all of this is highlighted but it works so android studio can stick that warning where the sun don't shine
         //https://stackoverflow.com/questions/35787430/detecting-swipes-click-hold-on-one-view-android
         wholeScreen.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -69,12 +77,10 @@ public class MainActivity extends AppCompatActivity {
                         if (x1 > x2 && !isVertSwipe) {
                             //https://stackoverflow.com/questions/5641103/how-to-use-toast-when-i-cant-use-this-as-context
                             //left swipe
-                            Toast.makeText(MainActivity.this, "Left swipe", Toast.LENGTH_SHORT).show();
                             if(isStudentName()) {
                                 Intent intent = new Intent(MainActivity.this, Benchmarking.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                Toast.makeText(MainActivity.this, "Right swipe", Toast.LENGTH_SHORT).show();
                             }
 
                         } else if (x2 > x1 && !isVertSwipe) {
@@ -84,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             }
-                            Toast.makeText(MainActivity.this, "Right swipe", Toast.LENGTH_SHORT).show();
 
                         } else if(y2 > y1 && isVertSwipe) {
                             //down swipe
@@ -93,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_down);
                             }
-                            Toast.makeText(MainActivity.this, "Swipe Down", Toast.LENGTH_SHORT).show();
                         } else if(y2 < y1 && isVertSwipe) {
                             //up swipe
                             if(isStudentName()) {
@@ -101,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down);
                             }
-                            Toast.makeText(MainActivity.this, "Swipe Up", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -109,6 +112,29 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return false;
+            }
+        });
+
+
+        toScouting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isStudentName()) {
+                    Intent intent = new Intent(MainActivity.this, Scouting.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+            }
+        });
+
+        toBenchmarking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isStudentName()) {
+                    Intent intent = new Intent(MainActivity.this, Benchmarking.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
             }
         });
 
