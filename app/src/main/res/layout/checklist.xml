@@ -3,14 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/masterTable">
+
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -32,4 +36,6 @@
         </TableRow>
 
     </TableLayout>
+
+    </ScrollView>
 </LinearLayout>

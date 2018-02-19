@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
-import sparx1126.com.powerup.utilities.Logger;
 
 public class Benchmarking extends AppCompatActivity {
 
@@ -119,6 +118,13 @@ public class Benchmarking extends AppCompatActivity {
 
 
 
+                if (general_score_auto.isChecked()){
+
+                }
+
+
+
+
 
             }
         });
@@ -131,3 +137,27 @@ public class Benchmarking extends AppCompatActivity {
 
 
 // Swerve, Mecanum, Tank Drive, H-Drive
+
+
+
+/*
+                benchmarkData.set(start_w_cube.isChecked());
+                benchmarkData.set(move_past_line.isChecked());
+                benchmarkData.set(auto_scale.isChecked());
+                benchmarkData.set(auto_switch.isChecked());
+                benchmarkData.set(acquire_floor.isChecked());
+                benchmarkData.set(get_from_portal.isChecked());
+                benchmarkData.set(deposit_vault.isChecked());
+                benchmarkData.set(score_switch.isChecked());
+                benchmarkData.set(score_scale.isChecked());
+                benchmarkData.set(climb_rung.isChecked());
+                benchmarkData.set(has_rungs.isChecked());
+                benchmarkData.set(attach_robot.isChecked());
+                benchmarkData.set(pref_left.isChecked());
+                benchmarkData.set(pref_center.isChecked());
+                benchmarkData.set(pref_right.isChecked());
+                benchmarkData.set(pref_left.isChecked());
+                benchmarkData.set(can_left.isChecked());
+                benchmarkData.set(can_center.isChecked());
+                benchmarkData.set(can_right.isChecked());
+ */

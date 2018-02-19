@@ -1,282 +1,204 @@
 package sparx1126.com.powerup;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.ToggleButton;
 
-import android.content.SharedPreferences;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
-import sparx1126.com.powerup.data_components.BlueAllianceMatch;
-import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
-import sparx1126.com.powerup.utilities.Logger;
-
 
 public class Admin extends AppCompatActivity {
-    private static final String TAG = "Admin";
+    private static final String TAG = "Admin ";
     private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
     private BlueAllianceNetworking blueAlliance;
+    private static DataCollection dataCollection;
+
+    private Dialog eventsWeAreInDialog;
+    private Dialog matchesDialog;
+    private Dialog teamsDialog;
     private Spinner eventSpinner;
-    private static Logger logger;
-    private ArrayAdapter<String> eventAdapter;
-    private List<String> eventsWeAreInList;
-    private List<String> eventSpinnerList;
-    private Map<String, String> eventNameToKeyMap;
-    private boolean eventSelected = false;
-    private boolean eventFilter = true;
+    private LinearLayout adminSelectionLayout;
     private ToggleButton blueSelectedToggle;
-    private RadioButton teamNumberOneSelectedButton;
+    private RadioButton teamNumber1SelectedButton;
     private RadioButton teamNumber2SelectedButton;
     private RadioButton teamNumber3SelectedButton;
-    private boolean teamNumberSelected = false;
-    private Button stuffSelectedButton;
-    private static DataCollection dataCollection;
-    private boolean blueSelected;
-    private int teamNumberIndex;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin);
-        logger = Logger.getInstance();
-        dataCollection = DataCollection.getInstance();
-        blueAlliance = BlueAllianceNetworking.getInstance();
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.apply();
+        editor = settings.edit();
+        blueAlliance = BlueAllianceNetworking.getInstance();
+        dataCollection = DataCollection.getInstance();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(TAG);
+        builder.setMessage("Downloading Events We Are In");
+        eventsWeAreInDialog = builder.create();
 
-        eventSpinner = (Spinner) findViewById(R.id.eventSpinner);
-        Map<String, BlueAllianceEvent> eventsWeAreIn = dataCollection.getEventsWeAreIn();
-        eventSpinnerList = new ArrayList<>();
-        eventSpinnerList.add("Select Event");
-        for (String eventName : eventsWeAreIn.keySet()) {
-            eventSpinnerList.add(eventName);
-        }
+        builder.setMessage("Downloading Matches for event");
+        matchesDialog = builder.create();
 
-        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventSpinnerList);
-        eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eventSpinner.setAdapter(eventAdapter);
+        builder.setMessage("Downloading Team for event");
+        teamsDialog = builder.create();
 
-
-
+        eventSpinner = findViewById(R.id.eventSpinner);
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!getEventName().isEmpty()) {
-
-                    if(!getEventName().contains("Select Event")) {
-                        eventSelected = true;
-                    }
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString(getResources().getString(R.string.pref_event), getEventName());
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedItem = eventSpinner.getSelectedItem().toString();
+                if (!selectedItem.isEmpty() && !selectedItem.contains(getResources().getString(R.string.selectEvent))) {
+                    editor.putString(getResources().getString(R.string.pref_SelectedEvent), selectedItem);
                     editor.apply();
+                    matchesDialog.show();
+                    blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
+                        @Override
+                        public void handleFinishDownload() {
+                            // this needs to run on the ui thread because of ui components in it
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+                                    matchesDialog.dismiss();
+                                    teamsDialog.show();
+                                    blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
 
-
-                    showButtons();
+                                        @Override
+                                        public void handleFinishDownload() {
+                                            // this needs to run on the ui thread because of ui components in it
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    teamsDialog.dismiss();
+                                                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
+                                                    showButtons();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
                 }
-
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(AdapterView<?> parentView) {
             }
+
         });
 
-        //eventsNearTodayList = new ArrayList<>();
-        eventsWeAreInList = new ArrayList<>();
+        adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
 
-        eventNameToKeyMap = new HashMap<>();
+        blueSelectedToggle = findViewById(R.id.blueSelectedToggle);
+        teamNumber1SelectedButton = findViewById(R.id.team1);
+        teamNumber2SelectedButton = findViewById(R.id.team2);
+        teamNumber3SelectedButton = findViewById(R.id.team3);
 
-        blueSelectedToggle = (ToggleButton) findViewById(R.id.blueSelectedToggle);
-
-        teamNumberOneSelectedButton = (RadioButton) findViewById(R.id.team1);
-        teamNumberOneSelectedButton.setOnClickListener(teamNumberSelectionFunction);
-
-        teamNumber2SelectedButton = (RadioButton) findViewById(R.id.team2);
-        teamNumber2SelectedButton.setOnClickListener(teamNumberSelectionFunction);
-        teamNumber2SelectedButton.setVisibility(View.INVISIBLE);
-
-        teamNumber3SelectedButton = (RadioButton) findViewById(R.id.team3);
-        teamNumber3SelectedButton.setOnClickListener(teamNumberSelectionFunction);
-
-        stuffSelectedButton = (Button) findViewById(R.id.selectStuff);
+        Button stuffSelectedButton = findViewById(R.id.selectStuff);
         stuffSelectedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean blueSelected = blueSelectedToggle.isChecked();
-                SharedPreferences.Editor editor = settings.edit();
-                String selectedTeam = "red" + teamNumberIndex;
-                if(blueSelected) {
-                    selectedTeam = "blue" + teamNumberIndex;
+                if(teamNumber1SelectedButton.isChecked() || teamNumber2SelectedButton.isChecked() || teamNumber3SelectedButton.isChecked() ) {
+                    editor.putBoolean(getResources().getString(R.string.pref_BlueAlliance), blueSelectedToggle.isChecked());
+                    if (teamNumber1SelectedButton.isChecked()) {
+                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 1);
+                    }
+                    else if(teamNumber2SelectedButton.isChecked()) {
+                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 2);
+                    }
+                    else {
+                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 3);
+                    }
+                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), true);
+                    editor.apply();
+                    finish();
                 }
-                editor.putString("selectedTeam", selectedTeam);
-                editor.putString("selectedEvent", getEventName());
-                editor.apply();
-                Admin.this.downloadTeams();
-
-                finish();
             }
         });
-        showButtons();
+
         restorePreferences();
-    }
-
-    private final View.OnClickListener teamNumberSelectionFunction = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            teamNumberIndex = Integer.MAX_VALUE;
-            if (teamNumberOneSelectedButton.isChecked()) {
-                teamNumberIndex = 0;
-            } else if (teamNumber2SelectedButton.isChecked()) {
-                teamNumberIndex = 1;
-            } else if (teamNumber3SelectedButton.isChecked()) {
-                teamNumberIndex = 2;
-            }
-
-            if (teamNumberIndex != Integer.MAX_VALUE) {
-                teamNumberSelected = true;
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt(getString(R.string.team_selected), teamNumberIndex);
-                editor.apply();
-
-            }
-            else {
-                teamNumberSelected = false;
-            }
-            showButtons();
-        }
-    };
-
-    private void downloadTeams() {
-        String eventKey = getEventName();
-        blueAlliance.downloadEventTeams(eventKey, new BlueAllianceNetworking.CallbackTeams() {
-            @Override
-            public void onFailure(String _msg) {
-                logger.Log(TAG, _msg, Logger.MSG_TYPE.ERROR, null);
-            }
-            @Override
-            public void onSuccess(Map<String, BlueAllianceTeam> _result) {
-                logger.Log(TAG, "Got Teams!", Logger.MSG_TYPE.NORMAL, null);
-                dataCollection.setTeamsInEvent(_result);
-            }
-        },this);
-    }
-
-    private String getEventName() {
-        String eventName = "";
-        if (eventSpinner.getSelectedItem() != null) {
-            eventName = eventSpinner.getSelectedItem().toString();
-        }
-        return eventName;
+        showButtons();
     }
 
     private void restorePreferences() {
-        String spinnerEvent = settings.getString("selectedEvent", "DNE");
-
-//        // Initializing a String Array
-//       final String[] EVENTCHOICES = new String[]{
-//                "Select Event",
-//                "2018ohcl",
-//                "2018nyro",
-//        };
-//
-//        if(spinnerEvent.toLowerCase().equals("2018ohcl")) {
-//            eventSpinner.setSelection(1);
-//        }
-//        if(spinnerEvent.toLowerCase().equals("2018nyro")) {
-//            eventSpinner.setSelection(2);
-//        } else {
-//            eventSpinner.setSelection(0);
-//        }
-        ArrayList<String> newEventSpinnerList = new ArrayList<>();
-
-        for(String event: eventSpinnerList) {
-            if(event.equals(spinnerEvent)) {
-                newEventSpinnerList.add(0, event);
-            } else {
-                newEventSpinnerList.add(event);
+        eventsWeAreInDialog.show();
+        blueAlliance.downloadEventsSparxsIsIn(this, new BlueAllianceNetworking.Callback() {
+            @Override
+            public void handleFinishDownload() {
+                // this needs to run on the ui thread because of ui components in it
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+                        Map<String, BlueAllianceEvent> data = dataCollection.getEventsWeAreIn();
+                        List<String> eventSpinnerList = new ArrayList<>();
+                        if (!pref_SelectedEvent.isEmpty()) {
+                            eventSpinnerList.add(pref_SelectedEvent);
+                            for (String eventName : data.keySet()) {
+                                if (!eventName.equals(pref_SelectedEvent)) {
+                                    eventSpinnerList.add(eventName);
+                                }
+                            }
+                        } else {
+                            eventSpinnerList.add(getResources().getString(R.string.selectEvent));
+                            eventSpinnerList.addAll(data.keySet());
+                        }
+                        SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
+                        eventSpinner.setAdapter(eventAdapter);
+                        eventsWeAreInDialog.dismiss();
+                    }
+                });
             }
+        });
+
+        boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
+        if (pref_BlueAlliance) {
+            blueSelectedToggle.setChecked(true);
+        } else {
+            blueSelectedToggle.setChecked(false);
         }
 
-        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, newEventSpinnerList);
-        eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eventSpinner.setAdapter(eventAdapter);
+        int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 1);
 
-
-        if(!spinnerEvent.equals("DNE")) {
-            eventSelected = true;
-            String eventName = settings.getString(getResources().getString(R.string.pref_event), "");
-            if (!eventName.isEmpty() && (eventAdapter != null)) {
-                setupEventSpinner(eventsWeAreInList);
-                eventSpinner.setSelection(eventAdapter.getPosition(eventName));
-            }
-            showButtons();
-            String teamStringIndex = settings.getString("selectedTeam", "could not get selected team");
-            if (teamStringIndex.charAt(0) == 'b') {
-                blueSelectedToggle.setChecked(true);
-            } else {
-                blueSelectedToggle.setChecked(false);
-            }
-
-            int teamIndex = Integer.parseInt(teamStringIndex.substring(teamStringIndex.length() - 1));
-
-            if (teamIndex == 0) {
-                teamNumberOneSelectedButton.setChecked(true);
-            } else if (teamIndex == 1) {
-                teamNumber2SelectedButton.setChecked(true);
-            } else if (teamIndex == 2) {
-                teamNumber3SelectedButton.setChecked(true);
-            }
+        if (pref_TeamPosition == 1) {
+            teamNumber1SelectedButton.setChecked(true);
+        } else if (pref_TeamPosition == 2) {
+            teamNumber2SelectedButton.setChecked(true);
+        } else {
+            teamNumber3SelectedButton.setChecked(true);
         }
     }
-
-
-    private void setupEventSpinner(List<String> eventList) {
-        eventSpinnerList.clear();
-        for (String eventName : eventList) {
-            eventSpinnerList.add(eventName);
-        }
-
-        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventSpinnerList);
-        eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eventSpinner.setAdapter(eventAdapter);
-    }
-
 
 
     private void showButtons() {
-        if (eventSelected) {
-            stuffSelectedButton.setVisibility(View.VISIBLE);
-            blueSelectedToggle.setVisibility(View.VISIBLE);
-            teamNumberOneSelectedButton.setVisibility(View.VISIBLE);
-            teamNumber2SelectedButton.setVisibility(View.VISIBLE);
-            teamNumber3SelectedButton.setVisibility(View.VISIBLE);
+        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+
+        if (!pref_SelectedEvent.isEmpty()) {
+            adminSelectionLayout.setVisibility(View.VISIBLE);
         } else {
-            stuffSelectedButton.setVisibility(View.INVISIBLE);
-            blueSelectedToggle.setVisibility(View.INVISIBLE);
-            teamNumberOneSelectedButton.setVisibility(View.INVISIBLE);
-            teamNumber2SelectedButton.setVisibility(View.INVISIBLE);
-            teamNumber3SelectedButton.setVisibility(View.INVISIBLE);
+            adminSelectionLayout.setVisibility(View.INVISIBLE);
         }
     }
 }

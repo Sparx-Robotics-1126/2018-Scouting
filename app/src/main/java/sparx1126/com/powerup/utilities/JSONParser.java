@@ -32,14 +32,12 @@ public class JSONParser {
         Map<String, BlueAllianceEvent> output = new HashMap<>();
 
         try {
-            //Log.d("teamEventsStringIntoMap", _input);
             JSONArray array = new JSONArray(_input);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 BlueAllianceEvent item = new BlueAllianceEvent(obj);
                 output.put(item.getKey(), item);
             }
-            Log.d("teamEventsStringIntoMap", output.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -51,9 +49,39 @@ public class JSONParser {
         JSONArray output = new JSONArray();
         for (Map.Entry<String, BlueAllianceEvent> entry : _input.entrySet())
         {
-            BlueAllianceEvent event = entry.getValue();
-            JSONObject eventJSONObject = event.getJSONObject(event);
-            output.put(eventJSONObject);
+            BlueAllianceEvent item = entry.getValue();
+            JSONObject jsonObject = item.getJSONObject(item);
+            output.put(jsonObject);
+        }
+
+        return output.toString();
+    }
+
+    public Map<String, BlueAllianceMatch> eventMatchesStringIntoMap(String _contentInJSONForm) {
+        Map<String, BlueAllianceMatch> rtnMap = new HashMap<>();
+
+        try {
+            JSONArray array = new JSONArray(_contentInJSONForm);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                BlueAllianceMatch item = new BlueAllianceMatch(obj);
+                rtnMap.put(item.getKey(), item);
+            }
+            Log.d("eventMatchesString", rtnMap.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return rtnMap;
+    }
+
+    public String eventMatchesMapIntoString(Map<String, BlueAllianceMatch> _input) {
+        JSONArray output = new JSONArray();
+        for (Map.Entry<String, BlueAllianceMatch> entry : _input.entrySet())
+        {
+            BlueAllianceMatch item = entry.getValue();
+            JSONObject jsonObject = item.getJSONObject(item);
+            output.put(jsonObject);
         }
 
         return output.toString();
@@ -63,32 +91,13 @@ public class JSONParser {
         Map<String, BlueAllianceTeam> rtnMap = new HashMap<>();
 
         try {
-            //Log.d("eventTeamsStringIntoMap", _contentInJSONForm);
             JSONArray array = new JSONArray(_contentInJSONForm);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 BlueAllianceTeam item = new BlueAllianceTeam(obj);
                 rtnMap.put(item.getKey(), item);
             }
-            Log.d("eventTeamsStringIntoMap", rtnMap.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return rtnMap;
-    }
-    public Map<String, BlueAllianceMatch> eventMatchesStringIntoMap(String _contentInJSONForm) {
-        Map<String, BlueAllianceMatch> rtnMap = new HashMap<>();
-
-        try {
-            //Log.d("eventTeamsStringIntoMap", _contentInJSONForm);
-            JSONArray array = new JSONArray(_contentInJSONForm);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                BlueAllianceMatch item = new BlueAllianceMatch(obj);
-                rtnMap.put(item.getKey(), item);
-            }
-            Log.d("eventMatchesStringInM", rtnMap.toString());
+            Log.d("eventTeamsString", rtnMap.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -100,9 +109,9 @@ public class JSONParser {
         JSONArray output = new JSONArray();
         for (Map.Entry<String, BlueAllianceTeam> entry : _input.entrySet())
         {
-            BlueAllianceTeam event = entry.getValue();
-            //JSONObject eventJSONObject = event.getJSONObject(event);
-            //output.put(eventJSONObject);
+            BlueAllianceTeam item = entry.getValue();
+            JSONObject jsonObject = item.getJSONObject(item);
+            output.put(jsonObject);
         }
 
         return output.toString();

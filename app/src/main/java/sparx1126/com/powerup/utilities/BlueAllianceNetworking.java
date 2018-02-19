@@ -1,8 +1,8 @@
 package sparx1126.com.powerup.utilities;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Map;
@@ -16,38 +16,30 @@ import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class BlueAllianceNetworking {
-    public interface CallbackEvents {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceEvent> _result);
-    }
-
-    public interface CallbackTeams {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceTeam> _result);
-    }
-    public interface CallbackMatches {
-        void onFailure(String _reason);
-        void onSuccess(Map<String, BlueAllianceMatch> _result);
+    public interface Callback {
+        void handleFinishDownload();
     }
 
     private static final String TAG = "BlueAllianceNetworking ";
     private static final String BLUE_ALLIANCE_BASE_URL ="http://www.thebluealliance.com/api/v3/";
-    // header for authetication
+    // header for authentication
     private static final String BLUE_ALLIANCE_AUTH_HEADER = "X-TBA-Auth-Key";
     // Key generated in thebluealliance.com for access
     // This key is Hiram's key (expires in 30 days)
     private static final String BLUE_ALLIANCE_KEY = "0i1rgva3Y8G14rZS4dWDHcPNaw6EVMb9uSI9jW7diochnHpH8Y4nIhT0iHwj0hCq";
-    private static final String YEAR = "2018";
+    private static final String YEAR = "2017";
     private static final String SPARX_TEAM_KEY = "frc1126";
     // intention is for {event_key} to be substituted
     private static String EVENT_TEAMS_URL_TAIL = "event/{event_key}/teams";
     // intention is for {team_key} to be substituted
     private static String TEAM_EVENTS_URL_TAIL = "team/{team_key}/events/" + YEAR;
-     private static String EVENT_MATCHES_URL_TAIL = "event/{event_key}/matches/simple";
+    private static String EVENT_MATCHES_URL_TAIL = "event/{event_key}/matches/simple";
 
-    private OkHttpClient regularHttpClient;
+    private final OkHttpClient regularHttpClient;
     private static BlueAllianceNetworking instance;
-    private JSONParser jsonParser;
+    private static JSONParser jsonParser;
+    private static FileIO fileIO;
+    private static DataCollection dataCollection;
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -60,77 +52,100 @@ public class BlueAllianceNetworking {
     private BlueAllianceNetworking() {
         regularHttpClient = new OkHttpClient();
         jsonParser = JSONParser.getInstance();
+        fileIO = FileIO.getInstance();
+        dataCollection = DataCollection.getInstance();
     }
 
-    public void downloadEventsSparxsIsIn(CallbackEvents _callback, Context _context) {
-        downloadTeamEvents(SPARX_TEAM_KEY, _callback, _context);
+    public void downloadEventsSparxsIsIn(Context _context, Callback _callback) {
+        downloadTeamEvents(SPARX_TEAM_KEY, _callback);
     }
 
-    // made this private because why do we care of other team events???
-    private void downloadTeamEvents(String _key, final CallbackEvents _callback, final Context _context) {
-        String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
-        downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                showMessage(e.getMessage(), _context);
-                _callback.onFailure(e.getMessage());
-            }
+    public void downloadTeamEvents(String _key, final Callback _callback) {
+        String localData = fileIO.fetchTeamEvents();
+        if(localData.isEmpty()) {
+            String url_tail = (TEAM_EVENTS_URL_TAIL).replace("{team_key}", _key);
+            downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    throw new AssertionError(e.getMessage() + this);
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(response.body().string());
-                    _callback.onSuccess(rtnMap);
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        // the response needs to be copied into a String variable
+                        String data = response.body().string();
+                        Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(data);
+                        dataCollection.setEventsWeAreIn(rtnMap);
+                        fileIO.storeTeamEvents(data);
+                        _callback.handleFinishDownload();
+                    } else {
+                        throw new AssertionError(response.message() + this);
+                    }
                 }
-                else {
-                    showMessage(response.message(), _context);
-                    _callback.onFailure(response.message());
-                }
-            }
-        });
+            });
+        }
+        else {
+            Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(localData);
+            dataCollection.setEventsWeAreIn(rtnMap);
+            Log.e("Hiram", rtnMap.toString());
+            _callback.handleFinishDownload();
+        }
     }
 
-    public void downloadEventTeams(String _key, final CallbackTeams _callback, final Context _context) {
-        String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
-        downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                showMessage(e.getMessage(), _context);
-                _callback.onFailure(e.getMessage());
-            }
+    public void downloadEventTeams(String _key, final Callback _callback) {
+        String localData = fileIO.fetchEventTeams();
+        if(localData.isEmpty()) {
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(response.body().string());
-                    _callback.onSuccess(rtnMap);
+            String url_tail = (EVENT_TEAMS_URL_TAIL).replace("{event_key}", _key);
+            downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    throw new AssertionError(e.getMessage() + this);
                 }
-                else {
-                    showMessage(response.message(), _context);
-                    _callback.onFailure(response.message());
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String data = response.body().string();
+                        Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(data);
+                        fileIO.storeEventTeams(data);
+                        dataCollection.setTeamsInEvent(rtnMap);
+                        _callback.handleFinishDownload();
+                    } else {
+                        throw new AssertionError(response.message() + this);
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(localData);
+            dataCollection.setTeamsInEvent(rtnMap);
+            Log.e("Hiram", rtnMap.toString());
+            _callback.handleFinishDownload();
+        }
     }
 
-    public void downloadEventMatches(String _eventKey, final CallbackMatches _callback, final Context _context) {
+    public void downloadEventMatches(String _eventKey, final Callback _callback) {
         String url_tail = (EVENT_MATCHES_URL_TAIL).replace("{event_key}", _eventKey);
+
         downloadBlueAllianceData(url_tail, new okhttp3.Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                showMessage(e.getMessage(), _context);
-                _callback.onFailure(e.getMessage());
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                throw new AssertionError(e.getMessage() + this);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(response.body().string());
-                    _callback.onSuccess(rtnMap);
+                    String data = response.body().string();
+                    Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(data);
+                    fileIO.storeEventMatches(data);
+                    dataCollection.setEventMatches(rtnMap);
+                    _callback.handleFinishDownload();
                 }
                 else {
-                    showMessage(response.message(), _context);
-                    _callback.onFailure(response.message());
+                    throw new AssertionError(response.message() + this);
                 }
             }
         });
@@ -145,9 +160,5 @@ public class BlueAllianceNetworking {
                 .build();
 
         regularHttpClient.newCall(requestEvents).enqueue(_callback);
-    }
-
-    private void showMessage(String message, Context _context) {
-        Toast.makeText(_context, TAG + message, Toast.LENGTH_LONG).show();
     }
 }
