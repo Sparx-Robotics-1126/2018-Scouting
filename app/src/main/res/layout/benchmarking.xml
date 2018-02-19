@@ -88,6 +88,7 @@
                 android:textSize="@dimen/main_text_size"
                 android:layout_marginTop="5dp"/>
 
+
             <EditText
                 android:id="@+id/customWheel"
                 style="@style/J_basicTextView"
@@ -106,7 +107,25 @@
                     style="@style/J_basicTextView"
                     android:paddingBottom="@dimen/margin_topbottom_default"
                     android:paddingTop="@dimen/margin_topbottom_default"
-                    android:text="Speed (ft/s):"
+                    android:text="Number Of Wheels" />
+
+                <EditText
+                    android:id="@+id/numWheels"
+                    style="@style/J_ShortEditText"
+                    android:maxLength="2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/J_horizontalLinearLayout"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
+
+                <TextView
+                    style="@style/J_basicTextView"
+                    android:paddingBottom="@dimen/margin_topbottom_default"
+                    android:paddingTop="@dimen/margin_topbottom_default"
+                    android:text="Speed (ft/s)"
                     />
 
                 <EditText
@@ -125,7 +144,7 @@
                     style="@style/J_basicTextView"
                     android:paddingBottom="@dimen/margin_topbottom_default"
                     android:paddingTop="@dimen/margin_topbottom_default"
-                    android:text="Height (ft):" />
+                    android:text="Height (ft)" />
 
                 <EditText
                     android:id="@+id/height"
@@ -143,7 +162,7 @@
                     style="@style/J_basicTextView"
                     android:paddingBottom="@dimen/margin_topbottom_default"
                     android:paddingTop="@dimen/margin_topbottom_default"
-                    android:text="Weight (lb):" />
+                    android:text="Weight (lb)" />
 
                 <EditText
                     android:id="@+id/weight"
@@ -161,10 +180,11 @@
                     style="@style/J_basicTextView"
                     android:paddingBottom="@dimen/margin_topbottom_default"
                     android:paddingTop="@dimen/margin_topbottom_default"
-                    android:text="Number Of Wheels" />
+                    android:text="Ground Clearance (in)"
+                    />
 
                 <EditText
-                    android:id="@+id/numWheels"
+                    android:id="@+id/groundClearance"
                     style="@style/J_ShortEditText"
                     android:maxLength="2"/>
 
@@ -185,7 +205,7 @@
                 android:id="@+id/rankStartTextView"
                 style="@style/J_basicTextView"
                 android:layout_marginTop="@dimen/margin_topbottom_default"
-                android:text="Top Start Pos: 1. none 2. none 3. none"
+                android:text="Favored Start Positions:                               1. none 2. none 3. none"
                 android:textSize="33dp" />
 
             <LinearLayout
@@ -228,6 +248,7 @@
                 android:text="choose again"
                 android:textColor="@color/backgroundColorLight"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -281,13 +302,114 @@
                 android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Can Score in Auto" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_topbottom_default"
+                    android:layout_marginTop="@dimen/margin_topbottom_default"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/J_basicTextView"
+                        android:text="Can Score On Switch" />
+
+                    <CheckBox
+                        android:id="@+id/canScoreSwitchAuto"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
 
                 <CheckBox
-                    android:id="@+id/general_score_auto"
-                    style="@style/J_checkBox" />
+                    android:id="@+id/scoreSwitchPlaceAuto"
+                    style="@style/J_word_checkBox"
+                    android:text="Place" />
+
+                <CheckBox
+                    android:id="@+id/scoreSwitchTossAuto"
+                    style="@style/J_word_checkBox"
+                    android:text="Toss" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/howManySwitchPlace"
+                    style="@style/J_basicTextView"
+                    android:hint="How Many"
+                    android:textColorHint="@color/accentColorHint"
+                    android:textColor="@color/accentColor"
+                    android:inputType="number"
+                    android:maxLength="1" />
+
+                <EditText
+                    android:id="@+id/howManySwitchToss"
+                    style="@style/J_basicTextView"
+                    android:hint="How Many"
+                    android:textColorHint="@color/accentColorHint"
+                    android:textColor="@color/accentColor"
+                    android:inputType="number"
+                    android:maxLength="1" />
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_topbottom_default"
+                    android:layout_marginTop="@dimen/margin_topbottom_default"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/J_basicTextView"
+                        android:text="Can Score On Scale" />
+
+                    <CheckBox
+                        android:id="@+id/canScoreScaleAuto"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -298,14 +420,92 @@
 
 
                 <CheckBox
-                    android:id="@+id/auto_switch"
+                    android:id="@+id/scoreScalePlaceAuto"
                     style="@style/J_word_checkBox"
-                    android:text="Switch" />
+                    android:text="Place" />
 
                 <CheckBox
-                    android:id="@+id/auto_scale"
+                    android:id="@+id/scoreScaleTossAuto"
                     style="@style/J_word_checkBox"
-                    android:text="Scale" />
+                    android:text="Toss" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/howManyScalePlace"
+                    style="@style/J_basicTextView"
+                    android:hint="How Many"
+                    android:textColorHint="@color/accentColorHint"
+                    android:textColor="@color/accentColor"
+                    android:inputType="number"
+                    android:maxLength="1" />
+
+                <EditText
+                    android:id="@+id/howManyScaleToss"
+                    style="@style/J_basicTextView"
+                    android:hint="How Many"
+                    android:textColorHint="@color/accentColorHint"
+                    android:textColor="@color/accentColor"
+                    android:inputType="number"
+                    android:maxLength="1" />
+
+            </LinearLayout>
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_topbottom_default"
+                    android:layout_marginTop="@dimen/margin_topbottom_default"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/J_basicTextView"
+                        android:text="Can Pick Up Cubes" />
+
+                    <CheckBox
+                        android:id="@+id/pickUpCubesInAuto"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+
+                <CheckBox
+                        android:id="@+id/fromPortal"
+                    style="@style/J_word_checkBox"
+                    android:text="From Portal" />
+
+                <CheckBox
+                    android:id="@+id/fromFloor"
+                    style="@style/J_word_checkBox"
+                    android:text="From Floor" />
 
             </LinearLayout>
 
@@ -323,17 +523,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Can Acquire from Floor" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_topbottom_default"
+                    android:layout_marginTop="@dimen/margin_topbottom_default"
+                    android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/acquire_floor"
-                    style="@style/J_checkBox" />
+                    <TextView
+                        style="@style/J_basicTextView"
+                        android:text="Can Pick Up Cubes In Teleop" />
+
+                    <CheckBox
+                        android:id="@+id/pickUpCubesInTeleop"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -341,16 +551,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
-                android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Can Get from Portal/Vault" />
 
                 <CheckBox
-                    android:id="@+id/get_from_portal"
-                    style="@style/J_checkBox" />
+                    android:id="@+id/fromPortalTele"
+                    style="@style/J_word_checkBox"
+                    android:text="From Portal" />
+
+                <CheckBox
+                    android:id="@+id/fromFloorTele"
+                    style="@style/J_word_checkBox"
+                    android:text="From Floor" />
 
             </LinearLayout>
 
@@ -371,69 +583,98 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/J_horizontalLinearLayout"
-                android:layout_marginBottom="0dp">
-
-                <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Can Score Switch"
-
-                    />
-
-                <CheckBox
-                    android:id="@+id/score_switch"
-                    style="@style/J_checkBox" />
-            </LinearLayout>
-
-            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/toss_switch"
-                    style="@style/J_radioButton"
-                    android:text="Toss" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_topbottom_default"
+                    android:layout_marginTop="@dimen/margin_topbottom_default"
+                    android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/place_switch"
-                    style="@style/J_radioButton"
-                    android:text="Place" />
+                    <TextView
+                        style="@style/J_basicTextView"
+                        android:text="Can Score Switch" />
 
-            </RadioGroup>
+                    <CheckBox
+                        android:id="@+id/canScoreSwitchTele"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
 
             <LinearLayout
-                style="@style/J_horizontalLinearLayout"
-                android:layout_marginBottom="0dp">
-
-                <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Can Score Scale" />
-
-                <CheckBox
-                    android:id="@+id/score_scale"
-                    style="@style/J_checkBox" />
-
-            </LinearLayout>
-
-            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/toss_scale"
-                    style="@style/J_radioButton"
-                    android:text="Toss" />
 
-                <RadioButton
-                    android:id="@+id/place_scale"
-                    style="@style/J_radioButton"
+                <CheckBox
+                    android:id="@+id/scoreSwitchPlaceTele"
+                    style="@style/J_word_checkBox"
                     android:text="Place" />
 
-            </RadioGroup>
+                <CheckBox
+                    android:id="@+id/scoreSwitchTossTele"
+                    style="@style/J_word_checkBox"
+                    android:text="Toss" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_topbottom_default"
+                    android:layout_marginTop="@dimen/margin_topbottom_default"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/J_basicTextView"
+                        android:text="Can Score Switch" />
+
+                    <CheckBox
+                        android:id="@+id/canScoreScaleTele"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_topbottom_default"
+                android:orientation="horizontal">
+
+
+                <CheckBox
+                    android:id="@+id/scoreScalePlaceTele"
+                    style="@style/J_word_checkBox"
+                    android:text="Place" />
+
+                <CheckBox
+                    android:id="@+id/scoreScaleTossTele"
+                    style="@style/J_word_checkBox"
+                    android:text="Toss" />
+
+            </LinearLayout>
+
+
 
             <TextView
                 style="@style/J_basicTextView"

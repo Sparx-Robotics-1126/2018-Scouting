@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button toBenchmarking;
     private Button toScouting;
+    private Button toView;
+    private Button toChecklist;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,64 +59,67 @@ public class MainActivity extends AppCompatActivity {
 
         toScouting = findViewById(R.id.toScouting);
         toBenchmarking = findViewById(R.id.toBenchmarking);
+        toView = findViewById(R.id.toView);
+        toChecklist = findViewById(R.id.toChecklist);
 
 
 
-        //all of this is highlighted but it works so android studio can stick that warning where the sun don't shine
-        //https://stackoverflow.com/questions/35787430/detecting-swipes-click-hold-on-one-view-android
-        wholeScreen.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x1 = event.getX();
-                        y1 = event.getY();
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        x2 = event.getX();
-                        y2 = event.getY();
-                        boolean isVertSwipe = isVertSwipe(x1, x2, y1, y2);
 
-                        if (x1 > x2 && !isVertSwipe) {
-                            //https://stackoverflow.com/questions/5641103/how-to-use-toast-when-i-cant-use-this-as-context
-                            //left swipe
-                            if(isStudentName()) {
-                                Intent intent = new Intent(MainActivity.this, Benchmarking.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            }
-
-                        } else if (x2 > x1 && !isVertSwipe) {
-                            //right swipe
-                            if(isStudentName()) {
-                                Intent intent = new Intent(MainActivity.this, Scouting.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                            }
-
-                        } else if(y2 > y1 && isVertSwipe) {
-                            //down swipe
-                            if(isStudentName()) {
-                                Intent intent = new Intent(MainActivity.this, CheckList.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_down);
-                            }
-                        } else if(y2 < y1 && isVertSwipe) {
-                            //up swipe
-                            if(isStudentName()) {
-                                Intent intent = new Intent(MainActivity.this, View.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down);
-                            }
-                        }
-
-
-                        return true;
-                }
-
-                return false;
-            }
-        });
+//        //all of this is highlighted but it works so android studio can stick that warning where the sun don't shine
+//        //https://stackoverflow.com/questions/35787430/detecting-swipes-click-hold-on-one-view-android
+//        wholeScreen.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        x1 = event.getX();
+//                        y1 = event.getY();
+//                        return true;
+//                    case MotionEvent.ACTION_UP:
+//                        x2 = event.getX();
+//                        y2 = event.getY();
+//                        boolean isVertSwipe = isVertSwipe(x1, x2, y1, y2);
+//
+//                        if (x1 > x2 && !isVertSwipe) {
+//                            //https://stackoverflow.com/questions/5641103/how-to-use-toast-when-i-cant-use-this-as-context
+//                            //left swipe
+//                            if(isStudentName()) {
+//                                Intent intent = new Intent(MainActivity.this, Benchmarking.class);
+//                                startActivity(intent);
+//                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                            }
+//
+//                        } else if (x2 > x1 && !isVertSwipe) {
+//                            //right swipe
+//                            if(isStudentName()) {
+//                                Intent intent = new Intent(MainActivity.this, Scouting.class);
+//                                startActivity(intent);
+//                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                            }
+//
+//                        } else if(y2 > y1 && isVertSwipe) {
+//                            //down swipe
+//                            if(isStudentName()) {
+//                                Intent intent = new Intent(MainActivity.this, CheckList.class);
+//                                startActivity(intent);
+//                                overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_down);
+//                            }
+//                        } else if(y2 < y1 && isVertSwipe) {
+//                            //up swipe
+//                            if(isStudentName()) {
+//                                Intent intent = new Intent(MainActivity.this, View.class);
+//                                startActivity(intent);
+//                                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down);
+//                            }
+//                        }
+//
+//
+//                        return true;
+//                }
+//
+//                return false;
+//            }
+//        });
 
 
         toScouting.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         toBenchmarking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +144,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        toView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isStudentName()) {
+                    Intent intent = new Intent(MainActivity.this, View.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down);
+                }
+            }
+        });
+
+        //Goes to checlkist screen
+        toChecklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isStudentName()) {
+                    Intent intent = new Intent(MainActivity.this, CheckList.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down);
+                }
+            }
+        });
+
+
 
         logger = Logger.getInstance();
         blueAlliance = BlueAllianceNetworking.getInstance();

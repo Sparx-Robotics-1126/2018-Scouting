@@ -3,10 +3,8 @@ package sparx1126.com.powerup;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
-import sparx1126.com.powerup.utilities.Logger;
 
 public class Benchmarking extends AppCompatActivity {
 
@@ -27,10 +24,15 @@ public class Benchmarking extends AppCompatActivity {
     private EditText climb_height;
     private EditText customDrive;
     private EditText customWheel;
+    private EditText numWheels;
+    private EditText groundClearance;
+    private EditText howManySwitchTossAuto;
+    private EditText howManySwitchPlaceAuto;
+    private EditText howManyScalePlaceAuto;
+    private EditText howManyScaleTossAuto;
 
     private CheckBox start_w_cube;
     private CheckBox move_past_line;
-    private CheckBox general_score_auto;
     private CheckBox auto_scale;
     private CheckBox auto_switch;
     private CheckBox acquire_floor;
@@ -41,6 +43,34 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox climb_rung;
     private CheckBox has_rungs;
     private CheckBox attach_robot;
+    private CheckBox fromPortalAuto;
+    private CheckBox fromFloorAuto;
+    private CheckBox fromFloorTele;
+    private CheckBox fromPortalTele;
+    private CheckBox pickUpCubesInTeleop;
+    private CheckBox scoreSwitchTele;
+    private CheckBox switchTossTele;
+    private CheckBox switchPlaceTele;
+
+    private CheckBox scoreScaleTele;
+    private CheckBox scaleTossTele;
+    private CheckBox scalePlaceTele;
+
+    private CheckBox canSwtichAuto;
+    private CheckBox switchTossAuto;
+    private CheckBox switchPlaceAuto;
+
+    private CheckBox canScaleAuto;
+    private CheckBox scaleTossAuto;
+    private CheckBox scalePlaceAuto;
+
+
+
+
+
+
+
+
 
 
 
@@ -58,6 +88,8 @@ public class Benchmarking extends AppCompatActivity {
     private Spinner wheelTypeSpinner;
     private Button submit_button;
     private Button chooseAgainButton;
+    private Button pickUpCubesInAuto;
+
 
 
     private String driveType;
@@ -87,31 +119,65 @@ public class Benchmarking extends AppCompatActivity {
         customDrive.setVisibility(View.GONE);
         customWheel = findViewById(R.id.customWheel);
         customWheel.setVisibility(View.GONE);
+        numWheels = findViewById(R.id.numWheels);
+        groundClearance = findViewById(R.id.groundClearance);
+        howManySwitchTossAuto = findViewById(R.id.howManySwitchToss);
+        howManySwitchTossAuto.setVisibility(View.GONE);
+        howManySwitchPlaceAuto = findViewById(R.id.howManySwitchPlace);
+        howManySwitchPlaceAuto.setVisibility(View.GONE);
+        howManyScaleTossAuto = findViewById(R.id.howManySwitchToss);
+        howManyScaleTossAuto.setVisibility(View.GONE);
+        howManyScalePlaceAuto = findViewById(R.id.howManySwitchPlace);
+        howManyScalePlaceAuto.setVisibility(View.GONE);
 
 
         start_w_cube = findViewById(R.id.start_w_cube);
         move_past_line = findViewById(R.id.move_past_line);
-        general_score_auto = findViewById(R.id.general_score_auto);
-        auto_scale = findViewById(R.id.auto_scale);
-        auto_switch = findViewById(R.id.auto_switch);
-        acquire_floor = findViewById(R.id.acquire_floor);
-        get_from_portal = findViewById(R.id.get_from_portal);
         deposit_vault = findViewById(R.id.deposit_vault);
-        score_switch = findViewById(R.id.score_switch);
-        score_scale = findViewById(R.id.score_scale);
         climb_rung = findViewById(R.id.climb_rung);
         has_rungs = findViewById(R.id.has_rungs);
         attach_robot = findViewById(R.id.attach_robot);
         pref_left = findViewById(R.id.pref_left);
         pref_center = findViewById(R.id.pref_center);
         pref_right = findViewById(R.id.pref_right);
+        pickUpCubesInAuto = findViewById(R.id.pickUpCubesInAuto);
+        fromPortalAuto = findViewById(R.id.fromPortal);
+        fromPortalAuto.setVisibility(View.GONE);
+        fromFloorAuto = findViewById(R.id.fromFloor);
+        fromFloorAuto.setVisibility(View.GONE);
 
-        place_switch = findViewById(R.id.place_switch);
-        toss_switch = findViewById(R.id.toss_switch);
-        place_scale = findViewById(R.id.place_scale);
-        toss_scale = findViewById(R.id.toss_scale);
-        pref_floor = findViewById(R.id.pref_floor);
-        pref_portal = findViewById(R.id.pref_portal);
+        pickUpCubesInTeleop = findViewById(R.id.pickUpCubesInTeleop);
+        fromFloorTele = findViewById(R.id.fromFloorTele);
+        fromFloorTele.setVisibility(View.GONE);
+        fromPortalTele = findViewById(R.id.fromPortalTele);
+        fromPortalTele.setVisibility(View.GONE);
+
+        scoreSwitchTele = findViewById(R.id.canScoreSwitchTele);
+        switchTossTele = findViewById(R.id.scoreSwitchTossTele);
+        switchTossTele.setVisibility(View.GONE);
+        switchPlaceTele = findViewById(R.id.scoreSwitchPlaceTele);
+        switchPlaceTele.setVisibility(View.GONE);
+
+        scoreScaleTele = findViewById(R.id.canScoreScaleTele);
+        scaleTossTele = findViewById(R.id.scoreScaleTossTele);
+        scaleTossTele.setVisibility(View.GONE);
+        scalePlaceTele = findViewById(R.id.scoreScalePlaceTele);
+        scalePlaceTele.setVisibility(View.GONE);
+
+        canSwtichAuto = findViewById(R.id.canScoreSwitchAuto);
+        switchTossAuto = findViewById(R.id.scoreSwitchTossAuto);
+        switchTossAuto.setVisibility(View.GONE);
+        switchPlaceAuto = findViewById(R.id.scoreSwitchPlaceAuto);
+        switchPlaceAuto.setVisibility(View.GONE);
+
+        canScaleAuto = findViewById(R.id.canScoreSwitchAuto);
+        scaleTossAuto = findViewById(R.id.scoreSwitchTossAuto);
+        scaleTossAuto.setVisibility(View.GONE);
+        scalePlaceAuto = findViewById(R.id.scoreSwitchPlaceAuto);
+        scalePlaceAuto.setVisibility(View.GONE);
+
+
+
         rankChoices = findViewById(R.id.rankStartTextView);
         driveTypeSpinner = findViewById(R.id.drive_type_spinner);
         wheelTypeSpinner = findViewById(R.id.wheel_type_spinner);
@@ -141,7 +207,7 @@ public class Benchmarking extends AppCompatActivity {
                 pref_left.setChecked(false);
                 pref_right.setChecked(false);
                 pref_center.setChecked(false);
-                rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+                rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
 
                 //only worked if the button was pressed twice, just copy pasted the code and it works perfectly
                 prefStart1 = "none";
@@ -160,7 +226,7 @@ public class Benchmarking extends AppCompatActivity {
                 pref_left.setChecked(false);
                 pref_right.setChecked(false);
                 pref_center.setChecked(false);
-                rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+                rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
             }
         });
 
@@ -211,12 +277,148 @@ public class Benchmarking extends AppCompatActivity {
 //                } else if(numTimesRegex(rankChoices.getText().toString(), "none") == 1) {
 //                    rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
 //                }
-                rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+                rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
             }});
 
 
+        canSwtichAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchTossAuto.getVisibility() == View.VISIBLE) {
+                    switchTossAuto.setVisibility(View.GONE);
+                    switchPlaceAuto.setVisibility(View.GONE);
+                    switchTossAuto.setChecked(false);
+                    switchPlaceAuto.setChecked(false);
+                    howManySwitchPlaceAuto.setVisibility(View.GONE);
+                    howManySwitchPlaceAuto.setText("");
+                    howManySwitchTossAuto.setVisibility(View.GONE);
+                    howManySwitchTossAuto.setText("");
+                } else {
+                    switchTossAuto.setVisibility(View.VISIBLE);
+                    switchPlaceAuto.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
-        //for drive type
+        scaleTossAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                howManyScaleTossAuto.setText("");
+                if(switchTossAuto.isChecked()) {
+                    howManySwitchTossAuto.setVisibility(View.VISIBLE);
+                } else {
+                    howManySwitchTossAuto.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+
+        scalePlaceAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                howManyScalePlaceAuto.setText("");
+                if(scalePlaceAuto.isChecked()) {
+                    howManyScalePlaceAuto.setVisibility(View.VISIBLE);
+                } else {
+                    howManyScalePlaceAuto.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+
+
+
+
+        canSwtichAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchTossAuto.getVisibility() == View.VISIBLE) {
+                    switchTossAuto.setVisibility(View.GONE);
+                    switchPlaceAuto.setVisibility(View.GONE);
+                    switchTossAuto.setChecked(false);
+                    switchPlaceAuto.setChecked(false);
+                    howManySwitchPlaceAuto.setVisibility(View.GONE);
+                    howManySwitchPlaceAuto.setText("");
+                    howManySwitchTossAuto.setVisibility(View.GONE);
+                    howManySwitchTossAuto.setText("");
+                } else {
+                    switchTossAuto.setVisibility(View.VISIBLE);
+                    switchPlaceAuto.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        switchTossAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                howManySwitchTossAuto.setText("");
+                if(switchTossAuto.isChecked()) {
+                    howManySwitchTossAuto.setVisibility(View.VISIBLE);
+                } else {
+                    howManySwitchTossAuto.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+
+        switchPlaceAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                howManySwitchPlaceAuto.setText("");
+                if(switchPlaceAuto.isChecked()) {
+                    howManySwitchPlaceAuto.setVisibility(View.VISIBLE);
+                } else {
+                    howManySwitchPlaceAuto.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        scoreSwitchTele.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchTossTele.getVisibility() == View.VISIBLE) {
+                    switchTossTele.setVisibility(View.GONE);
+                    switchPlaceTele.setVisibility(View.GONE);
+                    switchTossTele.setChecked(false);
+                    switchPlaceTele.setChecked(false);
+                } else {
+                    switchTossTele.setVisibility(View.VISIBLE);
+                    switchPlaceTele.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        pickUpCubesInAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(fromPortalAuto.getVisibility() == View.VISIBLE) {
+                    fromPortalAuto.setVisibility(View.GONE);
+                    fromFloorAuto.setVisibility(View.GONE);
+                    fromPortalAuto.setChecked(false);
+                    fromFloorAuto.setChecked(false);
+                } else {
+                    fromPortalAuto.setVisibility(View.VISIBLE);
+                    fromFloorAuto.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        pickUpCubesInTeleop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(fromPortalTele.getVisibility() == View.VISIBLE) {
+                    fromPortalTele.setVisibility(View.GONE);
+                    fromFloorTele.setVisibility(View.GONE);
+                    fromPortalTele.setChecked(false);
+                    fromFloorTele.setChecked(false);
+                } else {
+                    fromPortalTele.setVisibility(View.VISIBLE);
+                    fromFloorTele.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        //for drive type dropdown selector
         //https://stackoverflow.com/questions/5241660/how-can-i-add-items-to-a-spinner-in-android
         final String[] driveTypeArraySpinner = new String[] {
                 "Select Drive Type", "Tank", "Mecanum", "Swerve", "H-Drive / Slide", "Other"
@@ -245,7 +447,7 @@ public class Benchmarking extends AppCompatActivity {
             }
         });
 
-        //for wheel type
+        //for wheel type dropdown selector
         final String[] wheelTypeArraySpinner = new String[] {
                 "Select Wheel Type", "Traction Narrow", "Traction Wide",
                 "Omni", "Tank Treads", "Combination Traction And Omni", "Other"
@@ -310,6 +512,8 @@ public class Benchmarking extends AppCompatActivity {
         return count;
     }
 }
+
+
 
 
 

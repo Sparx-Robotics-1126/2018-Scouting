@@ -30,7 +30,6 @@ public class View extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // This came from AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view);
 

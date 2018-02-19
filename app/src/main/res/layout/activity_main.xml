@@ -26,29 +26,56 @@
         android:id="@+id/toScouting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="21dp"
+        android:layout_toStartOf="@+id/toView"
         android:width="190dp"
         android:height="75dp"
         android:backgroundTint="@color/accentColor"
+        android:text="Scouting"
         android:textColor="@color/backgroundColor"
-        android:textSize="19sp"
-        android:text="Scouting" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/toBenchmarking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/toScouting"
-        android:layout_marginEnd="22dp"
+        android:layout_above="@+id/toChecklist"
+        android:layout_toEndOf="@+id/toChecklist"
         android:width="190dp"
         android:height="75dp"
         android:backgroundTint="@color/accentColor"
         android:text="Benchmarking"
         android:textColor="@color/backgroundColor"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/toView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toScouting"
+        android:layout_alignStart="@+id/toChecklist"
+        android:layout_marginBottom="65dp"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="View"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/toChecklist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toScouting"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="Checklist"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
+
 
 
 </RelativeLayout>
