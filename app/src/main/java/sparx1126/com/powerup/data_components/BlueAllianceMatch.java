@@ -23,6 +23,22 @@ public class BlueAllianceMatch {
     private Map<Integer, String> blueTeamKeys;
     private Map<Integer, String> redTeamKeys;
 
+    public String getCompLevel() {
+        return compLevel;
+    }
+
+    public String getMatchNumber() {
+        return matchNumber;
+    }
+
+    public Map<Integer, String> getBlueTeamKeys() {
+        return blueTeamKeys;
+    }
+
+    public Map<Integer, String> getRedTeamKeys() {
+        return redTeamKeys;
+    }
+
     public BlueAllianceMatch(JSONObject eventObj) {
         blueTeamKeys = new HashMap<>();
         redTeamKeys = new HashMap<>();

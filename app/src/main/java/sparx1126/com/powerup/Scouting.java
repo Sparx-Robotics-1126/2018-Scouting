@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 
 import java.util.Calendar;
+import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
@@ -50,6 +52,7 @@ public class Scouting extends AppCompatActivity {
     private RadioButton hold1;
     private RadioButton hold2;
     private Button matchButton;
+    private DataCollection freeData;
     private CheckBox climbunder15secs;
     private static GoogleDriveNetworking googleDrive;
 
@@ -58,12 +61,39 @@ public class Scouting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scouting);
         googleDrive = GoogleDriveNetworking.getInstance();
+        freeData = DataCollection.getInstance();
 
 
         matchnum = findViewById(R.id.matchnumimput);
         matchButton = findViewById(R.id.matchButton);
+        matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String matchnumberstr = matchnum.getText().toString();
+
+
+                Map<String, BlueAllianceMatch> matchesinevent = freeData.getMatchesInEventMap();
+                if(matchesinevent == null)
+                Log.e("Potato", "NULL");
+
+                for (BlueAllianceMatch value : matchesinevent.values()) {
+                    if(value.getMatchNumber().equals(matchnumberstr)) {
+                        allianceLayout.setVisibility(View.VISIBLE);
+                        teamLayout.setVisibility(View.VISIBLE);
+                        autoLayout.setVisibility(View.VISIBLE);
+                        teleLayout.setVisibility(View.VISIBLE);
+                        climbLayout.setVisibility(View.VISIBLE);
+
+                    }
+                }
+
+            }
+        });
+
+
         teamLayout = findViewById(R.id.teamLayout);
         teamLayout.setVisibility(View.INVISIBLE);
+        teamnum = findViewById(R.id.)
         allianceColor = findViewById(R.id.allianceColor);
         //allianceColor.setVisibility(View.INVISIBLE);
         allianceLayout =findViewById(R.id.allianceLayout);
