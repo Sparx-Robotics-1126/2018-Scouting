@@ -90,7 +90,7 @@ public class Scouting extends AppCompatActivity {
         //timesPlacedexhange.setVisibility(View.INVISIBLE);
         timesPickedfromFloor = findViewById(R.id.cubesfromfloorpicker);
         //timesPickedfromFloor.setVisibility(View.INVISIBLE);
-        cubesfromplayers = findViewById(R.id.cubesfromfloorpicker);
+        cubesfromplayers = findViewById(R.id.cubesfromplayers);
         //cubesfromplayers.setVisibility(View.INVISIBLE);
         startLeftbtn = findViewById(R.id.startLeftbtn);
         //startLeftbtn.setVisibility(View.INVISIBLE);
