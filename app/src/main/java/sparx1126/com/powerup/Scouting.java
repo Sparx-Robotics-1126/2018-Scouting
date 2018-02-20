@@ -24,7 +24,7 @@ public class Scouting extends AppCompatActivity {
     private LinearLayout teamLayout;
     private  LinearLayout allianceLayout;
     private TextView allianceColor;
-    private EditText matchnum;
+    private TextView matchnum;
     private Button submitbutton;
     private LinearLayout autoLayout;
     private CheckBox autolinecheck;
@@ -62,6 +62,16 @@ public class Scouting extends AppCompatActivity {
 
         matchnum = findViewById(R.id.matchnumimput);
         matchButton = findViewById(R.id.matchButton);
+        matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                teamLayout.setVisibility(View.VISIBLE);
+                allianceLayout.setVisibility(View.VISIBLE);
+                autoLayout.setVisibility(View.VISIBLE);
+                teleLayout.setVisibility(View.VISIBLE);
+                climbLayout.setVisibility(View.VISIBLE);
+            }
+        });
         teamLayout = findViewById(R.id.teamLayout);
         teamLayout.setVisibility(View.INVISIBLE);
         allianceColor = findViewById(R.id.allianceColor);
