@@ -359,7 +359,7 @@
                 <EditText
                     android:id="@+id/howManySwitchPlace"
                     style="@style/J_basicTextView"
-                    android:hint="How Many"
+                    android:hint="How Many (place)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
                     android:inputType="number"
@@ -368,7 +368,7 @@
                 <EditText
                     android:id="@+id/howManySwitchToss"
                     style="@style/J_basicTextView"
-                    android:hint="How Many"
+                    android:hint="How Many (toss)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
                     android:inputType="number"
@@ -441,7 +441,7 @@
                 <EditText
                     android:id="@+id/howManyScalePlace"
                     style="@style/J_basicTextView"
-                    android:hint="How Many"
+                    android:hint="How Many (place)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
                     android:inputType="number"
@@ -450,7 +450,7 @@
                 <EditText
                     android:id="@+id/howManyScaleToss"
                     style="@style/J_basicTextView"
-                    android:hint="How Many"
+                    android:hint="How Many (toss)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
                     android:inputType="number"
@@ -715,7 +715,7 @@
 
                 <TextView
                     style="@style/J_basicTextView"
-                    android:text="Can Climb Field Rung" />
+                    android:text="Can Climb Without Assist" />
 
                 <CheckBox
                     android:id="@+id/climb_rung"
@@ -723,17 +723,31 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/J_horizontalLinearLayout">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/suppourtRobotInfo"
+            android:orientation="vertical">
 
-                <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Has Rungs" />
+            <Spinner
+                android:id="@+id/climbAssistTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#f2b632"
+                android:dropDownWidth="match_parent"
+                android:popupBackground="@color/accentColor"
+                android:textColor="@color/accentColor"
+                android:textColorHint="@color/accentColorHint"
+                android:textSize="@dimen/main_text_size" />
 
-                <CheckBox
-                    android:id="@+id/has_rungs"
-                    style="@style/J_checkBox" />
-
-            </LinearLayout>
+            <EditText
+                android:id="@+id/customClimbAssist"
+                style="@style/J_basicTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Enter Custom Climb Assist Type"
+                android:textColor="@color/accentColor"
+                android:textColorHint="@color/accentColorHint" />
 
             <LinearLayout
                 style="@style/J_horizontalLinearLayout"
@@ -744,13 +758,19 @@
                     style="@style/J_basicTextView"
                     android:paddingBottom="@dimen/margin_topbottom_default"
                     android:paddingTop="@dimen/margin_topbottom_default"
-                    android:text="How High Can it Be From Platform(ft)?" />
+                    android:id="@+id/howHighText"
+                    android:text="Max Height From Platform(ft)" />
 
                 <EditText
                     android:id="@+id/climb_height"
-                    style="@style/J_ShortEditText" />
+                    style="@style/J_ShortEditText"
+                    />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+
 
             <LinearLayout style="@style/J_horizontalLinearLayout">
 

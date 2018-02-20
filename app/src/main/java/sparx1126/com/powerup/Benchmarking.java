@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -24,6 +25,7 @@ public class Benchmarking extends AppCompatActivity {
     private EditText climb_height;
     private EditText customDrive;
     private EditText customWheel;
+    private EditText customClimbAssist;
     private EditText numWheels;
     private EditText groundClearance;
     private EditText howManySwitchTossAuto;
@@ -64,12 +66,7 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox scaleTossAuto;
     private CheckBox scalePlaceAuto;
 
-
-
-
-
-
-
+    TextView howHighText;
 
 
 
@@ -85,6 +82,7 @@ public class Benchmarking extends AppCompatActivity {
     private RadioButton pref_portal;
     private TextView rankChoices;
     private Spinner driveTypeSpinner;
+    private Spinner climbAssistTypeSpinner;
     private Spinner wheelTypeSpinner;
     private Button submit_button;
     private Button chooseAgainButton;
@@ -94,6 +92,7 @@ public class Benchmarking extends AppCompatActivity {
 
     private String driveType;
     private String wheelType;
+    private String climbAssistType;
 
     private String prefStart1 = "none";
     private String prefStart2 = "none";
@@ -114,9 +113,12 @@ public class Benchmarking extends AppCompatActivity {
         height = findViewById(R.id.height);
         weight = findViewById(R.id.weight);
         climb_height = findViewById(R.id.climb_height);
+        climb_height.setVisibility(View.GONE);
         customDrive = findViewById(R.id.customDrive);
         //https://stackoverflow.com/questions/18708955/invisible-components-still-take-up-space
         customDrive.setVisibility(View.GONE);
+        customClimbAssist = findViewById(R.id.customClimbAssist);
+        customClimbAssist.setVisibility(View.GONE);
         customWheel = findViewById(R.id.customWheel);
         customWheel.setVisibility(View.GONE);
         numWheels = findViewById(R.id.numWheels);
@@ -125,17 +127,18 @@ public class Benchmarking extends AppCompatActivity {
         howManySwitchTossAuto.setVisibility(View.GONE);
         howManySwitchPlaceAuto = findViewById(R.id.howManySwitchPlace);
         howManySwitchPlaceAuto.setVisibility(View.GONE);
-        howManyScaleTossAuto = findViewById(R.id.howManySwitchToss);
+        howManyScaleTossAuto = findViewById(R.id.howManyScaleToss);
         howManyScaleTossAuto.setVisibility(View.GONE);
-        howManyScalePlaceAuto = findViewById(R.id.howManySwitchPlace);
+        howManyScalePlaceAuto = findViewById(R.id.howManyScalePlace);
         howManyScalePlaceAuto.setVisibility(View.GONE);
 
+        howHighText = findViewById(R.id.howHighText);
+        howHighText.setVisibility(View.GONE);
 
         start_w_cube = findViewById(R.id.start_w_cube);
         move_past_line = findViewById(R.id.move_past_line);
         deposit_vault = findViewById(R.id.deposit_vault);
         climb_rung = findViewById(R.id.climb_rung);
-        has_rungs = findViewById(R.id.has_rungs);
         attach_robot = findViewById(R.id.attach_robot);
         pref_left = findViewById(R.id.pref_left);
         pref_center = findViewById(R.id.pref_center);
@@ -170,23 +173,24 @@ public class Benchmarking extends AppCompatActivity {
         switchPlaceAuto = findViewById(R.id.scoreSwitchPlaceAuto);
         switchPlaceAuto.setVisibility(View.GONE);
 
-        canScaleAuto = findViewById(R.id.canScoreSwitchAuto);
-        scaleTossAuto = findViewById(R.id.scoreSwitchTossAuto);
+        canScaleAuto = findViewById(R.id.canScoreScaleAuto);
+        scaleTossAuto = findViewById(R.id.scoreScaleTossAuto);
         scaleTossAuto.setVisibility(View.GONE);
-        scalePlaceAuto = findViewById(R.id.scoreSwitchPlaceAuto);
+        scalePlaceAuto = findViewById(R.id.scoreScalePlaceAuto);
         scalePlaceAuto.setVisibility(View.GONE);
-
 
 
         rankChoices = findViewById(R.id.rankStartTextView);
         driveTypeSpinner = findViewById(R.id.drive_type_spinner);
+        climbAssistTypeSpinner = findViewById(R.id.climbAssistTypeSpinner);
+        climbAssistTypeSpinner.setVisibility(View.GONE);
         wheelTypeSpinner = findViewById(R.id.wheel_type_spinner);
         submit_button = findViewById(R.id.submit_button);
         chooseAgainButton = findViewById(R.id.chooseAgainButton);
         prefGroup = findViewById(R.id.prefStartGroup);
 
 
-        //resets the choices3
+        //resets the choices for the ranker
         chooseAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,32 +274,26 @@ public class Benchmarking extends AppCompatActivity {
                             prefGroup.removeView(findViewById(R.id.pref_right));
                         break;
                 }
-//                if (numTimesRegex(rankChoices.getText().toString(), "none") == 3) {
-//                    rankChoices.setText("1. " + prefStart1 + " 2. none 3. none");
-//                } else if(numTimesRegex(rankChoices.getText().toString(), "none") == 2) {
-//                    rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. none");
-//                } else if(numTimesRegex(rankChoices.getText().toString(), "none") == 1) {
-//                    rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
-//                }
+
                 rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
             }});
 
 
-        canSwtichAuto.setOnClickListener(new View.OnClickListener() {
+        canScaleAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(switchTossAuto.getVisibility() == View.VISIBLE) {
-                    switchTossAuto.setVisibility(View.GONE);
-                    switchPlaceAuto.setVisibility(View.GONE);
-                    switchTossAuto.setChecked(false);
-                    switchPlaceAuto.setChecked(false);
-                    howManySwitchPlaceAuto.setVisibility(View.GONE);
-                    howManySwitchPlaceAuto.setText("");
-                    howManySwitchTossAuto.setVisibility(View.GONE);
-                    howManySwitchTossAuto.setText("");
+                if(scaleTossAuto.getVisibility() == View.VISIBLE) {
+                    scaleTossAuto.setVisibility(View.GONE);
+                    scalePlaceAuto.setVisibility(View.GONE);
+                    scaleTossAuto.setChecked(false);
+                    scalePlaceAuto.setChecked(false);
+                    howManyScalePlaceAuto.setVisibility(View.GONE);
+                    howManyScalePlaceAuto.setText("");
+                    howManyScaleTossAuto.setVisibility(View.GONE);
+                    howManyScaleTossAuto.setText("");
                 } else {
-                    switchTossAuto.setVisibility(View.VISIBLE);
-                    switchPlaceAuto.setVisibility(View.VISIBLE);
+                    scaleTossAuto.setVisibility(View.VISIBLE);
+                    scalePlaceAuto.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -304,10 +302,10 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 howManyScaleTossAuto.setText("");
-                if(switchTossAuto.isChecked()) {
-                    howManySwitchTossAuto.setVisibility(View.VISIBLE);
+                if(scaleTossAuto.isChecked()) {
+                    howManyScaleTossAuto.setVisibility(View.VISIBLE);
                 } else {
-                    howManySwitchTossAuto.setVisibility(View.INVISIBLE);
+                    howManyScaleTossAuto.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -418,8 +416,52 @@ public class Benchmarking extends AppCompatActivity {
             }
         });
 
+        climb_rung.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(climbAssistTypeSpinner.getVisibility() == View.GONE){
+                    climbAssistTypeSpinner.setVisibility(View.VISIBLE);
+                    climb_height.setVisibility(View.VISIBLE);
+                    howHighText.setVisibility(View.VISIBLE);
+                } else {
+                    climbAssistTypeSpinner.setVisibility(View.GONE);
+                    climb_height.setVisibility(View.GONE);
+                    howHighText.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //for climber type dropdown selector
+        final String[] climbAssistTypeArraySpinner = new String[] {
+                "Select Climb Assist Type", "Rungs", "Ramp / Platform", "Forklift", "Other"
+        };
+
+        ArrayAdapter<String> climbAssistAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, climbAssistTypeArraySpinner);
+        climbAssistAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        climbAssistTypeSpinner.setAdapter(climbAssistAdapter);
+
+        climbAssistTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                climbAssistType = climbAssistTypeArraySpinner[position];
+                if(climbAssistType.equals("Other")) {
+                    customClimbAssist.setVisibility(View.VISIBLE);
+                } else {
+                    customClimbAssist.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
         //for drive type dropdown selector
-        //https://stackoverflow.com/questions/5241660/how-can-i-add-items-to-a-spinner-in-android
         final String[] driveTypeArraySpinner = new String[] {
                 "Select Drive Type", "Tank", "Mecanum", "Swerve", "H-Drive / Slide", "Other"
         };
@@ -429,7 +471,6 @@ public class Benchmarking extends AppCompatActivity {
         driveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         driveTypeSpinner.setAdapter(driveAdapter);
 
-        //https://stackoverflow.com/questions/3928071/setting-a-spinner-onclicklistener-in-android
         driveTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
