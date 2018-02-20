@@ -71,10 +71,8 @@ public class Scouting extends AppCompatActivity {
             public void onClick(View view) {
                 String matchnumberstr = matchnum.getText().toString();
 
-
-                Map<String, BlueAllianceMatch> matchesinevent = freeData.getMatchesInEventMap();
+                Map<String, BlueAllianceMatch> matchesinevent = freeData.getEventMatches();
                 if(matchesinevent == null)
-                Log.e("Potato", "NULL");
 
                 for (BlueAllianceMatch value : matchesinevent.values()) {
                     if(value.getMatchNumber().equals(matchnumberstr)) {
@@ -93,7 +91,7 @@ public class Scouting extends AppCompatActivity {
 
         teamLayout = findViewById(R.id.teamLayout);
         teamLayout.setVisibility(View.INVISIBLE);
-        teamnum = findViewById(R.id.)
+        teamnum = findViewById(R.id.teamnumber);
         allianceColor = findViewById(R.id.allianceColor);
         //allianceColor.setVisibility(View.INVISIBLE);
         allianceLayout =findViewById(R.id.allianceLayout);

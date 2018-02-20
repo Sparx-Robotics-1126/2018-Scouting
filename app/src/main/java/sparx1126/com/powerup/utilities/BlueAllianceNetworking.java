@@ -76,7 +76,7 @@ public class BlueAllianceNetworking {
                         // the response needs to be copied into a String variable
                         String data = response.body().string();
                         Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(data);
-                        dataCollection.setEventsWeAreIn(rtnMap);
+                        dataCollection.setTeamEvents(rtnMap);
                         fileIO.storeTeamEvents(data);
                         _callback.handleFinishDownload();
                     } else {
@@ -87,7 +87,7 @@ public class BlueAllianceNetworking {
         }
         else {
             Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(localData);
-            dataCollection.setEventsWeAreIn(rtnMap);
+            dataCollection.setTeamEvents(rtnMap);
             Log.e("Hiram", rtnMap.toString());
             _callback.handleFinishDownload();
         }
@@ -110,7 +110,7 @@ public class BlueAllianceNetworking {
                         String data = response.body().string();
                         Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(data);
                         fileIO.storeEventTeams(data);
-                        dataCollection.setTeamsInEvent(rtnMap);
+                        dataCollection.setEventTeams(rtnMap);
                         _callback.handleFinishDownload();
                     } else {
                         throw new AssertionError(response.message() + this);
@@ -120,7 +120,7 @@ public class BlueAllianceNetworking {
         }
         else {
             Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(localData);
-            dataCollection.setTeamsInEvent(rtnMap);
+            dataCollection.setEventTeams(rtnMap);
             Log.e("Hiram", rtnMap.toString());
             _callback.handleFinishDownload();
         }

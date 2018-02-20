@@ -4,12 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
-import java.util.Scanner;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
+import sparx1126.com.powerup.data_components.BlueAllianceMatch;
+import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class FileIO {
     private static final String TAG = "FileIO ";
@@ -17,13 +22,11 @@ public class FileIO {
     private static final String TEAM_EVENTS_FILE_NAME ="teamEvents.json";
     private static final String EVENT_MATCHES_FILE_NAME ="eventMatches.json";
     private static final String EVENT_TEAMS_FILE_NAME ="eventTeams.json";
-    private static final String SCOUTING_FILE_NAME ="scoutingData.json";
-    private static final String BENCHMARK_FILE_NAME ="benchmarkData.json";
-    private static String TEAM_EVENTS_FILE_PATH;
-    private static String EVENT_MATCHES_FILE_PATH;
     private static FileIO instance;
+    private File dir;
+    private static DataCollection dataCollection;
     private static JSONParser jsonParser;
-    private boolean initialized;
+
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -35,120 +38,98 @@ public class FileIO {
     }
 
     private FileIO() {
+        dataCollection = DataCollection.getInstance();
         jsonParser = JSONParser.getInstance();
+
     }
 
     // To be called once by MainActivity
     public void InitializeStorage(Context _context) {
-        File dir = new File(_context.getCacheDir(), FOLDER_NAME);
+        dir = new File(_context.getCacheDir(), FOLDER_NAME);
         if(!dir.exists()) {
             if(!dir.mkdir()) throw new AssertionError("Could not make directory!" + this);
         }
 
         Log.d(TAG, "Storage Path:" + dir.getPath());
         Toast.makeText(_context, TAG + "Storage Path:" + dir.getPath(), Toast.LENGTH_LONG).show();
-
-        TEAM_EVENTS_FILE_PATH = dir.getPath() + "/" + TEAM_EVENTS_FILE_NAME;
-        EVENT_MATCHES_FILE_PATH = dir.getPath() + "/" + EVENT_MATCHES_FILE_NAME;
-        initialized = true;
     }
 
     public void storeTeamEvents(String _input) {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
-
-        try {
-            FileWriter  outputStream = new FileWriter(TEAM_EVENTS_FILE_PATH);
-            outputStream.write(_input);
-            outputStream.close();
-            Log.d(TAG, "Stored Team Events");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        storeData(TEAM_EVENTS_FILE_NAME, _input);
     }
 
     public String fetchTeamEvents() {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
-
-        File fileHandle = new File(TEAM_EVENTS_FILE_PATH);
-        String fileContentInJSONForm = "";
-        try {
-            Scanner scanner = new Scanner(fileHandle).useDelimiter("\\Z");
-            fileContentInJSONForm = scanner.next();
-            Log.d(TAG, "Fetched Team Events");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileContentInJSONForm;
+        return fetchData(TEAM_EVENTS_FILE_NAME);
     }
 
     public void storeEventMatches(String _input) {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
-
-        try {
-            FileWriter  outputStream = new FileWriter(EVENT_MATCHES_FILE_PATH);
-            outputStream.write(_input);
-            outputStream.close();
-            Log.d(TAG, "Stored Event Matches");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        storeData(EVENT_MATCHES_FILE_NAME, _input);
     }
 
-    public Map<String, BlueAllianceEvent> fetchEventMatches() {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
-
-        File fileHandle = new File(EVENT_MATCHES_FILE_PATH);
-        String fileContentInJSONForm = "";
-        try {
-            Scanner scanner = new Scanner(fileHandle).useDelimiter("\\Z");
-            fileContentInJSONForm = scanner.next();
-            Log.d(TAG, "Fetched Event Matches");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
+    public String fetchEventMatches() {
+        return fetchData(EVENT_MATCHES_FILE_NAME);
     }
 
     public void storeEventTeams(String _input) {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
-
-        try {
-            FileWriter  outputStream = new FileWriter(EVENT_TEAMS_FILE_NAME);
-            outputStream.write(_input);
-            outputStream.close();
-            Log.d(TAG, "Stored Event Teams");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        storeData(EVENT_TEAMS_FILE_NAME, _input);
     }
 
     public String fetchEventTeams() {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
-
-        File fileHandle = new File(EVENT_TEAMS_FILE_NAME);
-        String fileContentInJSONForm = "";
-        try {
-            Scanner scanner = new Scanner(fileHandle).useDelimiter("\\Z");
-            fileContentInJSONForm = scanner.next();
-            Log.d(TAG, "Fetched Event Teams");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileContentInJSONForm;
+        return fetchData(EVENT_TEAMS_FILE_NAME);
     }
 
-    public Map<String, BlueAllianceEvent> fetchScouting() {
-        if (!initialized) throw new AssertionError("Not Initialize" + this);
+    public void storeData(String _fileName, String _input) {
+        if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        File fileHandle = new File(TEAM_EVENTS_FILE_PATH);
-        String fileContentInJSONForm = "";
+        String filePath = dir.getPath() + "/" + _fileName;
+
         try {
-            Scanner scanner = new Scanner(fileHandle).useDelimiter("\\Z");
-            fileContentInJSONForm = scanner.next();
-            Log.d(TAG, "Fetched Team Events");
+            BufferedWriter writer = new BufferedWriter( new FileWriter( filePath));
+            writer.write( _input);
+            writer.close();
+            Log.d(TAG, "Stored: " + _fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonParser.teamEventsStringIntoMap(fileContentInJSONForm);
+    }
+
+    public String fetchData(String _fileName) {
+        if (dir == null) throw new AssertionError("Not Initialize" + this);
+
+        String filePath = dir.getPath() + "/" + _fileName;
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null)
+            {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return contentBuilder.toString();
+    }
+
+    public void restore() {
+        String teamEvents = fetchTeamEvents();
+        if(!teamEvents.isEmpty()){
+            Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(teamEvents);
+            dataCollection.setTeamEvents(rtnMap);
+        }
+
+        String eventTeams = fetchEventTeams();
+        if(!eventTeams.isEmpty()){
+            Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(eventTeams);
+            dataCollection.setEventTeams(rtnMap);
+        }
+
+        String eventMatches = fetchEventMatches();
+        if(!eventMatches.isEmpty()){
+            Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(eventMatches);
+            dataCollection.setEventMatches(rtnMap);
+        }
     }
 }

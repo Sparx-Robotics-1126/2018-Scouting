@@ -2,6 +2,7 @@ package sparx1126.com.powerup;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.Map;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.NetworkStatus;
 
 public class Admin extends AppCompatActivity {
     private static final String TAG = "Admin ";
@@ -39,6 +41,8 @@ public class Admin extends AppCompatActivity {
     private RadioButton teamNumber1SelectedButton;
     private RadioButton teamNumber2SelectedButton;
     private RadioButton teamNumber3SelectedButton;
+    private static NetworkStatus networkStatus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class Admin extends AppCompatActivity {
         editor = settings.edit();
         blueAlliance = BlueAllianceNetworking.getInstance();
         dataCollection = DataCollection.getInstance();
+        networkStatus = NetworkStatus.getInstance();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(TAG);
@@ -144,34 +149,55 @@ public class Admin extends AppCompatActivity {
 
     private void restorePreferences() {
         eventsWeAreInDialog.show();
-        blueAlliance.downloadEventsSparxsIsIn(this, new BlueAllianceNetworking.Callback() {
-            @Override
-            public void handleFinishDownload() {
-                // this needs to run on the ui thread because of ui components in it
-                runOnUiThread(new Runnable() {
+        Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
+        if(data.isEmpty()) {
+            if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
+                blueAlliance.downloadEventsSparxsIsIn(this, new BlueAllianceNetworking.Callback() {
                     @Override
-                    public void run() {
-                        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
-                        Map<String, BlueAllianceEvent> data = dataCollection.getEventsWeAreIn();
-                        List<String> eventSpinnerList = new ArrayList<>();
-                        if (!pref_SelectedEvent.isEmpty()) {
-                            eventSpinnerList.add(pref_SelectedEvent);
-                            for (String eventName : data.keySet()) {
-                                if (!eventName.equals(pref_SelectedEvent)) {
-                                    eventSpinnerList.add(eventName);
+                    public void handleFinishDownload() {
+                        // this needs to run on the ui thread because of ui components in it
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+                                Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
+                                List<String> eventSpinnerList = new ArrayList<>();
+                                if (!pref_SelectedEvent.isEmpty()) {
+                                    eventSpinnerList.add(pref_SelectedEvent);
+                                    for (String eventName : data.keySet()) {
+                                        if (!eventName.equals(pref_SelectedEvent)) {
+                                            eventSpinnerList.add(eventName);
+                                        }
+                                    }
+                                } else {
+                                    eventSpinnerList.add(getResources().getString(R.string.selectEvent));
+                                    eventSpinnerList.addAll(data.keySet());
                                 }
+                                SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
+                                eventSpinner.setAdapter(eventAdapter);
+                                eventsWeAreInDialog.dismiss();
                             }
-                        } else {
-                            eventSpinnerList.add(getResources().getString(R.string.selectEvent));
-                            eventSpinnerList.addAll(data.keySet());
-                        }
-                        SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
-                        eventSpinner.setAdapter(eventAdapter);
-                        eventsWeAreInDialog.dismiss();
+                        });
                     }
                 });
             }
-        });
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Admin.this);
+
+                builder.setTitle(TAG);
+                builder.setMessage("NEED to connect to internet");
+                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        finish();
+                    }
+                });
+
+                Dialog dialog = builder.create();
+                dialog.show();
+            }
+        }
 
         boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
         if (pref_BlueAlliance) {

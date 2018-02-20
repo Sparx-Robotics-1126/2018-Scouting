@@ -13,22 +13,19 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
     private static DataCollection theDataCollection;
-    private final Map<Integer, List<ScoutingData>> scoutingDataMap;
-    private final Map<Integer, BenchmarkData> benchmarkDataMap;
+    private Map<Integer, List<ScoutingData>> scoutingDataMap;
+    private Map<Integer, BenchmarkData> benchmarkDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
-    private FileIO fileIO;
+    private Map<String, BlueAllianceMatch> eventMatchesMap;
 
-    public Map<String, BlueAllianceMatch> getMatchesInEventMap() {
-        return matchesInEventMap;
+    public Map<String, BlueAllianceMatch> getEventMatches() {
+        return eventMatchesMap;
     }
 
-    public void setMatchesInEventMap(Map<String, BlueAllianceMatch> matchesInEventMap) {
-        this.matchesInEventMap = matchesInEventMap;
+    public void setEventMatches(Map<String, BlueAllianceMatch> matchesInEventMap) {
+        this.eventMatchesMap = matchesInEventMap;
     }
-
-    private Map<String, BlueAllianceMatch> matchesInEventMap;
-
 
     public static synchronized DataCollection getInstance(){
         if(theDataCollection == null ) {
@@ -40,7 +37,9 @@ public class DataCollection {
     private DataCollection(){
         scoutingDataMap = new HashMap<>();
         benchmarkDataMap = new HashMap<>();
-        fileIO = FileIO.getInstance();
+        eventsWeAreInMap = new HashMap<>();
+        teamsInEventMap = new HashMap<>();
+        eventMatchesMap = new HashMap<>();
     }
 
     public void addScoutingData(ScoutingData _data){
@@ -69,15 +68,15 @@ public class DataCollection {
     }
 
 
-    public void setEventsWeAreIn(Map<String, BlueAllianceEvent> _eventData){
+    public void setTeamEvents(Map<String, BlueAllianceEvent> _eventData){
         eventsWeAreInMap = _eventData;
     }
 
-    public Map<String, BlueAllianceEvent> getEventsWeAreIn(){
+    public Map<String, BlueAllianceEvent> getTeamEvents(){
         return eventsWeAreInMap;
     }
 
-    public void setTeamsInEvent (Map<String, BlueAllianceTeam> _Data){
+    public void setEventTeams(Map<String, BlueAllianceTeam> _Data){
         teamsInEventMap = _Data;
     }
 

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
+    private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
     private static NetworkStatus networkStatus;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         editor = settings.edit();
 
-        FileIO fileIO = FileIO.getInstance();
+        fileIO = FileIO.getInstance();
         // This is done only once here in MainActivity
         fileIO.InitializeStorage(this);
         googleDrive = GoogleDriveNetworking.getInstance();
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
             studentNameAutoTextView.dismissDropDown();
             dismissKeyboard();
         }
+        fileIO.restore();
     }
 
     @Override
