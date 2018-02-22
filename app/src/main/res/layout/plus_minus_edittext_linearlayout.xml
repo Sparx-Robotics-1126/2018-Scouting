@@ -10,7 +10,7 @@
         android:id="@+id/btn_minus"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="@string/minus"
+        android:text="-"
         android:backgroundTint="@color/sparxRedDark"
         android:textColor="@color/black"/>
 
@@ -20,14 +20,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:focusable="false"
-        android:text="@string/zero"
+        android:text="0"
         tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btn_plus"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="@string/plus"
+        android:text="+"
         android:backgroundTint="@color/sparxRedDark"
         android:textColor="@color/black"/>
 </LinearLayout>

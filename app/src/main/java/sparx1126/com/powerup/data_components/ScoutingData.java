@@ -1,6 +1,29 @@
 package sparx1126.com.powerup.data_components;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ScoutingData {
+    // keys
+    private static final String MATCH_NUMBER = "matchNumber";
+    private static final String TEAM_NUMBER = "teamNumber";
+    private static final String AUTO_LINE_CROSSED = "autoLineCrossed";
+    private static final String AUTO_SCORE_SCALE = "autoScoredSwitch";
+    private static final String AUTO_SCORED_SCALE = "autoScoredScale";
+    private static final String AUTO_CUBE_EXCHANGE = "autoCubeExchange";
+    private static final String CUBES_PLACED_ON_SWITCH = "cubesPlacedOnSwitch";
+    private static final String CUBES_PLACED_ON_SCALE = "cubesPlacedOnScale";
+    private static final String CUBES_PLACED_IN_EXCHANGE = "cubesPlacedInExchange";
+    private static final String CUBES_PICKED_UP_FROM_FLOOR = "cubesPickedUpFromFloor";
+    private static final String CUBES_ACQUIRE_FROM_PLAYER = "cubesAcquireFromPlayer";
+    private static final String PLAYED_DEFENSE_EFFECTIVELY = "playedDefenseEffectively";
+    private static final String CLIMBED_RUNG = "climbedRung";
+    private static final String CLIMBED_ON_ROBOT = "climbedOnRobot";
+    private static final String CAN_BE_CLIMB_ON = "canBeClimbOn";
+    private static final String NUMBER_OF_ROBOTS_HELD = "numberOfRobotsHeld";
+    private static final String CLIMBED_UNDER_15_SECS = "climbedUnder15Secs";
+
+    private JSONObject jsonObj;
     private int matchNumber;
     private int teamNumber;
 
@@ -14,14 +37,40 @@ public class ScoutingData {
     private int cubesPlacedOnScale;
     private int cubesPlacedInExchange;
     private int cubesPickedUpFromFloor;
-    private int cubesAdquireFromPlayer;
-    private boolean playedDefenseEffectivily;
+    private int cubesAcquireFromPlayer;
+    private boolean playedDefenseEffectively;
 
     private boolean climbedRung;
     private boolean climbedOnRobot;
-    private boolean canBeClimdOn;
+    private boolean canBeClimbOn;
     private int numberOfRobotsHeld;
     private boolean climbedUnder15Secs;
+
+    public ScoutingData() {
+        jsonObj = new JSONObject();
+        try {
+            jsonObj.put(MATCH_NUMBER, matchNumber);
+            jsonObj.put(TEAM_NUMBER, teamNumber);
+            jsonObj.put(AUTO_LINE_CROSSED, autoLineCrossed);
+            jsonObj.put(AUTO_SCORE_SCALE, autoScoredSwitch);
+            jsonObj.put(AUTO_SCORED_SCALE, autoScoredScale);
+            jsonObj.put(AUTO_CUBE_EXCHANGE, autoCubeExchange);
+            jsonObj.put(CUBES_PLACED_ON_SWITCH, cubesPlacedOnSwitch);
+            jsonObj.put(CUBES_PLACED_ON_SCALE, cubesPlacedOnScale);
+            jsonObj.put(CUBES_PLACED_IN_EXCHANGE, cubesPlacedInExchange);
+            jsonObj.put(CUBES_PICKED_UP_FROM_FLOOR, cubesPickedUpFromFloor);
+            jsonObj.put(CUBES_ACQUIRE_FROM_PLAYER, cubesAcquireFromPlayer);
+            jsonObj.put(PLAYED_DEFENSE_EFFECTIVELY, playedDefenseEffectively);
+            jsonObj.put(CLIMBED_RUNG, climbedRung);
+            jsonObj.put(CLIMBED_ON_ROBOT, climbedOnRobot);
+            jsonObj.put(CAN_BE_CLIMB_ON, canBeClimbOn);
+            jsonObj.put(NUMBER_OF_ROBOTS_HELD, numberOfRobotsHeld);
+            jsonObj.put(CLIMBED_UNDER_15_SECS, climbedUnder15Secs);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getMatchNumber() {
         return matchNumber;
@@ -111,20 +160,20 @@ public class ScoutingData {
         this.cubesPickedUpFromFloor = cubesPickedUpFromFloor;
     }
 
-    public int getCubesAdquireFromPlayer() {
-        return cubesAdquireFromPlayer;
+    public int getCubesAcquireFromPlayer() {
+        return cubesAcquireFromPlayer;
     }
 
-    public void setCubesAdquireFromPlayer(int cubesAdquireFromPlayer) {
-        this.cubesAdquireFromPlayer = cubesAdquireFromPlayer;
+    public void setCubesAcquireFromPlayer(int cubesAcquireFromPlayer) {
+        this.cubesAcquireFromPlayer = cubesAcquireFromPlayer;
     }
 
-    public boolean isPlayedDefenseEffectivily() {
-        return playedDefenseEffectivily;
+    public boolean isPlayedDefenseEffectively() {
+        return playedDefenseEffectively;
     }
 
-    public void setPlayedDefenseEffectivily(boolean playedDefenseEffectivily) {
-        this.playedDefenseEffectivily = playedDefenseEffectivily;
+    public void setPlayedDefenseEffectively(boolean playedDefenseEffectively) {
+        this.playedDefenseEffectively = playedDefenseEffectively;
     }
 
     public boolean isClimbedRung() {
@@ -143,12 +192,12 @@ public class ScoutingData {
         this.climbedOnRobot = climbedOnRobot;
     }
 
-    public boolean isCanBeClimdOn() {
-        return canBeClimdOn;
+    public boolean isCanBeClimbOn() {
+        return canBeClimbOn;
     }
 
-    public void setCanBeClimdOn(boolean canBeClimdOn) {
-        this.canBeClimdOn = canBeClimdOn;
+    public void setCanBeClimbOn(boolean canBeClimbOn) {
+        this.canBeClimbOn = canBeClimbOn;
     }
 
     public int getNumberOfRobotsHeld() {
@@ -167,27 +216,8 @@ public class ScoutingData {
         this.climbedUnder15Secs = climbedUnder15Secs;
     }
 
+    @Override
     public String toString() {
-        String returnString = "";
-
-        returnString += "Team Number:" + String.valueOf(teamNumber) +"\n";
-        returnString += "Match Number:" + String.valueOf(matchNumber) +"\n";
-        returnString += "Crossed Auto Line:" + autoLineCrossed + "\n";
-        returnString += "Scored Switch:" + autoScoredSwitch + "\n";
-        returnString += "Scored Scale:" + autoScoredScale + "\n";
-        returnString += "Picked Up Cube:" + autoPickedUpCube + "\n";
-        returnString += "Placed cube in exchange:" + autoCubeExchange + "\n";
-        returnString += "Times scored switch:" + cubesPlacedOnSwitch + "\n";
-        returnString += "Times scored scale:" + cubesPlacedOnScale + "\n";
-        returnString += "Times placed cube in exchange:" + cubesPlacedInExchange + "\n";
-        returnString += "Times picked up cube from floor:" + cubesPickedUpFromFloor + "\n";
-        returnString += "Times cubes acquired from player:" + cubesAdquireFromPlayer + "\n";
-        returnString += "Effectively played defense:" + playedDefenseEffectivily + "\n";
-        returnString += "Climb Rung:" + climbedRung + "\n";
-        returnString += "Climb On Robot:" + climbedOnRobot + "\n";
-        returnString += "numberOfRobotsHeld:" + numberOfRobotsHeld + "\n";
-        returnString += "Can Climb under 15 seconds:" + climbedUnder15Secs + "\n";
-
-        return returnString;
+        return jsonObj.toString();
     }
 }

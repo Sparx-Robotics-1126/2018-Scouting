@@ -22,6 +22,7 @@ public class FileIO {
     private static final String TEAM_EVENTS_FILE_NAME ="teamEvents.json";
     private static final String EVENT_MATCHES_FILE_NAME ="eventMatches.json";
     private static final String EVENT_TEAMS_FILE_NAME ="eventTeams.json";
+    private static final String SCOUTING_DATA_HEADER ="scoutingData";
     private static FileIO instance;
     private File dir;
     private static DataCollection dataCollection;
@@ -40,7 +41,6 @@ public class FileIO {
     private FileIO() {
         dataCollection = DataCollection.getInstance();
         jsonParser = JSONParser.getInstance();
-
     }
 
     // To be called once by MainActivity
@@ -73,6 +73,15 @@ public class FileIO {
     }
     public String fetchEventTeams() {
         return fetchData(EVENT_TEAMS_FILE_NAME);
+    }
+
+    public void storeScoutingData(String _input, String _match, String _teamNumber) {
+        long timeStampInSeconds = System.currentTimeMillis() / 1000;
+        String fileName = SCOUTING_DATA_HEADER + "_" + _match + "_" + _teamNumber + "_" + String.valueOf(timeStampInSeconds) + ".json";
+        storeData(fileName, _input);
+    }
+    public String fetchScoutingData() {
+        return fetchData(TEAM_EVENTS_FILE_NAME);
     }
 
     private void storeData(String _fileName, String _input) {

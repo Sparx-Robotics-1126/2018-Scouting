@@ -84,7 +84,7 @@ public class View extends AppCompatActivity {
         tempdata4.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata4);
         ScoutingData tempdata5 = new ScoutingData();
-        tempdata5.setPlayedDefenseEffectivily(true);
+        tempdata5.setPlayedDefenseEffectively(true);
         tempdata5.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata5);
         ScoutingData tempdata6 = new ScoutingData();
@@ -92,7 +92,7 @@ public class View extends AppCompatActivity {
         tempdata6.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata6);
         ScoutingData tempdata7 = new ScoutingData();
-        tempdata7.setCubesAdquireFromPlayer(1);
+        tempdata7.setCubesAcquireFromPlayer(1);
         tempdata7.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata7);
         ScoutingData tempdata8 = new ScoutingData();
@@ -180,7 +180,7 @@ public class View extends AppCompatActivity {
                 if (sd.isClimbedOnRobot()) {
                     climbOnRobot++;
                 }
-                if (sd.isPlayedDefenseEffectivily()) {
+                if (sd.isPlayedDefenseEffectively()) {
                     playeddefense++;
                 }
                 timesPickedfromfloor += timesPickedfromfloor;
