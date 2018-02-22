@@ -17,36 +17,23 @@ public class BlueAllianceMatch {
     private static final String BLUE = "blue";
     private static final String RED = "red";
 
+
+    private JSONObject jsonObj;
     private String key;
     private String compLevel;
     private String matchNumber;
     private Map<Integer, String> blueTeamKeys;
     private Map<Integer, String> redTeamKeys;
 
-    public String getCompLevel() {
-        return compLevel;
-    }
-
-    public String getMatchNumber() {
-        return matchNumber;
-    }
-
-    public Map<Integer, String> getBlueTeamKeys() {
-        return blueTeamKeys;
-    }
-
-    public Map<Integer, String> getRedTeamKeys() {
-        return redTeamKeys;
-    }
-
-    public BlueAllianceMatch(JSONObject eventObj) {
+    public BlueAllianceMatch(JSONObject _jsonObj) {
+        jsonObj = _jsonObj;
         blueTeamKeys = new HashMap<>();
         redTeamKeys = new HashMap<>();
         try {
-            key = eventObj.getString(KEY);
-            compLevel = eventObj.getString(COMP_LEVEL);
-            matchNumber = eventObj.getString(MATCH_NUMBER);
-            JSONObject allianceObj =  eventObj.getJSONObject(ALLIANCES);
+            key = jsonObj.getString(KEY);
+            compLevel = jsonObj.getString(COMP_LEVEL);
+            matchNumber = jsonObj.getString(MATCH_NUMBER);
+            JSONObject allianceObj =  jsonObj.getJSONObject(ALLIANCES);
             JSONObject redObj = allianceObj.getJSONObject(RED);
             JSONArray redTeamKeysArray = redObj.getJSONArray(TEAM_KEYS);
             for(int i = 0; i < redTeamKeysArray.length(); i++){
@@ -63,37 +50,23 @@ public class BlueAllianceMatch {
         }
     }
 
+    public JSONObject getJsonObject() { return jsonObj; }
     public String getKey() { return key; }
+    public String getCompLevel() {
+        return compLevel;
+    }
+    public String getMatchNumber() {
+        return matchNumber;
+    }
+    public Map<Integer, String> getBlueTeamKeys() {
+        return blueTeamKeys;
+    }
+    public Map<Integer, String> getRedTeamKeys() {
+        return redTeamKeys;
+    }
 
-
-    public JSONObject getJSONObject(BlueAllianceMatch _input) {
-        JSONObject json = new JSONObject();
-        try {
-            json.put(KEY, key);
-            json.put(COMP_LEVEL,compLevel);
-            json.put(MATCH_NUMBER, matchNumber);
-            JSONArray blueTeamKeysArray = new JSONArray();
-            for(String team : blueTeamKeys.values()){
-                blueTeamKeysArray.put(team);
-            }
-            JSONObject blueObj = new JSONObject();
-            blueObj.put(TEAM_KEYS, blueTeamKeysArray);
-
-
-            JSONArray redTeamKeysArray = new JSONArray();
-            for(String team : redTeamKeys.values()){
-                redTeamKeysArray.put(team);
-            }
-            JSONObject redObj = new JSONObject();
-            redObj.put(TEAM_KEYS, redTeamKeysArray);
-            JSONObject allianceObj = new JSONObject();
-            allianceObj.put(RED, redObj);
-            allianceObj.put(BLUE, blueObj);
-            json.put(ALLIANCES, allianceObj);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
+    @Override
+    public String toString() {
+        return jsonObj.toString();
     }
 }

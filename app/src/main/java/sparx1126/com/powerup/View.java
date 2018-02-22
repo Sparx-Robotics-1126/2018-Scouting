@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import sparx1126.com.powerup.custom_layouts.CustomExpandableListAdapter;
 import sparx1126.com.powerup.data_components.ScoutingData;
@@ -68,73 +67,73 @@ public class View extends AppCompatActivity {
         HashMap<String, List<String>> expandableListDetail = new HashMap<>();
     //Scouting Data for testing
         ScoutingData tempdata = new ScoutingData();
-        tempdata.setClimbunder15secs(true);
-        tempdata.setTeamnumber(1126);
+        tempdata.setClimbedUnder15Secs(true);
+        tempdata.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata);
         ScoutingData tempdata2 = new ScoutingData();
-        tempdata2.setClimbunder15secs(false);
-        tempdata2.setNumRobotsHeld(2);
-        tempdata2.setTeamnumber(1126);
+        tempdata2.setClimbedUnder15Secs(false);
+        tempdata2.setNumberOfRobotsHeld(2);
+        tempdata2.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata2);
         ScoutingData tempdata3 = new ScoutingData();
-        tempdata3.setClimbRung(true);
-        tempdata3.setTeamnumber(1126);
+        tempdata3.setClimbedRung(true);
+        tempdata3.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata3);
         ScoutingData tempdata4 = new ScoutingData();
-        tempdata4.setClimbOnRobot(true);
-        tempdata4.setTeamnumber(1126);
+        tempdata4.setClimbedOnRobot(true);
+        tempdata4.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata4);
         ScoutingData tempdata5 = new ScoutingData();
-        tempdata5.setPlayeddefense(true);
-        tempdata5.setTeamnumber(1126);
+        tempdata5.setPlayedDefense(true);
+        tempdata5.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata5);
         ScoutingData tempdata6 = new ScoutingData();
-        tempdata6.setTimesPickedfromfloor(3);
-        tempdata6.setTeamnumber(1126);
+        tempdata6.setTimesPickedFromFloor(3);
+        tempdata6.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata6);
         ScoutingData tempdata7 = new ScoutingData();
-        tempdata7.setCubesfromplayers(1);
-        tempdata7.setTeamnumber(1126);
+        tempdata7.setCubesFromPlayers(1);
+        tempdata7.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata7);
         ScoutingData tempdata8 = new ScoutingData();
-        tempdata8.setTimesplacedexchange(3);
-        tempdata8.setTeamnumber(1126);
+        tempdata8.setTimesPlacedInExchange(3);
+        tempdata8.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata8);
         ScoutingData tempdata9 = new ScoutingData();
-        tempdata9.setTimesscoredswitch(3);
-        tempdata9.setTeamnumber(1126);
+        tempdata9.setTimesScoredOnSwitch(3);
+        tempdata9.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata8);
         ScoutingData tempdata11 = new ScoutingData();
         tempdata11.setAutoStartedLeft(true);
-        tempdata11.setTeamnumber(1126);
+        tempdata11.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata11);
         ScoutingData tempdata12 = new ScoutingData();
         tempdata12.setAutoStartedCenter(false);
-        tempdata12.setTeamnumber(1126);
+        tempdata12.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata12);
         ScoutingData tempdata13 = new ScoutingData();
         tempdata13.setAutoStartedRight(false);
-        tempdata13.setTeamnumber(1126);
+        tempdata13.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata13);
         ScoutingData tempdata14 = new ScoutingData();
         tempdata14.setAutoScoredSwitch(true);
-        tempdata14.setTeamnumber(1126);
+        tempdata14.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata14);
         ScoutingData tempdata15 = new ScoutingData();
         tempdata15.setAutoScoredScale(false);
-        tempdata15.setTeamnumber(1126);
+        tempdata15.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata15);
         ScoutingData tempdata16 = new ScoutingData();
         tempdata16.setAutoPickedUpCube(true);
-        tempdata16.setTeamnumber(1126);
+        tempdata16.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata16);
         ScoutingData tempdata17 = new ScoutingData();
         tempdata17.setAutoCubeExchange(true);
-        tempdata17.setTeamnumber(1126);
+        tempdata17.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata17);
         ScoutingData tempdata18 = new ScoutingData();
-        tempdata18.setAutolinecheck(true);
-        tempdata18.setTeamnumber(1126);
+        tempdata18.setAutoLineCrossed(true);
+        tempdata18.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata18);
 
 
@@ -172,19 +171,19 @@ public class View extends AppCompatActivity {
             List<String> scouting = new ArrayList<>();
             scouting.add("<font color=\"black\"><b>Matches scouted: </b></font>" + teamDatas.size());
             for (ScoutingData sd : teamDatas) {
-                if (sd.isClimbunder15secs()) {
+                if (sd.isClimbedUnder15Secs()) {
                     climbunder15secs++;
                     Log.e("Felix was here", Float.toHexString(climbunder15secs));
                 }
 
-                numRobotsHeld += sd.getNumRobotsHeld();
-                if (sd.getClimbRung()) {
+                numRobotsHeld += sd.getNumberOfRobotsHeld();
+                if (sd.getClimbedRung()) {
                     climbRung++;
                 }
-                if (sd.getClimbOnRobot()) {
+                if (sd.getClimbedOnRobot()) {
                     climbOnRobot++;
                 }
-                if (sd.isPlayeddefense()) {
+                if (sd.isPlayedDefense()) {
                     playeddefense++;
                 }
                 timesPickedfromfloor += timesPickedfromfloor;
@@ -214,7 +213,7 @@ public class View extends AppCompatActivity {
                 if (sd.isAutoCubeExchange()) {
                     autoCubeExchange++;
                 }
-                if (sd.isAutolinecheck()) {
+                if (sd.isAutoLineCrossed()) {
                     autolinecheck++;
 
                 }

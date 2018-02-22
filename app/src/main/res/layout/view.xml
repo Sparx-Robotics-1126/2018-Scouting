@@ -21,7 +21,7 @@
             android:text="Enter Team Number" />
 
         <EditText
-            android:id="@+id/teamnumber"
+            android:id="@+id/teamNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

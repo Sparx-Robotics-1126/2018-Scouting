@@ -1,29 +1,10 @@
 package sparx1126.com.powerup;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.*;
-import android.view.View;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
-import java.util.List;
-import java.util.Map;
-
-import sparx1126.com.powerup.data_components.BlueAllianceTeam;
-import sparx1126.com.powerup.data_components.ScoutingData;
-import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
-import sparx1126.com.powerup.utilities.Logger;
-
-/**
- * Created by Hiram on 2/14/2018.
- */
-
 
 public class CheckList extends AppCompatActivity {
 

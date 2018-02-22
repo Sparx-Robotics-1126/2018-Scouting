@@ -12,6 +12,7 @@ public class BlueAllianceEvent {
     private static final String START_DATE = "start_date";
     private static final String END_DATE = "end_date";
 
+    private JSONObject jsonObj;
     private String key;
     private String name;
     private String week;
@@ -19,31 +20,21 @@ public class BlueAllianceEvent {
     private String startDate;
     private String endDate;
 
-    public BlueAllianceEvent(JSONObject eventObj) {
+    public BlueAllianceEvent(JSONObject _jsonObj) {
+        jsonObj = _jsonObj;
         try {
-            key = eventObj.getString(KEY);
-            name = eventObj.getString(NAME);
-            week= eventObj.getString(WEEK);
-            location = eventObj.getString(LOCATION);
-            startDate= eventObj.getString(START_DATE);
-            endDate = eventObj.getString(END_DATE);
+            key = jsonObj.getString(KEY);
+            name = jsonObj.getString(NAME);
+            week= jsonObj.getString(WEEK);
+            location = jsonObj.getString(LOCATION);
+            startDate= jsonObj.getString(START_DATE);
+            endDate = jsonObj.getString(END_DATE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
-    public String toString() {
-        String response = "";
-        response+= KEY + ": " + key + "\n";
-        response+= NAME + ": " + name + "\n";
-        response+= WEEK + ": " + week + "\n";
-        response+= LOCATION + ": " + location + "\n";
-        response+= START_DATE + ": " + startDate + "\n";
-        response+= END_DATE + ": " + endDate + "\n";
-        return response;
-    }
-
+    public JSONObject getJsonObject() { return jsonObj; }
     public String getKey() { return key; }
     public String getName() {
         return name;
@@ -61,19 +52,8 @@ public class BlueAllianceEvent {
         return endDate;
     }
 
-    public JSONObject getJSONObject(BlueAllianceEvent _input) {
-        JSONObject json = new JSONObject();
-        try {
-            json.put(KEY, key);
-            json.put(NAME, name);
-            json.put(WEEK, week);
-            json.put(LOCATION, location);
-            json.put(START_DATE, startDate);
-
-            json.put(END_DATE, endDate);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
+    @Override
+    public String toString() {
+        return jsonObj.toString();
     }
 }

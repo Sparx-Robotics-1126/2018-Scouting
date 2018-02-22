@@ -110,25 +110,23 @@ public class GoogleDriveNetworking {
                             new OnSuccessListener<DriveFile>() {
                                 @Override
                                 public void onSuccess(DriveFile driveFile) {
-                                    showMessage("Created file " + _fileName, _context);
-                                    //finish();
+                                    Log.d(TAG, _fileName);
+                                    Toast.makeText(_context, TAG + _fileName, Toast.LENGTH_LONG).show();
                                 }
                             })
                     .addOnFailureListener((Activity) _context, new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "Unable to create file", e);
-                            showMessage("Error while trying to create the file " + _fileName, _context);
-                            //finish();
+                            String msg = "Unable to create file!";
+                            Log.e(TAG, msg, e);
+                            Toast.makeText(_context, TAG + msg, Toast.LENGTH_LONG).show();
                         }
                     });
         }
         else {
-            showMessage("Not Connected to Google Drive", _context);
+            String msg = "Not Connected to Google Drive!";
+            Log.e(TAG, msg);
+            Toast.makeText(_context, TAG + msg, Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void showMessage(String message, Context _context) {
-        Toast.makeText(_context, TAG + message, Toast.LENGTH_LONG).show();
     }
 }

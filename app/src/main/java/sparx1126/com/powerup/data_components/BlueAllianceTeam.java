@@ -12,6 +12,7 @@ public class BlueAllianceTeam {
     private static final String STATE_PROV = "state_prov";
     private static final String ROOKIE_YEAR = "rookie_year";
 
+    private JSONObject jsonObj;
     private String key;
     private String number;
     private String name;
@@ -19,19 +20,21 @@ public class BlueAllianceTeam {
     private String state;
     private String rookieYear;
 
-    public BlueAllianceTeam(JSONObject teamObj) {
+    public BlueAllianceTeam(JSONObject _jsonObj) {
+        jsonObj = _jsonObj;
         try {
-            key = teamObj.getString(KEY);
-            number = teamObj.getString(TEAM_NUMBER);
-            name = teamObj.getString(NICKNAME);
-            city = teamObj.getString(CITY);
-            state = teamObj.getString(STATE_PROV);
-            rookieYear = teamObj.getString(ROOKIE_YEAR);
+            key = jsonObj.getString(KEY);
+            number = jsonObj.getString(TEAM_NUMBER);
+            name = jsonObj.getString(NICKNAME);
+            city = jsonObj.getString(CITY);
+            state = jsonObj.getString(STATE_PROV);
+            rookieYear = jsonObj.getString(ROOKIE_YEAR);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    public JSONObject getJsonObject() { return jsonObj; }
     public String getKey() { return key; }
     public String getNumber() {
         return number;
@@ -49,18 +52,8 @@ public class BlueAllianceTeam {
         return rookieYear;
     }
 
-    public JSONObject getJSONObject(BlueAllianceTeam _input) {
-        JSONObject json = new JSONObject();
-        try {
-            json.put(KEY, key);
-            json.put(TEAM_NUMBER, number);
-            json.put(NICKNAME, name);
-            json.put(CITY, city);
-            json.put(STATE_PROV, state);
-            json.put(ROOKIE_YEAR, rookieYear);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
+    @Override
+    public String toString() {
+        return jsonObj.toString();
     }
 }

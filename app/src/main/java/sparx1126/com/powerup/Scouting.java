@@ -71,10 +71,8 @@ public class Scouting extends AppCompatActivity {
             public void onClick(View view) {
                 String matchnumberstr = matchnum.getText().toString();
 
-
-                Map<String, BlueAllianceMatch> matchesinevent = freeData.getMatchesInEventMap();
+                Map<String, BlueAllianceMatch> matchesinevent = freeData.getEventMatches();
                 if(matchesinevent == null)
-                Log.e("Potato", "NULL");
 
                 for (BlueAllianceMatch value : matchesinevent.values()) {
                     if(value.getMatchNumber().equals(matchnumberstr)) {
@@ -93,7 +91,7 @@ public class Scouting extends AppCompatActivity {
 
         teamLayout = findViewById(R.id.teamLayout);
         teamLayout.setVisibility(View.INVISIBLE);
-        teamnum = findViewById(R.id.)
+        teamnum = findViewById(R.id.teamnumber);
         allianceColor = findViewById(R.id.allianceColor);
         //allianceColor.setVisibility(View.INVISIBLE);
         allianceLayout =findViewById(R.id.allianceLayout);
@@ -153,7 +151,7 @@ public class Scouting extends AppCompatActivity {
             public void onClick(View view) {
                 ScoutingData scoutingData = new ScoutingData();
                 if (!teamnum.getText().toString().isEmpty()) {
-                    scoutingData.setTeamnumber(Integer.parseInt(teamnum.getText().toString()));
+                    scoutingData.setTeamNumber(Integer.parseInt(teamnum.getText().toString()));
                 }
 //                if (redAlliancecolor.isChecked()) {
 //                    scoutingData.setAllianceColor("Red");
@@ -162,9 +160,9 @@ public class Scouting extends AppCompatActivity {
 //
 //                }
                 if (!teamnum.getText().toString().isEmpty()) {
-                    scoutingData.setMatchnum(Integer.parseInt(matchnum.getText().toString()));
+                    scoutingData.setMatchNumber(Integer.parseInt(matchnum.getText().toString()));
                 }
-                scoutingData.setAutolinecheck(autolinecheck.isChecked());
+                scoutingData.setAutoLineCrossed(autolinecheck.isChecked());
                 scoutingData.setAutoScoredScale(scorescalecheck.isChecked());
                 scoutingData.setAutoScoredSwitch(scoreswitchcheck.isChecked());
                 scoutingData.setAutoPickedUpCube(pickupcubecheck.isChecked());
@@ -172,22 +170,22 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setAutoStartedLeft(startLeftbtn.isChecked());
                 scoutingData.setAutoStartedCenter(startCenterbtn.isChecked());
                 scoutingData.setAutoStartedRight(startRightbtn.isChecked());
-                scoutingData.setTimesscoredswitch(timeScoreswitch.getValue());
-                scoutingData.setTimescoredscale(timeScorescale.getValue());
-                scoutingData.setTimesplacedexchange(timesPlacedexhange.getValue());
-                scoutingData.setTimesPickedfromfloor(timesPickedfromFloor.getValue());
-                scoutingData.setCubesfromplayers(cubesfromplayers.getValue());
-                scoutingData.setPlayeddefense(playeddefense.isChecked());
-                scoutingData.setClimbRung(climbRung.isChecked());
-                scoutingData.setClimbOnRobot(climbRobot.isChecked());
+                scoutingData.setTimesScoredOnSwitch(timeScoreswitch.getValue());
+                scoutingData.setTimesScoredOnScale(timeScorescale.getValue());
+                scoutingData.setTimesPlacedInExchange(timesPlacedexhange.getValue());
+                scoutingData.setTimesPickedFromFloor(timesPickedfromFloor.getValue());
+                scoutingData.setCubesFromPlayers(cubesfromplayers.getValue());
+                scoutingData.setPlayedDefense(playeddefense.isChecked());
+                scoutingData.setClimbedRung(climbRung.isChecked());
+                scoutingData.setClimbedOnRobot(climbRobot.isChecked());
 
                 if(hold1.isChecked()){
-                    scoutingData.setNumRobotsHeld(1);
+                    scoutingData.setNumberOfRobotsHeld(1);
                 }
                 else if(hold2.isChecked()){
-                    scoutingData.setNumRobotsHeld(2);
+                    scoutingData.setNumberOfRobotsHeld(2);
                 }
-                scoutingData.setClimbunder15secs(climbunder15secs.isChecked());
+                scoutingData.setClimbedUnder15Secs(climbunder15secs.isChecked());
 
                 Log.d("scoutingdata", scoutingData.toString());
                 DataCollection.getInstance().addScoutingData(scoutingData);

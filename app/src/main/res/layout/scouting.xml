@@ -53,7 +53,7 @@
 
             <TextView
                 style="@style/NormalTextView"
-                android:id="@+id/teamnumber"
+                android:id="@+id/teamNumber"
                 android:text="" />
 
 
@@ -104,7 +104,7 @@
                 android:textSize="90sp" />
 
             <CheckBox
-                android:id="@+id/autolinecheck"
+                android:id="@+id/autoLineCrossed"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:text="Crossed Auto Line"
@@ -283,7 +283,7 @@
                     android:textSize="30sp" />
 
                 <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesfromplayers"
+                    android:id="@+id/cubesFromPlayers"
                     style="@style/HorizontalNumberPicker" />
 
             </LinearLayout>
@@ -326,7 +326,7 @@
                 android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/climbRung"
+                android:id="@+id/climbedRung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rung"
