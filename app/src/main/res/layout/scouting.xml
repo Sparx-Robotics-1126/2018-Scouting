@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/sparx_gradient"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/match"
             android:layout_width="match_parent"
@@ -34,12 +35,13 @@
                 android:inputType="textPersonName"
                 android:textSize="60sp" />
         </LinearLayout>
-         <Button
-             android:layout_width="match_parent"
-             android:id="@+id/matchButton"
-             android:textSize="30sp"
-             android:text="Submit Match Number"
-             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/matchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Match Number"
+            android:textSize="30sp" />
 
         <LinearLayout
             android:id="@+id/teamLayout"
@@ -52,8 +54,8 @@
                 android:text="Team Number:" />
 
             <TextView
-                style="@style/NormalTextView"
                 android:id="@+id/teamNumber"
+                style="@style/NormalTextView"
                 android:text="" />
 
 
@@ -72,6 +74,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Alliance Color"
                 android:textSize="45sp" />
+
             <TextView
                 android:id="@+id/allianceColor"
                 android:layout_width="wrap_content"
@@ -82,9 +85,6 @@
 
 
         </LinearLayout>
-
-
-
 
 
         <LinearLayout
@@ -111,76 +111,32 @@
                 android:textSize="50sp" />
 
             <CheckBox
-                android:layout_width="match_parent"
                 android:id="@+id/autoScoredSwitch"
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:text="Scored Switch"
                 android:textSize="50sp" />
 
             <CheckBox
-                android:layout_width="match_parent"
                 android:id="@+id/autoScoredScale"
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:text="Scored Scale"
                 android:textSize="50sp" />
 
             <CheckBox
-                android:layout_width="match_parent"
                 android:id="@+id/pickupcubecheck"
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:text="Pickup Up Cube"
                 android:textSize="50sp" />
 
             <CheckBox
-                android:layout_width="match_parent"
                 android:id="@+id/cubexchangecheck"
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:text="Place Cube in exchange"
                 android:textSize="50sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Starting Positon"
-                    android:textSize="40sp" />
-
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/startLeftbtn"
-                    android:layout_weight="1"
-                    android:text="Left"
-                    android:textSize="15sp" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/startCenterbtn"
-                    android:layout_weight="1"
-                    android:text="Center"
-                    android:textSize="15sp" />
-
-                <RadioButton
-                    android:id="@+id/startRightbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Right"
-                    android:textSize="15sp" />
-                </RadioGroup>
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -283,7 +239,7 @@
                     android:textSize="30sp" />
 
                 <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesFromPlayers"
+                    android:id="@+id/cubesAdquireFromPlayer"
                     style="@style/HorizontalNumberPicker" />
 
             </LinearLayout>
@@ -298,8 +254,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/climbLayout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -314,10 +270,9 @@
                 android:id="@+id/Climbing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Climbs on:"
+                android:text="Climbed on:"
                 android:textSize="45sp"
                 tools:ignore="DuplicateIds" />
-
 
 
             <RadioGroup
@@ -325,26 +280,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/climbedRung"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Rung"
-                android:textSize="30sp" />
+                <RadioButton
+                    android:id="@+id/climbedRung"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rung"
+                    android:textSize="30sp" />
 
-            <RadioButton
-                android:id="@+id/climbRobot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Other robot"
-                android:textSize="30sp" />
+                <RadioButton
+                    android:id="@+id/climbRobot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Other robot"
+                    android:textSize="30sp" />
 
-            <RadioButton
-                android:id="@+id/climbDoesnt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Doesn't Climb"
-                android:textSize="30sp" />
             </RadioGroup>
 
             <CheckBox
@@ -359,19 +308,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/ClimbOn1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Holds 1 robot"
-                android:textSize="30sp" />
+                <RadioButton
+                    android:id="@+id/ClimbOn1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Holds 1 robot"
+                    android:textSize="30sp" />
 
-            <RadioButton
-                android:id="@+id/ClimbOn2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Holds 2 robots"
-                android:textSize="30sp" />
+                <RadioButton
+                    android:id="@+id/ClimbOn2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Holds 2 robots"
+                    android:textSize="30sp" />
             </RadioGroup>
 
             <CheckBox
@@ -385,8 +334,8 @@
                 android:id="@+id/submitbutton"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:textSize="30sp"
-                android:text="Submit" />
+                android:text="Submit"
+                android:textSize="30sp" />
 
         </LinearLayout>
 

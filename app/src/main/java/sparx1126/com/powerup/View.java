@@ -39,7 +39,7 @@ public class View extends AppCompatActivity {
 
         dataCollection = DataCollection.getInstance();
 
-        teamnumber = findViewById(R.id.teamnumber);
+        teamnumber = findViewById(R.id.teamNumber);
         teamnumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -84,35 +84,32 @@ public class View extends AppCompatActivity {
         tempdata4.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata4);
         ScoutingData tempdata5 = new ScoutingData();
-        tempdata5.setPlayedDefense(true);
+        tempdata5.setPlayedDefenseEffectivily(true);
         tempdata5.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata5);
         ScoutingData tempdata6 = new ScoutingData();
-        tempdata6.setTimesPickedFromFloor(3);
+        tempdata6.setCubesPickedUpFromFloor(3);
         tempdata6.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata6);
         ScoutingData tempdata7 = new ScoutingData();
-        tempdata7.setCubesFromPlayers(1);
+        tempdata7.setCubesAdquireFromPlayer(1);
         tempdata7.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata7);
         ScoutingData tempdata8 = new ScoutingData();
-        tempdata8.setTimesPlacedInExchange(3);
+        tempdata8.setCubesPlacedInExchange(3);
         tempdata8.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata8);
         ScoutingData tempdata9 = new ScoutingData();
-        tempdata9.setTimesScoredOnSwitch(3);
+        tempdata9.setCubesPlacedOnSwitch(3);
         tempdata9.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata8);
         ScoutingData tempdata11 = new ScoutingData();
-        tempdata11.setAutoStartedLeft(true);
         tempdata11.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata11);
         ScoutingData tempdata12 = new ScoutingData();
-        tempdata12.setAutoStartedCenter(false);
         tempdata12.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata12);
         ScoutingData tempdata13 = new ScoutingData();
-        tempdata13.setAutoStartedRight(false);
         tempdata13.setTeamNumber(1126);
         dataCollection.addScoutingData(tempdata13);
         ScoutingData tempdata14 = new ScoutingData();
@@ -177,13 +174,13 @@ public class View extends AppCompatActivity {
                 }
 
                 numRobotsHeld += sd.getNumberOfRobotsHeld();
-                if (sd.getClimbedRung()) {
+                if (sd.isClimbedRung()) {
                     climbRung++;
                 }
-                if (sd.getClimbedOnRobot()) {
+                if (sd.isClimbedOnRobot()) {
                     climbOnRobot++;
                 }
-                if (sd.isPlayedDefense()) {
+                if (sd.isPlayedDefenseEffectivily()) {
                     playeddefense++;
                 }
                 timesPickedfromfloor += timesPickedfromfloor;
@@ -191,16 +188,7 @@ public class View extends AppCompatActivity {
                 timesplacedexchange += timesplacedexchange;
                 timescoredscale += timescoredscale;
                 timesscoredswitch += timesscoredswitch;
-                if (sd.getAutoStartedLeft()) {
-                    autoStartedLeft++;
-                }
 
-                if (sd.getAutoStartedCenter()) {
-                    autoStartedCenter++;
-                }
-                if (sd.getAutoStartedRight()) {
-                    autoStartedRight++;
-                }
                 if (sd.isAutoScoredSwitch()) {
                     autoScoredSwitch++;
                 }
