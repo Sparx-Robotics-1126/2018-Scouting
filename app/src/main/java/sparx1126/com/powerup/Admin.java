@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,19 +30,19 @@ public class Admin extends AppCompatActivity {
     private static final String TAG = "Admin ";
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
-    private BlueAllianceNetworking blueAlliance;
+    private static BlueAllianceNetworking blueAlliance;
     private static DataCollection dataCollection;
+    private static NetworkStatus networkStatus;
 
-    private Dialog eventsWeAreInDialog;
-    private Dialog matchesDialog;
-    private Dialog teamsDialog;
     private Spinner eventSpinner;
     private LinearLayout adminSelectionLayout;
     private ToggleButton blueSelectedToggle;
     private RadioButton teamNumber1SelectedButton;
     private RadioButton teamNumber2SelectedButton;
     private RadioButton teamNumber3SelectedButton;
-    private static NetworkStatus networkStatus;
+    private Dialog eventsWeAreInDialog;
+    private Dialog matchesDialog;
+    private Dialog teamsDialog;
 
 
     @Override
@@ -55,17 +56,6 @@ public class Admin extends AppCompatActivity {
         dataCollection = DataCollection.getInstance();
         networkStatus = NetworkStatus.getInstance();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(TAG);
-        builder.setMessage("Downloading Events We Are In");
-        eventsWeAreInDialog = builder.create();
-
-        builder.setMessage("Downloading Matches for event");
-        matchesDialog = builder.create();
-
-        builder.setMessage("Downloading Team for event");
-        teamsDialog = builder.create();
-
         eventSpinner = findViewById(R.id.eventSpinner);
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -75,36 +65,41 @@ public class Admin extends AppCompatActivity {
                 if (!selectedItem.isEmpty() && !selectedItem.contains(getResources().getString(R.string.selectEvent))) {
                     editor.putString(getResources().getString(R.string.pref_SelectedEvent), selectedItem);
                     editor.apply();
-                    matchesDialog.show();
-                    blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
-                        @Override
-                        public void handleFinishDownload() {
-                            // this needs to run on the ui thread because of ui components in it
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
-                                    matchesDialog.dismiss();
-                                    teamsDialog.show();
-                                    blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
+                    if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
+                        matchesDialog.show();
+                        blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
+                            @Override
+                            public void handleFinishDownload() {
+                                // this needs to run on the ui thread because of ui components in it
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+                                        matchesDialog.dismiss();
+                                        teamsDialog.show();
+                                        blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
 
-                                        @Override
-                                        public void handleFinishDownload() {
-                                            // this needs to run on the ui thread because of ui components in it
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    teamsDialog.dismiss();
-                                                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
-                                                    showButtons();
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                                            @Override
+                                            public void handleFinishDownload() {
+                                                // this needs to run on the ui thread because of ui components in it
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        teamsDialog.dismiss();
+                                                        editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
+                                                        showButtons();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        showConnectToInternetDialog();
+                    }
                 }
             }
 
@@ -133,7 +128,7 @@ public class Admin extends AppCompatActivity {
                     else if(teamNumber2SelectedButton.isChecked()) {
                         editor.putInt(getResources().getString(R.string.pref_TeamPosition), 2);
                     }
-                    else {
+                    else if(teamNumber3SelectedButton.isChecked()) {
                         editor.putInt(getResources().getString(R.string.pref_TeamPosition), 3);
                     }
                     editor.putBoolean(getResources().getString(R.string.tablet_Configured), true);
@@ -142,6 +137,17 @@ public class Admin extends AppCompatActivity {
                 }
             }
         });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(TAG);
+        builder.setMessage("Downloading Events We Are In");
+        eventsWeAreInDialog = builder.create();
+
+        builder.setMessage("Downloading Matches for event");
+        matchesDialog = builder.create();
+
+        builder.setMessage("Downloading Team for event");
+        teamsDialog = builder.create();
 
         restorePreferences();
         showButtons();
@@ -152,29 +158,14 @@ public class Admin extends AppCompatActivity {
         Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
         if(data.isEmpty()) {
             if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
-                blueAlliance.downloadEventsSparxsIsIn(this, new BlueAllianceNetworking.Callback() {
+                blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.Callback() {
                     @Override
                     public void handleFinishDownload() {
                         // this needs to run on the ui thread because of ui components in it
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
-                                Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
-                                List<String> eventSpinnerList = new ArrayList<>();
-                                if (!pref_SelectedEvent.isEmpty()) {
-                                    eventSpinnerList.add(pref_SelectedEvent);
-                                    for (String eventName : data.keySet()) {
-                                        if (!eventName.equals(pref_SelectedEvent)) {
-                                            eventSpinnerList.add(eventName);
-                                        }
-                                    }
-                                } else {
-                                    eventSpinnerList.add(getResources().getString(R.string.selectEvent));
-                                    eventSpinnerList.addAll(data.keySet());
-                                }
-                                SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
-                                eventSpinner.setAdapter(eventAdapter);
+                                setEventSpinner();
                                 eventsWeAreInDialog.dismiss();
                             }
                         });
@@ -182,21 +173,12 @@ public class Admin extends AppCompatActivity {
                 });
             }
             else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Admin.this);
-
-                builder.setTitle(TAG);
-                builder.setMessage("NEED to connect to internet");
-                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        finish();
-                    }
-                });
-
-                Dialog dialog = builder.create();
-                dialog.show();
+                showConnectToInternetDialog();
             }
+        }
+        else {
+            Log.d(TAG, "Team Events Found");
+            setEventSpinner();
         }
 
         boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
@@ -206,25 +188,62 @@ public class Admin extends AppCompatActivity {
             blueSelectedToggle.setChecked(false);
         }
 
-        int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 1);
+        int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 0);
 
         if (pref_TeamPosition == 1) {
             teamNumber1SelectedButton.setChecked(true);
         } else if (pref_TeamPosition == 2) {
             teamNumber2SelectedButton.setChecked(true);
-        } else {
+        } else if (pref_TeamPosition == 3) {
             teamNumber3SelectedButton.setChecked(true);
         }
     }
 
+    private void setEventSpinner() {
+        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+        Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
+        List<String> eventSpinnerList = new ArrayList<>();
+        if (pref_SelectedEvent.isEmpty()) {
+            eventSpinnerList.add(getResources().getString(R.string.selectEvent));
+            eventSpinnerList.addAll(data.keySet());
+        } else {
+            eventSpinnerList.add(pref_SelectedEvent);
+            for (String eventName : data.keySet()) {
+                if (!eventName.equals(pref_SelectedEvent)) {
+                    eventSpinnerList.add(eventName);
+                }
+            }
+        }
+        SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
+        eventSpinner.setAdapter(eventAdapter);
+    }
+
+    private void showConnectToInternetDialog() {
+        String msg = "NEED to connect to internet";
+        Log.e(TAG, msg);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin.this);
+
+        builder.setTitle(TAG);
+        builder.setMessage(msg);
+        builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                finish();
+            }
+        });
+
+        Dialog dialog = builder.create();
+        dialog.show();
+    }
 
     private void showButtons() {
         String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
 
-        if (!pref_SelectedEvent.isEmpty()) {
-            adminSelectionLayout.setVisibility(View.VISIBLE);
-        } else {
+        if (pref_SelectedEvent.isEmpty()) {
             adminSelectionLayout.setVisibility(View.INVISIBLE);
+        } else {
+            adminSelectionLayout.setVisibility(View.VISIBLE);
         }
     }
 }

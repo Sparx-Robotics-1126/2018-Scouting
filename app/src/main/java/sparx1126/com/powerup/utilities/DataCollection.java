@@ -12,26 +12,18 @@ import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
-    private static DataCollection theDataCollection;
+    private static DataCollection dataCollection;
     private Map<Integer, List<ScoutingData>> scoutingDataMap;
     private Map<Integer, BenchmarkData> benchmarkDataMap;
     private Map<String, BlueAllianceEvent > eventsWeAreInMap;
     private Map<String, BlueAllianceTeam> teamsInEventMap;
     private Map<String, BlueAllianceMatch> eventMatchesMap;
 
-    public Map<String, BlueAllianceMatch> getEventMatches() {
-        return eventMatchesMap;
-    }
-
-    public void setEventMatches(Map<String, BlueAllianceMatch> matchesInEventMap) {
-        this.eventMatchesMap = matchesInEventMap;
-    }
-
     public static synchronized DataCollection getInstance(){
-        if(theDataCollection == null ) {
-            theDataCollection = new DataCollection();
+        if(dataCollection == null ) {
+            dataCollection = new DataCollection();
         }
-        return theDataCollection;
+        return dataCollection;
     }
 
     private DataCollection(){
@@ -43,7 +35,7 @@ public class DataCollection {
     }
 
     public void addScoutingData(ScoutingData _data){
-        Integer key = _data.getTeamnumber();
+        Integer key = _data.getTeamNumber();
         if(scoutingDataMap.containsKey(key)){
             scoutingDataMap.get(key).add(_data);
         }
@@ -53,7 +45,6 @@ public class DataCollection {
             scoutingDataMap.put(key, newList);
         }
     }
-
     public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
     }
@@ -62,7 +53,6 @@ public class DataCollection {
         Integer key = _data.getTeamnumber();
         benchmarkDataMap.put(key, _data);
     }
-
     public Map<Integer, BenchmarkData> getBenchmarkDataMap() {
         return benchmarkDataMap;
     }
@@ -71,7 +61,6 @@ public class DataCollection {
     public void setTeamEvents(Map<String, BlueAllianceEvent> _eventData){
         eventsWeAreInMap = _eventData;
     }
-
     public Map<String, BlueAllianceEvent> getTeamEvents(){
         return eventsWeAreInMap;
     }
@@ -79,8 +68,14 @@ public class DataCollection {
     public void setEventTeams(Map<String, BlueAllianceTeam> _Data){
         teamsInEventMap = _Data;
     }
-
     public Map<String, BlueAllianceTeam> getTeamsInEventMap(){
         return teamsInEventMap;
+    }
+
+    public Map<String, BlueAllianceMatch> getEventMatches() {
+        return eventMatchesMap;
+    }
+    public void setEventMatches(Map<String, BlueAllianceMatch> matchesInEventMap) {
+        this.eventMatchesMap = matchesInEventMap;
     }
 }

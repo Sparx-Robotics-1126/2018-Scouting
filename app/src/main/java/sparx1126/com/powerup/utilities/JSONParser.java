@@ -25,9 +25,6 @@ public class JSONParser {
         return instance;
     }
 
-    private JSONParser() {
-    }
-
     public Map<String, BlueAllianceEvent> teamEventsStringIntoMap(String _input) {
         Map<String, BlueAllianceEvent> output = new HashMap<>();
 
@@ -50,7 +47,7 @@ public class JSONParser {
         for (Map.Entry<String, BlueAllianceEvent> entry : _input.entrySet())
         {
             BlueAllianceEvent item = entry.getValue();
-            JSONObject jsonObject = item.getJSONObject(item);
+            JSONObject jsonObject = item.getJsonObject();
             output.put(jsonObject);
         }
 
@@ -80,7 +77,7 @@ public class JSONParser {
         for (Map.Entry<String, BlueAllianceMatch> entry : _input.entrySet())
         {
             BlueAllianceMatch item = entry.getValue();
-            JSONObject jsonObject = item.getJSONObject(item);
+            JSONObject jsonObject = item.getJsonObject();
             output.put(jsonObject);
         }
 
@@ -110,7 +107,7 @@ public class JSONParser {
         for (Map.Entry<String, BlueAllianceTeam> entry : _input.entrySet())
         {
             BlueAllianceTeam item = entry.getValue();
-            JSONObject jsonObject = item.getJSONObject(item);
+            JSONObject jsonObject = item.getJsonObject();
             output.put(jsonObject);
         }
 

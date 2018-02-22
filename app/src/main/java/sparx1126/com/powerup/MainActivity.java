@@ -64,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
                 String studentName = studentNameAutoTextView.getText().toString();
                 boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
                 if (studentNameFound) {
+                    Log.d(TAG, studentName);
                     editor.putString(getResources().getString(R.string.pref_scouter), studentName);
-                    Log.d(TAG, getResources().getString(R.string.pref_scouter));
                     dismissKeyboard();
                 }
                 else {
-                    editor.putString(getResources().getString(R.string.pref_scouter), "");
-                    Log.d(TAG, "");
+                    Log.e(TAG, "Studen name not found!");
                 }
 
                 editor.apply();
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!scouterName.isEmpty()) {
                     boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
                     if(isTableConfigured) {
+                        Log.d(TAG, "Directory");
                         Intent intent = new Intent(MainActivity.this, Directory.class);
                         startActivity(intent);
                     }
@@ -93,14 +93,17 @@ public class MainActivity extends AppCompatActivity {
                         boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
 
                         if(adminNameFound) {
+                            Log.d(TAG, "Admin");
                             Intent intent = new Intent(MainActivity.this, Admin.class);
                             startActivity(intent);
                         }
                         else {
+                            String msg = "Have an Admin Setup Tablet!";
+                            Log.e(TAG, msg);
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
                             builder.setTitle(TAG);
-                            builder.setMessage("Have an Admin Setup Tablet");
+                            builder.setMessage(msg);
                             builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -113,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
                             dialog.show();
                         }
                     }
+                }
+                else {
+                    Log.e(TAG, "Studen name not selected!");
                 }
             }
         });
@@ -136,15 +142,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            String msg = "No Internet: Remember to Connect and Upload later!";
-            Log.d(TAG, msg);
-            showOkayDialog(msg);
+            showOkayDialog("No Internet: Remember to Connect and Upload later!");
         }
     }
 
     private void restorePreferences() {
         String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
         if (!scouterName.isEmpty()) {
+            Log.d(TAG, scouterName);
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
             dismissKeyboard();
@@ -164,21 +169,18 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
                     }
                     else {
-                        String errorMsg = "Sign-in Into Google failed: Trying again later!.";
-                        Log.e(TAG, errorMsg);
-                        showOkayDialog(errorMsg);
+                        showOkayDialog("Sign-in Into Google failed: Try again later!.");
                     }
                 }
                 else {
-                    String errorMsg = "Sign-in Into Google result not OK: Trying again later!.";
-                    Log.e(TAG, errorMsg);
-                    showOkayDialog(errorMsg);
+                    showOkayDialog("Sign-in Into Google result not OK: Try again later!.");
                 }
                 break;
         }
     }
 
     private void showOkayDialog(String _msg) {
+        Log.d(TAG, _msg);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle(TAG);

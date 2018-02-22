@@ -79,6 +79,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         if (_convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert layoutInflater != null;
             _convertView = layoutInflater.inflate(R.layout.list_group, _parent);
         }
         TextView listTitleTextView = _convertView.findViewById(R.id.listTitle);

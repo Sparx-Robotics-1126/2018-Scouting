@@ -57,7 +57,6 @@ public class FileIO {
     public void storeTeamEvents(String _input) {
         storeData(TEAM_EVENTS_FILE_NAME, _input);
     }
-
     public String fetchTeamEvents() {
         return fetchData(TEAM_EVENTS_FILE_NAME);
     }
@@ -65,7 +64,6 @@ public class FileIO {
     public void storeEventMatches(String _input) {
         storeData(EVENT_MATCHES_FILE_NAME, _input);
     }
-
     public String fetchEventMatches() {
         return fetchData(EVENT_MATCHES_FILE_NAME);
     }
@@ -73,12 +71,11 @@ public class FileIO {
     public void storeEventTeams(String _input) {
         storeData(EVENT_TEAMS_FILE_NAME, _input);
     }
-
     public String fetchEventTeams() {
         return fetchData(EVENT_TEAMS_FILE_NAME);
     }
 
-    public void storeData(String _fileName, String _input) {
+    private void storeData(String _fileName, String _input) {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
         String filePath = dir.getPath() + "/" + _fileName;
@@ -93,7 +90,7 @@ public class FileIO {
         }
     }
 
-    public String fetchData(String _fileName) {
+    private String fetchData(String _fileName) {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
         String filePath = dir.getPath() + "/" + _fileName;

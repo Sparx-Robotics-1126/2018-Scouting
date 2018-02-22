@@ -36,9 +36,9 @@ public class PlusMinusEditTextLinearLayout extends LinearLayout implements View.
     public void onClick(View _view) {
         int value = Integer.parseInt(editText.getText().toString());
         if(plus == _view){
-            editText.setText(Integer.toString(value + 1));
+            editText.setText(String.valueOf(value + 1));
         }else if(minus == _view && (value > 0)){
-            editText.setText(Integer.toString(value - 1));
+            editText.setText(String.valueOf(value - 1));
         }
     }
 
