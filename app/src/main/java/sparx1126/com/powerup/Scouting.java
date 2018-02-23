@@ -184,7 +184,7 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setClimbedUnder15Secs(climbedUnder15Secs.isChecked());
 
                 DataCollection.getInstance().addScoutingData(scoutingData);
-                fileIO.storeScoutingData(scoutingData.toString());
+                fileIO.storeScoutingData(scoutingData.toString(), String.valueOf(scoutingData.getTeamNumber()), String.valueOf(scoutingData.getMatchNumber()));
                 matchNumber.setText("");
                 showButtons(false);
                 String msg = "Data Stored";
