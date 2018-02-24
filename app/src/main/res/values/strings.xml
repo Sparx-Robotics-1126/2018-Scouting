@@ -1,12 +1,5 @@
 <resources>
     <string name="app_name">Power Up</string>
-    <string name="minus">-</string>
-    <string name="zero">0</string>
-    <string name="team_selected">team selected</string>
-    <string name="red_alliance">Red Alliance</string>
-    <string name="blue_alliance">Blue Alliance</string>
-    <string name="plus">+</string>
-    <string name="autonomous">"Autonomous"</string>
     <string name="pref_name">Sparx-prefs</string>
     <string name="pref_scouter">pref_scouter</string>
     <string name="pref_SelectedEvent">pref_SelectedEvent</string>

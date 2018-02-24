@@ -154,10 +154,10 @@ public class Admin extends AppCompatActivity {
     }
 
     private void restorePreferences() {
-        eventsWeAreInDialog.show();
         Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
         if(data.isEmpty()) {
             if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
+                eventsWeAreInDialog.show();
                 blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.Callback() {
                     @Override
                     public void handleFinishDownload() {

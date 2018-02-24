@@ -45,6 +45,13 @@ public class DataCollection {
             scoutingDataMap.put(key, newList);
         }
     }
+    public List<ScoutingData> getScoutingDatas(int _teamNumber){
+        List<ScoutingData> rtnData = new ArrayList<>();
+        if(scoutingDataMap.containsKey(_teamNumber)){
+            rtnData = scoutingDataMap.get(_teamNumber);
+        }
+        return rtnData;
+    }
     public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
     }

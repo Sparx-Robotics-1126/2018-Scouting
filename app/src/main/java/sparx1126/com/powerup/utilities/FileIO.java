@@ -10,23 +10,30 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.BlueAllianceTeam;
+import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class FileIO {
     private static final String TAG = "FileIO ";
-    private static final String FOLDER_NAME ="powerup";
-    private static final String TEAM_EVENTS_FILE_NAME ="teamEvents.json";
-    private static final String EVENT_MATCHES_FILE_NAME ="eventMatches.json";
-    private static final String EVENT_TEAMS_FILE_NAME ="eventTeams.json";
+
+    private static final String FOLDER_NAME = "powerup";
+    private static final String TEAM_EVENTS_FILE_NAME = "teamEvents.json";
+    private static final String EVENT_MATCHES_FILE_NAME = "eventMatches.json";
+    private static final String EVENT_TEAMS_FILE_NAME = "eventTeams.json";
+    private static final String SCOUTING_DATA_HEADER = "scoutingData";
+    private static final String TEAM_SEPARATOR = "_Team";
+    private static final String MATCH_SEPARATOR = "_Match";
+    private static final String TIME_SEPARATOR = "_Time";
+
     private static FileIO instance;
     private File dir;
     private static DataCollection dataCollection;
     private static JSONParser jsonParser;
-
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -40,14 +47,13 @@ public class FileIO {
     private FileIO() {
         dataCollection = DataCollection.getInstance();
         jsonParser = JSONParser.getInstance();
-
     }
 
     // To be called once by MainActivity
     public void InitializeStorage(Context _context) {
         dir = new File(_context.getCacheDir(), FOLDER_NAME);
-        if(!dir.exists()) {
-            if(!dir.mkdir()) throw new AssertionError("Could not make directory!" + this);
+        if (!dir.exists()) {
+            if (!dir.mkdir()) throw new AssertionError("Could not make directory!" + this);
         }
 
         Log.d(TAG, "Storage Path:" + dir.getPath());
@@ -57,6 +63,7 @@ public class FileIO {
     public void storeTeamEvents(String _input) {
         storeData(TEAM_EVENTS_FILE_NAME, _input);
     }
+
     public String fetchTeamEvents() {
         return fetchData(TEAM_EVENTS_FILE_NAME);
     }
@@ -64,6 +71,7 @@ public class FileIO {
     public void storeEventMatches(String _input) {
         storeData(EVENT_MATCHES_FILE_NAME, _input);
     }
+
     public String fetchEventMatches() {
         return fetchData(EVENT_MATCHES_FILE_NAME);
     }
@@ -71,8 +79,54 @@ public class FileIO {
     public void storeEventTeams(String _input) {
         storeData(EVENT_TEAMS_FILE_NAME, _input);
     }
+
     public String fetchEventTeams() {
         return fetchData(EVENT_TEAMS_FILE_NAME);
+    }
+
+    public void storeScoutingData(String _input, String _teamNumber, String _match) {
+        long timeStampInSeconds = System.currentTimeMillis() / 1000;
+        String fileName = SCOUTING_DATA_HEADER + TEAM_SEPARATOR + _teamNumber + MATCH_SEPARATOR + _match + TIME_SEPARATOR + String.valueOf(timeStampInSeconds) + ".json";
+        storeData(fileName, _input);
+    }
+
+    public Map<Integer, Map<Integer, Map<Integer, String>>> fetchScoutingDatas() {
+        if (dir == null) throw new AssertionError("Not Initialize" + this);
+
+        Map<Integer, Map<Integer, Map<Integer, String>>> rtnObj = new HashMap<>();
+        File[] listOfFiles = dir.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            String filePath = listOfFiles[i].getPath();
+            String fileName = listOfFiles[i].getName();
+            if (listOfFiles[i].isFile() && fileName.contains(SCOUTING_DATA_HEADER)) {
+                String[] fileNameParts = fileName.split("_.");
+                Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM_SEPARATOR, ""));
+                Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH_SEPARATOR, ""));
+                Integer time = Integer.parseInt(fileNameParts[3].replace(TIME_SEPARATOR, ""));
+
+                Map<Integer, Map<Integer, String>> matchMap;
+                if (rtnObj.containsKey(team)) {
+                    matchMap = rtnObj.get(team);
+                } else {
+                    matchMap = new HashMap<>();
+                }
+
+                Map<Integer, String> timeMap;
+                if (matchMap.containsKey(match)) {
+                    timeMap = matchMap.get(match);
+                } else {
+                    timeMap = new HashMap<>();
+                }
+
+                Log.d(TAG, fileName);
+                String data = fetchData(filePath);
+                timeMap.put(time, data);
+                matchMap.put(match, timeMap);
+                rtnObj.put(team, matchMap);
+            }
+        }
+        return rtnObj;
     }
 
     private void storeData(String _fileName, String _input) {
@@ -81,8 +135,8 @@ public class FileIO {
         String filePath = dir.getPath() + "/" + _fileName;
 
         try {
-            BufferedWriter writer = new BufferedWriter( new FileWriter( filePath));
-            writer.write( _input);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+            writer.write(_input);
             writer.close();
             Log.d(TAG, "Stored: " + _fileName);
         } catch (Exception e) {
@@ -95,16 +149,12 @@ public class FileIO {
 
         String filePath = dir.getPath() + "/" + _fileName;
         StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
-        {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null)
-            {
+            while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return contentBuilder.toString();
@@ -112,21 +162,34 @@ public class FileIO {
 
     public void restore() {
         String teamEvents = fetchTeamEvents();
-        if(!teamEvents.isEmpty()){
+        if (!teamEvents.isEmpty()) {
             Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(teamEvents);
             dataCollection.setTeamEvents(rtnMap);
         }
 
         String eventTeams = fetchEventTeams();
-        if(!eventTeams.isEmpty()){
+        if (!eventTeams.isEmpty()) {
             Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(eventTeams);
             dataCollection.setEventTeams(rtnMap);
         }
 
         String eventMatches = fetchEventMatches();
-        if(!eventMatches.isEmpty()){
+        if (!eventMatches.isEmpty()) {
             Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(eventMatches);
             dataCollection.setEventMatches(rtnMap);
+        }
+
+        Map<Integer, Map<Integer, Map<Integer, String>>> scoutingDatasByTeamMatchTimeMap = fetchScoutingDatas();
+        if (!scoutingDatasByTeamMatchTimeMap.isEmpty()) {
+            for(Map<Integer, Map<Integer, String>> matches: scoutingDatasByTeamMatchTimeMap.values()) {
+                for(Map<Integer, String> times: matches.values()) {
+                    for(String jsonString: times.values()) {
+                        ScoutingData scoutingData = new ScoutingData();
+                        scoutingData.setJsonString(jsonString);
+                        dataCollection.addScoutingData(scoutingData);
+                    }
+                }
+            }
         }
     }
 }

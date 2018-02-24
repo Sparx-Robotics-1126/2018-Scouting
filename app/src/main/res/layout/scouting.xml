@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayout2"
                 android:layout_centerHorizontal="true"
-                android:text="@string/autonomous"
+                android:text="Autonomous"
                 android:textSize="90sp" />
 
             <CheckBox
@@ -239,7 +239,7 @@
                     android:textSize="30sp" />
 
                 <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesAdquireFromPlayer"
+                    android:id="@+id/cubesAcquireFromPlayer"
                     style="@style/HorizontalNumberPicker" />
 
             </LinearLayout>
