@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -99,7 +99,7 @@ public class Scouting extends AppCompatActivity {
                 } else {
                     for (BlueAllianceMatch value : matchesInEvent.values()) {
                         if (value.getMatchNumber().equals(matchNumberStr)) {
-                            Map<Integer, String> teamKeys;
+                            SparseArray<String> teamKeys;
                             boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
                             if (pref_BlueAlliance) {
                                 teamKeys = value.getBlueTeamKeys();

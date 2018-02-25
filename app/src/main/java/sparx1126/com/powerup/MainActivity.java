@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
+import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.NetworkStatus;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
+    private static DataCollection dataCollection;
     private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
     private static NetworkStatus networkStatus;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         editor = settings.edit();
 
+        dataCollection = DataCollection.getInstance();
         fileIO = FileIO.getInstance();
         // This is done only once here in MainActivity
         fileIO.InitializeStorage(this);
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             studentNameAutoTextView.dismissDropDown();
             dismissKeyboard();
         }
-        fileIO.restore();
+        dataCollection.restore();
     }
 
     @Override
