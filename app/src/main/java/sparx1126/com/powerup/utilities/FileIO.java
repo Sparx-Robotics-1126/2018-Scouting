@@ -2,6 +2,7 @@ package sparx1126.com.powerup.utilities;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -13,11 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import sparx1126.com.powerup.data_components.BlueAllianceEvent;
-import sparx1126.com.powerup.data_components.BlueAllianceMatch;
-import sparx1126.com.powerup.data_components.BlueAllianceTeam;
-import sparx1126.com.powerup.data_components.ScoutingData;
-
 public class FileIO {
     private static final String TAG = "FileIO ";
 
@@ -26,14 +22,13 @@ public class FileIO {
     private static final String EVENT_MATCHES_FILE_NAME = "eventMatches.json";
     private static final String EVENT_TEAMS_FILE_NAME = "eventTeams.json";
     private static final String SCOUTING_DATA_HEADER = "scoutingData";
+    private static final String BENCHMARK_DATA_HEADER = "benchmarkData";
     private static final String TEAM_SEPARATOR = "_Team";
     private static final String MATCH_SEPARATOR = "_Match";
     private static final String TIME_SEPARATOR = "_Time";
 
     private static FileIO instance;
     private File dir;
-    private static DataCollection dataCollection;
-    private static JSONParser jsonParser;
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -42,11 +37,6 @@ public class FileIO {
             instance = new FileIO();
         }
         return instance;
-    }
-
-    private FileIO() {
-        dataCollection = DataCollection.getInstance();
-        jsonParser = JSONParser.getInstance();
     }
 
     // To be called once by MainActivity
@@ -90,10 +80,10 @@ public class FileIO {
         storeData(fileName, _input);
     }
 
-    public Map<Integer, Map<Integer, Map<Integer, String>>> fetchScoutingDatas() {
+    public SparseArray< SparseArray< SparseArray<String>>> fetchScoutingDatas() {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        Map<Integer, Map<Integer, Map<Integer, String>>> rtnObj = new HashMap<>();
+        SparseArray< SparseArray< SparseArray<String>>> rtnObj = new SparseArray();
         File[] listOfFiles = dir.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
@@ -105,18 +95,18 @@ public class FileIO {
                 Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH_SEPARATOR, ""));
                 Integer time = Integer.parseInt(fileNameParts[3].replace(TIME_SEPARATOR, ""));
 
-                Map<Integer, Map<Integer, String>> matchMap;
-                if (rtnObj.containsKey(team)) {
+                SparseArray< SparseArray<String>> matchMap;
+                if (rtnObj.get(team) != null) {
                     matchMap = rtnObj.get(team);
                 } else {
-                    matchMap = new HashMap<>();
+                    matchMap = new SparseArray();
                 }
 
-                Map<Integer, String> timeMap;
-                if (matchMap.containsKey(match)) {
+                SparseArray<String> timeMap;
+                if (matchMap.get(match) != null) {
                     timeMap = matchMap.get(match);
                 } else {
-                    timeMap = new HashMap<>();
+                    timeMap = new SparseArray();
                 }
 
                 Log.d(TAG, fileName);
@@ -124,6 +114,42 @@ public class FileIO {
                 timeMap.put(time, data);
                 matchMap.put(match, timeMap);
                 rtnObj.put(team, matchMap);
+            }
+        }
+        return rtnObj;
+    }
+
+    public void storeBenchmarkData(String _input, String _teamNumber) {
+        long timeStampInSeconds = System.currentTimeMillis() / 1000;
+        String fileName = BENCHMARK_DATA_HEADER + TEAM_SEPARATOR + _teamNumber + TIME_SEPARATOR + String.valueOf(timeStampInSeconds) + ".json";
+        storeData(fileName, _input);
+    }
+
+    public SparseArray< SparseArray<String>> fetchBenchmarkDatas() {
+        if (dir == null) throw new AssertionError("Not Initialize" + this);
+
+        SparseArray< SparseArray<String>> rtnObj = new SparseArray();
+        File[] listOfFiles = dir.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            String filePath = listOfFiles[i].getPath();
+            String fileName = listOfFiles[i].getName();
+            if (listOfFiles[i].isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
+                String[] fileNameParts = fileName.split("_.");
+                Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM_SEPARATOR, ""));
+                Integer time = Integer.parseInt(fileNameParts[2].replace(TIME_SEPARATOR, ""));
+
+                SparseArray<String> timeMap;
+                if (rtnObj.get(team) != null) {
+                    timeMap = rtnObj.get(team);
+                } else {
+                    timeMap = new SparseArray();
+                }
+
+                Log.d(TAG, fileName);
+                String data = fetchData(filePath);
+                timeMap.put(time, data);
+                rtnObj.put(team, timeMap);
             }
         }
         return rtnObj;
@@ -158,38 +184,5 @@ public class FileIO {
             e.printStackTrace();
         }
         return contentBuilder.toString();
-    }
-
-    public void restore() {
-        String teamEvents = fetchTeamEvents();
-        if (!teamEvents.isEmpty()) {
-            Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(teamEvents);
-            dataCollection.setTeamEvents(rtnMap);
-        }
-
-        String eventTeams = fetchEventTeams();
-        if (!eventTeams.isEmpty()) {
-            Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(eventTeams);
-            dataCollection.setEventTeams(rtnMap);
-        }
-
-        String eventMatches = fetchEventMatches();
-        if (!eventMatches.isEmpty()) {
-            Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(eventMatches);
-            dataCollection.setEventMatches(rtnMap);
-        }
-
-        Map<Integer, Map<Integer, Map<Integer, String>>> scoutingDatasByTeamMatchTimeMap = fetchScoutingDatas();
-        if (!scoutingDatasByTeamMatchTimeMap.isEmpty()) {
-            for(Map<Integer, Map<Integer, String>> matches: scoutingDatasByTeamMatchTimeMap.values()) {
-                for(Map<Integer, String> times: matches.values()) {
-                    for(String jsonString: times.values()) {
-                        ScoutingData scoutingData = new ScoutingData();
-                        scoutingData.setJsonString(jsonString);
-                        dataCollection.addScoutingData(scoutingData);
-                    }
-                }
-            }
-        }
     }
 }

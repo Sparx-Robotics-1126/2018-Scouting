@@ -1,10 +1,11 @@
 package sparx1126.com.powerup.data_components;
 
+import android.util.SparseArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class BlueAllianceMatch {
@@ -22,13 +23,13 @@ public class BlueAllianceMatch {
     private String key;
     private String compLevel;
     private String matchNumber;
-    private Map<Integer, String> blueTeamKeys;
-    private Map<Integer, String> redTeamKeys;
+    private SparseArray<String> blueTeamKeys;
+    private SparseArray<String> redTeamKeys;
 
     public BlueAllianceMatch(JSONObject _jsonObj) {
         jsonObj = _jsonObj;
-        blueTeamKeys = new HashMap<>();
-        redTeamKeys = new HashMap<>();
+        blueTeamKeys = new SparseArray<>();
+        redTeamKeys = new SparseArray<>();
         try {
             key = jsonObj.getString(KEY);
             compLevel = jsonObj.getString(COMP_LEVEL);
@@ -58,10 +59,10 @@ public class BlueAllianceMatch {
     public String getMatchNumber() {
         return matchNumber;
     }
-    public Map<Integer, String> getBlueTeamKeys() {
+    public SparseArray<String> getBlueTeamKeys() {
         return blueTeamKeys;
     }
-    public Map<Integer, String> getRedTeamKeys() {
+    public SparseArray<String> getRedTeamKeys() {
         return redTeamKeys;
     }
 

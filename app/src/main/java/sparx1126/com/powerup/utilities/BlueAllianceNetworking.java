@@ -4,19 +4,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sparx1126.com.powerup.data_components.BlueAllianceEvent;
-import sparx1126.com.powerup.data_components.BlueAllianceMatch;
-import sparx1126.com.powerup.data_components.BlueAllianceTeam;
 
 public class BlueAllianceNetworking {
     public interface Callback {
-        void handleFinishDownload();
+        void handleFinishDownload(String _data);
     }
 
     private static final String TAG = "BlueAllianceNetworking ";
@@ -36,7 +32,6 @@ public class BlueAllianceNetworking {
 
     private final OkHttpClient regularHttpClient;
     private static BlueAllianceNetworking instance;
-    private static JSONParser jsonParser;
     private static FileIO fileIO;
     private static DataCollection dataCollection;
 
@@ -50,7 +45,6 @@ public class BlueAllianceNetworking {
 
     private BlueAllianceNetworking() {
         regularHttpClient = new OkHttpClient();
-        jsonParser = JSONParser.getInstance();
         fileIO = FileIO.getInstance();
         dataCollection = DataCollection.getInstance();
     }
@@ -70,12 +64,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    // the response needs to be copied into a String variable
-                    String data = response.body().string();
-                    Map<String, BlueAllianceEvent> rtnMap = jsonParser.teamEventsStringIntoMap(data);
-                    dataCollection.setTeamEvents(rtnMap);
-                    fileIO.storeTeamEvents(data);
-                    _callback.handleFinishDownload();
+                    _callback.handleFinishDownload(response.body().string());
                 } else {
                     throw new AssertionError(response.message() + this);
                 }
@@ -94,11 +83,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String data = response.body().string();
-                    Map<String, BlueAllianceTeam> rtnMap = jsonParser.eventTeamsStringIntoMap(data);
-                    fileIO.storeEventTeams(data);
-                    dataCollection.setEventTeams(rtnMap);
-                    _callback.handleFinishDownload();
+                    _callback.handleFinishDownload(response.body().string());
                 } else {
                     throw new AssertionError(response.message() + this);
                 }
@@ -118,11 +103,7 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String data = response.body().string();
-                    Map<String, BlueAllianceMatch> rtnMap = jsonParser.eventMatchesStringIntoMap(data);
-                    fileIO.storeEventMatches(data);
-                    dataCollection.setEventMatches(rtnMap);
-                    _callback.handleFinishDownload();
+                    _callback.handleFinishDownload(response.body().string());
                 } else {
                     throw new AssertionError(response.message() + this);
                 }

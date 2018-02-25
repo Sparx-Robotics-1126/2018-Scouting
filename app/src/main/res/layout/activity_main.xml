@@ -14,7 +14,8 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/powerup_bckgrd" />
+        app:srcCompat="@drawable/powerup_bckgrd"
+        android:contentDescription="FIRST Power Up Logo" />
 
     <AutoCompleteTextView
         android:id="@+id/studentNameAutoText"

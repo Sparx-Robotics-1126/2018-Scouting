@@ -69,7 +69,8 @@ public class Admin extends AppCompatActivity {
                         matchesDialog.show();
                         blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
                             @Override
-                            public void handleFinishDownload() {
+                            public void handleFinishDownload(String _data) {
+                                dataCollection.setEventMatches(_data);
                                 // this needs to run on the ui thread because of ui components in it
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -80,7 +81,8 @@ public class Admin extends AppCompatActivity {
                                         blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
 
                                             @Override
-                                            public void handleFinishDownload() {
+                                            public void handleFinishDownload(String _data) {
+                                                dataCollection.setEventTeams(_data);
                                                 // this needs to run on the ui thread because of ui components in it
                                                 runOnUiThread(new Runnable() {
                                                     @Override
@@ -160,7 +162,8 @@ public class Admin extends AppCompatActivity {
                 eventsWeAreInDialog.show();
                 blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.Callback() {
                     @Override
-                    public void handleFinishDownload() {
+                    public void handleFinishDownload(String _data) {
+                        dataCollection.setTeamEvents(_data);
                         // this needs to run on the ui thread because of ui components in it
                         runOnUiThread(new Runnable() {
                             @Override

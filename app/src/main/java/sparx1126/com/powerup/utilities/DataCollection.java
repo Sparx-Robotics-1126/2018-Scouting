@@ -1,5 +1,12 @@
 package sparx1126.com.powerup.utilities;
 
+import android.util.Log;
+import android.util.SparseArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +20,12 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
     private static DataCollection dataCollection;
-    private Map<Integer, List<ScoutingData>> scoutingDataMap;
-    private Map<Integer, BenchmarkData> benchmarkDataMap;
-    private Map<String, BlueAllianceEvent > eventsWeAreInMap;
-    private Map<String, BlueAllianceTeam> teamsInEventMap;
-    private Map<String, BlueAllianceMatch> eventMatchesMap;
+    private SparseArray<List<ScoutingData>> scoutingDataMap;
+    private SparseArray<BenchmarkData> benchmarkDataMap;
+    private Map<String, BlueAllianceEvent > teamEvents;
+    private Map<String, BlueAllianceTeam> eventTeams;
+    private Map<String, BlueAllianceMatch> eventMatches;
+    private static FileIO fileIO;
 
     public static synchronized DataCollection getInstance(){
         if(dataCollection == null ) {
@@ -27,16 +35,17 @@ public class DataCollection {
     }
 
     private DataCollection(){
-        scoutingDataMap = new HashMap<>();
-        benchmarkDataMap = new HashMap<>();
-        eventsWeAreInMap = new HashMap<>();
-        teamsInEventMap = new HashMap<>();
-        eventMatchesMap = new HashMap<>();
+        scoutingDataMap = new SparseArray();
+        benchmarkDataMap = new SparseArray();
+        teamEvents = new HashMap<>();
+        eventTeams = new HashMap<>();
+        eventMatches = new HashMap<>();
+        fileIO = FileIO.getInstance();
     }
 
     public void addScoutingData(ScoutingData _data){
         Integer key = _data.getTeamNumber();
-        if(scoutingDataMap.containsKey(key)){
+        if(scoutingDataMap.get(key) != null){
             scoutingDataMap.get(key).add(_data);
         }
         else {
@@ -47,42 +56,135 @@ public class DataCollection {
     }
     public List<ScoutingData> getScoutingDatas(int _teamNumber){
         List<ScoutingData> rtnData = new ArrayList<>();
-        if(scoutingDataMap.containsKey(_teamNumber)){
+        if(scoutingDataMap.get(_teamNumber) != null){
             rtnData = scoutingDataMap.get(_teamNumber);
         }
         return rtnData;
     }
-    public Map<Integer, List<ScoutingData>> getScoutingDataMap() {
+    public SparseArray<List<ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
     }
 
     public void addBenchmarkData(BenchmarkData _data){
-        Integer key = _data.getTeamnumber();
+        Integer key = _data.getTeamNumber();
         benchmarkDataMap.put(key, _data);
     }
-    public Map<Integer, BenchmarkData> getBenchmarkDataMap() {
+
+    public BenchmarkData getBenchmarkData(int _teamNumber){
+        BenchmarkData rtnData = null;
+        if(benchmarkDataMap.get(_teamNumber) != null){
+            rtnData = benchmarkDataMap.get(_teamNumber);
+        }
+        return rtnData;
+    }
+
+    public SparseArray<BenchmarkData> getBenchmarkDataMap() {
         return benchmarkDataMap;
     }
 
 
-    public void setTeamEvents(Map<String, BlueAllianceEvent> _eventData){
-        eventsWeAreInMap = _eventData;
+    public void setTeamEvents(String _data){
+        fileIO.storeTeamEvents(_data);
+        teamEvents = teamEventsStringIntoMap(_data);
     }
     public Map<String, BlueAllianceEvent> getTeamEvents(){
-        return eventsWeAreInMap;
+        return teamEvents;
     }
 
-    public void setEventTeams(Map<String, BlueAllianceTeam> _Data){
-        teamsInEventMap = _Data;
+    public void setEventTeams(String _data){
+        fileIO.storeEventTeams(_data);
+        eventTeams = eventTeamsStringIntoMap(_data);
     }
-    public Map<String, BlueAllianceTeam> getTeamsInEventMap(){
-        return teamsInEventMap;
+    public Map<String, BlueAllianceTeam> getEventTeams(){
+        return eventTeams;
     }
 
     public Map<String, BlueAllianceMatch> getEventMatches() {
-        return eventMatchesMap;
+        return eventMatches;
     }
-    public void setEventMatches(Map<String, BlueAllianceMatch> matchesInEventMap) {
-        this.eventMatchesMap = matchesInEventMap;
+    public void setEventMatches(String _data) {
+        fileIO.storeEventMatches(_data);
+        eventMatches = eventMatchesStringIntoMap(_data);
+    }
+
+    public void restore() {
+        String teamEvents = fileIO.fetchTeamEvents();
+        if (!teamEvents.isEmpty()) {
+            setTeamEvents(teamEvents);
+        }
+
+        String eventTeams = fileIO.fetchEventTeams();
+        if (!eventTeams.isEmpty()) {
+            setEventTeams(eventTeams);
+        }
+
+        String eventMatches = fileIO.fetchEventMatches();
+        if (!eventMatches.isEmpty()) {
+            setEventMatches(eventMatches);
+        }
+
+        SparseArray< SparseArray< SparseArray<String>>> scoutingDatasByTeamMatchTimeMap = fileIO.fetchScoutingDatas();
+        for(int indexTeam = 0; indexTeam != scoutingDatasByTeamMatchTimeMap.size(); indexTeam++) {
+            for(int indexMatch = 0; indexMatch != scoutingDatasByTeamMatchTimeMap.get(indexTeam).size(); indexMatch++) {
+                for(int indexTime = 0; indexTime != scoutingDatasByTeamMatchTimeMap.get(indexTeam).get(indexMatch).size(); indexTime++) {
+                        ScoutingData scoutingData = new ScoutingData();
+                        scoutingData.setJsonString(scoutingDatasByTeamMatchTimeMap.get(indexTeam).get(indexMatch).get(indexTime));
+                        addScoutingData(scoutingData);
+                }
+            }
+        }
+    }
+
+    private Map<String, BlueAllianceEvent> teamEventsStringIntoMap(String _input) {
+        Map<String, BlueAllianceEvent> output = new HashMap<>();
+
+        try {
+            JSONArray array = new JSONArray(_input);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                BlueAllianceEvent item = new BlueAllianceEvent(obj);
+                output.put(item.getKey(), item);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+
+    private Map<String, BlueAllianceMatch> eventMatchesStringIntoMap(String _contentInJSONForm) {
+        Map<String, BlueAllianceMatch> rtnMap = new HashMap<>();
+
+        try {
+            JSONArray array = new JSONArray(_contentInJSONForm);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                BlueAllianceMatch item = new BlueAllianceMatch(obj);
+                rtnMap.put(item.getKey(), item);
+            }
+            Log.d("eventMatchesString", rtnMap.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return rtnMap;
+    }
+
+    private Map<String, BlueAllianceTeam> eventTeamsStringIntoMap(String _contentInJSONForm) {
+        Map<String, BlueAllianceTeam> rtnMap = new HashMap<>();
+
+        try {
+            JSONArray array = new JSONArray(_contentInJSONForm);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                BlueAllianceTeam item = new BlueAllianceTeam(obj);
+                rtnMap.put(item.getKey(), item);
+            }
+            Log.d("eventTeamsString", rtnMap.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return rtnMap;
     }
 }

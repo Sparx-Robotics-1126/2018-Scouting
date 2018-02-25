@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.CustomExpandableListAdapter;
+import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
@@ -58,7 +59,18 @@ public class View extends AppCompatActivity {
 
     private HashMap<String, List<String>> getData(int _teamNumber) {
         HashMap<String, List<String>> expandableListDetail = new HashMap<>();
-        List<ScoutingData> scoutingDatas = dataCollection.getScoutingDatas(_teamNumber);
+
+        expandableListDetail.put("Benchmark", getBenchmarkData(_teamNumber));
+        expandableListDetail.put("Scouting", getScoutingData(_teamNumber));
+
+        return expandableListDetail;
+    }
+
+    private List<String> getScoutingData(int _teamNumber) {
+        List<String> rtnList = new ArrayList<>();
+
+        List<ScoutingData> datas = dataCollection.getScoutingDatas(_teamNumber);
+
         int autoLineCrossed = 0;
         int autoScoredSwitch = 0;
         int autoPickedUpCube = 0;
@@ -75,89 +87,212 @@ public class View extends AppCompatActivity {
         int canBeClimbOn = 0;
         float numberOfRobotsHeld = 0;
         int climbedUnder15Secs = 0;
+        int numberOfdatas = datas.size();
 
-        List<String> scouting = new ArrayList<>();
-        int numberOfScoutingDatas = scoutingDatas.size();
-        scouting.add("<font color=\"black\"><b>Matches scouted: </b></font>" + numberOfScoutingDatas);
-        for (ScoutingData sd : scoutingDatas) {
-            if (sd.isAutoLineCrossed()) {
+        rtnList.add("<font color=\"black\"><b>Matches scouted: </b></font>" + numberOfdatas);
+        for (ScoutingData data : datas) {
+            if (data.isAutoLineCrossed()) {
                 autoLineCrossed++;
             }
 
-            if (sd.isAutoScoredSwitch()) {
+            if (data.isAutoScoredSwitch()) {
                 autoScoredSwitch++;
             }
 
-            if (sd.isAutoPickedUpCube()) {
+            if (data.isAutoPickedUpCube()) {
                 autoPickedUpCube++;
             }
 
-            if (sd.isAutoScoredScale()) {
+            if (data.isAutoScoredScale()) {
                 autoScoredScale++;
             }
 
-            if (sd.isAutoCubeExchange()) {
+            if (data.isAutoCubeExchange()) {
                 autoCubeExchange++;
             }
 
-            cubesPlacedOnSwitch += sd.getCubesPlacedOnSwitch();
-            cubesPlacedOnScale += sd.getCubesPlacedOnScale();
-            cubesPlacedInExchange += sd.getCubesPlacedInExchange();
-            cubesPickedUpFromFloor += sd.getCubesPickedUpFromFloor();
-            cubesAcquireFromPlayer += sd.getCubesAcquireFromPlayer();
+            cubesPlacedOnSwitch += data.getCubesPlacedOnSwitch();
+            cubesPlacedOnScale += data.getCubesPlacedOnScale();
+            cubesPlacedInExchange += data.getCubesPlacedInExchange();
+            cubesPickedUpFromFloor += data.getCubesPickedUpFromFloor();
+            cubesAcquireFromPlayer += data.getCubesAcquireFromPlayer();
 
-            if (sd.isPlayedDefenseEffectively()) {
+            if (data.isPlayedDefenseEffectively()) {
                 playedDefenseEffectively++;
             }
 
-            if (sd.isClimbedRung()) {
+            if (data.isClimbedRung()) {
                 climbedRung++;
             }
 
-            if (sd.isClimbedOnRobot()) {
+            if (data.isClimbedOnRobot()) {
                 climbedOnRobot++;
             }
 
-            if (sd.isCanBeClimbOn()) {
+            if (data.isCanBeClimbOn()) {
                 canBeClimbOn++;
             }
 
-            numberOfRobotsHeld += sd.getNumberOfRobotsHeld();
+            numberOfRobotsHeld += data.getNumberOfRobotsHeld();
 
-            if (sd.isClimbedUnder15Secs()) {
+            if (data.isClimbedUnder15Secs()) {
                 climbedUnder15Secs++;
             }
         }
 
-        if (numberOfScoutingDatas != 0) {
-            scouting.add("<font color=\"black\"><b>AUTO:</b></font>");
-            scouting.add("<font color=\"black\"><b></b></font>");
-            scouting.add("<font color=\"black\"><b> Auto Line Crossed: </b></font>" + autoLineCrossed + " times");
-            scouting.add("<font color=\"black\"><b> Auto Scored Switch: </b></font>" + autoScoredSwitch + " times");
-            scouting.add("<font color=\"black\"><b> Auto Picked Up Cube: </b></font>" + autoPickedUpCube + " times");
-            scouting.add("<font color=\"black\"><b> Auto Scored Scale: </b></font>" + autoScoredScale + " times");
-            scouting.add("<font color=\"black\"><b> Auto Cube Exchange: </b></font>" + autoCubeExchange + " times");
-            cubesPlacedOnSwitch = cubesPlacedOnSwitch / numberOfScoutingDatas;
-            scouting.add("<font color=\"black\"><b> Cubes Placed On Switch: </b></font>" + cubesPlacedOnSwitch + " average");
-            cubesPlacedOnScale = cubesPlacedOnScale / numberOfScoutingDatas;
-            scouting.add("<font color=\"black\"><b> cubesPlacedOnScale: </b></font>" + cubesPlacedOnScale + " average");
-            cubesPlacedInExchange = cubesPlacedInExchange / numberOfScoutingDatas;
-            scouting.add("<font color=\"black\"><b> cubesPlacedInExchange: </b></font>" + cubesPlacedInExchange + " average");
-            cubesPickedUpFromFloor = cubesPickedUpFromFloor / numberOfScoutingDatas;
-            scouting.add("<font color=\"black\"><b> cubesPickedUpFromFloor: </b></font>" + cubesPickedUpFromFloor + " average");
-            cubesAcquireFromPlayer = cubesAcquireFromPlayer / numberOfScoutingDatas;
-            scouting.add("<font color=\"black\"><b> cubesAcquireFromPlayer: </b></font>" + cubesAcquireFromPlayer + " average");
-            scouting.add("<font color=\"black\"><b> playedDefenseEffectively: </b></font>" + playedDefenseEffectively + " times");
-            scouting.add("<font color=\"black\"><b> climbedRung: </b></font>" + climbedRung + " times");
-            scouting.add("<font color=\"black\"><b> climbedOnRobot: </b></font>" + climbedOnRobot + " times");
-            scouting.add("<font color=\"black\"><b> canBeClimbOn: </b></font>" + canBeClimbOn + " times");
-            numberOfRobotsHeld = numberOfRobotsHeld / numberOfScoutingDatas;
-            scouting.add("<font color=\"black\"><b> numberOfRobotsHeld: </b></font>" + numberOfRobotsHeld + " average");
-            scouting.add("<font color=\"black\"><b> climbedUnder15Secs: </b></font>" + climbedUnder15Secs + " times");
+        if (numberOfdatas != 0) {
+            rtnList.add("<font color=\"black\"><b>AUTO:</b></font>");
+            rtnList.add("<font color=\"black\"><b></b></font>");
+            rtnList.add("<font color=\"black\"><b> Auto Line Crossed: </b></font>" + autoLineCrossed + " times");
+            rtnList.add("<font color=\"black\"><b> Auto Scored Switch: </b></font>" + autoScoredSwitch + " times");
+            rtnList.add("<font color=\"black\"><b> Auto Picked Up Cube: </b></font>" + autoPickedUpCube + " times");
+            rtnList.add("<font color=\"black\"><b> Auto Scored Scale: </b></font>" + autoScoredScale + " times");
+            rtnList.add("<font color=\"black\"><b> Auto Cube Exchange: </b></font>" + autoCubeExchange + " times");
+            cubesPlacedOnSwitch = cubesPlacedOnSwitch / numberOfdatas;
+            rtnList.add("<font color=\"black\"><b> Cubes Placed On Switch: </b></font>" + cubesPlacedOnSwitch + " average");
+            cubesPlacedOnScale = cubesPlacedOnScale / numberOfdatas;
+            rtnList.add("<font color=\"black\"><b> Cubes placed on scale: </b></font>" + cubesPlacedOnScale + " average");
+            cubesPlacedInExchange = cubesPlacedInExchange / numberOfdatas;
+            rtnList.add("<font color=\"black\"><b> Cubes placed in exchange: </b></font>" + cubesPlacedInExchange + " average");
+            cubesPickedUpFromFloor = cubesPickedUpFromFloor / numberOfdatas;
+            rtnList.add("<font color=\"black\"><b> Cubes picked up from floor: </b></font>" + cubesPickedUpFromFloor + " average");
+            cubesAcquireFromPlayer = cubesAcquireFromPlayer / numberOfdatas;
+            rtnList.add("<font color=\"black\"><b> Cubes acquire fom player: </b></font>" + cubesAcquireFromPlayer + " average");
+            rtnList.add("<font color=\"black\"><b> Played defense effectively: </b></font>" + playedDefenseEffectively + " times");
+            rtnList.add("<font color=\"black\"><b> Climbed rung: </b></font>" + climbedRung + " times");
+            rtnList.add("<font color=\"black\"><b> Climbed on robot: </b></font>" + climbedOnRobot + " times");
+            rtnList.add("<font color=\"black\"><b> Climbed onto: </b></font>" + canBeClimbOn + " times");
+            numberOfRobotsHeld = numberOfRobotsHeld / numberOfdatas;
+            rtnList.add("<font color=\"black\"><b> Number of robots held: </b></font>" + numberOfRobotsHeld + " average");
+            rtnList.add("<font color=\"black\"><b> Climed under 15 seconds: </b></font>" + climbedUnder15Secs + " times");
         }
-        expandableListDetail.put("Scouting", scouting);
 
-        return expandableListDetail;
+        return rtnList;
+    }
+
+    private List<String> getBenchmarkData(int _teamNumber) {
+        List<String> rtnList = new ArrayList<>();
+
+        BenchmarkData data = dataCollection.getBenchmarkData(_teamNumber);
+
+        if(data != null) {
+            rtnList.add("<font color=\"black\"><b>GENERAL:</b></font>");
+            rtnList.add("<font color=\"black\"><b></b></font>");
+            rtnList.add("<font color=\"black\"><b> Type Of Drive: </b></font>" + data.getTypeOfDrive());
+            rtnList.add("<font color=\"black\"><b> Speed: </b></font>" + data.getSpeed() + " ft/s");
+            rtnList.add("<font color=\"black\"><b> Height: </b></font>" + data.getHeight() + " ft");
+            rtnList.add("<font color=\"black\"><b> Weight: </b></font>" + data.getWeight() + " llb");
+
+            rtnList.add("<font color=\"black\"><b>AUTO:</b></font>");
+            rtnList.add("<font color=\"black\"><b></b></font>");
+            String preferStart = "";
+            if (data.isPreferStartLeft()) {
+                preferStart = "Left ";
+            }
+            if (data.isPreferStartCenter()) {
+                preferStart += "Center ";
+            }
+            if (data.isPreferStartRight()) {
+                preferStart += "Right ";
+            }
+            if (preferStart.isEmpty()) {
+                preferStart = "None ";
+            }
+            rtnList.add("<font color=\"black\"><b> Prefer Start: </b></font>" + preferStart);
+
+            String canStartWithCube = "No";
+            if (data.isCanStartWithCube()) {
+                canStartWithCube = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Can start with cube: </b></font>" + canStartWithCube);
+
+            String autoCrossLine = "No";
+            if (data.isAutoCrossLine()) {
+                autoCrossLine = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Auto Can Cross Line: </b></font>" + autoCrossLine);
+
+            String autoScoreSwitch = "No";
+            if (data.isAutoScoreSwitch()) {
+                autoScoreSwitch = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Auto can score switch: </b></font>" + autoScoreSwitch);
+
+            String autoScoreScale = "No";
+            if (data.isAutoScoreScale()) {
+                autoScoreScale = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Auto can score scale: </b></font>" + autoScoreScale);
+
+            rtnList.add("<font color=\"black\"><b>TELE:</b></font>");
+            rtnList.add("<font color=\"black\"><b></b></font>");
+            String acquireFloor = "No";
+            if (data.isAcquireFloor()) {
+                acquireFloor = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Can acquire floor: </b></font>" + acquireFloor);
+
+            String isAcquirePortal = "No";
+            if (data.isAcquirePortal()) {
+                isAcquirePortal = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Can acquire portal: </b></font>" + isAcquirePortal);
+
+            String isDepositVault = "No";
+            if (data.isDepositVault()) {
+                isDepositVault = "Yes";
+            }
+            rtnList.add("<font color=\"black\"><b> Can deposit in vault: </b></font>" + isDepositVault);
+
+            String scoreSwitch = "No";
+            if (data.isPlaceOnSwitch()) {
+                scoreSwitch = "By Placement";
+            } else if (data.isTossToSwitch()) {
+                scoreSwitch = "By Tossing";
+            }
+            rtnList.add("<font color=\"black\"><b> Score on switch: </b></font>" + scoreSwitch);
+
+            String scoreScale = "No";
+            if (data.isPlaceOnScale()) {
+                scoreScale = "By Placement";
+            } else if (data.isTossToScale()) {
+                scoreScale = "By Tossing";
+            }
+            rtnList.add("<font color=\"black\"><b> Score on switch: </b></font>" + scoreScale);
+
+            String prefAcquire = "No";
+            if (data.isPreferAcquireFloor()) {
+                prefAcquire = "Floor";
+            } else if (data.isPreferAcquirePortal()) {
+                prefAcquire = "Portal";
+            }
+            rtnList.add("<font color=\"black\"><b> Prefer Acquire: </b></font>" + prefAcquire);
+
+            rtnList.add("<font color=\"black\"><b>END GAME:</b></font>");
+            rtnList.add("<font color=\"black\"><b></b></font>");
+            String climbRung = "No";
+            if (data.isClimbRung()) {
+                climbRung = "Yes ";
+            }
+
+            rtnList.add("<font color=\"black\"><b> Can climb rung: </b></font>" + climbRung);
+
+            String hasRungs = "No";
+            if (data.isHasRungs()) {
+                hasRungs = "Yes ";
+            }
+            rtnList.add("<font color=\"black\"><b> Has rungs: </b></font>" + hasRungs);
+
+            rtnList.add("<font color=\"black\"><b> Climb Height: </b></font>" + data.getClimbHeight() + " inches");
+
+            String climbOnRobot = "No";
+            if (data.isClimbOnRobot()) {
+                climbOnRobot = "Yes ";
+            }
+            rtnList.add("<font color=\"black\"><b> Can climb on robot: </b></font>" + climbOnRobot);
+        }
+
+        return rtnList;
     }
 }
 
