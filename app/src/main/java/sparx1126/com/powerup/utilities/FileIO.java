@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileIO {
     private static final String TAG = "FileIO ";
@@ -21,9 +23,9 @@ public class FileIO {
     private static final String EVENT_TEAMS_FILE_NAME = "eventTeams.json";
     private static final String SCOUTING_DATA_HEADER = "scoutingData";
     private static final String BENCHMARK_DATA_HEADER = "benchmarkData";
-    private static final String TEAM_SEPARATOR = "_Team";
-    private static final String MATCH_SEPARATOR = "_Match";
-    private static final String TIME_SEPARATOR = "_Time";
+    private static final String TEAM = "Team";
+    private static final String MATCH = "Match";
+    private static final String TIME = "Time";
 
     private static FileIO instance;
     private File dir;
@@ -74,37 +76,37 @@ public class FileIO {
 
     public void storeScoutingData(String _input, String _teamNumber, String _match) {
         long timeStampInSeconds = System.currentTimeMillis() / 1000;
-        String fileName = SCOUTING_DATA_HEADER + TEAM_SEPARATOR + _teamNumber + MATCH_SEPARATOR + _match + TIME_SEPARATOR + String.valueOf(timeStampInSeconds) + ".json";
+        String fileName = SCOUTING_DATA_HEADER + "_" + TEAM + _teamNumber + "_" + MATCH + _match + "_" + TIME + String.valueOf(timeStampInSeconds) + ".json";
         storeData(fileName, _input);
     }
 
-    public SparseArray< SparseArray< SparseArray<String>>> fetchScoutingDatas() {
+    public Map<Integer, Map<Integer, Map<Integer, String>>> fetchScoutingDatas() {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        SparseArray< SparseArray< SparseArray<String>>> rtnObj = new SparseArray<>();
+        Map<Integer, Map<Integer, Map<Integer, String>>> rtnObj = new HashMap<>();
         File[] listOfFiles = dir.listFiles();
 
         for (File listOfFile : listOfFiles) {
             String filePath = listOfFile.getPath();
             String fileName = listOfFile.getName();
             if (listOfFile.isFile() && fileName.contains(SCOUTING_DATA_HEADER)) {
-                String[] fileNameParts = fileName.split("_.");
-                Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM_SEPARATOR, ""));
-                Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH_SEPARATOR, ""));
-                Integer time = Integer.parseInt(fileNameParts[3].replace(TIME_SEPARATOR, ""));
+                String[] fileNameParts = fileName.split("[_.]");
+                Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
+                Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH, ""));
+                Integer time = Integer.parseInt(fileNameParts[3].replace(TIME, ""));
 
-                SparseArray<SparseArray<String>> matchMap;
+                Map<Integer, Map<Integer, String>> matchMap;
                 if (rtnObj.get(team) != null) {
                     matchMap = rtnObj.get(team);
                 } else {
-                    matchMap = new SparseArray<>();
+                    matchMap = new HashMap<>();
                 }
 
-                SparseArray<String> timeMap;
+                Map<Integer, String> timeMap;
                 if (matchMap.get(match) != null) {
                     timeMap = matchMap.get(match);
                 } else {
-                    timeMap = new SparseArray<>();
+                    timeMap = new HashMap<>();
                 }
 
                 Log.d(TAG, fileName);
@@ -119,7 +121,7 @@ public class FileIO {
 
     public void storeBenchmarkData(String _input, String _teamNumber) {
         long timeStampInSeconds = System.currentTimeMillis() / 1000;
-        String fileName = BENCHMARK_DATA_HEADER + TEAM_SEPARATOR + _teamNumber + TIME_SEPARATOR + String.valueOf(timeStampInSeconds) + ".json";
+        String fileName = BENCHMARK_DATA_HEADER + "_" + TEAM + _teamNumber + "_" + TIME + String.valueOf(timeStampInSeconds) + ".json";
         storeData(fileName, _input);
     }
 
@@ -134,8 +136,8 @@ public class FileIO {
             String fileName = listOfFile.getName();
             if (listOfFile.isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
                 String[] fileNameParts = fileName.split("_.");
-                Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM_SEPARATOR, ""));
-                Integer time = Integer.parseInt(fileNameParts[2].replace(TIME_SEPARATOR, ""));
+                Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
+                Integer time = Integer.parseInt(fileNameParts[2].replace(TIME, ""));
 
                 SparseArray<String> timeMap;
                 if (rtnObj.get(team) != null) {
@@ -173,14 +175,19 @@ public class FileIO {
 
         String filePath = dir.getPath() + "/" + _fileName;
         StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                contentBuilder.append(sCurrentLine).append("\n");
+        File tmpFileHandle = new File(filePath);
+        if(tmpFileHandle.exists()) {
+
+            try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                String sCurrentLine;
+                while ((sCurrentLine = br.readLine()) != null) {
+                    contentBuilder.append(sCurrentLine).append("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        Log.d(TAG, "Fetched: " + _fileName);
         return contentBuilder.toString();
     }
 }

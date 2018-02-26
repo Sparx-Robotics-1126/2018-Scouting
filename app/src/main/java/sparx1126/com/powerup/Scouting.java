@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,7 +20,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
@@ -31,7 +34,7 @@ public class Scouting extends AppCompatActivity {
 
     private static DataCollection dataCollection;
     private SharedPreferences settings;
-    SparseArray<BlueAllianceMatch> matchesInEvent;
+    Map<Integer, BlueAllianceMatch> matchesInEvent;
 
     private AutoCompleteTextView matchNumber;
     private View scouting_main_layout;
@@ -63,34 +66,19 @@ public class Scouting extends AppCompatActivity {
         dataCollection = DataCollection.getInstance();
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         matchesInEvent = dataCollection.getEventMatchesByMatchNumber();
-        if (matchesInEvent.size() == 0) {
-            String msg = "Have an Admin Setup Tablet!";
-            Log.e(TAG, msg);
-            AlertDialog.Builder builder = new AlertDialog.Builder(Scouting.this);
-
-            builder.setTitle(TAG);
-            builder.setMessage(msg);
-            builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                    finish();
-                }
-            });
-
-            Dialog dialog = builder.create();
-            dialog.show();
-        }
+        List<Integer> matches = new ArrayList<>(matchesInEvent.keySet());
 
         matchNumber = findViewById(R.id.matchnumimput);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, matches);
+        matchNumber.setAdapter(adapter);
+        matchNumber.setThreshold(1);
         Button matchButton = findViewById(R.id.matchButton);
         matchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String matchNumberStr = matchNumber.getText().toString();
 
-                for (int index = 0; index < matchesInEvent.size(); index++) {
-                    BlueAllianceMatch match = matchesInEvent.get(index);
+                for (BlueAllianceMatch match: matchesInEvent.values()) {
                     if (match.getMatchNumber().equals(matchNumberStr)) {
                         SparseArray<String> teamKeys;
                         boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
@@ -170,6 +158,7 @@ public class Scouting extends AppCompatActivity {
                 String msg = "Data Stored";
                 Log.d(TAG, msg);
                 Toast.makeText(Scouting.this, TAG + msg, Toast.LENGTH_LONG).show();
+                finish();
             }
 
 

@@ -42,6 +42,7 @@ public class Admin extends AppCompatActivity {
     private Dialog eventsWeAreInDialog;
     private Dialog matchesDialog;
     private Dialog teamsDialog;
+    private Dialog testingInternetDialog;
 
 
     @Override
@@ -60,47 +61,60 @@ public class Admin extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedItem = eventSpinner.getSelectedItem().toString();
+                final String selectedItem = eventSpinner.getSelectedItem().toString();
                 if (!selectedItem.isEmpty() && !selectedItem.contains(getResources().getString(R.string.selectEvent))) {
                     editor.putString(getResources().getString(R.string.pref_SelectedEvent), selectedItem);
                     editor.apply();
-                    if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
-                        matchesDialog.show();
-                        blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
-                            @Override
-                            public void handleFinishDownload(String _data) {
-                                dataCollection.setEventMatchesByKey(_data);
-                                // this needs to run on the ui thread because of ui components in it
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
-                                        matchesDialog.dismiss();
-                                        teamsDialog.show();
-                                        blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
 
+                    testingInternetDialog.show();
+                    networkStatus.isOnline(new NetworkStatus.Callback() {
+                        @Override
+                        public void handleConnected(final boolean _success) {
+                            // this needs to run on the ui thread because of ui components in it
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    testingInternetDialog.dismiss();
+                                    if (_success) {
+                                        matchesDialog.show();
+                                        blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
                                             @Override
                                             public void handleFinishDownload(String _data) {
-                                                dataCollection.setEventTeams(_data);
+                                                dataCollection.setEventMatchesByKey(_data);
                                                 // this needs to run on the ui thread because of ui components in it
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        teamsDialog.dismiss();
-                                                        editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
-                                                        showButtons();
+                                                        String pref_SelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+                                                        matchesDialog.dismiss();
+                                                        teamsDialog.show();
+                                                        blueAlliance.downloadEventTeams(pref_SelectedEvent, new BlueAllianceNetworking.Callback() {
+
+                                                            @Override
+                                                            public void handleFinishDownload(String _data) {
+                                                                dataCollection.setEventTeams(_data);
+                                                                // this needs to run on the ui thread because of ui components in it
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        teamsDialog.dismiss();
+                                                                        editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
+                                                                        showButtons();
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
                                                     }
                                                 });
                                             }
                                         });
+                                    } else {
+                                        showConnectToInternetDialog();
                                     }
-                                });
-                            }
-                        });
-                    }
-                    else {
-                        showConnectToInternetDialog();
-                    }
+                                }
+                            });
+                        }
+                    });
                 }
             }
 
@@ -121,15 +135,13 @@ public class Admin extends AppCompatActivity {
         stuffSelectedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(teamNumber1SelectedButton.isChecked() || teamNumber2SelectedButton.isChecked() || teamNumber3SelectedButton.isChecked() ) {
+                if (teamNumber1SelectedButton.isChecked() || teamNumber2SelectedButton.isChecked() || teamNumber3SelectedButton.isChecked()) {
                     editor.putBoolean(getResources().getString(R.string.pref_BlueAlliance), blueSelectedToggle.isChecked());
                     if (teamNumber1SelectedButton.isChecked()) {
                         editor.putInt(getResources().getString(R.string.pref_TeamPosition), 1);
-                    }
-                    else if(teamNumber2SelectedButton.isChecked()) {
+                    } else if (teamNumber2SelectedButton.isChecked()) {
                         editor.putInt(getResources().getString(R.string.pref_TeamPosition), 2);
-                    }
-                    else if(teamNumber3SelectedButton.isChecked()) {
+                    } else if (teamNumber3SelectedButton.isChecked()) {
                         editor.putInt(getResources().getString(R.string.pref_TeamPosition), 3);
                     }
                     editor.putBoolean(getResources().getString(R.string.tablet_Configured), true);
@@ -150,35 +162,49 @@ public class Admin extends AppCompatActivity {
         builder.setMessage("Downloading Team for event");
         teamsDialog = builder.create();
 
+        builder.setMessage("Wait a moment. Testing internet!");
+        testingInternetDialog = builder.create();
+
         restorePreferences();
         showButtons();
     }
 
     private void restorePreferences() {
         Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
-        if(data.isEmpty()) {
-            if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
-                eventsWeAreInDialog.show();
-                blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.Callback() {
-                    @Override
-                    public void handleFinishDownload(String _data) {
-                        dataCollection.setTeamEvents(_data);
-                        // this needs to run on the ui thread because of ui components in it
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setEventSpinner();
-                                eventsWeAreInDialog.dismiss();
+        if (data.isEmpty()) {
+            testingInternetDialog.show();
+            networkStatus.isOnline(new NetworkStatus.Callback() {
+                @Override
+                public void handleConnected(final boolean _success) {
+                    // this needs to run on the ui thread because of ui components in it
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            testingInternetDialog.dismiss();
+                            if (_success) {
+                                eventsWeAreInDialog.show();
+                                blueAlliance.downloadEventsSparxsIsIn(new BlueAllianceNetworking.Callback() {
+                                    @Override
+                                    public void handleFinishDownload(String _data) {
+                                        dataCollection.setTeamEvents(_data);
+                                        // this needs to run on the ui thread because of ui components in it
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                setEventSpinner();
+                                                eventsWeAreInDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                showConnectToInternetDialog();
                             }
-                        });
-                    }
-                });
-            }
-            else {
-                showConnectToInternetDialog();
-            }
-        }
-        else {
+                        }
+                    });
+                }
+            });
+        } else {
             Log.d(TAG, "Team Events Found");
             setEventSpinner();
         }
