@@ -488,7 +488,7 @@ public class Benchmarking extends AppCompatActivity {
             }
         });
 
-        //for wheel type dropdown selector
+        //for wheel type dropdown selector items
         final String[] wheelTypeArraySpinner = new String[] {
                 "Select Wheel Type", "Traction Narrow", "Traction Wide",
                 "Omni", "Tank Treads", "Combination Traction And Omni", "Other"
