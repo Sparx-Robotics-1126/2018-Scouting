@@ -166,7 +166,10 @@ public class View extends AppCompatActivity {
 
         BenchmarkData data = dataCollection.getBenchmarkData(_teamNumber);
 
-        if(data != null) {
+        if(data == null) {
+            rtnList.add("<font color=\"black\"><b>NOT Benchmark!</b></font>");
+        }
+        else {
             rtnList.add("<font color=\"black\"><b>GENERAL:</b></font>");
             rtnList.add("<font color=\"black\"><b></b></font>");
             rtnList.add("<font color=\"black\"><b> Type Of Drive: </b></font>" + data.getTypeOfDrive());

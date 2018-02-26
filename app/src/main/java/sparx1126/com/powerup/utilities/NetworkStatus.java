@@ -4,6 +4,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class NetworkStatus {
+    public interface Callback {
+        void handleConnected(boolean _success);
+    }
+    private static final String TAG = "NetworkStatus ";
+
     private static NetworkStatus instance;
     private ConnectivityManager cm;
 
@@ -30,17 +35,27 @@ public class NetworkStatus {
         return ((activeNetwork != null) && activeNetwork.isConnectedOrConnecting());
     }
 
-    public Boolean isOnline() {
-        boolean reachable = false;
+    public void isOnline(final Callback _connected) {
 
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            int returnVal = p1.waitFor();
-            reachable = (returnVal==0);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(isInternetConnected()) {
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+                        int returnVal = p1.waitFor();
+                        _connected.handleConnected(returnVal==0);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            t.start();
+
+
         }
-
-        return reachable;
+        else {
+            _connected.handleConnected(false);
+        }
     }
 }

@@ -9,18 +9,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.Arrays;
 
 public class Directory extends AppCompatActivity {
     private static final String TAG = "Directory ";
+    private SharedPreferences settings;
+
+    private LinearLayout normalButtons;
+    private Button admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.directory);
 
-        SharedPreferences settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+        settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+
+        normalButtons = findViewById(R.id.normal_buttons);
 
         Button view = findViewById(R.id.view);
         view.setOnClickListener(new android.view.View.OnClickListener() {
@@ -52,7 +59,7 @@ public class Directory extends AppCompatActivity {
             }
         });
 
-        Button admin =findViewById(R.id.admin);
+        admin =findViewById(R.id.admin);
         admin.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
@@ -73,16 +80,11 @@ public class Directory extends AppCompatActivity {
             }
         });
 
-        String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
-        String[] adminList = getResources().getStringArray(R.array.admins);
-        boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
-
-        if(adminNameFound) {
-            admin.setVisibility(android.view.View.VISIBLE);
-        }
-
         boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
         if(!isTableConfigured) {
+            String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
+            String[] adminList = getResources().getStringArray(R.array.admins);
+            boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
             if(adminNameFound) {
                 Log.d(TAG, "Admin");
                 Intent intent = new Intent(Directory.this, Admin.class);
@@ -95,7 +97,7 @@ public class Directory extends AppCompatActivity {
 
                 builder.setTitle(TAG);
                 builder.setMessage(msg);
-                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -106,6 +108,31 @@ public class Directory extends AppCompatActivity {
                 Dialog dialog = builder.create();
                 dialog.show();
             }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        showButtons();
+    }
+
+    private void showButtons() {
+        String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
+        String[] adminList = getResources().getStringArray(R.array.admins);
+        boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
+
+        if(adminNameFound) {
+            admin.setVisibility(android.view.View.VISIBLE);
+        }
+
+        boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
+        if(isTableConfigured) {
+            normalButtons.setVisibility(android.view.View.VISIBLE);
+        }
+        else {
+            normalButtons.setVisibility(android.view.View.INVISIBLE);
         }
     }
 }

@@ -25,7 +25,7 @@ public class DataCollection {
     private Map<String, BlueAllianceEvent > teamEvents;
     private Map<String, BlueAllianceTeam> eventTeams;
     private Map<String, BlueAllianceMatch> eventMatchesByKey;
-    private final SparseArray<BlueAllianceMatch> eventMatchesByMatchNumber;
+    private final Map<Integer, BlueAllianceMatch> eventMatchesByMatchNumber;
     private static FileIO fileIO;
 
     public static synchronized DataCollection getInstance(){
@@ -41,7 +41,7 @@ public class DataCollection {
         teamEvents = new HashMap<>();
         eventTeams = new HashMap<>();
         eventMatchesByKey = new HashMap<>();
-        eventMatchesByMatchNumber = new SparseArray<>();
+        eventMatchesByMatchNumber = new HashMap<>();
         fileIO = FileIO.getInstance();
     }
 
@@ -125,7 +125,7 @@ public class DataCollection {
         }
     }
 
-    public SparseArray<BlueAllianceMatch> getEventMatchesByMatchNumber() {
+    public Map<Integer, BlueAllianceMatch> getEventMatchesByMatchNumber() {
         return eventMatchesByMatchNumber;
     }
 
@@ -146,12 +146,12 @@ public class DataCollection {
             setEventMatchesByKey(eventMatches);
         }
 
-        SparseArray< SparseArray< SparseArray<String>>> scoutingDatasByTeamMatchTimeMap = fileIO.fetchScoutingDatas();
-        for(int indexTeam = 0; indexTeam != scoutingDatasByTeamMatchTimeMap.size(); indexTeam++) {
-            for(int indexMatch = 0; indexMatch != scoutingDatasByTeamMatchTimeMap.get(indexTeam).size(); indexMatch++) {
-                for(int indexTime = 0; indexTime != scoutingDatasByTeamMatchTimeMap.get(indexTeam).get(indexMatch).size(); indexTime++) {
+        Map<Integer, Map<Integer, Map<Integer, String>>> scoutingDatasByTeamMatchTimeMap = fileIO.fetchScoutingDatas();
+        for(Map<Integer, Map<Integer, String>> match: scoutingDatasByTeamMatchTimeMap.values()) {
+            for(Map<Integer, String> time: match.values()) {
+                for(String data: time.values()) {
                         ScoutingData scoutingData = new ScoutingData();
-                        scoutingData.setJsonString(scoutingDatasByTeamMatchTimeMap.get(indexTeam).get(indexMatch).get(indexTime));
+                        scoutingData.setJsonString(data);
                         addScoutingData(scoutingData);
                 }
             }

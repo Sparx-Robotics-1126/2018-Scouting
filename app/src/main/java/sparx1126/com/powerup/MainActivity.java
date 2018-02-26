@@ -98,23 +98,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void tryConnectToGoogleDrive() {
-        if(networkStatus.isInternetConnected() && networkStatus.isOnline()) {
-            // This is done only once here in MainActivity
-            Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(this);
-            // if failed auto sign then googleDrive will return an intent to try to
-            // sign in by asking the user to select an account
-            if(tryAutoSignInIntent != null) {
-                startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(TAG);
+        builder.setMessage("Wait a moment. Testing internet!");
+        final Dialog dialog = builder.create();
+        dialog.show();
+
+        networkStatus.isOnline(new NetworkStatus.Callback() {
+            @Override
+            public void handleConnected(final boolean _success) {
+                // this needs to run on the ui thread because of ui components in it
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                        if(_success) {
+                            // This is done only once here in MainActivity
+                            Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(MainActivity.this);
+                            // if failed auto sign then googleDrive will return an intent to try to
+                            // sign in by asking the user to select an account
+                            if(tryAutoSignInIntent != null) {
+                                startActivityForResult(tryAutoSignInIntent, GOOGLE_REQUEST_CODE_SIGN_IN);
+                            }
+                            else {
+                                String msg = "Logged into Google Drive!";
+                                Log.d(TAG, msg);
+                                Toast.makeText(MainActivity.this, TAG + msg, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            showOkayDialog("No Internet: Remember to Connect and Upload later!");
+                        }
+                    }
+                });
             }
-            else {
-                String msg = "Logged into Google Drive!";
-                Log.d(TAG, msg);
-                Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
-            }
-        }
-        else {
-            showOkayDialog("No Internet: Remember to Connect and Upload later!");
-        }
+        });
     }
 
     private void restorePreferences() {
@@ -123,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, scouterName);
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
-            dismissKeyboard();
         }
         dataCollection.restore();
     }
