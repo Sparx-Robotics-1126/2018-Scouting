@@ -165,6 +165,7 @@
         <item name="android:digits">1234567890.</item>
         <item name="android:maxLength">5</item>
         <item name="android:gravity">right</item>
+        <item name="android:text"></item>
     </style>
 
     <style name="J_checkBox" parent="J_word_checkBox">

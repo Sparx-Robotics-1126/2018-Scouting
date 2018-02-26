@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 public class BlueAllianceMatch {
     // keys from thebluealliance.com API
     private static final String KEY = "key";
@@ -19,12 +17,12 @@ public class BlueAllianceMatch {
     private static final String RED = "red";
 
 
-    private JSONObject jsonObj;
+    private final JSONObject jsonObj;
     private String key;
     private String compLevel;
     private String matchNumber;
-    private SparseArray<String> blueTeamKeys;
-    private SparseArray<String> redTeamKeys;
+    private final SparseArray<String> blueTeamKeys;
+    private final SparseArray<String> redTeamKeys;
 
     public BlueAllianceMatch(JSONObject _jsonObj) {
         jsonObj = _jsonObj;

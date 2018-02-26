@@ -1,13 +1,7 @@
 package sparx1126.com.powerup;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -16,20 +10,17 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.CustomExpandableListAdapter;
 import sparx1126.com.powerup.data_components.BenchmarkData;
-import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
-
 
 public class View extends AppCompatActivity {
     private static final String TAG = "View ";
     private static DataCollection dataCollection;
 
-    private EditText teamnumber;
+    EditText teamnumber;
     private Button teamNumberButton;
     private ExpandableListView expandableListView;
 
@@ -45,7 +36,7 @@ public class View extends AppCompatActivity {
         teamNumberButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                int teamNumber = Integer.getInteger(teamNumberButton.getText().toString());
+                int teamNumber = Integer.valueOf(teamnumber.getText().toString());
 
                 HashMap<String, List<String>> expandableListDetail = getData(teamNumber);
                 List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
@@ -87,9 +78,9 @@ public class View extends AppCompatActivity {
         int canBeClimbOn = 0;
         float numberOfRobotsHeld = 0;
         int climbedUnder15Secs = 0;
-        int numberOfdatas = datas.size();
+        int numberOfDatas = datas.size();
 
-        rtnList.add("<font color=\"black\"><b>Matches scouted: </b></font>" + numberOfdatas);
+        rtnList.add("<font color=\"black\"><b>Matches scouted: </b></font>" + numberOfDatas);
         for (ScoutingData data : datas) {
             if (data.isAutoLineCrossed()) {
                 autoLineCrossed++;
@@ -140,7 +131,7 @@ public class View extends AppCompatActivity {
             }
         }
 
-        if (numberOfdatas != 0) {
+        if (numberOfDatas != 0) {
             rtnList.add("<font color=\"black\"><b>AUTO:</b></font>");
             rtnList.add("<font color=\"black\"><b></b></font>");
             rtnList.add("<font color=\"black\"><b> Auto Line Crossed: </b></font>" + autoLineCrossed + " times");
@@ -148,23 +139,23 @@ public class View extends AppCompatActivity {
             rtnList.add("<font color=\"black\"><b> Auto Picked Up Cube: </b></font>" + autoPickedUpCube + " times");
             rtnList.add("<font color=\"black\"><b> Auto Scored Scale: </b></font>" + autoScoredScale + " times");
             rtnList.add("<font color=\"black\"><b> Auto Cube Exchange: </b></font>" + autoCubeExchange + " times");
-            cubesPlacedOnSwitch = cubesPlacedOnSwitch / numberOfdatas;
+            cubesPlacedOnSwitch = cubesPlacedOnSwitch / numberOfDatas;
             rtnList.add("<font color=\"black\"><b> Cubes Placed On Switch: </b></font>" + cubesPlacedOnSwitch + " average");
-            cubesPlacedOnScale = cubesPlacedOnScale / numberOfdatas;
+            cubesPlacedOnScale = cubesPlacedOnScale / numberOfDatas;
             rtnList.add("<font color=\"black\"><b> Cubes placed on scale: </b></font>" + cubesPlacedOnScale + " average");
-            cubesPlacedInExchange = cubesPlacedInExchange / numberOfdatas;
+            cubesPlacedInExchange = cubesPlacedInExchange / numberOfDatas;
             rtnList.add("<font color=\"black\"><b> Cubes placed in exchange: </b></font>" + cubesPlacedInExchange + " average");
-            cubesPickedUpFromFloor = cubesPickedUpFromFloor / numberOfdatas;
+            cubesPickedUpFromFloor = cubesPickedUpFromFloor / numberOfDatas;
             rtnList.add("<font color=\"black\"><b> Cubes picked up from floor: </b></font>" + cubesPickedUpFromFloor + " average");
-            cubesAcquireFromPlayer = cubesAcquireFromPlayer / numberOfdatas;
+            cubesAcquireFromPlayer = cubesAcquireFromPlayer / numberOfDatas;
             rtnList.add("<font color=\"black\"><b> Cubes acquire fom player: </b></font>" + cubesAcquireFromPlayer + " average");
             rtnList.add("<font color=\"black\"><b> Played defense effectively: </b></font>" + playedDefenseEffectively + " times");
             rtnList.add("<font color=\"black\"><b> Climbed rung: </b></font>" + climbedRung + " times");
             rtnList.add("<font color=\"black\"><b> Climbed on robot: </b></font>" + climbedOnRobot + " times");
             rtnList.add("<font color=\"black\"><b> Climbed onto: </b></font>" + canBeClimbOn + " times");
-            numberOfRobotsHeld = numberOfRobotsHeld / numberOfdatas;
+            numberOfRobotsHeld = numberOfRobotsHeld / numberOfDatas;
             rtnList.add("<font color=\"black\"><b> Number of robots held: </b></font>" + numberOfRobotsHeld + " average");
-            rtnList.add("<font color=\"black\"><b> Climed under 15 seconds: </b></font>" + climbedUnder15Secs + " times");
+            rtnList.add("<font color=\"black\"><b> Climbed under 15 seconds: </b></font>" + climbedUnder15Secs + " times");
         }
 
         return rtnList;

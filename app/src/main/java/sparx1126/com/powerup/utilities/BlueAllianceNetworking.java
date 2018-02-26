@@ -32,8 +32,6 @@ public class BlueAllianceNetworking {
 
     private final OkHttpClient regularHttpClient;
     private static BlueAllianceNetworking instance;
-    private static FileIO fileIO;
-    private static DataCollection dataCollection;
 
     // synchronized means that the method cannot be executed by two threads at the same time
     // hence protected so that it always returns the same instance
@@ -45,8 +43,6 @@ public class BlueAllianceNetworking {
 
     private BlueAllianceNetworking() {
         regularHttpClient = new OkHttpClient();
-        fileIO = FileIO.getInstance();
-        dataCollection = DataCollection.getInstance();
     }
 
     public void downloadEventsSparxsIsIn(Callback _callback) {
@@ -64,7 +60,9 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    _callback.handleFinishDownload(response.body().string());
+                    String rtnStrg = response.body().string();
+                    assert rtnStrg != null;
+                    _callback.handleFinishDownload(rtnStrg);
                 } else {
                     throw new AssertionError(response.message() + this);
                 }
@@ -83,7 +81,9 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    _callback.handleFinishDownload(response.body().string());
+                    String rtnStrg = response.body().string();
+                    assert rtnStrg != null;
+                    _callback.handleFinishDownload(rtnStrg);
                 } else {
                     throw new AssertionError(response.message() + this);
                 }
@@ -103,7 +103,9 @@ public class BlueAllianceNetworking {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    _callback.handleFinishDownload(response.body().string());
+                    String rtnStrg = response.body().string();
+                    assert rtnStrg != null;
+                    _callback.handleFinishDownload(rtnStrg);
                 } else {
                     throw new AssertionError(response.message() + this);
                 }

@@ -20,11 +20,12 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
     private static DataCollection dataCollection;
-    private SparseArray<List<ScoutingData>> scoutingDataMap;
-    private SparseArray<BenchmarkData> benchmarkDataMap;
+    private final SparseArray<List<ScoutingData>> scoutingDataMap;
+    private final SparseArray<BenchmarkData> benchmarkDataMap;
     private Map<String, BlueAllianceEvent > teamEvents;
     private Map<String, BlueAllianceTeam> eventTeams;
-    private Map<String, BlueAllianceMatch> eventMatches;
+    private Map<String, BlueAllianceMatch> eventMatchesByKey;
+    private final SparseArray<BlueAllianceMatch> eventMatchesByMatchNumber;
     private static FileIO fileIO;
 
     public static synchronized DataCollection getInstance(){
@@ -35,12 +36,21 @@ public class DataCollection {
     }
 
     private DataCollection(){
-        scoutingDataMap = new SparseArray();
-        benchmarkDataMap = new SparseArray();
+        scoutingDataMap = new SparseArray<>();
+        benchmarkDataMap = new SparseArray<>();
         teamEvents = new HashMap<>();
         eventTeams = new HashMap<>();
-        eventMatches = new HashMap<>();
+        eventMatchesByKey = new HashMap<>();
+        eventMatchesByMatchNumber = new SparseArray<>();
         fileIO = FileIO.getInstance();
+    }
+
+    public List<Integer> getTeamsInEvent() {
+        List<Integer> teams = new ArrayList<>();
+        for(BlueAllianceTeam team: eventTeams.values()) {
+            teams.add(Integer.valueOf(team.getNumber()));
+        }
+        return teams;
     }
 
     public void addScoutingData(ScoutingData _data){
@@ -53,6 +63,7 @@ public class DataCollection {
             newList.add(_data);
             scoutingDataMap.put(key, newList);
         }
+        fileIO.storeScoutingData(_data.toString(), String.valueOf(_data.getTeamNumber()), String.valueOf(_data.getMatchNumber()));
     }
     public List<ScoutingData> getScoutingDatas(int _teamNumber){
         List<ScoutingData> rtnData = new ArrayList<>();
@@ -68,6 +79,7 @@ public class DataCollection {
     public void addBenchmarkData(BenchmarkData _data){
         Integer key = _data.getTeamNumber();
         benchmarkDataMap.put(key, _data);
+        fileIO.storeBenchmarkData(_data.toString(), String.valueOf(_data.getTeamNumber()));
     }
 
     public BenchmarkData getBenchmarkData(int _teamNumber){
@@ -99,13 +111,24 @@ public class DataCollection {
         return eventTeams;
     }
 
-    public Map<String, BlueAllianceMatch> getEventMatches() {
-        return eventMatches;
+    public Map<String, BlueAllianceMatch> getEventMatchesByKey() {
+        return eventMatchesByKey;
     }
-    public void setEventMatches(String _data) {
+    public void setEventMatchesByKey(String _data) {
         fileIO.storeEventMatches(_data);
-        eventMatches = eventMatchesStringIntoMap(_data);
+        eventMatchesByKey = eventMatchesStringIntoMap(_data);
+        for(BlueAllianceMatch match: eventMatchesByKey.values()) {
+            // If qualification match
+            if(match.getCompLevel().equals("qm")) {
+                eventMatchesByMatchNumber.put(Integer.valueOf(match.getMatchNumber()), match);
+            }
+        }
     }
+
+    public SparseArray<BlueAllianceMatch> getEventMatchesByMatchNumber() {
+        return eventMatchesByMatchNumber;
+    }
+
 
     public void restore() {
         String teamEvents = fileIO.fetchTeamEvents();
@@ -120,7 +143,7 @@ public class DataCollection {
 
         String eventMatches = fileIO.fetchEventMatches();
         if (!eventMatches.isEmpty()) {
-            setEventMatches(eventMatches);
+            setEventMatchesByKey(eventMatches);
         }
 
         SparseArray< SparseArray< SparseArray<String>>> scoutingDatasByTeamMatchTimeMap = fileIO.fetchScoutingDatas();

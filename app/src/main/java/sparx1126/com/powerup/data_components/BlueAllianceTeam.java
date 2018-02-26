@@ -12,7 +12,7 @@ public class BlueAllianceTeam {
     private static final String STATE_PROV = "state_prov";
     private static final String ROOKIE_YEAR = "rookie_year";
 
-    private JSONObject jsonObj;
+    private final JSONObject jsonObj;
     private String key;
     private String number;
     private String name;

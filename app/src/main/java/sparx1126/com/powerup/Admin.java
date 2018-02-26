@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -35,7 +34,7 @@ public class Admin extends AppCompatActivity {
     private static NetworkStatus networkStatus;
 
     private Spinner eventSpinner;
-    private LinearLayout adminSelectionLayout;
+    private View adminSelectionLayout;
     private ToggleButton blueSelectedToggle;
     private RadioButton teamNumber1SelectedButton;
     private RadioButton teamNumber2SelectedButton;
@@ -70,7 +69,7 @@ public class Admin extends AppCompatActivity {
                         blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
                             @Override
                             public void handleFinishDownload(String _data) {
-                                dataCollection.setEventMatches(_data);
+                                dataCollection.setEventMatchesByKey(_data);
                                 // this needs to run on the ui thread because of ui components in it
                                 runOnUiThread(new Runnable() {
                                     @Override

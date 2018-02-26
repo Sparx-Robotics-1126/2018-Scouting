@@ -52,8 +52,7 @@ public class ScoutingData {
 
     public void setJsonString(String _jsonString) {
         try {
-            JSONObject jsonObject = new JSONObject(_jsonString);
-            jsonObj = jsonObject;
+            jsonObj = new JSONObject(_jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
