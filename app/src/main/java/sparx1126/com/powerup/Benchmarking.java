@@ -1,10 +1,12 @@
 package sparx1126.com.powerup;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,19 +14,19 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.List;
+
 import sparx1126.com.powerup.data_components.BenchmarkData;
-import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
-import sparx1126.com.powerup.utilities.FileIO;
 
 public class Benchmarking extends AppCompatActivity {
     private static final String TAG = "Benchmarking ";
 
     private static DataCollection dataCollection;
-    private SharedPreferences settings;
-    private static FileIO fileIO;
+    private List<Integer> teamsInEvent;
 
-    private EditText team_number_input;
+    private AutoCompleteTextView team_number_input;
+    private View benchmark_main_layout;
     private AutoCompleteTextView drive_auto_complete;
     private EditText speed;
     private EditText height;
@@ -51,14 +53,49 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox has_rungs;
     private EditText climb_height;
     private CheckBox attach_robot;
-    private Button submit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.benchmarking);
 
+        dataCollection = DataCollection.getInstance();
+        teamsInEvent =  dataCollection.getTeamsInEvent();
+
         team_number_input = findViewById(R.id.team_number);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, teamsInEvent);
+        team_number_input.setAdapter(adapter);
+        team_number_input.setThreshold(1);
+
+        Button teamButton = findViewById(R.id.teamButton);
+        teamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String teamNumberStrg = team_number_input.getText().toString();
+                int teamNumber = Integer.valueOf(teamNumberStrg);
+                boolean teamNumberFound = teamsInEvent.contains(teamNumber);
+                if (teamNumberFound) {
+                    Log.d(TAG, teamNumberStrg);
+                    dismissKeyboard();
+                    benchmark_main_layout.setVisibility(View.VISIBLE);
+                    BenchmarkData data = dataCollection.getBenchmarkData(teamNumber);
+                    if(data != null) {
+                        String msg = "Found Benchmark for " + teamNumber;
+                        Log.e(TAG, msg);
+                        Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                        restorePreferences(data);
+                    }
+                }
+                else {
+                    String msg = "Team number " + teamNumber + " not found!";
+                    Log.e(TAG, msg);
+                    Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        benchmark_main_layout = findViewById(R.id.benchmark_main_layout);
+        benchmark_main_layout.setVisibility(View.INVISIBLE);
         drive_auto_complete = findViewById(R.id.drive_auto_complete);
         speed = findViewById(R.id.speed);
         height = findViewById(R.id.height);
@@ -85,7 +122,7 @@ public class Benchmarking extends AppCompatActivity {
         has_rungs = findViewById(R.id.has_rungs);
         climb_height = findViewById(R.id.climb_height);
         attach_robot = findViewById(R.id.attach_robot);
-        submit_button = findViewById(R.id.submit_button);
+        Button submit_button = findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -93,9 +130,15 @@ public class Benchmarking extends AppCompatActivity {
                 BenchmarkData data = new BenchmarkData();
                 data.setTeamNumber(Integer.parseInt(team_number_input.getText().toString()));
                 data.setTypeOfDrive(drive_auto_complete.getText().toString());
-                data.setSpeed(Integer.parseInt(speed.getText().toString()));
-                data.setHeight(Integer.parseInt(height.getText().toString()));
-                data.setWeight(Integer.parseInt(weight.getText().toString()));
+                if(!speed.getText().toString().isEmpty()) {
+                    data.setSpeed(Integer.parseInt(speed.getText().toString()));
+                }
+                if(!height.getText().toString().isEmpty()) {
+                    data.setHeight(Integer.parseInt(height.getText().toString()));
+                }
+                if (!weight.getText().toString().isEmpty()) {
+                    data.setWeight(Integer.parseInt(weight.getText().toString()));
+                }
                 data.setPreferStartLeft(pref_left.isChecked());
                 data.setPreferStartCenter(pref_center.isChecked());
                 data.setPreferStartRight(pref_right.isChecked());
@@ -114,16 +157,59 @@ public class Benchmarking extends AppCompatActivity {
                 data.setPreferAcquirePortal(pref_portal.isChecked());
                 data.setClimbRung(climb_rung.isChecked());
                 data.setHasRungs(has_rungs.isChecked());
-                data.setClimgHeight(Integer.parseInt(climb_height.getText().toString()));
+                if (!climb_height.getText().toString().isEmpty()) {
+                    data.setClimbHeight(Integer.parseInt(climb_height.getText().toString()));
+                }
                 data.setClimbOnRobot(attach_robot.isChecked());
 
-                DataCollection.getInstance().addBenchmarkData(data);
-                fileIO.storeBenchmarkData(data.toString(), String.valueOf(data.getTeamNumber()));
+                dataCollection.addBenchmarkData(data);
                 team_number_input.setText("");
                 String msg = "Data Stored";
                 Log.d(TAG, msg);
                 Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                finish();
             }
         });
+    }
+
+    private void restorePreferences(BenchmarkData _data) {
+        drive_auto_complete.setText(_data.getTypeOfDrive());
+        speed.setText(String.valueOf(_data.getSpeed()));
+        height.setText(String.valueOf(_data.getHeight()));
+        weight.setText(String.valueOf(_data.getWeight()));
+        pref_left.setSelected(_data.isPreferStartLeft());
+        pref_center.setSelected(_data.isPreferStartCenter());
+        pref_right.setSelected(_data.isPreferStartRight());
+        start_w_cube.setSelected(_data.isCanStartWithCube());
+        move_past_line.setSelected(_data.isAutoCrossLine());
+        auto_switch.setSelected(_data.isAutoScoreSwitch());
+        auto_scale.setSelected(_data.isAutoScoreScale());
+        acquire_floor.setSelected(_data.isAcquireFloor());
+        get_from_portal.setSelected(_data.isAcquirePortal());
+        deposit_vault.setSelected(_data.isDepositVault());
+        if(_data.isPlaceOnSwitch() || _data.isTossToSwitch()) {
+            place_switch.setSelected(_data.isPlaceOnSwitch());
+            toss_switch.setSelected(_data.isTossToSwitch());
+        }
+        if(_data.isPlaceOnScale() || _data.isTossToScale()) {
+            place_scale.setSelected(_data.isPlaceOnScale());
+            toss_scale.setSelected(_data.isTossToScale());
+        }
+        pref_floor.setSelected(_data.isPreferAcquireFloor());
+        pref_portal.setSelected(_data.isPreferAcquirePortal());
+        climb_rung.setSelected(_data.isClimbRung());
+        has_rungs.setSelected(_data.isHasRungs());
+        climb_height.setText(String.valueOf(_data.getClimbHeight()));
+        attach_robot.setSelected(_data.isClimbOnRobot());
+    }
+
+    private void dismissKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 }

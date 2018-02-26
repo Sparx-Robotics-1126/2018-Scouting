@@ -32,7 +32,7 @@ public class CheckList extends AppCompatActivity {
         TableLayout masterTable = findViewById(R.id.masterTable);
 
         for (BlueAllianceTeam blueAllianceTeamData : teamsInEvent.values()) {
-            int teamNumber = Integer.getInteger(blueAllianceTeamData.getNumber());
+            int teamNumber = Integer.valueOf(blueAllianceTeamData.getNumber());
             TableRow child = new TableRow(this);
 
             TextView teamNumberText = new TextView(this);
@@ -40,11 +40,11 @@ public class CheckList extends AppCompatActivity {
             child.addView(teamNumberText);
 
             TextView benchmark = new TextView(this);
-            String benchmarkerStr = "No";
+            String benchmarkStr = "No";
             if(becnhmarkData.get(teamNumber) != null) {
-                benchmarkerStr = "Yes";
+                benchmarkStr = "Yes";
             }
-            benchmark.setText(benchmarkerStr);
+            benchmark.setText(benchmarkStr);
             child.addView(benchmark);
 
             TextView scouting = new TextView(this);

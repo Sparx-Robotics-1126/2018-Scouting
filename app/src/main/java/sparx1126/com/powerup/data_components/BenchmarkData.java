@@ -66,8 +66,7 @@ public class BenchmarkData {
 
     public void setJsonString(String _jsonString) {
         try {
-            JSONObject jsonObject = new JSONObject(_jsonString);
-            jsonObj = jsonObject;
+            jsonObj = new JSONObject(_jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -187,7 +186,7 @@ public class BenchmarkData {
     }
 
     public int getClimbHeight() { return getInt(CLIMB_HEIGHT); }
-    public void setClimgHeight(int _value) {
+    public void setClimbHeight(int _value) {
         setInt(CLIMB_HEIGHT, _value);
     }
 

@@ -26,13 +26,17 @@
                 android:textColorHint="@android:color/black"
                 android:textSize="70sp" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/matchnumimput"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:digits="1234567890"
+                android:gravity="right"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="@color/black"
                 android:textSize="60sp" />
         </LinearLayout>
 
@@ -44,295 +48,294 @@
             android:textSize="30sp" />
 
         <LinearLayout
-            android:id="@+id/teamLayout"
+            android:id="@+id/scouting_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/NormalTextView"
-                android:text="Team Number:" />
-
-            <TextView
-                android:id="@+id/teamNumber"
-                style="@style/NormalTextView"
-                android:text="" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/allianceLayout"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="293dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:text="Alliance Color"
-                android:textSize="45sp" />
-
-            <TextView
-                android:id="@+id/allianceColor"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:text=""
-                android:textSize="45sp" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/autoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Autonomous"
-                android:textSize="90sp" />
-
-            <CheckBox
-                android:id="@+id/autoLineCrossed"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="Crossed Auto Line"
-                android:textSize="50sp" />
-
-            <CheckBox
-                android:id="@+id/autoScoredSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="Scored Switch"
-                android:textSize="50sp" />
-
-            <CheckBox
-                android:id="@+id/autoScoredScale"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="Scored Scale"
-                android:textSize="50sp" />
-
-            <CheckBox
-                android:id="@+id/pickupcubecheck"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="Pickup Up Cube"
-                android:textSize="50sp" />
-
-            <CheckBox
-                android:id="@+id/cubexchangecheck"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="Place Cube in exchange"
-                android:textSize="50sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/teleLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/teleop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Teleop"
-                android:textSize="95sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/Switch"
-                    android:layout_width="375dp"
-                    android:layout_height="wrap_content"
-                    android:text="Times scored switch"
-                    android:textSize="30sp" />
+                    style="@style/NormalTextView"
+                    android:text="Team Number:" />
 
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/timesscoredswitchpicker"
-                    style="@style/HorizontalNumberPicker" />
-
+                <TextView
+                    android:id="@+id/teamNumber"
+                    style="@style/NormalTextView"
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="375dp"
-                    android:layout_height="wrap_content"
-                    android:text="Times scored scale"
-                    android:textSize="30sp" />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/timesscoredscalepicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="375dp"
-                    android:layout_height="wrap_content"
-                    android:text="Times placed cube in exchange"
-                    android:textSize="30sp" />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/timesplacedexchangepicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView17"
-                    android:layout_width="375dp"
-                    android:layout_height="wrap_content"
-                    android:text="Cubes picked up from floor"
-                    android:textSize="30sp" />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesfromfloorpicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView18"
-                    android:layout_width="375dp"
-                    android:layout_height="wrap_content"
-                    android:text="Cubes acquired from players"
-                    android:textSize="30sp" />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesAcquireFromPlayer"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/playeddefensecheck"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Effectively Played defense"
-                android:textSize="30sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/climbLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/Endgame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="End Game"
-                android:textSize="95sp" />
-
-            <TextView
-                android:id="@+id/Climbing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Climbed on:"
-                android:textSize="45sp"
-                tools:ignore="DuplicateIds" />
-
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/climbedRung"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Rung"
-                    android:textSize="30sp" />
-
-                <RadioButton
-                    android:id="@+id/climbRobot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Other robot"
-                    android:textSize="30sp" />
-
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/climbOn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Can be climbed on"
-                android:textSize="45sp" />
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/ClimbOn1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Holds 1 robot"
-                    android:textSize="30sp" />
-
-                <RadioButton
-                    android:id="@+id/ClimbOn2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Holds 2 robots"
-                    android:textSize="30sp" />
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/Climb15secs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Can Climb under 15 seconds"
-                android:textSize="40sp" />
-
-            <Button
-                android:id="@+id/submitbutton"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:text="Submit"
-                android:textSize="30sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="293dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:text="Alliance Color"
+                    android:textSize="45sp" />
+
+                <TextView
+                    android:id="@+id/allianceColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:text=""
+                    android:textSize="45sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Autonomous"
+                    android:textSize="90sp" />
+
+                <CheckBox
+                    android:id="@+id/autoLineCrossed"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:text="Crossed Auto Line"
+                    android:textSize="50sp" />
+
+                <CheckBox
+                    android:id="@+id/autoScoredSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:text="Scored Switch"
+                    android:textSize="50sp" />
+
+                <CheckBox
+                    android:id="@+id/autoScoredScale"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:text="Scored Scale"
+                    android:textSize="50sp" />
+
+                <CheckBox
+                    android:id="@+id/pickupcubecheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:text="Pickup Up Cube"
+                    android:textSize="50sp" />
+
+                <CheckBox
+                    android:id="@+id/cubexchangecheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:text="Place Cube in exchange"
+                    android:textSize="50sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/teleop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Teleop"
+                    android:textSize="95sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/Switch"
+                        android:layout_width="375dp"
+                        android:layout_height="wrap_content"
+                        android:text="Times scored switch"
+                        android:textSize="30sp" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/timesscoredswitchpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="375dp"
+                        android:layout_height="wrap_content"
+                        android:text="Times scored scale"
+                        android:textSize="30sp" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/timesscoredscalepicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="375dp"
+                        android:layout_height="wrap_content"
+                        android:text="Times placed cube in exchange"
+                        android:textSize="30sp" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/timesplacedexchangepicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="375dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cubes picked up from floor"
+                        android:textSize="30sp" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/cubesfromfloorpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="375dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cubes acquired from players"
+                        android:textSize="30sp" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/cubesAcquireFromPlayer"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/playeddefensecheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Effectively Played defense"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Endgame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="End Game"
+                    android:textSize="95sp" />
+
+                <TextView
+                    android:id="@+id/Climbing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Climbed on:"
+                    android:textSize="45sp"
+                    tools:ignore="DuplicateIds" />
+
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/climbedRung"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rung"
+                        android:textSize="30sp" />
+
+                    <RadioButton
+                        android:id="@+id/climbRobot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Other robot"
+                        android:textSize="30sp" />
+
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/climbOn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Can be climbed on"
+                    android:textSize="45sp" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/ClimbOn1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Holds 1 robot"
+                        android:textSize="30sp" />
+
+                    <RadioButton
+                        android:id="@+id/ClimbOn2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Holds 2 robots"
+                        android:textSize="30sp" />
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/Climb15secs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Can Climb under 15 seconds"
+                    android:textSize="40sp" />
+
+                <Button
+                    android:id="@+id/submitbutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="Submit"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

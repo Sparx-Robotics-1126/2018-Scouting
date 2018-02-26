@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FileIO {
     private static final String TAG = "FileIO ";
@@ -83,30 +81,30 @@ public class FileIO {
     public SparseArray< SparseArray< SparseArray<String>>> fetchScoutingDatas() {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        SparseArray< SparseArray< SparseArray<String>>> rtnObj = new SparseArray();
+        SparseArray< SparseArray< SparseArray<String>>> rtnObj = new SparseArray<>();
         File[] listOfFiles = dir.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            String filePath = listOfFiles[i].getPath();
-            String fileName = listOfFiles[i].getName();
-            if (listOfFiles[i].isFile() && fileName.contains(SCOUTING_DATA_HEADER)) {
+        for (File listOfFile : listOfFiles) {
+            String filePath = listOfFile.getPath();
+            String fileName = listOfFile.getName();
+            if (listOfFile.isFile() && fileName.contains(SCOUTING_DATA_HEADER)) {
                 String[] fileNameParts = fileName.split("_.");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM_SEPARATOR, ""));
                 Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH_SEPARATOR, ""));
                 Integer time = Integer.parseInt(fileNameParts[3].replace(TIME_SEPARATOR, ""));
 
-                SparseArray< SparseArray<String>> matchMap;
+                SparseArray<SparseArray<String>> matchMap;
                 if (rtnObj.get(team) != null) {
                     matchMap = rtnObj.get(team);
                 } else {
-                    matchMap = new SparseArray();
+                    matchMap = new SparseArray<>();
                 }
 
                 SparseArray<String> timeMap;
                 if (matchMap.get(match) != null) {
                     timeMap = matchMap.get(match);
                 } else {
-                    timeMap = new SparseArray();
+                    timeMap = new SparseArray<>();
                 }
 
                 Log.d(TAG, fileName);
@@ -128,13 +126,13 @@ public class FileIO {
     public SparseArray< SparseArray<String>> fetchBenchmarkDatas() {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        SparseArray< SparseArray<String>> rtnObj = new SparseArray();
+        SparseArray< SparseArray<String>> rtnObj = new SparseArray<>();
         File[] listOfFiles = dir.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            String filePath = listOfFiles[i].getPath();
-            String fileName = listOfFiles[i].getName();
-            if (listOfFiles[i].isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
+        for (File listOfFile : listOfFiles) {
+            String filePath = listOfFile.getPath();
+            String fileName = listOfFile.getName();
+            if (listOfFile.isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
                 String[] fileNameParts = fileName.split("_.");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM_SEPARATOR, ""));
                 Integer time = Integer.parseInt(fileNameParts[2].replace(TIME_SEPARATOR, ""));
@@ -143,7 +141,7 @@ public class FileIO {
                 if (rtnObj.get(team) != null) {
                     timeMap = rtnObj.get(team);
                 } else {
-                    timeMap = new SparseArray();
+                    timeMap = new SparseArray<>();
                 }
 
                 Log.d(TAG, fileName);

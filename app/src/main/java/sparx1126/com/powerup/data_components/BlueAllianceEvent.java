@@ -12,7 +12,7 @@ public class BlueAllianceEvent {
     private static final String START_DATE = "start_date";
     private static final String END_DATE = "end_date";
 
-    private JSONObject jsonObj;
+    private final JSONObject jsonObj;
     private String key;
     private String name;
     private String week;

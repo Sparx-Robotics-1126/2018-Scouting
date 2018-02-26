@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     private static DataCollection dataCollection;
-    private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
     private static NetworkStatus networkStatus;
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         editor = settings.edit();
 
         dataCollection = DataCollection.getInstance();
-        fileIO = FileIO.getInstance();
+        FileIO fileIO = FileIO.getInstance();
         // This is done only once here in MainActivity
         fileIO.InitializeStorage(this);
         googleDrive = GoogleDriveNetworking.getInstance();
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     dismissKeyboard();
                 }
                 else {
-                    Log.e(TAG, "Studen name not found!");
+                    Log.e(TAG, "Student name not found!");
                 }
 
                 editor.apply();
@@ -85,43 +84,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
                 if (!scouterName.isEmpty()) {
-                    boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
-                    if(isTableConfigured) {
-                        Log.d(TAG, "Directory");
-                        Intent intent = new Intent(MainActivity.this, Directory.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        String[] adminList = getResources().getStringArray(R.array.admins);
-                        boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
-
-                        if(adminNameFound) {
-                            Log.d(TAG, "Admin");
-                            Intent intent = new Intent(MainActivity.this, Admin.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            String msg = "Have an Admin Setup Tablet!";
-                            Log.e(TAG, msg);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                            builder.setTitle(TAG);
-                            builder.setMessage(msg);
-                            builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                    finish();
-                                }
-                            });
-
-                            Dialog dialog = builder.create();
-                            dialog.show();
-                        }
-                    }
+                    Log.d(TAG, "Directory");
+                    Intent intent = new Intent(MainActivity.this, Directory.class);
+                    startActivity(intent);
                 }
                 else {
-                    Log.e(TAG, "Studen name not selected!");
+                    Log.e(TAG, "Student name not selected!");
                 }
             }
         });
