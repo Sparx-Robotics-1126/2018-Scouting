@@ -4,18 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sparx_gradient"
-    tools:context="sparx1126.com.powerup.MainActivity">
-
-    <ImageView
-        android:id="@+id/powerUpView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/powerup_bckgrd"
-        android:contentDescription="FIRST Power Up Logo" />
+    android:background="@color/backgroundColor"
+    tools:context="sparx1126.com.powerup.MainActivity"
+    android:id="@+id/wholeView">
 
     <AutoCompleteTextView
         android:id="@+id/studentNameAutoText"
@@ -24,17 +15,65 @@
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:hint="Scouter Name"
-        android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM' "
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColorHint="@color/accentColorHint"
+        android:textColor="@color/accentColor"
+        android:shadowColor="@color/textColor"/>
 
     <Button
-        android:id="@+id/logInButton"
+        android:id="@+id/toScouting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/toView"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="Scouting"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/toBenchmarking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toChecklist"
+        android:layout_toEndOf="@+id/toChecklist"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="Benchmarking"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/toView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toScouting"
+        android:layout_alignStart="@+id/toChecklist"
+        android:layout_marginBottom="65dp"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="View"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/toChecklist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toScouting"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:text="LogIn"
-        android:textSize="30sp"/>
+        android:layout_marginTop="29dp"
+        android:width="190dp"
+        android:height="75dp"
+        android:backgroundTint="@color/accentColor"
+        android:text="Checklist"
+        android:textColor="@color/backgroundColor"
+        android:textSize="20sp" />
+
+
 
 </RelativeLayout>
