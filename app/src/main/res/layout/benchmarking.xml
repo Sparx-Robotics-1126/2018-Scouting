@@ -327,23 +327,13 @@
 
                 </LinearLayout>
 
-
-
             </LinearLayout>
-
-
-
-
-
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <CheckBox
                     android:id="@+id/scoreSwitchPlaceAuto"
@@ -362,7 +352,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <EditText
                     android:id="@+id/howManySwitchPlace"
@@ -383,15 +372,6 @@
                     android:maxLength="1" />
 
             </LinearLayout>
-
-
-
-
-
-
-
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -416,8 +396,6 @@
 
                 </LinearLayout>
 
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -425,7 +403,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <CheckBox
                     android:id="@+id/scoreScalePlaceAuto"
@@ -444,7 +421,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <EditText
                     android:id="@+id/howManyScalePlace"
@@ -465,11 +441,6 @@
                     android:maxLength="1" />
 
             </LinearLayout>
-
-
-
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -494,8 +465,6 @@
 
                 </LinearLayout>
 
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -503,7 +472,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <CheckBox
                         android:id="@+id/fromPortal"
@@ -551,8 +519,6 @@
 
                 </LinearLayout>
 
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -560,7 +526,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <CheckBox
                     android:id="@+id/fromPortalTele"
@@ -613,8 +578,6 @@
 
                 </LinearLayout>
 
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -622,7 +585,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_topbottom_default"
                 android:orientation="horizontal">
-
 
                 <CheckBox
                     android:id="@+id/scoreSwitchPlaceTele"
