@@ -98,7 +98,6 @@ public class Admin extends AppCompatActivity {
                                                                     @Override
                                                                     public void run() {
                                                                         teamsDialog.dismiss();
-                                                                        editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
                                                                         showButtons();
                                                                     }
                                                                 });
@@ -162,7 +161,7 @@ public class Admin extends AppCompatActivity {
         builder.setMessage("Downloading Team for event");
         teamsDialog = builder.create();
 
-        builder.setMessage("Wait a moment. Testing internet!");
+        builder.setMessage(getResources().getString(R.string.testing_internet));
         testingInternetDialog = builder.create();
 
         restorePreferences();

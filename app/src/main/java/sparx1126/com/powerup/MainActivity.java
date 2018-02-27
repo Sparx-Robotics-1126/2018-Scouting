@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] studentList;
     private AutoCompleteTextView studentNameAutoTextView;
+    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,32 +60,24 @@ public class MainActivity extends AppCompatActivity {
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
         studentNameAutoTextView.setAdapter(adapter);
-        studentNameAutoTextView.setThreshold(1);
+        studentNameAutoTextView.setThreshold(2);
         studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                dismissKeyboard();
+            }
+        });
+
+        loginButton = findViewById(R.id.logInButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 String studentName = studentNameAutoTextView.getText().toString();
                 boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
                 if (studentNameFound) {
                     Log.d(TAG, studentName);
                     editor.putString(getResources().getString(R.string.pref_scouter), studentName);
-                    dismissKeyboard();
-                }
-                else {
-                    Log.e(TAG, "Student name not found!");
-                }
-
-                editor.apply();
-            }
-        });
-
-        Button loginButton = findViewById(R.id.logInButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
-                if (!scouterName.isEmpty()) {
-                    Log.d(TAG, "Directory");
+                    editor.apply();
                     Intent intent = new Intent(MainActivity.this, Directory.class);
                     startActivity(intent);
                 }
@@ -100,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void tryConnectToGoogleDrive() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(TAG);
-        builder.setMessage("Wait a moment. Testing internet!");
+        builder.setMessage(getResources().getString(R.string.testing_internet));
         final Dialog dialog = builder.create();
         dialog.show();
 
