@@ -21,59 +21,17 @@
         android:shadowColor="@color/textColor"/>
 
     <Button
-        android:id="@+id/toScouting"
+        android:id="@+id/logInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/toView"
-        android:width="190dp"
-        android:height="75dp"
-        android:backgroundTint="@color/accentColor"
-        android:text="Scouting"
-        android:textColor="@color/backgroundColor"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/toBenchmarking"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/toChecklist"
-        android:layout_toEndOf="@+id/toChecklist"
-        android:width="190dp"
-        android:height="75dp"
-        android:backgroundTint="@color/accentColor"
-        android:text="Benchmarking"
-        android:textColor="@color/backgroundColor"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/toView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/toScouting"
-        android:layout_alignStart="@+id/toChecklist"
-        android:layout_marginBottom="65dp"
-        android:width="190dp"
-        android:height="75dp"
-        android:backgroundTint="@color/accentColor"
-        android:text="View"
-        android:textColor="@color/backgroundColor"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/toChecklist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toScouting"
+        android:layout_below="@+id/studentNameAutoText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="46dp"
         android:width="190dp"
         android:height="75dp"
         android:backgroundTint="@color/accentColor"
-        android:text="Checklist"
+        android:text="Log On"
         android:textColor="@color/backgroundColor"
         android:textSize="20sp" />
-
-
 
 </RelativeLayout>
