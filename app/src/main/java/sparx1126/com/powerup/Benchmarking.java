@@ -603,7 +603,6 @@ public class Benchmarking extends AppCompatActivity {
     }
 
     private void restorePreferences(BenchmarkData _data) {
-        drive_auto_complete.setText(_data.getTypeOfDrive());
         speed.setText(String.valueOf(_data.getSpeed()));
         height.setText(String.valueOf(_data.getHeight()));
         weight.setText(String.valueOf(_data.getWeight()));
