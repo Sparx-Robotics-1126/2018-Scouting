@@ -180,12 +180,6 @@
                     android:text="Right"
                      />
                 </RadioGroup>
-
-                <CheckBox
-                    android:id="@+id/cubexchangecheck"
-                    style="@style/J_checkBox"
-                    android:layout_width="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:text="Place Cube in exchange"
                     android:textColor="@color/textColor" />
             </LinearLayout>
@@ -361,7 +355,7 @@
                 android:textSize="45sp" />
 
             <RadioGroup
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -370,14 +364,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/J_radioButton"
-                android:text="Holds 1 robot" />
+                android:text="Holds 1 robot"
+                android:layout_weight="1"/>
 
             <RadioButton
                 android:id="@+id/ClimbOn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/J_radioButton"
-                android:text="Holds 2 robots" />
+                android:text="Holds 2 robots"
+                />
             </RadioGroup>
 
             <CheckBox
