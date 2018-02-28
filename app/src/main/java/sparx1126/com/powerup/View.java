@@ -179,7 +179,7 @@ public class View extends AppCompatActivity {
 
             rtnList.add("<font color=\"black\"><b>AUTO:</b></font>");
             rtnList.add("<font color=\"black\"><b></b></font>");
-            String preferStart = "";
+            /*String preferStart = "";
             if (data.isPreferStartLeft()) {
                 preferStart = "Left ";
             }
@@ -283,7 +283,7 @@ public class View extends AppCompatActivity {
             if (data.isClimbOnRobot()) {
                 climbOnRobot = "Yes ";
             }
-            rtnList.add("<font color=\"black\"><b> Can climb on robot: </b></font>" + climbOnRobot);
+            rtnList.add("<font color=\"black\"><b> Can climb on robot: </b></font>" + climbOnRobot);*/
         }
 
         return rtnList;
