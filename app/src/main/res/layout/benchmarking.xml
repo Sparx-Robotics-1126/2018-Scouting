@@ -621,8 +621,6 @@
 
             </LinearLayout>
 
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -643,8 +641,6 @@
                     android:text="Toss" />
 
             </LinearLayout>
-
-
 
             <TextView
                 style="@style/J_basicTextView"
@@ -739,8 +735,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
 
             <LinearLayout style="@style/J_horizontalLinearLayout">
 

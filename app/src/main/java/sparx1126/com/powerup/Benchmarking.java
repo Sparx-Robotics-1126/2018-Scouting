@@ -31,6 +31,7 @@ public class Benchmarking extends AppCompatActivity {
     private List<Integer> teamsInEvent;
     private String[] driveTypesArray;
     private String[] wheelTypesArray;
+    private String[] climbAssistTypesArray;
 
     private AutoCompleteTextView team_number_input;
     private Button teamButton;
@@ -44,6 +45,7 @@ public class Benchmarking extends AppCompatActivity {
     private EditText height;
     private EditText weight;
     private EditText groundClearance;
+    private TextView rankChoices;
     private RadioGroup prefGroup;
     private RadioButton pref_left;
     private RadioButton pref_center;
@@ -71,38 +73,18 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox scoreSwitchTele;
     private CheckBox switchPlaceTele;
     private CheckBox switchTossTele;
-
-
-
-    private EditText climb_height;
-    private EditText customClimbAssist;
-    private CheckBox auto_switch;
-    private CheckBox auto_scale;
-    private CheckBox acquire_floor;
-    private CheckBox get_from_portal;
-    private CheckBox score_switch;
-    private CheckBox score_scale;
-    private CheckBox climb_rung;
-    private CheckBox has_rungs;
-    private CheckBox attach_robot;
-    private CheckBox scoreScaleTele;
-    private CheckBox scaleTossTele;
     private CheckBox scalePlaceTele;
-    TextView howHighText;
-
-    private RadioButton place_switch;
-    private RadioButton toss_switch;
-    private RadioButton place_scale;
-    private RadioButton toss_scale;
+    private CheckBox scaleTossTele;
     private RadioButton pref_floor;
     private RadioButton pref_portal;
-
-    private TextView rankChoices;
+    private CheckBox climb_rung;
     private Spinner climbAssistTypeSpinner;
+    private EditText customClimbAssist;
+    TextView howHighText;
+    private EditText climb_height;
+    private CheckBox attach_robot;
     private Button submit_button;
-    private String driveType;
-    private String wheelType;
-    private String climbAssistType;
+
     private String prefStart1 = "none";
     private String prefStart2 = "none";
     private String prefStart3 = "none";
@@ -156,7 +138,7 @@ public class Benchmarking extends AppCompatActivity {
         driveTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                driveType = driveTypesArray[position];
+                String driveType = driveTypesArray[position];
                 if (driveType.equals("Other")) {
                     customDrive.setVisibility(View.VISIBLE);
                 } else {
@@ -179,7 +161,7 @@ public class Benchmarking extends AppCompatActivity {
         wheelTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                wheelType = wheelTypesArray[position];
+                String wheelType = wheelTypesArray[position];
                 if (wheelType.equals("Other")) {
                     customWheel.setVisibility(View.VISIBLE);
                 } else {
@@ -198,6 +180,7 @@ public class Benchmarking extends AppCompatActivity {
         height = findViewById(R.id.height);
         weight = findViewById(R.id.weight);
         groundClearance = findViewById(R.id.groundClearance);
+        rankChoices = findViewById(R.id.rankStartTextView);
         prefGroup = findViewById(R.id.prefStartGroup);
         prefGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -445,57 +428,13 @@ public class Benchmarking extends AppCompatActivity {
         switchPlaceTele.setVisibility(View.GONE);
         switchTossTele = findViewById(R.id.scoreSwitchTossTele);
         switchTossTele.setVisibility(View.GONE);
-
-
-
-
-        climb_height = findViewById(R.id.climb_height);
-        climb_height.setVisibility(View.GONE);
-        customClimbAssist = findViewById(R.id.customClimbAssist);
-        customClimbAssist.setVisibility(View.GONE);
-
-
-
-
-
-        howHighText = findViewById(R.id.howHighText);
-        howHighText.setVisibility(View.GONE);
-
-        climb_rung = findViewById(R.id.climb_rung);
-        attach_robot = findViewById(R.id.attach_robot);
-
-
-
-
-
-
-
-
-
-
-        scoreScaleTele = findViewById(R.id.canScoreScaleTele);
-        scaleTossTele = findViewById(R.id.scoreScaleTossTele);
-        scaleTossTele.setVisibility(View.GONE);
         scalePlaceTele = findViewById(R.id.scoreScalePlaceTele);
         scalePlaceTele.setVisibility(View.GONE);
-
-
-
-
-
-
-
-        rankChoices = findViewById(R.id.rankStartTextView);
-        climbAssistTypeSpinner = findViewById(R.id.climbAssistTypeSpinner);
-        climbAssistTypeSpinner.setVisibility(View.GONE);
-        submit_button = findViewById(R.id.submit_button);
-
-
-
-
-
-
-
+        scaleTossTele = findViewById(R.id.scoreScaleTossTele);
+        scaleTossTele.setVisibility(View.GONE);
+        pref_floor = findViewById(R.id.pref_floor);
+        pref_portal = findViewById(R.id.pref_portal);
+        climb_rung = findViewById(R.id.climb_rung);
         climb_rung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -510,21 +449,16 @@ public class Benchmarking extends AppCompatActivity {
                 }
             }
         });
-
-        //for climber type dropdown selector
-        final String[] climbAssistTypeArraySpinner = new String[]{
-                "Select Climb Assist Type", "Rungs", "Ramp / Platform", "Forklift", "Other"
-        };
-
-        ArrayAdapter<String> climbAssistAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, climbAssistTypeArraySpinner);
-        climbAssistAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        climbAssistTypeSpinner = findViewById(R.id.climbAssistTypeSpinner);
+        climbAssistTypeSpinner.setVisibility(View.GONE);
+        //for wheel type dropdown selector items
+        climbAssistTypesArray = getResources().getStringArray(R.array.climbAssistTypes);
+        SpinnerAdapter climbAssistAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, climbAssistTypesArray);
         climbAssistTypeSpinner.setAdapter(climbAssistAdapter);
-
         climbAssistTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                climbAssistType = climbAssistTypeArraySpinner[position];
+                String climbAssistType = climbAssistTypesArray[position];
                 if (climbAssistType.equals("Other")) {
                     customClimbAssist.setVisibility(View.VISIBLE);
                 } else {
@@ -537,48 +471,20 @@ public class Benchmarking extends AppCompatActivity {
 
             }
         });
-
-
-// do something tactile when submit button
-
-
+        customClimbAssist = findViewById(R.id.customClimbAssist);
+        customClimbAssist.setVisibility(View.GONE);
+        howHighText = findViewById(R.id.howHighText);
+        howHighText.setVisibility(View.GONE);
+        climb_height = findViewById(R.id.climb_height);
+        climb_height.setVisibility(View.GONE);
+        attach_robot = findViewById(R.id.attach_robot);
+        submit_button = findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 BenchmarkData data = new BenchmarkData();
-                data.setTeamNumber(Integer.parseInt(team_number_input.getText().toString()));
-                if (!speed.getText().toString().isEmpty()) {
-                    data.setSpeed(Integer.parseInt(speed.getText().toString()));
-                }
-                if (!height.getText().toString().isEmpty()) {
-                    data.setHeight(Integer.parseInt(height.getText().toString()));
-                }
-                if (!weight.getText().toString().isEmpty()) {
-                    data.setWeight(Integer.parseInt(weight.getText().toString()));
-                }
-                data.setPreferStartLeft(pref_left.isChecked());
-                data.setPreferStartCenter(pref_center.isChecked());
-                data.setPreferStartRight(pref_right.isChecked());
-                data.setCanStartWithCube(start_w_cube.isChecked());
-                data.setAutoCrossLine(move_past_line.isChecked());
-                data.setAutoScoreSwitch(auto_switch.isChecked());
-                data.setAutoScoreScale(auto_scale.isChecked());
-                data.setAcquireFloor(acquire_floor.isChecked());
-                data.setAcquirePortal(get_from_portal.isChecked());
-                data.setDepositVault(deposit_vault.isChecked());
-                data.setPlaceOnSwitch(place_switch.isChecked());
-                data.setTossToSwitch(toss_switch.isChecked());
-                data.setPlaceOnScale(place_scale.isChecked());
-                data.setTossToScale(toss_scale.isChecked());
-                data.setPreferAcquireFloor(pref_floor.isChecked());
-                data.setPreferAcquirePortal(pref_portal.isChecked());
-                data.setClimbRung(climb_rung.isChecked());
-                data.setHasRungs(has_rungs.isChecked());
-                if (!climb_height.getText().toString().isEmpty()) {
-                    data.setClimbHeight(Integer.parseInt(climb_height.getText().toString()));
-                }
-                data.setClimbOnRobot(attach_robot.isChecked());
+
 
                 dataCollection.addBenchmarkData(data);
                 team_number_input.setText("");
@@ -591,33 +497,7 @@ public class Benchmarking extends AppCompatActivity {
     }
 
     private void restorePreferences(BenchmarkData _data) {
-        speed.setText(String.valueOf(_data.getSpeed()));
-        height.setText(String.valueOf(_data.getHeight()));
-        weight.setText(String.valueOf(_data.getWeight()));
-        pref_left.setSelected(_data.isPreferStartLeft());
-        pref_center.setSelected(_data.isPreferStartCenter());
-        pref_right.setSelected(_data.isPreferStartRight());
-        start_w_cube.setSelected(_data.isCanStartWithCube());
-        move_past_line.setSelected(_data.isAutoCrossLine());
-        auto_switch.setSelected(_data.isAutoScoreSwitch());
-        auto_scale.setSelected(_data.isAutoScoreScale());
-        acquire_floor.setSelected(_data.isAcquireFloor());
-        get_from_portal.setSelected(_data.isAcquirePortal());
-        deposit_vault.setSelected(_data.isDepositVault());
-        if (_data.isPlaceOnSwitch() || _data.isTossToSwitch()) {
-            place_switch.setSelected(_data.isPlaceOnSwitch());
-            toss_switch.setSelected(_data.isTossToSwitch());
-        }
-        if (_data.isPlaceOnScale() || _data.isTossToScale()) {
-            place_scale.setSelected(_data.isPlaceOnScale());
-            toss_scale.setSelected(_data.isTossToScale());
-        }
-        pref_floor.setSelected(_data.isPreferAcquireFloor());
-        pref_portal.setSelected(_data.isPreferAcquirePortal());
-        climb_rung.setSelected(_data.isClimbRung());
-        has_rungs.setSelected(_data.isHasRungs());
-        climb_height.setText(String.valueOf(_data.getClimbHeight()));
-        attach_robot.setSelected(_data.isClimbOnRobot());
+
     }
 
     private void dismissKeyboard() {
@@ -646,5 +526,3 @@ public class Benchmarking extends AppCompatActivity {
         return count;
     }
 }
-
-
