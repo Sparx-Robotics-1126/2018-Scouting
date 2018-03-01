@@ -69,6 +69,7 @@ public class Scouting extends AppCompatActivity {
         List<Integer> matches = new ArrayList<>(matchesInEvent.keySet());
 
         matchNumber = findViewById(R.id.matchnumimput);
+
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, matches);
         matchNumber.setAdapter(adapter);
         matchNumber.setThreshold(1);
@@ -94,7 +95,8 @@ public class Scouting extends AppCompatActivity {
 
                         int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 0);
 
-                        String teamKeyToNumberStr = teamKeys.get(pref_TeamPosition).replace("frc", "");
+                        String teamKeyStr = teamKeys.get(pref_TeamPosition);
+                        String teamKeyToNumberStr = teamKeyStr.replace("frc", "");
                         teamNumber.setText(teamKeyToNumberStr);
                         dismissKeyboard();
                         scouting_main_layout.setVisibility(View.VISIBLE);
@@ -104,20 +106,20 @@ public class Scouting extends AppCompatActivity {
         });
         scouting_main_layout = findViewById(R.id.scouting_main_layout);
         scouting_main_layout.setVisibility(View.INVISIBLE);
-        teamNumber = findViewById(R.id.teamNumber);
+        teamNumber = findViewById(R.id.teamnumber);
         allianceColor = findViewById(R.id.allianceColor);
-        autoLineCrossed = findViewById(R.id.autoLineCrossed);
+        autoLineCrossed = findViewById(R.id.autolinecheck);
         autoScoredScale = findViewById(R.id.autoScoredScale);
         autoScoredSwitch = findViewById(R.id.autoScoredSwitch);
         autoPickedUpCube = findViewById(R.id.pickupcubecheck);
-        autoCubeExchange = findViewById(R.id.cubexchangecheck);
+        autoCubeExchange = findViewById(R.id.exchangecubecheck);
         cubesPlacedOnSwitch = findViewById(R.id.timesscoredswitchpicker);
         cubesPlacedOnScale = findViewById(R.id.timesscoredscalepicker);
         cubesPlacedInExchange = findViewById(R.id.timesplacedexchangepicker);
         cubesPickedUpFromFloor = findViewById(R.id.cubesfromfloorpicker);
-        cubesAcquiredFromPlayer = findViewById(R.id.cubesAcquireFromPlayer);
+        cubesAcquiredFromPlayer = findViewById(R.id.cubesfromplayers);
         playedDefenseEffectively = findViewById(R.id.playeddefensecheck);
-        climbedRung = findViewById(R.id.climbedRung);
+        climbedRung = findViewById(R.id.climbRung);
         climbedRobot = findViewById(R.id.climbRobot);
         canBeClimbOn = findViewById(R.id.climbOn);
         held1Robot = findViewById(R.id.ClimbOn1);
@@ -153,16 +155,18 @@ public class Scouting extends AppCompatActivity {
                 }
                 scoutingData.setClimbedUnder15Secs(climbedUnder15Secs.isChecked());
 
-                DataCollection.getInstance().addScoutingData(scoutingData);
-                matchNumber.setText("");
+                dataCollection.addScoutingData(scoutingData);
                 String msg = "Data Stored";
                 Log.d(TAG, msg);
                 Toast.makeText(Scouting.this, TAG + msg, Toast.LENGTH_LONG).show();
                 finish();
             }
-
-
         });
+
+        restorePreferences();
+    }
+    private void restorePreferences(){
+
     }
 
     private void dismissKeyboard() {
