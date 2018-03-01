@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainScrollView"
     style="@style/Screen"
     android:background="@color/backgroundColor">
@@ -19,32 +18,30 @@
 
             <TextView
                 style="@style/J_basicTextView"
-                android:textColor="@color/textColor"
-                android:text="Match #:" />
+                android:text="Match #:"
+                android:textColor="@color/textColor" />
 
             <AutoCompleteTextView
                 android:id="@+id/matchnumimput"
                 style="@style/J_basicTextView"
                 android:textColor="@color/accentColor" />
         </LinearLayout>
-            <LinearLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/matchButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/matchButton"
-                    android:text="SUBMIT MATCH NUMBER"
-                    android:background="@color/accentColor"
-                    android:textColor="@color/backgroundColorDark"
-                     android:textSize="30sp"/>
-
-
+                android:background="@color/accentColor"
+                android:text="SUBMIT MATCH NUMBER"
+                android:textColor="@color/backgroundColorDark"
+                android:textSize="30sp" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/scouting_main_layout"
@@ -57,347 +54,324 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <TextView
-                style="@style/J_basicTextView"
-                android:textColor="@color/textColor"
-                android:text="Team Number:" />
+                <TextView
+                    style="@style/J_basicTextView"
+                    android:text="Team Number:"
+                    android:textColor="@color/textColor" />
 
-            <TextView
-                style="@style/J_basicTextView"
-                android:id="@+id/teamnumber"
-                android:text="" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/allianceLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/J_basicTextView"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
-                android:text="Alliance Color"
-                android:layout_marginBottom="20dp">
-
-            </TextView>
-            <TextView
-                android:id="@+id/allianceColor"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:text=""
-                android:textSize="45sp" />
+                <TextView
+                    android:id="@+id/teamnumber"
+                    style="@style/J_basicTextView"
+                    android:text="" />
 
 
-        </LinearLayout>
-
-
-
-
-
-        <LinearLayout
-            android:id="@+id/autoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/auto"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/auto"
-                android:textStyle="bold"
-                android:text="Autonomous"
-                android:layout_marginLeft="160dp"
-                android:textColor="@color/accentColor"
-                style="@style/J_basicTextView"
-                         />
-            <CheckBox
-                android:id="@+id/autolinecheck"
-                style="@style/J_checkBox"
-                android:text="Crossed Auto Line"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:textColor="@color/textColor"
-                />
-
-            <CheckBox
-                android:id="@+id/autoScoredSwitch"
-                style="@style/J_checkBox"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
-                android:text="Scored Switch"
-                android:textColor="@color/textColor" />
-
-            <CheckBox
-                android:id="@+id/autoScoredScale"
-                style="@style/J_checkBox"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/textColor"
-                android:text="Scored Scale"
-                />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:id="@+id/pickupcubecheck"
-                android:layout_marginBottom="10dp"
-                android:text="Pickup Up Cube"
-                android:textColor="@color/textColor"
-                style="@style/J_checkBox"
-                />
+            </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/allianceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/J_basicTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Alliance Color"
+                    android:textColor="@color/textColor">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/allianceColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:text=""
+                    android:textSize="45sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/autoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/auto"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/auto"
+                    style="@style/J_basicTextView"
+                    android:layout_marginLeft="160dp"
+                    android:text="Autonomous"
+                    android:textColor="@color/accentColor"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/autolinecheck"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="Crossed Auto Line"
+                    android:textColor="@color/textColor" />
+
+                <CheckBox
+                    android:id="@+id/autoScoredSwitch"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="Scored Switch"
+                    android:textColor="@color/textColor" />
+
+                <CheckBox
+                    android:id="@+id/autoScoredScale"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="Scored Scale"
+                    android:textColor="@color/textColor" />
+
+                <CheckBox
+                    android:id="@+id/pickupcubecheck"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="Pickup Up Cube"
+                    android:textColor="@color/textColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        style="@style/J_basicTextView"
+                        android:text="Starting Positon" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/startLeftbtn"
+                            style="@style/J_radioButton"
+                            android:text="Left" />
+
+                        <RadioButton
+                            android:id="@+id/startCenterbtn"
+                            style="@style/J_radioButton"
+                            android:text="Center" />
+
+                        <RadioButton
+                            android:id="@+id/startRightbtn"
+                            style="@style/J_radioButton"
+                            android:text="Right" />
+                    </RadioGroup>
+                    android:text="Place Cube in exchange"
+                    android:textColor="@color/textColor" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/teleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/teleop"
                     style="@style/J_basicTextView"
-                    android:text="Starting Positon"
-                     />
+                    android:layout_marginLeft="160dp"
+                    android:text="Teleoperated"
+                    android:textColor="@color/accentColor"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/Switch"
+                        style="@style/J_basicTextView"
+                        android:text="Times scored switch" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/timesscoredswitchpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        style="@style/J_basicTextView"
+                        android:text="Times scored scale" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/timesscoredscalepicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        style="@style/J_basicTextView"
+                        android:text="Times placed cube in exchange" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/timesplacedexchangepicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        style="@style/J_basicTextView"
+                        android:text="Cubes picked up from floor" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/cubesfromfloorpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        style="@style/J_basicTextView"
+                        android:text="Cubes acquired from players" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/cubesfromplayers"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/playeddefensecheck"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:text="Effectively Played defense"
+                    android:textColor="@color/textColor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/climbLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Endgame"
+                    style="@style/J_basicTextView"
+                    android:layout_marginLeft="190dp"
+                    android:text="End Game"
+                    android:textColor="@color/accentColor"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/Climbing"
+                    style="@style/J_basicTextView"
+                    android:text="Climbs on:" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/climbRung"
+                        style="@style/J_radioButton"
+                        android:text="Rung" />
+
+                    <RadioButton
+                        android:id="@+id/climbRobot"
+                        style="@style/J_radioButton"
+                        android:text="Other robot" />
+
+                    <RadioButton
+                        android:id="@+id/climbDoesnt"
+                        style="@style/J_radioButton"
+                        android:text="Doesn't Climb" />
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/climbOn"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:text="Can be climbed on"
+                    android:textColor="@color/textColor"
+
+
+                    android:textSize="45sp" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/startLeftbtn"
-                    android:text="Left"
-                    style="@style/J_radioButton"
-                     />
+                    <RadioButton
+                        android:id="@+id/ClimbOn1"
+                        style="@style/J_radioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Holds 1 robot" />
 
-                <RadioButton
-                    style="@style/J_radioButton"
-                    android:id="@+id/startCenterbtn"
-                    android:text="Center"
-                     />
-
-                <RadioButton
-                    android:id="@+id/startRightbtn"
-                    style="@style/J_radioButton"
-                    android:text="Right"
-                     />
+                    <RadioButton
+                        android:id="@+id/ClimbOn2"
+                        style="@style/J_radioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Holds 2 robots" />
                 </RadioGroup>
-                    android:text="Place Cube in exchange"
-                    android:textColor="@color/textColor" />
+
+                <CheckBox
+                    android:id="@+id/Climb15secs"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:text="Can Climb under 15 seconds"
+                    android:textColor="@color/textColor"
+                    android:textSize="40sp" />
+
+                <Button
+                    android:id="@+id/submitbutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/accentColor"
+                    android:text="Submit Data"
+                    android:textSize="30sp" />
+
             </LinearLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/teleLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/teleop"
-                android:text="Teleoperated"
-                android:textStyle="bold"
-                android:layout_marginLeft="160dp"
-                android:textColor="@color/accentColor"
-                style="@style/J_basicTextView"
-                 />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/Switch"
-                    android:text="Times scored switch"
-                    style="@style/J_basicTextView"
-                    />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/timesscoredswitchpicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/textView5"
-                    style="@style/J_basicTextView"
-                    android:text="Times scored scale"
-                    />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/timesscoredscalepicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    style="@style/J_basicTextView"
-                    android:text="Times placed cube in exchange"
-                     />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/timesplacedexchangepicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView17"
-                    style="@style/J_basicTextView"
-                    android:text="Cubes picked up from floor"
-                     />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesfromfloorpicker"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView18"
-                    style="@style/J_basicTextView"
-                    android:text="Cubes acquired from players"
-                     />
-
-                <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
-                    android:id="@+id/cubesfromplayers"
-                    style="@style/HorizontalNumberPicker" />
-
-            </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/playeddefensecheck"
-                android:textColor="@color/textColor"
-                style="@style/J_checkBox"
-                android:layout_width="match_parent"
-                android:text="Effectively Played defense"
-                 />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/climbLayout"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/Endgame"
-                android:text="End Game"
-                android:textStyle="bold"
-                android:layout_marginLeft="190dp"
-                android:textColor="@color/accentColor"
-                style="@style/J_basicTextView" />
-
-            <TextView
-                android:id="@+id/Climbing"
-                android:text="Climbs on:"
-                style="@style/J_basicTextView"
-                 />
-
-
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/climbRung"
-                style="@style/J_radioButton"
-                android:text="Rung"
-                />
-
-            <RadioButton
-                android:id="@+id/climbRobot"
-                style="@style/J_radioButton"
-                android:text="Other robot"
-                 />
-
-            <RadioButton
-                android:id="@+id/climbDoesnt"
-                style="@style/J_radioButton"
-                android:text="Doesn't Climb"
-                 />
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/climbOn"
-                android:layout_width="match_parent"
-                android:text="Can be climbed on"
-                android:textColor="@color/textColor"
-                style="@style/J_checkBox"
-
-
-                android:textSize="45sp" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/ClimbOn1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/J_radioButton"
-                android:text="Holds 1 robot"
-                android:layout_weight="1"/>
-
-            <RadioButton
-                android:id="@+id/ClimbOn2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/J_radioButton"
-                android:text="Holds 2 robots"
-                />
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/Climb15secs"
-                android:layout_width="match_parent"
-                style="@style/J_checkBox"
-                android:textColor="@color/textColor"
-                android:text="Can Climb under 15 seconds"
-                android:textSize="40sp" />
-
-            <Button
-                android:id="@+id/submitbutton"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:textSize="30sp"
-                android:background="@color/accentColor"
-                android:text="Submit Data" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>
