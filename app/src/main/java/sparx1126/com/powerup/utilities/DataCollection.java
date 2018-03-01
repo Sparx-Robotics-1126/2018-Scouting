@@ -1,7 +1,6 @@
 package sparx1126.com.powerup.utilities;
 
 import android.util.Log;
-import android.util.SparseArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,12 +19,12 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class DataCollection {
     private static DataCollection dataCollection;
-    private final SparseArray<List<ScoutingData>> scoutingDataMap;
-    private final SparseArray<BenchmarkData> benchmarkDataMap;
+    private Map<Integer, Map<Integer, ScoutingData>> scoutingDataMap;
+    private Map<Integer, BenchmarkData> benchmarkDataMap;
     private Map<String, BlueAllianceEvent > teamEvents;
     private Map<String, BlueAllianceTeam> eventTeams;
     private Map<String, BlueAllianceMatch> eventMatchesByKey;
-    private final Map<Integer, BlueAllianceMatch> eventMatchesByMatchNumber;
+    private Map<Integer, BlueAllianceMatch> eventMatchesByMatchNumber;
     private static FileIO fileIO;
 
     public static synchronized DataCollection getInstance(){
@@ -36,8 +35,8 @@ public class DataCollection {
     }
 
     private DataCollection(){
-        scoutingDataMap = new SparseArray<>();
-        benchmarkDataMap = new SparseArray<>();
+        scoutingDataMap = new HashMap<>();
+        benchmarkDataMap = new HashMap<>();
         teamEvents = new HashMap<>();
         eventTeams = new HashMap<>();
         eventMatchesByKey = new HashMap<>();
@@ -54,25 +53,27 @@ public class DataCollection {
     }
 
     public void addScoutingData(ScoutingData _data){
-        Integer key = _data.getTeamNumber();
-        if(scoutingDataMap.get(key) != null){
-            scoutingDataMap.get(key).add(_data);
+        Integer teamKey = _data.getTeamNumber();
+        Integer matchKey = _data.getMatchNumber();
+        Map<Integer, ScoutingData> matchMap;
+        if(scoutingDataMap.get(teamKey) == null){
+            matchMap = new HashMap<>();
         }
         else {
-            List<ScoutingData> newList = new ArrayList<>();
-            newList.add(_data);
-            scoutingDataMap.put(key, newList);
+            matchMap = scoutingDataMap.get(teamKey);
         }
+        matchMap.put(matchKey, _data);
+        scoutingDataMap.put(teamKey, matchMap);
         fileIO.storeScoutingData(_data.toString(), String.valueOf(_data.getTeamNumber()), String.valueOf(_data.getMatchNumber()));
     }
-    public List<ScoutingData> getScoutingDatas(int _teamNumber){
-        List<ScoutingData> rtnData = new ArrayList<>();
+    public Map<Integer, ScoutingData> getScoutingDatas(int _teamNumber){
+        Map<Integer, ScoutingData> rtnData = new HashMap<>();
         if(scoutingDataMap.get(_teamNumber) != null){
             rtnData = scoutingDataMap.get(_teamNumber);
         }
         return rtnData;
     }
-    public SparseArray<List<ScoutingData>> getScoutingDataMap() {
+    public Map<Integer, Map<Integer, ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
     }
 
@@ -90,7 +91,7 @@ public class DataCollection {
         return rtnData;
     }
 
-    public SparseArray<BenchmarkData> getBenchmarkDataMap() {
+    public Map<Integer, BenchmarkData> getBenchmarkDataMap() {
         return benchmarkDataMap;
     }
 
