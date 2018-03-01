@@ -80,7 +80,7 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox climb_rung;
     private Spinner climbAssistTypeSpinner;
     private EditText customClimbAssist;
-    TextView howHighText;
+    private TextView howHighText;
     private EditText climb_height;
     private CheckBox attach_robot;
     private Button submit_button;
@@ -484,6 +484,7 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 BenchmarkData data = new BenchmarkData();
+                data.setTypeOfDrive(driveTypeSpinner.toString());
 
 
                 dataCollection.addBenchmarkData(data);
@@ -497,7 +498,15 @@ public class Benchmarking extends AppCompatActivity {
     }
 
     private void restorePreferences(BenchmarkData _data) {
+        int indexOfSelection = 0;
 
+        for(int i = 0; i < driveTypesArray.length; i++ ) {
+            String driveTypeChoice = driveTypesArray[i];
+            if(_data.getTypeOfDrive() == driveTypeChoice) {
+                indexOfSelection = i;
+            }
+        }
+        driveTypeSpinner.setSelection(indexOfSelection);
     }
 
     private void dismissKeyboard() {
