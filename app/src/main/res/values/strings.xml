@@ -79,6 +79,7 @@
     </string-array>
     <string-array name="climbAssistTypes">
         <item>Select Climb Assist Type</item>
+        <item>No Assist Type</item>
         <item>Rungs</item>
         <item>Ramp / Platform</item>
         <item>Forklift</item>
