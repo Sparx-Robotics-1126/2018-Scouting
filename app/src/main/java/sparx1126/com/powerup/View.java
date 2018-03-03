@@ -101,7 +101,7 @@ public class View extends AppCompatActivity {
         BenchmarkData data = dataCollection.getBenchmarkData(_teamNumber);
 
         if(data == null) {
-            rtnList.add("<font color=\"black\"><b>NOT Benchmark!</b></font>");
+            rtnList.add("<font color=\"black\"><b>Has not been benchmarked!</b></font>");
         }
         else {
             Map<String, String> stringValuesMap = data.getStringValuesMap();

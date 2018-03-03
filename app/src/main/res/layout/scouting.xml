@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColorDark"
+        android:background="@color/backgroundColor"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,26 +21,16 @@
                 android:text="Match #:"
                 android:textColor="@color/textColor" />
 
-            <AutoCompleteTextView
-                android:id="@+id/matchnumimput"
+            <EditText
+                android:inputType="number"
+                android:id="@+id/matchNumInput"
                 style="@style/J_basicTextView"
-                android:textColor="@color/accentColor" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/matchButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/accentColor"
-                android:text="SUBMIT MATCH NUMBER"
-                android:textColor="@color/backgroundColorDark"
-                android:textSize="30sp" />
-
+                android:textColor="@color/accentColor"
+                android:digits="1234567890"
+                android:hint="12"
+                android:textColorHint="@color/accentColorHint"
+                android:maxLength="2"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -87,9 +77,8 @@
                     android:id="@+id/allianceColor"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
                     android:text=""
-                    android:textSize="45sp" />
+                    android:textSize="30sp" />
 
             </LinearLayout>
 

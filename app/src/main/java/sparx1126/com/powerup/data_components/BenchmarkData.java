@@ -35,8 +35,6 @@ public class BenchmarkData extends JsonData {
     private static final String TELE_TOSS_TO_SWITCH = "teleTossToSwitch";
     private static final String TELE_PLACE_ON_SCALE = "telePlaceOnScale";
     private static final String TELE_TOSS_TO_SCALE = "teleTossToScale";
-    private static final String TELE_PREFER_ACQUIRE_FLOOR = "telePreferAcquireFloor";
-    private static final String TELE_PREFER_ACQUIRE_PORTAL = "telePreferAcquirePortal";
     private static final String END_CLIMB_RUNG = "endClimbRung";
     private static final String END_CLIMB_ASSIST_TYPE = "endClimbAssistType";
     private static final String END_CLIMB_HEIGHT = "endClimbHeight";
@@ -75,8 +73,6 @@ public class BenchmarkData extends JsonData {
         booleanValuesMap.put(TELE_TOSS_TO_SWITCH, false);
         booleanValuesMap.put(TELE_PLACE_ON_SCALE, false);
         booleanValuesMap.put(TELE_TOSS_TO_SCALE, false);
-        booleanValuesMap.put(TELE_PREFER_ACQUIRE_FLOOR, false);
-        booleanValuesMap.put(TELE_PREFER_ACQUIRE_PORTAL, false);
         booleanValuesMap.put(END_CLIMB_RUNG, false);
         booleanValuesMap.put(END_CLIMB_ON_ROBOT, false);
     }
@@ -202,16 +198,6 @@ public class BenchmarkData extends JsonData {
     public boolean isTeleTossToScale() { return booleanValuesMap.get(TELE_TOSS_TO_SCALE); }
     public void setTeleTossToScale(boolean _value) {
         booleanValuesMap.put(TELE_TOSS_TO_SCALE, _value);
-    }
-
-    public boolean isTelePreferAcquireFloor() { return booleanValuesMap.get(TELE_PREFER_ACQUIRE_FLOOR); }
-    public void setTelePreferAcquireFloor(boolean _value) {
-        booleanValuesMap.put(TELE_PREFER_ACQUIRE_FLOOR, _value);
-    }
-
-    public boolean isTelePreferAcquirePortal() { return booleanValuesMap.get(TELE_PREFER_ACQUIRE_PORTAL); }
-    public void setTelePreferAcquirePortal(boolean _value) {
-        booleanValuesMap.put(TELE_PREFER_ACQUIRE_PORTAL, _value);
     }
 
     public boolean isEndClimbRung() { return booleanValuesMap.get(END_CLIMB_RUNG); }

@@ -586,8 +586,6 @@ public class Benchmarking extends AppCompatActivity {
                 data.setTeleTossToSwitch(switchTossTele.isChecked());
                 data.setTelePlaceOnScale(scalePlaceTele.isChecked());
                 data.setTeleTossToScale(scaleTossTele.isChecked());
-                data.setTelePreferAcquireFloor(pref_floor.isChecked());
-                data.setTelePreferAcquirePortal(pref_portal.isChecked());
                 data.setEndClimbRung(climb_rung.isChecked());
                 String climbAssistType = climbAssistTypesArray[climbAssistTypeSpinner.getSelectedItemPosition()];
                 if (climbAssistType.equals(getResources().getString(R.string.other))) {

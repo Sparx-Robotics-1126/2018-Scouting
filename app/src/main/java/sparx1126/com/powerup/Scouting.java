@@ -2,8 +2,11 @@ package sparx1126.com.powerup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
+import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
@@ -32,7 +36,7 @@ public class Scouting extends AppCompatActivity {
     private SharedPreferences settings;
     Map<Integer, BlueAllianceMatch> matchesInEvent;
 
-    private AutoCompleteTextView matchNumber;
+    private TextView matchNumber;
     private View scouting_main_layout;
     private TextView teamNumber;
     private TextView allianceColor;
@@ -54,25 +58,22 @@ public class Scouting extends AppCompatActivity {
     private RadioButton held2Robot;
     private CheckBox climbedUnder15Secs;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.scouting);
 
-        dataCollection = DataCollection.getInstance();
-        settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
-        matchesInEvent = dataCollection.getQualificationMatches();
-        List<Integer> matches = new ArrayList<>(matchesInEvent.keySet());
+    private TextWatcher watcher = new TextWatcher() {
 
-        matchNumber = findViewById(R.id.matchnumimput);
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, matches);
-        matchNumber.setAdapter(adapter);
-        matchNumber.setThreshold(1);
-        Button matchButton = findViewById(R.id.matchButton);
-        matchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            try {
                 String matchNumberStr = matchNumber.getText().toString();
 
                 for (BlueAllianceMatch match: matchesInEvent.values()) {
@@ -82,11 +83,11 @@ public class Scouting extends AppCompatActivity {
                         if (pref_BlueAlliance) {
                             teamKeys = match.getBlueTeamKeys();
                             allianceColor.setText("Blue Alliance");
-                            allianceColor.setBackgroundColor(getResources().getColor(R.color.Blue));
+                            allianceColor.setTextColor(Color.BLUE);
                         } else {
                             teamKeys = match.getRedTeamKeys();
                             allianceColor.setText("Red Alliance");
-                            allianceColor.setBackgroundColor(getResources().getColor(R.color.sparxRedVeryLight));
+                            allianceColor.setTextColor(Color.RED);
                         }
 
                         int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 0);
@@ -94,12 +95,31 @@ public class Scouting extends AppCompatActivity {
                         String teamKeyStr = teamKeys.get(pref_TeamPosition);
                         String teamKeyToNumberStr = teamKeyStr.replace("frc", "");
                         teamNumber.setText(teamKeyToNumberStr);
-                        dismissKeyboard();
+                        if(matchNumberStr.length() >= 2) {
+                            dismissKeyboard();
+                        }
                         scouting_main_layout.setVisibility(View.VISIBLE);
                     }
                 }
+            } catch (Exception e) {
+                Log.e("Problem w/ match # txt", e.toString());
             }
-        });
+
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.scouting);
+
+        dataCollection = DataCollection.getInstance();
+        settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+        matchesInEvent = dataCollection.getQualificationMatches();
+
+        matchNumber = findViewById(R.id.matchNumInput);
+        matchNumber.addTextChangedListener(watcher);
+
         scouting_main_layout = findViewById(R.id.scouting_main_layout);
         scouting_main_layout.setVisibility(View.INVISIBLE);
         teamNumber = findViewById(R.id.teamnumber);
