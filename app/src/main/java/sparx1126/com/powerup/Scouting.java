@@ -1,9 +1,6 @@
 package sparx1126.com.powerup;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +61,7 @@ public class Scouting extends AppCompatActivity {
 
         dataCollection = DataCollection.getInstance();
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
-        matchesInEvent = dataCollection.getEventMatchesByMatchNumber();
+        matchesInEvent = dataCollection.getQualificationMatches();
         List<Integer> matches = new ArrayList<>(matchesInEvent.keySet());
 
         matchNumber = findViewById(R.id.matchnumimput);
@@ -129,7 +125,9 @@ public class Scouting extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
                 ScoutingData scoutingData = new ScoutingData();
+                scoutingData.setScouterName(scouterName);
                 scoutingData.setMatchNumber(Integer.parseInt(matchNumber.getText().toString()));
                 scoutingData.setTeamNumber(Integer.parseInt(teamNumber.getText().toString()));
                 scoutingData.setAutoLineCrossed(autoLineCrossed.isChecked());

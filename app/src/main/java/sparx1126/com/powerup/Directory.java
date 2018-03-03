@@ -1,8 +1,6 @@
 package sparx1126.com.powerup;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,12 +11,19 @@ import android.widget.LinearLayout;
 
 import java.util.Arrays;
 
+import sparx1126.com.powerup.utilities.Utility;
+
 public class Directory extends AppCompatActivity {
     private static final String TAG = "Directory ";
     private SharedPreferences settings;
+    private static Utility utility;
 
     private LinearLayout normalButtons;
+    private Button view;
+    private Button scouting;
+    private Button benchmarking;
     private Button admin;
+    private Button checklist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,11 @@ public class Directory extends AppCompatActivity {
         setContentView(R.layout.directory);
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+        utility = Utility.getInstance();
 
         normalButtons = findViewById(R.id.normal_buttons);
 
-        Button view = findViewById(R.id.view);
+        view = findViewById(R.id.view);
         view.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
@@ -39,7 +45,7 @@ public class Directory extends AppCompatActivity {
             }
         });
 
-        Button scouting = findViewById(R.id.scouting);
+        scouting = findViewById(R.id.scouting);
         scouting.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
@@ -49,7 +55,7 @@ public class Directory extends AppCompatActivity {
             }
         });
 
-        Button benchmarking = findViewById(R.id.benchmark);
+        benchmarking = findViewById(R.id.benchmark);
         benchmarking.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
@@ -70,7 +76,7 @@ public class Directory extends AppCompatActivity {
         });
         admin.setVisibility(android.view.View.INVISIBLE);
 
-        Button checklist = findViewById(R.id.checklist);
+        checklist = findViewById(R.id.checklist);
         checklist.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
@@ -91,21 +97,9 @@ public class Directory extends AppCompatActivity {
                 startActivity(intent);
             }
             else {
-                String msg = "Have an Admin Setup Tablet!";
-                Log.e(TAG, msg);
-                AlertDialog.Builder builder = new AlertDialog.Builder(Directory.this);
-
-                builder.setTitle(TAG);
-                builder.setMessage(msg);
-                builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        finish();
-                    }
-                });
-
-                Dialog dialog = builder.create();
+                Dialog dialog = utility.getNegativeButtonDialog(this, TAG,
+                        "Have an Admin Setup Tablet!",
+                        "Go Back");
                 dialog.show();
             }
         }

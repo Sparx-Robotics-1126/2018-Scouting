@@ -1,6 +1,7 @@
 package sparx1126.com.powerup;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class Benchmarking extends AppCompatActivity {
     private static final String TAG = "Benchmarking ";
 
     private static DataCollection dataCollection;
+    private SharedPreferences settings;
     private List<Integer> teamsInEvent;
     private String[] driveTypesArray;
     private String[] wheelTypesArray;
@@ -96,6 +98,7 @@ public class Benchmarking extends AppCompatActivity {
         setContentView(R.layout.benchmarking);
 
         dataCollection = DataCollection.getInstance();
+        settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         teamsInEvent = dataCollection.getTeamsInEvent();
 
         team_number_input = findViewById(R.id.team_number);
@@ -119,6 +122,7 @@ public class Benchmarking extends AppCompatActivity {
                         Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
                         restorePreferences(data);
                     }
+                    dismissKeyboard();
                     benchmark_main_layout.setVisibility(View.VISIBLE);
                 } else {
                     String msg = "Team number " + teamNumber + " not found!";
@@ -139,7 +143,7 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String driveType = driveTypesArray[position];
-                if (driveType.equals("Other")) {
+                if (driveType.equals(getResources().getString(R.string.other))) {
                     customDrive.setVisibility(View.VISIBLE);
                 } else {
                     customDrive.setVisibility(View.GONE);
@@ -162,7 +166,7 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String wheelType = wheelTypesArray[position];
-                if (wheelType.equals("Other")) {
+                if (wheelType.equals(getResources().getString(R.string.other))) {
                     customWheel.setVisibility(View.VISIBLE);
                 } else {
                     customWheel.setVisibility(View.GONE);
@@ -483,12 +487,61 @@ public class Benchmarking extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
                 BenchmarkData data = new BenchmarkData();
-                data.setTypeOfDrive(driveTypeSpinner.toString());
-
+                data.setScouterName(scouterName);
+                data.setTeamNumber(Integer.parseInt(team_number_input.getText().toString()));
+                String driveType = driveTypesArray[driveTypeSpinner.getSelectedItemPosition()];
+                if (driveType.equals(getResources().getString(R.string.other))) {
+                    data.setTypeOfDrive(customDrive.getText().toString());
+                }
+                else if (!driveType.equals(getResources().getString(R.string.selectType))) {
+                    data.setTypeOfDrive(driveType);
+                }
+                String wheelType = wheelTypesArray[wheelTypeSpinner.getSelectedItemPosition()];
+                if (wheelType.equals(getResources().getString(R.string.other))) {
+                    data.setTypeOfWheel(customWheel.getText().toString());
+                }
+                else if (!wheelType.equals(getResources().getString(R.string.selectType))) {
+                    data.setTypeOfWheel(wheelType);
+                }
+                data.setNumberOfWheels(Integer.parseInt(numWheels.getText().toString()));
+                data.setSpeed(Integer.parseInt(speed.getText().toString()));
+                data.setHeight(Integer.parseInt(height.getText().toString()));
+                data.setWeight(Integer.parseInt(weight.getText().toString()));
+                data.setGroundClearance(Integer.parseInt(groundClearance.getText().toString()));
+                data.setPreferedStartOne(prefStart1);
+                data.setPreferedStartTwo(prefStart2);
+                data.setPreferedStartThree(prefStart3);
+                data.setCanStartWithCube(start_w_cube.isChecked());
+                data.setAutoCrossLine(move_past_line.isChecked());
+                data.setHowManyScoreSwitchPlaced(Integer.parseInt(howManySwitchPlaceAuto.getText().toString()));
+                data.setHowManyScoreSwitchTossed(Integer.parseInt(howManySwitchTossAuto.getText().toString()));
+                data.setHowManyScoreScalePlaced(Integer.parseInt(howManyScalePlaceAuto.getText().toString()));
+                data.setHowManyScoreScaleTossed(Integer.parseInt(howManyScaleTossAuto.getText().toString()));
+                data.setAutoAcquirePortal(fromPortalAuto.isChecked());
+                data.setAutoAcquireFloor(fromFloorAuto.isChecked());
+                data.setTeleAcquirePortal(fromPortalTele.isChecked());
+                data.setTeleAcquireFloor(fromFloorTele.isChecked());
+                data.setTeleDepositVault(deposit_vault.isChecked());
+                data.setTelePlaceOnSwitch(switchPlaceTele.isChecked());
+                data.setTeleTossToSwitch(switchTossTele.isChecked());
+                data.setTelePlaceOnScale(scalePlaceTele.isChecked());
+                data.setTeleTossToScale(scaleTossTele.isChecked());
+                data.setTelePreferAcquireFloor(pref_floor.isChecked());
+                data.setTelePreferAcquirePortal(pref_portal.isChecked());
+                data.setEndClimbRung(climb_rung.isChecked());
+                String climbAssistType = climbAssistTypesArray[climbAssistTypeSpinner.getSelectedItemPosition()];
+                if (climbAssistType.equals(getResources().getString(R.string.other))) {
+                    data.setEndClimbAssistType(customClimbAssist.getText().toString());
+                }
+                else if (!climbAssistType.equals(getResources().getString(R.string.selectType))) {
+                    data.setEndClimbAssistType(climbAssistType);
+                }
+                data.setEndClimbHeight(Integer.parseInt(climb_height.getText().toString()));
+                data.setEndClimbOnRobot(attach_robot.isChecked());
 
                 dataCollection.addBenchmarkData(data);
-                team_number_input.setText("");
                 String msg = "Data Stored";
                 Log.d(TAG, msg);
                 Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
@@ -498,15 +551,7 @@ public class Benchmarking extends AppCompatActivity {
     }
 
     private void restorePreferences(BenchmarkData _data) {
-        int indexOfSelection = 0;
 
-        for(int i = 0; i < driveTypesArray.length; i++ ) {
-            String driveTypeChoice = driveTypesArray[i];
-            if(_data.getTypeOfDrive() == driveTypeChoice) {
-                indexOfSelection = i;
-            }
-        }
-        driveTypeSpinner.setSelection(indexOfSelection);
     }
 
     private void dismissKeyboard() {
