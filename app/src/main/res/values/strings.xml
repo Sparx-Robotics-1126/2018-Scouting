@@ -8,6 +8,8 @@
     <string name="selectEvent">Select Event</string>
     <string name="tablet_Configured">tablet_Configured</string>
     <string name="testing_internet">Wait a moment. Testing internet...</string>
+    <string name="selectType">Select Type</string>
+    <string name="other">Other</string>
     <string-array name="students">
         <item>Michael Anderson</item>
         <item>Tyler Armstrong</item>
@@ -61,29 +63,28 @@
         <item>Jaren Cascino</item>
     </string-array>
     <string-array name="driveTypes">
-        <item>Select Drive Type</item>
+        <item>@string/selectType</item>
         <item>Tank</item>
         <item>Mecanum</item>
         <item>Swerve</item>
         <item>H-Drive / Slide</item>
-        <item>Other</item>
+        <item>@string/other</item>
     </string-array>
     <string-array name="wheelTypes">
-        <item>Select Wheel Type</item>
+        <item>@string/selectType</item>
         <item>Traction Narrow</item>
         <item>Traction Wide</item>
         <item>Omni</item>
         <item>Tank Treads</item>
         <item>Combination Traction And Omni</item>
-        <item>Other</item>
+        <item>@string/other</item>
     </string-array>
     <string-array name="climbAssistTypes">
-        <item>Select Climb Assist Type</item>
-        <item>No Assist Type</item>
+        <item>@string/selectType</item>
         <item>Rungs</item>
         <item>Ramp / Platform</item>
         <item>Forklift</item>
-        <item>Other</item>
+        <item>@string/other</item>
     </string-array>
 </resources>
 

@@ -2,6 +2,7 @@ package sparx1126.com.powerup;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -16,6 +17,10 @@ import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
 
 public class CheckList extends AppCompatActivity {
+    private static final String TAG = "CheckList ";
+    private static DataCollection dataCollection;
+
+    private TableLayout masterTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +29,29 @@ public class CheckList extends AppCompatActivity {
 
         DataCollection data = DataCollection.getInstance();
 
-
         Map<String, BlueAllianceTeam> teamsInEvent = data.getEventTeams();
-        SparseArray<BenchmarkData> becnhmarkData = data.getBenchmarkDataMap();
-        SparseArray<List<ScoutingData>> scoutingData = data.getScoutingDataMap();
+        Map<Integer, BenchmarkData> becnhmarkData = data.getBenchmarkDataMap();
+        Map<Integer, Map<Integer, ScoutingData>> scoutingData = data.getScoutingDataMap();
 
-        TableLayout masterTable = findViewById(R.id.masterTable);
+        masterTable = findViewById(R.id.masterTable);
+
+        int index = 0;
+        TableRow heading = new TableRow(this);
+
+        TextView teamNumberHeading = new TextView(this);
+        teamNumberHeading.setText("TEAM");
+        heading.addView(teamNumberHeading);
+
+        TextView benchmarkHeading = new TextView(this);
+        benchmarkHeading.setText("BENCHMARKED");
+        heading.addView(benchmarkHeading);
+
+        TextView scoutingHeading = new TextView(this);
+        scoutingHeading.setText("SCOUTED");
+        heading.addView(scoutingHeading);
+
+        masterTable.addView(heading, index);
+        index++;
 
         for (BlueAllianceTeam blueAllianceTeamData : teamsInEvent.values()) {
             int teamNumber = Integer.valueOf(blueAllianceTeamData.getNumber());
@@ -56,7 +78,8 @@ public class CheckList extends AppCompatActivity {
             scouting.setText(scoutingStr);
             child.addView(scouting);
 
-            masterTable.addView(child);
+            masterTable.addView(child, index);
+            index++;
         }
     }
 }

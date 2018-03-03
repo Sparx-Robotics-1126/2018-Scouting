@@ -2,7 +2,6 @@ package sparx1126.com.powerup.utilities;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.SparseArray;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -25,7 +24,6 @@ public class FileIO {
     private static final String BENCHMARK_DATA_HEADER = "benchmarkData";
     private static final String TEAM = "Team";
     private static final String MATCH = "Match";
-    private static final String TIME = "Time";
 
     private static FileIO instance;
     private File dir;
@@ -75,15 +73,13 @@ public class FileIO {
     }
 
     public void storeScoutingData(String _input, String _teamNumber, String _match) {
-        long timeStampInSeconds = System.currentTimeMillis() / 1000;
-        String fileName = SCOUTING_DATA_HEADER + "_" + TEAM + _teamNumber + "_" + MATCH + _match + "_" + TIME + String.valueOf(timeStampInSeconds) + ".json";
+        String fileName = SCOUTING_DATA_HEADER + "_" + TEAM + _teamNumber + "_" + MATCH + _match + ".json";
         storeData(fileName, _input);
     }
-
-    public Map<Integer, Map<Integer, Map<Integer, String>>> fetchScoutingDatas() {
+    public Map<Integer, Map<Integer, String>> fetchScoutingDatas() {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        Map<Integer, Map<Integer, Map<Integer, String>>> rtnObj = new HashMap<>();
+        Map<Integer, Map<Integer, String>> rtnObj = new HashMap<>();
         File[] listOfFiles = dir.listFiles();
 
         for (File listOfFile : listOfFiles) {
@@ -93,26 +89,17 @@ public class FileIO {
                 String[] fileNameParts = fileName.split("[_.]");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
                 Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH, ""));
-                Integer time = Integer.parseInt(fileNameParts[3].replace(TIME, ""));
 
-                Map<Integer, Map<Integer, String>> matchMap;
+                Map<Integer, String> matchMap;
                 if (rtnObj.get(team) != null) {
                     matchMap = rtnObj.get(team);
                 } else {
                     matchMap = new HashMap<>();
                 }
 
-                Map<Integer, String> timeMap;
-                if (matchMap.get(match) != null) {
-                    timeMap = matchMap.get(match);
-                } else {
-                    timeMap = new HashMap<>();
-                }
-
                 Log.d(TAG, fileName);
                 String data = fetchData(filePath);
-                timeMap.put(time, data);
-                matchMap.put(match, timeMap);
+                matchMap.put(match, data);
                 rtnObj.put(team, matchMap);
             }
         }
@@ -120,15 +107,14 @@ public class FileIO {
     }
 
     public void storeBenchmarkData(String _input, String _teamNumber) {
-        long timeStampInSeconds = System.currentTimeMillis() / 1000;
-        String fileName = BENCHMARK_DATA_HEADER + "_" + TEAM + _teamNumber + "_" + TIME + String.valueOf(timeStampInSeconds) + ".json";
+        String fileName = BENCHMARK_DATA_HEADER + "_" + TEAM + _teamNumber + ".json";
         storeData(fileName, _input);
     }
 
-    public SparseArray< SparseArray<String>> fetchBenchmarkDatas() {
+    public Map<Integer, String> fetchBenchmarkDatas() {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 
-        SparseArray< SparseArray<String>> rtnObj = new SparseArray<>();
+        Map<Integer, String> rtnObj = new HashMap<>();
         File[] listOfFiles = dir.listFiles();
 
         for (File listOfFile : listOfFiles) {
@@ -137,19 +123,10 @@ public class FileIO {
             if (listOfFile.isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
                 String[] fileNameParts = fileName.split("_.");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
-                Integer time = Integer.parseInt(fileNameParts[2].replace(TIME, ""));
-
-                SparseArray<String> timeMap;
-                if (rtnObj.get(team) != null) {
-                    timeMap = rtnObj.get(team);
-                } else {
-                    timeMap = new SparseArray<>();
-                }
 
                 Log.d(TAG, fileName);
                 String data = fetchData(filePath);
-                timeMap.put(time, data);
-                rtnObj.put(team, timeMap);
+                rtnObj.put(team, data);
             }
         }
         return rtnObj;

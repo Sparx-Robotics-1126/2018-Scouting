@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.CustomExpandableListAdapter;
 import sparx1126.com.powerup.data_components.BenchmarkData;
@@ -60,102 +61,35 @@ public class View extends AppCompatActivity {
     private List<String> getScoutingData(int _teamNumber) {
         List<String> rtnList = new ArrayList<>();
 
-        List<ScoutingData> datas = dataCollection.getScoutingDatas(_teamNumber);
+        Map<Integer, ScoutingData> datas = dataCollection.getScoutingDatasForTeam(_teamNumber);
 
-        int autoLineCrossed = 0;
-        int autoScoredSwitch = 0;
-        int autoPickedUpCube = 0;
-        int autoScoredScale = 0;
-        int autoCubeExchange = 0;
-        float cubesPlacedOnSwitch = 0;
-        float cubesPlacedOnScale = 0;
-        float cubesPlacedInExchange = 0;
-        float cubesPickedUpFromFloor = 0;
-        float cubesAcquireFromPlayer = 0;
-        int playedDefenseEffectively = 0;
-        int climbedRung = 0;
-        int climbedOnRobot = 0;
-        int canBeClimbOn = 0;
-        float numberOfRobotsHeld = 0;
-        int climbedUnder15Secs = 0;
         int numberOfDatas = datas.size();
 
         rtnList.add("<font color=\"black\"><b>Matches scouted: </b></font>" + numberOfDatas);
-        for (ScoutingData data : datas) {
-            if (data.isAutoLineCrossed()) {
-                autoLineCrossed++;
+        Map<String, Integer> booleanValueSumsMap = new HashMap<>();
+        Map<String, Integer> intValueSumsMap = new HashMap<>();
+        for (ScoutingData data : datas.values()) {
+            Map<String, Boolean> booleanValuesMap = data.getBooleanValuesMap();
+            for(String key: booleanValuesMap.keySet()) {
+                if(booleanValuesMap.get(key)) {
+                    booleanValueSumsMap.put(key, booleanValueSumsMap.get(key) + 1);
+                }
             }
 
-            if (data.isAutoScoredSwitch()) {
-                autoScoredSwitch++;
-            }
-
-            if (data.isAutoPickedUpCube()) {
-                autoPickedUpCube++;
-            }
-
-            if (data.isAutoScoredScale()) {
-                autoScoredScale++;
-            }
-
-            if (data.isAutoCubeExchange()) {
-                autoCubeExchange++;
-            }
-
-            cubesPlacedOnSwitch += data.getCubesPlacedOnSwitch();
-            cubesPlacedOnScale += data.getCubesPlacedOnScale();
-            cubesPlacedInExchange += data.getCubesPlacedInExchange();
-            cubesPickedUpFromFloor += data.getCubesPickedUpFromFloor();
-            cubesAcquireFromPlayer += data.getCubesAcquireFromPlayer();
-
-            if (data.isPlayedDefenseEffectively()) {
-                playedDefenseEffectively++;
-            }
-
-            if (data.isClimbedRung()) {
-                climbedRung++;
-            }
-
-            if (data.isClimbedOnRobot()) {
-                climbedOnRobot++;
-            }
-
-            if (data.isCanBeClimbOn()) {
-                canBeClimbOn++;
-            }
-
-            numberOfRobotsHeld += data.getNumberOfRobotsHeld();
-
-            if (data.isClimbedUnder15Secs()) {
-                climbedUnder15Secs++;
+            Map<String, Integer> intValuesMap = data.getIntValuesMap();
+            for(String key: intValuesMap.keySet()) {
+                intValueSumsMap.put(key, intValueSumsMap.get(key) + intValuesMap.get(key));
             }
         }
 
         if (numberOfDatas != 0) {
-            rtnList.add("<font color=\"black\"><b>AUTO:</b></font>");
-            rtnList.add("<font color=\"black\"><b></b></font>");
-            rtnList.add("<font color=\"black\"><b> Auto Line Crossed: </b></font>" + autoLineCrossed + " times");
-            rtnList.add("<font color=\"black\"><b> Auto Scored Switch: </b></font>" + autoScoredSwitch + " times");
-            rtnList.add("<font color=\"black\"><b> Auto Picked Up Cube: </b></font>" + autoPickedUpCube + " times");
-            rtnList.add("<font color=\"black\"><b> Auto Scored Scale: </b></font>" + autoScoredScale + " times");
-            rtnList.add("<font color=\"black\"><b> Auto Cube Exchange: </b></font>" + autoCubeExchange + " times");
-            cubesPlacedOnSwitch = cubesPlacedOnSwitch / numberOfDatas;
-            rtnList.add("<font color=\"black\"><b> Cubes Placed On Switch: </b></font>" + cubesPlacedOnSwitch + " average");
-            cubesPlacedOnScale = cubesPlacedOnScale / numberOfDatas;
-            rtnList.add("<font color=\"black\"><b> Cubes placed on scale: </b></font>" + cubesPlacedOnScale + " average");
-            cubesPlacedInExchange = cubesPlacedInExchange / numberOfDatas;
-            rtnList.add("<font color=\"black\"><b> Cubes placed in exchange: </b></font>" + cubesPlacedInExchange + " average");
-            cubesPickedUpFromFloor = cubesPickedUpFromFloor / numberOfDatas;
-            rtnList.add("<font color=\"black\"><b> Cubes picked up from floor: </b></font>" + cubesPickedUpFromFloor + " average");
-            cubesAcquireFromPlayer = cubesAcquireFromPlayer / numberOfDatas;
-            rtnList.add("<font color=\"black\"><b> Cubes acquire fom player: </b></font>" + cubesAcquireFromPlayer + " average");
-            rtnList.add("<font color=\"black\"><b> Played defense effectively: </b></font>" + playedDefenseEffectively + " times");
-            rtnList.add("<font color=\"black\"><b> Climbed rung: </b></font>" + climbedRung + " times");
-            rtnList.add("<font color=\"black\"><b> Climbed on robot: </b></font>" + climbedOnRobot + " times");
-            rtnList.add("<font color=\"black\"><b> Climbed onto: </b></font>" + canBeClimbOn + " times");
-            numberOfRobotsHeld = numberOfRobotsHeld / numberOfDatas;
-            rtnList.add("<font color=\"black\"><b> Number of robots held: </b></font>" + numberOfRobotsHeld + " average");
-            rtnList.add("<font color=\"black\"><b> Climbed under 15 seconds: </b></font>" + climbedUnder15Secs + " times");
+            for(Map.Entry<String, Integer> entry : booleanValueSumsMap.entrySet()) {
+                rtnList.add("<font color=\"black\"><b> " + entry.getKey() + ": </b></font>" + entry.getValue() + " times");
+            }
+            for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
+                float average = entry.getValue() / numberOfDatas;
+                rtnList.add("<font color=\"black\"><b> \" + entry.getKey() + \": </b></font>" + average + " average");
+            }
         }
 
         return rtnList;
@@ -170,120 +104,22 @@ public class View extends AppCompatActivity {
             rtnList.add("<font color=\"black\"><b>NOT Benchmark!</b></font>");
         }
         else {
-            rtnList.add("<font color=\"black\"><b>GENERAL:</b></font>");
-            rtnList.add("<font color=\"black\"><b></b></font>");
-            rtnList.add("<font color=\"black\"><b> Type Of Drive: </b></font>" + data.getTypeOfDrive());
-            rtnList.add("<font color=\"black\"><b> Speed: </b></font>" + data.getSpeed() + " ft/s");
-            rtnList.add("<font color=\"black\"><b> Height: </b></font>" + data.getHeight() + " ft");
-            rtnList.add("<font color=\"black\"><b> Weight: </b></font>" + data.getWeight() + " llb");
-
-            rtnList.add("<font color=\"black\"><b>AUTO:</b></font>");
-            rtnList.add("<font color=\"black\"><b></b></font>");
-            /*String preferStart = "";
-            if (data.isPreferStartLeft()) {
-                preferStart = "Left ";
+            Map<String, String> stringValuesMap = data.getStringValuesMap();
+            for(Map.Entry<String, String> entry : stringValuesMap.entrySet()) {
+                rtnList.add("<font color=\"black\"><b> " + entry.getKey() + ". </b></font>");
             }
-            if (data.isPreferStartCenter()) {
-                preferStart += "Center ";
+            Map<String, Boolean> booleanValuesMap = data.getBooleanValuesMap();
+            for(Map.Entry<String, Boolean> entry : booleanValuesMap.entrySet()) {
+                String result = "False";
+                if(entry.getValue()){
+                    result = "True";
+                }
+                rtnList.add("<font color=\"black\"><b> " + entry.getKey() + ": </b></font>" + result);
             }
-            if (data.isPreferStartRight()) {
-                preferStart += "Right ";
+            Map<String, Integer> intValueSumsMap = new HashMap<>();
+            for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
+                rtnList.add("<font color=\"black\"><b> \" + entry.getKey() + \": </b></font>" + entry.getValue());
             }
-            if (preferStart.isEmpty()) {
-                preferStart = "None ";
-            }
-            rtnList.add("<font color=\"black\"><b> Prefer Start: </b></font>" + preferStart);
-
-            String canStartWithCube = "No";
-            if (data.isCanStartWithCube()) {
-                canStartWithCube = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Can start with cube: </b></font>" + canStartWithCube);
-
-            String autoCrossLine = "No";
-            if (data.isAutoCrossLine()) {
-                autoCrossLine = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Auto Can Cross Line: </b></font>" + autoCrossLine);
-
-            String autoScoreSwitch = "No";
-            if (data.isAutoScoreSwitch()) {
-                autoScoreSwitch = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Auto can score switch: </b></font>" + autoScoreSwitch);
-
-            String autoScoreScale = "No";
-            if (data.isAutoScoreScale()) {
-                autoScoreScale = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Auto can score scale: </b></font>" + autoScoreScale);
-
-            rtnList.add("<font color=\"black\"><b>TELE:</b></font>");
-            rtnList.add("<font color=\"black\"><b></b></font>");
-            String acquireFloor = "No";
-            if (data.isAcquireFloor()) {
-                acquireFloor = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Can acquire floor: </b></font>" + acquireFloor);
-
-            String isAcquirePortal = "No";
-            if (data.isAcquirePortal()) {
-                isAcquirePortal = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Can acquire portal: </b></font>" + isAcquirePortal);
-
-            String isDepositVault = "No";
-            if (data.isDepositVault()) {
-                isDepositVault = "Yes";
-            }
-            rtnList.add("<font color=\"black\"><b> Can deposit in vault: </b></font>" + isDepositVault);
-
-            String scoreSwitch = "No";
-            if (data.isPlaceOnSwitch()) {
-                scoreSwitch = "By Placement";
-            } else if (data.isTossToSwitch()) {
-                scoreSwitch = "By Tossing";
-            }
-            rtnList.add("<font color=\"black\"><b> Score on switch: </b></font>" + scoreSwitch);
-
-            String scoreScale = "No";
-            if (data.isPlaceOnScale()) {
-                scoreScale = "By Placement";
-            } else if (data.isTossToScale()) {
-                scoreScale = "By Tossing";
-            }
-            rtnList.add("<font color=\"black\"><b> Score on switch: </b></font>" + scoreScale);
-
-            String prefAcquire = "No";
-            if (data.isPreferAcquireFloor()) {
-                prefAcquire = "Floor";
-            } else if (data.isPreferAcquirePortal()) {
-                prefAcquire = "Portal";
-            }
-            rtnList.add("<font color=\"black\"><b> Prefer Acquire: </b></font>" + prefAcquire);
-
-            rtnList.add("<font color=\"black\"><b>END GAME:</b></font>");
-            rtnList.add("<font color=\"black\"><b></b></font>");
-            String climbRung = "No";
-            if (data.isClimbRung()) {
-                climbRung = "Yes ";
-            }
-
-            rtnList.add("<font color=\"black\"><b> Can climb rung: </b></font>" + climbRung);
-
-            String hasRungs = "No";
-            if (data.isHasRungs()) {
-                hasRungs = "Yes ";
-            }
-            rtnList.add("<font color=\"black\"><b> Has rungs: </b></font>" + hasRungs);
-
-            rtnList.add("<font color=\"black\"><b> Climb Height: </b></font>" + data.getClimbHeight() + " inches");
-
-            String climbOnRobot = "No";
-            if (data.isClimbOnRobot()) {
-                climbOnRobot = "Yes ";
-            }
-            rtnList.add("<font color=\"black\"><b> Can climb on robot: </b></font>" + climbOnRobot);*/
         }
 
         return rtnList;

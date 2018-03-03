@@ -11,14 +11,15 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="-"
-        android:backgroundTint="@color/sparxRedDark"
-        android:textColor="@color/black"/>
+        android:backgroundTint="@color/accentColor"
+        android:textColor="@color/backgroundColorDark"/>
 
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="@color/accentColor"
         android:focusable="false"
         android:text="0"
         tools:ignore="LabelFor" />
@@ -28,6 +29,6 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="+"
-        android:backgroundTint="@color/sparxRedDark"
-        android:textColor="@color/black"/>
+        android:backgroundTint="@color/accentColor"
+        android:textColor="@color/backgroundColorDark"/>
 </LinearLayout>

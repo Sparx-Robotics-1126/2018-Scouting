@@ -1,9 +1,7 @@
 package sparx1126.com.powerup;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -24,6 +22,7 @@ import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.NetworkStatus;
+import sparx1126.com.powerup.utilities.Utility;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity ";
@@ -33,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private static DataCollection dataCollection;
     private static GoogleDriveNetworking googleDrive;
     private static NetworkStatus networkStatus;
+    private static Utility utility;
 
     private String[] studentList;
+    private Dialog testingInternetDialog;
     private AutoCompleteTextView studentNameAutoTextView;
     private Button loginButton;
 
@@ -54,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         networkStatus = NetworkStatus.getInstance();
         // This is done only once here in MainActivity
         networkStatus.SetConnectivityManager((ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE));
+        utility = Utility.getInstance();
 
         studentList = getResources().getStringArray(R.array.students);
+        testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
 
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
@@ -64,7 +67,13 @@ public class MainActivity extends AppCompatActivity {
         studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                dismissKeyboard();
+                View currentFocussedView = MainActivity.this.getCurrentFocus();
+                if (currentFocussedView != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if(imm != null) {
+                        imm.hideSoftInputFromWindow(currentFocussedView.getWindowToken(), 0);
+                    }
+                }
             }
         });
 
@@ -86,16 +95,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         tryConnectToGoogleDrive();
         restorePreferences();
     }
 
     private void tryConnectToGoogleDrive() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(TAG);
-        builder.setMessage(getResources().getString(R.string.testing_internet));
-        final Dialog dialog = builder.create();
-        dialog.show();
+        testingInternetDialog.show();
 
         networkStatus.isOnline(new NetworkStatus.Callback() {
             @Override
@@ -104,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        dialog.dismiss();
+                        testingInternetDialog.dismiss();
                         if(_success) {
                             // This is done only once here in MainActivity
                             Intent tryAutoSignInIntent = googleDrive.tryAutoSignIn(MainActivity.this);
@@ -120,7 +126,10 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         else {
-                            showOkayDialog("No Internet: Remember to Connect and Upload later!");
+                            Dialog dialog = utility.getPositiveButtonDialog(MainActivity.this, TAG,
+                                    "No Internet: Remember to Connect and Upload later!",
+                                    "Okay");
+                            dialog.show();
                         }
                     }
                 });
@@ -150,40 +159,19 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
                     }
                     else {
-                        showOkayDialog("Sign-in Into Google failed: Try again later!.");
+                        Dialog dialog = utility.getPositiveButtonDialog(this, TAG,
+                                "Sign-in Into Google failed: Try again later!.",
+                                "Okay");
+                        dialog.show();
                     }
                 }
                 else {
-                    showOkayDialog("Sign-in Into Google result not OK: Try again later!.");
+                    Dialog dialog = utility.getPositiveButtonDialog(this, TAG,
+                            "Sign-in Into Google result not OK: Try again later!.",
+                            "Okay");
+                    dialog.show();
                 }
                 break;
-        }
-    }
-
-    private void showOkayDialog(String _msg) {
-        Log.d(TAG, _msg);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle(TAG);
-        builder.setMessage(_msg);
-        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
-    }
-
-    private void dismissKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(imm != null) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
         }
     }
 }

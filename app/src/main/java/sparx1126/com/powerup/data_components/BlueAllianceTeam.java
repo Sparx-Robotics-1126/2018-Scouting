@@ -3,7 +3,7 @@ package sparx1126.com.powerup.data_components;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class BlueAllianceTeam {
+public class BlueAllianceTeam extends JsonData {
     // keys from thebluealliance.com API
     private static final String KEY = "key";
     private static final String TEAM_NUMBER = "team_number";
@@ -12,48 +12,22 @@ public class BlueAllianceTeam {
     private static final String STATE_PROV = "state_prov";
     private static final String ROOKIE_YEAR = "rookie_year";
 
-    private final JSONObject jsonObj;
-    private String key;
-    private String number;
-    private String name;
-    private String city;
-    private String state;
-    private String rookieYear;
-
     public BlueAllianceTeam(JSONObject _jsonObj) {
-        jsonObj = _jsonObj;
-        try {
-            key = jsonObj.getString(KEY);
-            number = jsonObj.getString(TEAM_NUMBER);
-            name = jsonObj.getString(NICKNAME);
-            city = jsonObj.getString(CITY);
-            state = jsonObj.getString(STATE_PROV);
-            rookieYear = jsonObj.getString(ROOKIE_YEAR);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        // Initialize
+        stringValuesMap.put(KEY, "");
+        stringValuesMap.put(TEAM_NUMBER, "");
+        stringValuesMap.put(NICKNAME, "");
+        stringValuesMap.put(CITY, "");
+        stringValuesMap.put(STATE_PROV, "");
+        stringValuesMap.put(ROOKIE_YEAR, "");
+
+        restoreFromJsonObject(_jsonObj);
     }
 
-    public JSONObject getJsonObject() { return jsonObj; }
-    public String getKey() { return key; }
-    public String getNumber() {
-        return number;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getCity() {
-        return city;
-    }
-    public String getState() {
-        return state;
-    }
-    public String getRookieYear() {
-        return rookieYear;
-    }
-
-    @Override
-    public String toString() {
-        return jsonObj.toString();
-    }
+    public String getKey() { return stringValuesMap.get(KEY); }
+    public String getNumber() { return stringValuesMap.get(TEAM_NUMBER); }
+    public String getWeek() { return stringValuesMap.get(NICKNAME); }
+    public String getLocation() { return stringValuesMap.get(CITY); }
+    public String getStartDate() { return stringValuesMap.get(STATE_PROV); }
+    public String getEndDate() { return stringValuesMap.get(ROOKIE_YEAR); }
 }
