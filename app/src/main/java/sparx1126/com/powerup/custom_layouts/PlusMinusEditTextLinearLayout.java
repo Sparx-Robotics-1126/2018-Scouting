@@ -42,5 +42,6 @@ public class PlusMinusEditTextLinearLayout extends LinearLayout implements View.
         }
     }
 
+    public void setValue(int value){editText.setText(Integer.toString(value));}
     public int getValue(){return Integer.parseInt(editText.getText().toString());}
 }

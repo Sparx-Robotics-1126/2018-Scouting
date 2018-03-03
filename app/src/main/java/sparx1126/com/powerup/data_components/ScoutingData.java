@@ -16,6 +16,9 @@ public class ScoutingData extends JsonData {
     private static final String AUTO_PICKED_UP_CUBE = "autoPickedUpCube";
     private static final String AUTO_SCORED_SCALE = "autoScoredScale";
     private static final String AUTO_CUBE_EXCHANGE = "autoCubeExchange";
+    private static final String STARTED_LEFT_POSITION = "startedLeftPosition";
+    private static final String STARTED_CENTER_POSITION = "startedCenterPosition";
+    private static final String STARTED_RIGHT_POSITION = "startedRightPosition";
     private static final String CUBES_PLACED_ON_SWITCH = "cubesPlacedOnSwitch";
     private static final String CUBES_PLACED_ON_SCALE = "cubesPlacedOnScale";
     private static final String CUBES_PLACED_IN_EXCHANGE = "cubesPlacedInExchange";
@@ -46,6 +49,9 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(AUTO_SCORED_SCALE, false);
         booleanValuesMap.put(AUTO_PICKED_UP_CUBE, false);
         booleanValuesMap.put(AUTO_CUBE_EXCHANGE, false);
+        booleanValuesMap.put(STARTED_LEFT_POSITION, false);
+        booleanValuesMap.put(STARTED_CENTER_POSITION, false);
+        booleanValuesMap.put(STARTED_RIGHT_POSITION, false);
         booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, false);
         booleanValuesMap.put(CLIMBED_RUNG, false);
         booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
@@ -89,6 +95,21 @@ public class ScoutingData extends JsonData {
     public boolean isAutoCubeExchange() { return booleanValuesMap.get(AUTO_CUBE_EXCHANGE); }
     public void setAutoCubeExchange(boolean _value) {
         booleanValuesMap.put(AUTO_CUBE_EXCHANGE, _value);
+    }
+
+    public boolean isStartedLeftPosition() { return booleanValuesMap.get(STARTED_LEFT_POSITION); }
+    public void setStartedLeftPosition(boolean _value) {
+        booleanValuesMap.put(STARTED_LEFT_POSITION, _value);
+    }
+
+    public boolean isStartedCenterPosition() { return booleanValuesMap.get(STARTED_CENTER_POSITION); }
+    public void setStartedCenterPosition(boolean _value) {
+        booleanValuesMap.put(STARTED_CENTER_POSITION, _value);
+    }
+
+    public boolean isStartedRightPosition() { return booleanValuesMap.get(STARTED_RIGHT_POSITION); }
+    public void setStartedRightPosition(boolean _value) {
+        booleanValuesMap.put(STARTED_RIGHT_POSITION, _value);
     }
 
     public int getCubesPlacedOnSwitch() { return intValuesMap.get(CUBES_PLACED_ON_SWITCH); }
