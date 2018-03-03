@@ -26,6 +26,8 @@ import java.util.List;
 import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.utilities.DataCollection;
 
+import static android.text.InputType.TYPE_CLASS_TEXT;
+
 public class Benchmarking extends AppCompatActivity {
     private static final String TAG = "Benchmarking ";
 

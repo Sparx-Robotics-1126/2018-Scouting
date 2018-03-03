@@ -30,7 +30,7 @@
                     android:digits="1234567890"
                     android:textColorHint="@color/accentColorHint"
                     android:gravity="right"
-                    android:inputType="number"
+                    android:inputType= "number"
                     android:maxLength="4"
                     android:textColor="@color/accentColorHint"
                     android:textSize="@dimen/main_text_size" />
