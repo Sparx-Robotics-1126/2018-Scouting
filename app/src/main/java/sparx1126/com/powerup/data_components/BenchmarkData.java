@@ -1,5 +1,7 @@
 package sparx1126.com.powerup.data_components;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,7 +88,10 @@ public class BenchmarkData extends JsonData {
     }
 
     public String getTypeOfDrive() { return stringValuesMap.get(TYPE_OF_DRIVE); }
-    public void setTypeOfDrive(String _value) { stringValuesMap.put(TYPE_OF_DRIVE, _value);}
+    public void setTypeOfDrive(String _value) {
+        Log.e("Jaren", _value);
+
+        stringValuesMap.put(TYPE_OF_DRIVE, _value);}
 
     public String getTypeOfWheel() { return stringValuesMap.get(TYPE_OF_WHEEL); }
     public void setTypeOfWheel(String _value) { stringValuesMap.put(TYPE_OF_WHEEL, _value);}
