@@ -24,6 +24,8 @@
             <AutoCompleteTextView
                 android:id="@+id/matchnumimput"
                 style="@style/J_basicTextView"
+                android:digits="1234567890"
+                android:inputType="numberPassword"
                 android:textColor="@color/accentColor" />
         </LinearLayout>
 
@@ -269,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                     <TextView
                         android:id="@+id/textView18"
                         style="@style/J_basicTextView"
                         android:text="Cubes acquired from players" />

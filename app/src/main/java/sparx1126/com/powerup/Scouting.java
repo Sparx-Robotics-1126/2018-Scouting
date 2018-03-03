@@ -2,8 +2,11 @@ package sparx1126.com.powerup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -65,7 +68,7 @@ public class Scouting extends AppCompatActivity {
         List<Integer> matches = new ArrayList<>(matchesInEvent.keySet());
 
         matchNumber = findViewById(R.id.matchnumimput);
-
+        matchNumber.setTransformationMethod(null);
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, matches);
         matchNumber.setAdapter(adapter);
         matchNumber.setThreshold(1);
@@ -95,9 +98,12 @@ public class Scouting extends AppCompatActivity {
                         String teamKeyToNumberStr = teamKeyStr.replace("frc", "");
                         teamNumber.setText(teamKeyToNumberStr);
                         dismissKeyboard();
+                        int currenteamNumber = Integer.parseInt(teamKeyToNumberStr);
+                        int currentMatchNumber =Integer.parseInt(matchNumberStr);
+                        restorePreferences(currenteamNumber, currentMatchNumber);
                         scouting_main_layout.setVisibility(View.VISIBLE);
                     }
-                }
+            }
             }
         });
         scouting_main_layout = findViewById(R.id.scouting_main_layout);
@@ -161,10 +167,32 @@ public class Scouting extends AppCompatActivity {
             }
         });
 
-        restorePreferences();
     }
-    private void restorePreferences(){
+    private void restorePreferences(int _teamNumber, int _match){
+        ScoutingData scoutingData = dataCollection.getScoutingData(_teamNumber, _match);
+        if(scoutingData != null){
+            autoLineCrossed.setChecked(scoutingData.isAutoLineCrossed());
+            autoScoredSwitch.setChecked(scoutingData.isAutoScoredSwitch());
+            autoScoredScale.setChecked(scoutingData.isAutoScoredScale());
+            autoPickedUpCube.setChecked(scoutingData.isAutoPickedUpCube());
+            autoCubeExchange.setChecked(scoutingData.isAutoCubeExchange());
+            cubesPlacedOnScale.setValue(scoutingData.getCubesPlacedOnScale());
+            cubesPlacedOnSwitch.setValue(scoutingData.getCubesPlacedOnSwitch());
+            cubesAcquiredFromPlayer.setValue(scoutingData.getCubesAcquireFromPlayer());
+            cubesPickedUpFromFloor.setValue(scoutingData.getCubesPickedUpFromFloor());
+            cubesPlacedInExchange.setValue(scoutingData.getCubesPlacedInExchange());
+            playedDefenseEffectively.setChecked(scoutingData.isPlayedDefenseEffectively());
+            climbedRung.setChecked(scoutingData.isClimbedRung());
+            climbedRobot.setChecked(scoutingData.isClimbedOnRobot());
+            canBeClimbOn.setChecked(scoutingData.isCanBeClimbOn());
+            if (scoutingData.getNumberOfRobotsHeld()== 1) {
+                held1Robot.setChecked(true);
+            } else if (scoutingData.getNumberOfRobotsHeld() == 2) {
+                held2Robot.setChecked(true);
+            }
+            climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
 
+        }
     }
 
     private void dismissKeyboard() {
