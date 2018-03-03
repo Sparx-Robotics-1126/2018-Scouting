@@ -126,7 +126,7 @@ public class DataCollection {
         }
         matchMap.put(matchNumber, _data);
         scoutingDataMap.put(teamNumber, matchMap);
-        fileIO.storeScoutingData(_data.toString(), String.valueOf(teamNumber), String.valueOf(matchNumber));
+        fileIO.storeScoutingData(_data.getJsonString(), String.valueOf(teamNumber), String.valueOf(matchNumber));
     }
     public Map<Integer, Map<Integer, ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
@@ -152,7 +152,7 @@ public class DataCollection {
     public void addBenchmarkData(BenchmarkData _data){
         Integer teamNumber = _data.getTeamNumber();
         benchmarkDataMap.put(teamNumber, _data);
-        fileIO.storeBenchmarkData(_data.toString(), String.valueOf(teamNumber));
+        fileIO.storeBenchmarkData(_data.getJsonString(), String.valueOf(teamNumber));
     }
     public Map<Integer, BenchmarkData> getBenchmarkDataMap() {
         return benchmarkDataMap;

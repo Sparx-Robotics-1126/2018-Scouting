@@ -83,12 +83,13 @@ public class FileIO {
         File[] listOfFiles = dir.listFiles();
 
         for (File listOfFile : listOfFiles) {
-            String filePath = listOfFile.getPath();
             String fileName = listOfFile.getName();
             if (listOfFile.isFile() && fileName.contains(SCOUTING_DATA_HEADER)) {
                 String[] fileNameParts = fileName.split("[_.]");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
                 Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH, ""));
+                Log.e("JTATER", String.valueOf(team));
+                Log.e("JTATER", String.valueOf(match));
 
                 Map<Integer, String> matchMap;
                 if (rtnObj.get(team) != null) {
@@ -98,7 +99,8 @@ public class FileIO {
                 }
 
                 Log.d(TAG, fileName);
-                String data = fetchData(filePath);
+                String data = fetchData(fileName);
+                Log.e("JTATER", data);
                 matchMap.put(match, data);
                 rtnObj.put(team, matchMap);
             }
@@ -163,6 +165,9 @@ public class FileIO {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else {
+            Log.e(TAG, "File does not exist: " + _fileName);
         }
         Log.d(TAG, "Fetched: " + _fileName);
         return contentBuilder.toString();
