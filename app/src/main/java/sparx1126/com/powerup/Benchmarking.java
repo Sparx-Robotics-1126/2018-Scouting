@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
@@ -111,23 +112,21 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String teamNumberStrg = team_number_input.getText().toString();
-                int teamNumber = Integer.valueOf(teamNumberStrg);
-                boolean teamNumberFound = teamsInEvent.contains(teamNumber);
-                if (teamNumberFound) {
-                    Log.d(TAG, teamNumberStrg);
-                    BenchmarkData data = dataCollection.getBenchmarkData(teamNumber);
-                    if (data != null) {
-                        String msg = "Found Benchmark for " + teamNumber;
+                if (!teamNumberStrg.isEmpty()) {
+                    int teamNumber = Integer.valueOf(teamNumberStrg);
+                    boolean teamNumberFound = teamsInEvent.contains(teamNumber);
+                    if (teamNumberFound) {
+                        Log.d(TAG, teamNumberStrg);
+                        dismissKeyboard();
+                        restorePreferences(teamNumber);
+                        benchmark_main_layout.setVisibility(View.VISIBLE);
+                    } else {
+                        String msg = "Team number " + teamNumber + " not found!";
                         Log.e(TAG, msg);
                         Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
-                        restorePreferences(data);
                     }
-                    dismissKeyboard();
-                    benchmark_main_layout.setVisibility(View.VISIBLE);
                 } else {
-                    String msg = "Team number " + teamNumber + " not found!";
-                    Log.e(TAG, msg);
-                    Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Team Number Empty!");
                 }
             }
         });
@@ -494,31 +493,66 @@ public class Benchmarking extends AppCompatActivity {
                 String driveType = driveTypesArray[driveTypeSpinner.getSelectedItemPosition()];
                 if (driveType.equals(getResources().getString(R.string.other))) {
                     data.setTypeOfDrive(customDrive.getText().toString());
-                }
-                else if (!driveType.equals(getResources().getString(R.string.selectType))) {
+                } else if (!driveType.equals(getResources().getString(R.string.selectType))) {
                     data.setTypeOfDrive(driveType);
                 }
                 String wheelType = wheelTypesArray[wheelTypeSpinner.getSelectedItemPosition()];
                 if (wheelType.equals(getResources().getString(R.string.other))) {
                     data.setTypeOfWheel(customWheel.getText().toString());
-                }
-                else if (!wheelType.equals(getResources().getString(R.string.selectType))) {
+                } else if (!wheelType.equals(getResources().getString(R.string.selectType))) {
                     data.setTypeOfWheel(wheelType);
                 }
-                data.setNumberOfWheels(Integer.parseInt(numWheels.getText().toString()));
-                data.setSpeed(Integer.parseInt(speed.getText().toString()));
-                data.setHeight(Integer.parseInt(height.getText().toString()));
-                data.setWeight(Integer.parseInt(weight.getText().toString()));
-                data.setGroundClearance(Integer.parseInt(groundClearance.getText().toString()));
+                String NumWheelsString = numWheels.getText().toString();
+                if(!NumWheelsString.isEmpty()) {
+                    data.setNumberOfWheels(Integer.parseInt(NumWheelsString));
+                }
+
+                String speedString = speed.getText().toString();
+                if(!speedString.isEmpty()) {
+                    data.setSpeed(Integer.parseInt(speedString));
+                }
+
+                String heightString = height.getText().toString();
+                if(!heightString.isEmpty()){
+                    data.setHeight(Integer.parseInt(heightString));
+                }
+
+                String weightString = weight.getText().toString();
+                if(!weightString.isEmpty()) {
+                    data.setWeight(Integer.parseInt(weightString));
+                }
+
+                String clearanceString = groundClearance.getText().toString();
+                if(!clearanceString.isEmpty()) {
+                    data.setGroundClearance(Integer.parseInt(clearanceString));
+                }
+
                 data.setPreferedStartOne(prefStart1);
                 data.setPreferedStartTwo(prefStart2);
                 data.setPreferedStartThree(prefStart3);
                 data.setCanStartWithCube(start_w_cube.isChecked());
                 data.setAutoCrossLine(move_past_line.isChecked());
-                data.setHowManyScoreSwitchPlaced(Integer.parseInt(howManySwitchPlaceAuto.getText().toString()));
-                data.setHowManyScoreSwitchTossed(Integer.parseInt(howManySwitchTossAuto.getText().toString()));
-                data.setHowManyScoreScalePlaced(Integer.parseInt(howManyScalePlaceAuto.getText().toString()));
-                data.setHowManyScoreScaleTossed(Integer.parseInt(howManyScaleTossAuto.getText().toString()));
+
+                String scoreSwitchPlacedString = howManySwitchPlaceAuto.getText().toString();
+                if(!scoreSwitchPlacedString.isEmpty()) {
+                    data.setHowManyScoreSwitchPlaced(Integer.parseInt(scoreSwitchPlacedString));
+                }
+
+                String scoreSwitchTossedString = howManySwitchTossAuto.getText().toString();
+                if(!scoreSwitchTossedString.isEmpty()) {
+                    data.setHowManyScoreSwitchTossed(Integer.parseInt(scoreSwitchTossedString));
+                }
+
+                String scalePlacedString = howManyScalePlaceAuto.getText().toString();
+                if (!scalePlacedString.isEmpty()) {
+                    data.setHowManyScoreScalePlaced(Integer.parseInt(scalePlacedString));
+                }
+
+                String scaleTossedString = howManyScaleTossAuto.getText().toString();
+                if (!scaleTossedString.isEmpty()) {
+                    data.setHowManyScoreScaleTossed(Integer.parseInt(scaleTossedString));
+                }
+
                 data.setAutoAcquirePortal(fromPortalAuto.isChecked());
                 data.setAutoAcquireFloor(fromFloorAuto.isChecked());
                 data.setTeleAcquirePortal(fromPortalTele.isChecked());
@@ -532,13 +566,17 @@ public class Benchmarking extends AppCompatActivity {
                 data.setTelePreferAcquirePortal(pref_portal.isChecked());
                 data.setEndClimbRung(climb_rung.isChecked());
                 String climbAssistType = climbAssistTypesArray[climbAssistTypeSpinner.getSelectedItemPosition()];
+                // dont know if customClimbAssist needs to test if isEmpty
                 if (climbAssistType.equals(getResources().getString(R.string.other))) {
                     data.setEndClimbAssistType(customClimbAssist.getText().toString());
-                }
-                else if (!climbAssistType.equals(getResources().getString(R.string.selectType))) {
+                } else if (!climbAssistType.equals(getResources().getString(R.string.selectType))) {
                     data.setEndClimbAssistType(climbAssistType);
                 }
-                data.setEndClimbHeight(Integer.parseInt(climb_height.getText().toString()));
+
+                String climbHeightString = climb_height.getText().toString();
+                if(!climbHeightString.isEmpty()) {
+                    data.setEndClimbHeight(Integer.parseInt(climbHeightString));
+                }
                 data.setEndClimbOnRobot(attach_robot.isChecked());
 
                 dataCollection.addBenchmarkData(data);
@@ -550,7 +588,30 @@ public class Benchmarking extends AppCompatActivity {
         });
     }
 
-    private void restorePreferences(BenchmarkData _data) {
+    private void restorePreferences(int teamNumber) {
+        BenchmarkData restoreData = dataCollection.getBenchmarkData(teamNumber);
+        if (restoreData != null) {
+            String currentDriveType = restoreData.getTypeOfDrive();
+            if (!currentDriveType.isEmpty()) {
+                boolean driveTypeInSpinner = Arrays.asList(driveTypesArray).contains(currentDriveType);
+                if (driveTypeInSpinner) {
+                    int positionInList = 0;
+                    for (int i = 0; i < driveTypesArray.length; i++) {
+                        if (driveTypesArray[i] == currentDriveType) {
+                            positionInList = i;
+                            break;
+                        }
+                    }
+                    driveTypeSpinner.setSelection(positionInList);
+                } else {
+                    driveTypeSpinner.setSelection(driveTypesArray.length - 1);
+                    customDrive.setVisibility(View.VISIBLE);
+                    customDrive.setText(currentDriveType);
+                }
+            }
+
+
+        }
 
     }
 
