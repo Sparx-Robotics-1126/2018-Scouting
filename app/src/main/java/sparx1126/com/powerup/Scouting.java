@@ -40,6 +40,9 @@ public class Scouting extends AppCompatActivity {
     private CheckBox autoScoredScale;
     private CheckBox autoPickedUpCube;
     private CheckBox autoCubeExchange;
+    private RadioButton startingPositionLeft;
+    private RadioButton startingPositionCenter;
+    private RadioButton startingPositionRight;
     private PlusMinusEditTextLinearLayout cubesPlacedOnSwitch;
     private PlusMinusEditTextLinearLayout cubesPlacedOnScale;
     private PlusMinusEditTextLinearLayout cubesPlacedInExchange;
@@ -128,6 +131,9 @@ public class Scouting extends AppCompatActivity {
         autoScoredSwitch = findViewById(R.id.autoScoredSwitch);
         autoPickedUpCube = findViewById(R.id.pickupcubecheck);
         autoCubeExchange = findViewById(R.id.exchangecubecheck);
+        startingPositionLeft = findViewById(R.id.startLeftbtn);
+        startingPositionCenter = findViewById(R.id.startCenterbtn);
+        startingPositionRight = findViewById(R.id.startRightbtn);
         cubesPlacedOnSwitch = findViewById(R.id.timesscoredswitchpicker);
         cubesPlacedOnScale = findViewById(R.id.timesscoredscalepicker);
         cubesPlacedInExchange = findViewById(R.id.timesplacedexchangepicker);
@@ -154,7 +160,9 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setAutoScoredSwitch(autoScoredScale.isChecked());
                 scoutingData.setAutoPickedUpCube(autoPickedUpCube.isChecked());
                 scoutingData.setAutoCubeExchange(autoCubeExchange.isChecked());
-
+                scoutingData.setStartedLeftPosition(startingPositionLeft.isChecked());
+                scoutingData.setStartedCenterPosition(startingPositionCenter.isChecked());
+                scoutingData.setStartedRightPosition(startingPositionRight.isChecked());
                 scoutingData.setCubesPlacedOnSwitch(cubesPlacedOnSwitch.getValue());
                 scoutingData.setCubesPlacedOnScale(cubesPlacedOnScale.getValue());
                 scoutingData.setCubesPlacedInExchange(cubesPlacedInExchange.getValue());
@@ -184,11 +192,15 @@ public class Scouting extends AppCompatActivity {
     private void restorePreferences(int _teamNumber, int _match){
         ScoutingData scoutingData = dataCollection.getScoutingData(_teamNumber, _match);
         if(scoutingData != null){
+            Log.d(TAG, "Hey,scouting data is found :)");
             autoLineCrossed.setChecked(scoutingData.isAutoLineCrossed());
             autoScoredSwitch.setChecked(scoutingData.isAutoScoredSwitch());
             autoScoredScale.setChecked(scoutingData.isAutoScoredScale());
             autoPickedUpCube.setChecked(scoutingData.isAutoPickedUpCube());
             autoCubeExchange.setChecked(scoutingData.isAutoCubeExchange());
+            startingPositionLeft.setChecked(scoutingData.isStartedLeftPosition());
+            startingPositionCenter.setChecked(scoutingData.isStartedCenterPosition());
+            startingPositionRight.setChecked(scoutingData.isStartedRightPosition());
             cubesPlacedOnScale.setValue(scoutingData.getCubesPlacedOnScale());
             cubesPlacedOnSwitch.setValue(scoutingData.getCubesPlacedOnSwitch());
             cubesAcquiredFromPlayer.setValue(scoutingData.getCubesAcquireFromPlayer());
@@ -198,13 +210,13 @@ public class Scouting extends AppCompatActivity {
             climbedRung.setChecked(scoutingData.isClimbedRung());
             climbedRobot.setChecked(scoutingData.isClimbedOnRobot());
             canBeClimbOn.setChecked(scoutingData.isCanBeClimbOn());
+
             if (scoutingData.getNumberOfRobotsHeld()== 1) {
                 held1Robot.setChecked(true);
             } else if (scoutingData.getNumberOfRobotsHeld() == 2) {
                 held2Robot.setChecked(true);
             }
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
-
         }
     }
 
