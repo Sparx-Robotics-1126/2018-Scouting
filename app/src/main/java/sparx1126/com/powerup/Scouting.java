@@ -11,20 +11,15 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
-import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
@@ -98,6 +93,9 @@ public class Scouting extends AppCompatActivity {
                         if(matchNumberStr.length() >= 2) {
                             dismissKeyboard();
                         }
+                        int currenteamNumber = Integer.parseInt(teamKeyToNumberStr);
+                        int currentMatchNumber =Integer.parseInt(matchNumberStr);
+                        restorePreferences(currenteamNumber, currentMatchNumber);
                         scouting_main_layout.setVisibility(View.VISIBLE);
                     }
                 }
@@ -118,6 +116,7 @@ public class Scouting extends AppCompatActivity {
         matchesInEvent = dataCollection.getQualificationMatches();
 
         matchNumber = findViewById(R.id.matchNumInput);
+        matchNumber.setTransformationMethod(null);
         matchNumber.addTextChangedListener(watcher);
 
         scouting_main_layout = findViewById(R.id.scouting_main_layout);
@@ -181,10 +180,32 @@ public class Scouting extends AppCompatActivity {
             }
         });
 
-        restorePreferences();
     }
-    private void restorePreferences(){
+    private void restorePreferences(int _teamNumber, int _match){
+        ScoutingData scoutingData = dataCollection.getScoutingData(_teamNumber, _match);
+        if(scoutingData != null){
+            autoLineCrossed.setChecked(scoutingData.isAutoLineCrossed());
+            autoScoredSwitch.setChecked(scoutingData.isAutoScoredSwitch());
+            autoScoredScale.setChecked(scoutingData.isAutoScoredScale());
+            autoPickedUpCube.setChecked(scoutingData.isAutoPickedUpCube());
+            autoCubeExchange.setChecked(scoutingData.isAutoCubeExchange());
+            cubesPlacedOnScale.setValue(scoutingData.getCubesPlacedOnScale());
+            cubesPlacedOnSwitch.setValue(scoutingData.getCubesPlacedOnSwitch());
+            cubesAcquiredFromPlayer.setValue(scoutingData.getCubesAcquireFromPlayer());
+            cubesPickedUpFromFloor.setValue(scoutingData.getCubesPickedUpFromFloor());
+            cubesPlacedInExchange.setValue(scoutingData.getCubesPlacedInExchange());
+            playedDefenseEffectively.setChecked(scoutingData.isPlayedDefenseEffectively());
+            climbedRung.setChecked(scoutingData.isClimbedRung());
+            climbedRobot.setChecked(scoutingData.isClimbedOnRobot());
+            canBeClimbOn.setChecked(scoutingData.isCanBeClimbOn());
+            if (scoutingData.getNumberOfRobotsHeld()== 1) {
+                held1Robot.setChecked(true);
+            } else if (scoutingData.getNumberOfRobotsHeld() == 2) {
+                held2Robot.setChecked(true);
+            }
+            climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
 
+        }
     }
 
     private void dismissKeyboard() {

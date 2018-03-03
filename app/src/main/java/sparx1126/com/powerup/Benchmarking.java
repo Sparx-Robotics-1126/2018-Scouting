@@ -124,13 +124,13 @@ public class Benchmarking extends AppCompatActivity {
                         String msg = "Found Benchmark for " + teamNumber;
                         Log.e(TAG, msg);
                         Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
-                        restorePreferences(data);
                     }
                     View view = findViewById(android.R.id.content).getRootView();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+                    restorePreferences(teamNumber);
                     benchmark_main_layout.setVisibility(View.VISIBLE);
                 } else {
                     benchmark_main_layout.setVisibility(View.INVISIBLE);

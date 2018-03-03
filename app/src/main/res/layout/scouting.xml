@@ -22,12 +22,11 @@
                 android:textColor="@color/textColor" />
 
             <EditText
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:id="@+id/matchNumInput"
                 style="@style/J_basicTextView"
                 android:textColor="@color/accentColor"
                 android:digits="1234567890"
-                android:hint="12"
                 android:textColorHint="@color/accentColorHint"
                 android:maxLength="2"
                 />
