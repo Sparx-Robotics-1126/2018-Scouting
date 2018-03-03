@@ -3,8 +3,12 @@ package sparx1126.com.powerup.data_components;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ScoutingData {
+import java.util.HashMap;
+import java.util.Map;
+
+public class ScoutingData extends JsonData {
     // keys
+    private static final String SCOUTER_NAME = "scouterName";
     private static final String MATCH_NUMBER = "matchNumber";
     private static final String TEAM_NUMBER = "teamNumber";
     private static final String AUTO_LINE_CROSSED = "autoLineCrossed";
@@ -24,172 +28,121 @@ public class ScoutingData {
     private static final String NUMBER_OF_ROBOTS_HELD = "numberOfRobotsHeld";
     private static final String CLIMBED_UNDER_15_SECS = "climbedUnder15Secs";
 
-    private JSONObject jsonObj;
-
     public ScoutingData() {
-        jsonObj = new JSONObject();
-
         // Initialize
-        setInt(MATCH_NUMBER, 0);
-        setInt(TEAM_NUMBER, 0);
-        setBoolean(AUTO_LINE_CROSSED, false);
-        setBoolean(AUTO_SCORED_SWITCH, false);
-        setBoolean(AUTO_SCORED_SCALE, false);
-        setBoolean(AUTO_PICKED_UP_CUBE, false);
-        setBoolean(AUTO_CUBE_EXCHANGE, false);
-        setInt(CUBES_PLACED_ON_SWITCH, 0);
-        setInt(CUBES_PLACED_ON_SCALE, 0);
-        setInt(CUBES_PLACED_IN_EXCHANGE, 0);
-        setInt(CUBES_PICKED_UP_FROM_FLOOR, 0);
-        setInt(CUBES_ACQUIRE_FROM_PLAYER, 0);
-        setBoolean(PLAYED_DEFENSE_EFFECTIVELY, false);
-        setBoolean(CLIMBED_RUNG, false);
-        setBoolean(CLIMBED_ON_ROBOT, false);
-        setBoolean(CAN_BE_CLIMB_ON, false);
-        setInt(NUMBER_OF_ROBOTS_HELD, 0);
-        setBoolean(CLIMBED_UNDER_15_SECS, false);
+        stringValuesMap.put(SCOUTER_NAME, "");
+
+        intValuesMap.put(MATCH_NUMBER, 0);
+        intValuesMap.put(TEAM_NUMBER, 0);
+        intValuesMap.put(CUBES_PLACED_ON_SWITCH, 0);
+        intValuesMap.put(CUBES_PLACED_ON_SCALE, 0);
+        intValuesMap.put(CUBES_PLACED_IN_EXCHANGE, 0);
+        intValuesMap.put(CUBES_PICKED_UP_FROM_FLOOR, 0);
+        intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, 0);
+        intValuesMap.put(NUMBER_OF_ROBOTS_HELD, 0);
+
+        booleanValuesMap.put(AUTO_LINE_CROSSED, false);
+        booleanValuesMap.put(AUTO_SCORED_SWITCH, false);
+        booleanValuesMap.put(AUTO_SCORED_SCALE, false);
+        booleanValuesMap.put(AUTO_PICKED_UP_CUBE, false);
+        booleanValuesMap.put(AUTO_CUBE_EXCHANGE, false);
+        booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, false);
+        booleanValuesMap.put(CLIMBED_RUNG, false);
+        booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
+        booleanValuesMap.put(CAN_BE_CLIMB_ON, false);
+        booleanValuesMap.put(CLIMBED_UNDER_15_SECS, false);
     }
 
-    public void setJsonString(String _jsonString) {
-        try {
-            jsonObj = new JSONObject(_jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+    public String getScouterName() { return stringValuesMap.get(SCOUTER_NAME); }
+    public void setScouterName(String _value) { stringValuesMap.put(SCOUTER_NAME, _value);}
 
-    public int getMatchNumber() { return getInt(MATCH_NUMBER); }
+    public int getMatchNumber() { return intValuesMap.get(MATCH_NUMBER); }
     public void setMatchNumber(int _value) {
-        setInt(MATCH_NUMBER, _value);
+        intValuesMap.put(MATCH_NUMBER, _value);
     }
 
-    public int getTeamNumber() { return getInt(TEAM_NUMBER); }
+    public int getTeamNumber() { return intValuesMap.get(TEAM_NUMBER); }
     public void setTeamNumber(int _value) {
-        setInt(TEAM_NUMBER, _value);
+        intValuesMap.put(TEAM_NUMBER, _value);
     }
 
-    public boolean isAutoLineCrossed() { return getBoolean(AUTO_LINE_CROSSED); }
+    public boolean isAutoLineCrossed() { return booleanValuesMap.get(AUTO_LINE_CROSSED); }
     public void setAutoLineCrossed(boolean _value) {
-        setBoolean(AUTO_LINE_CROSSED, _value);
+        booleanValuesMap.put(AUTO_LINE_CROSSED, _value);
     }
 
-    public boolean isAutoScoredSwitch() { return getBoolean(AUTO_SCORED_SWITCH); }
+    public boolean isAutoScoredSwitch() { return booleanValuesMap.get(AUTO_SCORED_SWITCH); }
     public void setAutoScoredSwitch(boolean _value) {
-        setBoolean(AUTO_SCORED_SWITCH, _value);
+        booleanValuesMap.put(AUTO_SCORED_SWITCH, _value);
     }
 
-    public boolean isAutoScoredScale() { return getBoolean(AUTO_SCORED_SCALE); }
+    public boolean isAutoScoredScale() { return booleanValuesMap.get(AUTO_SCORED_SCALE); }
     public void setAutoScoredScale(boolean _value) {
-        setBoolean(AUTO_SCORED_SCALE, _value);
+        booleanValuesMap.put(AUTO_SCORED_SCALE, _value);
     }
 
-    public boolean isAutoPickedUpCube() { return getBoolean(AUTO_PICKED_UP_CUBE); }
+    public boolean isAutoPickedUpCube() { return booleanValuesMap.get(AUTO_PICKED_UP_CUBE); }
     public void setAutoPickedUpCube(boolean _value) {
-        setBoolean(AUTO_PICKED_UP_CUBE, _value);
+        booleanValuesMap.put(AUTO_PICKED_UP_CUBE, _value);
     }
 
-    public boolean isAutoCubeExchange() { return getBoolean(AUTO_CUBE_EXCHANGE); }
+    public boolean isAutoCubeExchange() { return booleanValuesMap.get(AUTO_CUBE_EXCHANGE); }
     public void setAutoCubeExchange(boolean _value) {
-        setBoolean(AUTO_CUBE_EXCHANGE, _value);
+        booleanValuesMap.put(AUTO_CUBE_EXCHANGE, _value);
     }
 
-    public int getCubesPlacedOnSwitch() { return getInt(CUBES_PLACED_ON_SWITCH); }
+    public int getCubesPlacedOnSwitch() { return intValuesMap.get(CUBES_PLACED_ON_SWITCH); }
     public void setCubesPlacedOnSwitch(int _value) {
-        setInt(CUBES_PLACED_ON_SWITCH, _value);
+        intValuesMap.put(CUBES_PLACED_ON_SWITCH, _value);
     }
 
-    public int getCubesPlacedOnScale() { return getInt(CUBES_PLACED_ON_SCALE); }
+    public int getCubesPlacedOnScale() { return intValuesMap.get(CUBES_PLACED_ON_SCALE); }
     public void setCubesPlacedOnScale(int _value) {
-        setInt(CUBES_PLACED_ON_SCALE, _value);
+        intValuesMap.put(CUBES_PLACED_ON_SCALE, _value);
     }
 
-    public int getCubesPlacedInExchange() { return getInt(CUBES_PLACED_IN_EXCHANGE); }
+    public int getCubesPlacedInExchange() { return intValuesMap.get(CUBES_PLACED_IN_EXCHANGE); }
     public void setCubesPlacedInExchange(int _value) {
-        setInt(CUBES_PLACED_IN_EXCHANGE, _value);
+        intValuesMap.put(CUBES_PLACED_IN_EXCHANGE, _value);
     }
 
-    public int getCubesPickedUpFromFloor() { return getInt(CUBES_PICKED_UP_FROM_FLOOR); }
+    public int getCubesPickedUpFromFloor() { return intValuesMap.get(CUBES_PICKED_UP_FROM_FLOOR); }
     public void setCubesPickedUpFromFloor(int _value) {
-        setInt(CUBES_PICKED_UP_FROM_FLOOR, _value);
+        intValuesMap.put(CUBES_PICKED_UP_FROM_FLOOR, _value);
     }
 
-    public int getCubesAcquireFromPlayer() { return getInt(CUBES_ACQUIRE_FROM_PLAYER); }
+    public int getCubesAcquireFromPlayer() { return intValuesMap.get(CUBES_ACQUIRE_FROM_PLAYER); }
     public void setCubesAcquireFromPlayer(int _value) {
-        setInt(CUBES_ACQUIRE_FROM_PLAYER, _value);
+        intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, _value);
     }
 
-    public boolean isPlayedDefenseEffectively() { return getBoolean(PLAYED_DEFENSE_EFFECTIVELY); }
+    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_EFFECTIVELY); }
     public void setPlayedDefenseEffectively(boolean _value) {
-        setBoolean(PLAYED_DEFENSE_EFFECTIVELY, _value);
+        booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, _value);
     }
 
-    public boolean isClimbedRung() { return getBoolean(CLIMBED_RUNG); }
+    public boolean isClimbedRung() { return booleanValuesMap.get(CLIMBED_RUNG); }
     public void setClimbedRung(boolean _value) {
-        setBoolean(CLIMBED_RUNG, _value);
+        booleanValuesMap.put(CLIMBED_RUNG, _value);
     }
 
-    public boolean isClimbedOnRobot() { return getBoolean(CLIMBED_ON_ROBOT); }
+    public boolean isClimbedOnRobot() { return booleanValuesMap.get(CLIMBED_ON_ROBOT); }
     public void setClimbedOnRobot(boolean _value) {
-        setBoolean(CLIMBED_ON_ROBOT, _value);
+        booleanValuesMap.put(CLIMBED_ON_ROBOT, _value);
     }
 
-    public boolean isCanBeClimbOn() { return getBoolean(CAN_BE_CLIMB_ON); }
+    public boolean isCanBeClimbOn() { return booleanValuesMap.get(CAN_BE_CLIMB_ON); }
     public void setCanBeClimbOn(boolean _value) {
-        setBoolean(CAN_BE_CLIMB_ON, _value);
+        booleanValuesMap.put(CAN_BE_CLIMB_ON, _value);
     }
 
-    public int getNumberOfRobotsHeld() { return getInt(NUMBER_OF_ROBOTS_HELD); }
+    public int getNumberOfRobotsHeld() { return intValuesMap.get(NUMBER_OF_ROBOTS_HELD); }
     public void setNumberOfRobotsHeld(int _value) {
-        setInt(NUMBER_OF_ROBOTS_HELD, _value);
+        intValuesMap.put(NUMBER_OF_ROBOTS_HELD, _value);
     }
 
-    public boolean isClimbedUnder15Secs() { return getBoolean(CLIMBED_UNDER_15_SECS); }
+    public boolean isClimbedUnder15Secs() { return booleanValuesMap.get(CLIMBED_UNDER_15_SECS); }
     public void setClimbedUnder15Secs(boolean _value) {
-        setBoolean(CLIMBED_UNDER_15_SECS, _value);
-    }
-
-    private int getInt(String _key) {
-        int rtnData = 0;
-
-        try {
-            rtnData = jsonObj.getInt(_key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return rtnData;
-    }
-
-    private void setInt(String _key, int _value) {
-        try {
-            jsonObj.put(_key, _value);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean getBoolean(String _key) {
-        boolean rtnData = false;
-
-        try {
-            rtnData = jsonObj.getBoolean(_key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return rtnData;
-    }
-
-    private void setBoolean(String _key, boolean _value) {
-        try {
-            jsonObj.put(_key, _value);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public String toString() {
-        return jsonObj.toString();
+        booleanValuesMap.put(CLIMBED_UNDER_15_SECS, _value);
     }
 }

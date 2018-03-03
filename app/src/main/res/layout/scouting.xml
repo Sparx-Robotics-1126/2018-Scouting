@@ -91,7 +91,6 @@
                     android:text=""
                     android:textSize="45sp" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -139,6 +138,14 @@
                     android:layout_width="match_parent"
                     android:layout_marginBottom="10dp"
                     android:text="Pickup Up Cube"
+                    android:textColor="@color/textColor" />
+
+                <CheckBox
+                    android:id="@+id/exchangecubecheck"
+                    style="@style/J_checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="Exchange Cube"
                     android:textColor="@color/textColor" />
 
                 <LinearLayout

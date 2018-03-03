@@ -1,8 +1,6 @@
 package sparx1126.com.powerup;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +22,7 @@ import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.NetworkStatus;
+import sparx1126.com.powerup.utilities.Utility;
 
 public class Admin extends AppCompatActivity {
     private static final String TAG = "Admin ";
@@ -32,6 +31,12 @@ public class Admin extends AppCompatActivity {
     private static BlueAllianceNetworking blueAlliance;
     private static DataCollection dataCollection;
     private static NetworkStatus networkStatus;
+    private static Utility utility;
+
+    private Dialog eventsWeAreInDialog;
+    private Dialog matchesDialog;
+    private Dialog teamsDialog;
+    private Dialog testingInternetDialog;
 
     private Spinner eventSpinner;
     private View adminSelectionLayout;
@@ -39,11 +44,7 @@ public class Admin extends AppCompatActivity {
     private RadioButton teamNumber1SelectedButton;
     private RadioButton teamNumber2SelectedButton;
     private RadioButton teamNumber3SelectedButton;
-    private Dialog eventsWeAreInDialog;
-    private Dialog matchesDialog;
-    private Dialog teamsDialog;
-    private Dialog testingInternetDialog;
-
+    private Button stuffSelectedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,12 @@ public class Admin extends AppCompatActivity {
         blueAlliance = BlueAllianceNetworking.getInstance();
         dataCollection = DataCollection.getInstance();
         networkStatus = NetworkStatus.getInstance();
+        utility = Utility.getInstance();
+
+        eventsWeAreInDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Events...");
+        matchesDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Matches...");
+        teamsDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Teams...");
+        testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
 
         eventSpinner = findViewById(R.id.eventSpinner);
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -80,7 +87,7 @@ public class Admin extends AppCompatActivity {
                                         blueAlliance.downloadEventMatches(selectedItem, new BlueAllianceNetworking.Callback() {
                                             @Override
                                             public void handleFinishDownload(String _data) {
-                                                dataCollection.setEventMatchesByKey(_data);
+                                                dataCollection.setEventMatches(_data);
                                                 // this needs to run on the ui thread because of ui components in it
                                                 runOnUiThread(new Runnable() {
                                                     @Override
@@ -124,13 +131,12 @@ public class Admin extends AppCompatActivity {
         });
 
         adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
-
         blueSelectedToggle = findViewById(R.id.blueSelectedToggle);
         teamNumber1SelectedButton = findViewById(R.id.team1);
         teamNumber2SelectedButton = findViewById(R.id.team2);
         teamNumber3SelectedButton = findViewById(R.id.team3);
 
-        Button stuffSelectedButton = findViewById(R.id.selectStuff);
+        stuffSelectedButton = findViewById(R.id.selectStuff);
         stuffSelectedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,20 +155,6 @@ public class Admin extends AppCompatActivity {
                 }
             }
         });
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(TAG);
-        builder.setMessage("Downloading Events We Are In");
-        eventsWeAreInDialog = builder.create();
-
-        builder.setMessage("Downloading Matches for event");
-        matchesDialog = builder.create();
-
-        builder.setMessage("Downloading Team for event");
-        teamsDialog = builder.create();
-
-        builder.setMessage(getResources().getString(R.string.testing_internet));
-        testingInternetDialog = builder.create();
 
         restorePreferences();
         showButtons();
@@ -190,8 +182,8 @@ public class Admin extends AppCompatActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                setEventSpinner();
                                                 eventsWeAreInDialog.dismiss();
+                                                setEventSpinner();
                                             }
                                         });
                                     }
@@ -246,21 +238,9 @@ public class Admin extends AppCompatActivity {
     }
 
     private void showConnectToInternetDialog() {
-        String msg = "NEED to connect to internet";
-        Log.e(TAG, msg);
-        AlertDialog.Builder builder = new AlertDialog.Builder(Admin.this);
-
-        builder.setTitle(TAG);
-        builder.setMessage(msg);
-        builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                finish();
-            }
-        });
-
-        Dialog dialog = builder.create();
+        Dialog dialog = utility.getNegativeButtonDialog(this, TAG,
+                "You NEED to connect to the internet!",
+                "Go Back");
         dialog.show();
     }
 
