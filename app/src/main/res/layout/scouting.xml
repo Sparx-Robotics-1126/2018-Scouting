@@ -27,7 +27,7 @@
                 style="@style/J_basicTextView"
                 android:digits="1234567890"
                 android:maxLength="2"
-                android:textColor="@color/accentColor"
+                android:textColor="@color/accentColor"/>
         </LinearLayout>
 
         <LinearLayout
