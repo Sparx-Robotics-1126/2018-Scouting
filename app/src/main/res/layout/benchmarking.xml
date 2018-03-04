@@ -30,7 +30,7 @@
                     android:digits="1234567890"
                     android:textColorHint="@color/accentColorHint"
                     android:gravity="right"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLength="4"
                     android:textColor="@color/accentColor"
                     android:textSize="@dimen/main_text_size" />
@@ -352,7 +352,7 @@
                     android:hint="How Many (place)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLength="1" />
 
                 <EditText
@@ -361,7 +361,7 @@
                     android:hint="How Many (toss)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLength="1" />
 
             </LinearLayout>
@@ -421,7 +421,7 @@
                     android:hint="How Many (place)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLength="1" />
 
                 <EditText
@@ -430,7 +430,7 @@
                     android:hint="How Many (toss)"
                     android:textColorHint="@color/accentColorHint"
                     android:textColor="@color/accentColor"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLength="1" />
 
             </LinearLayout>

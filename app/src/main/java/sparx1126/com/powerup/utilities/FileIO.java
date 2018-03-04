@@ -123,7 +123,7 @@ public class FileIO {
             String filePath = listOfFile.getPath();
             String fileName = listOfFile.getName();
             if (listOfFile.isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
-                String[] fileNameParts = fileName.split("_.");
+                String[] fileNameParts = fileName.split("[_.]");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
 
                 Log.d(TAG, fileName);

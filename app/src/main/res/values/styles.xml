@@ -162,7 +162,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/main_text_size</item>
         <item name="android:textColor">@color/accentColor</item>
-        <item name="android:inputType">number</item>
+        <item name="android:inputType">numberPassword</item>
         <item name="android:digits">1234567890</item>
         <item name="android:maxLength">4</item>
         <item name="android:hint">00</item>
@@ -177,7 +177,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/main_text_size</item>
         <item name="android:textColor">@color/accentColor</item>
-        <item name="android:inputType">number</item>
+        <item name="android:inputType">numberPassword</item>
         <item name="android:digits">1234567890.</item>
         <item name="android:maxLength">5</item>
         <item name="android:hint">00.00</item>

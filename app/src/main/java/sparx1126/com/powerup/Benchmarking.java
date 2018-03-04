@@ -28,6 +28,8 @@ import java.util.List;
 import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.utilities.DataCollection;
 
+import static android.text.InputType.TYPE_CLASS_TEXT;
+
 public class Benchmarking extends AppCompatActivity {
     private static final String TAG = "Benchmarking ";
 
@@ -153,6 +155,7 @@ public class Benchmarking extends AppCompatActivity {
         teamsInEvent = dataCollection.getTeamsInEvent();
 
         team_number_input = findViewById(R.id.team_number);
+        team_number_input.setTransformationMethod(null);
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, teamsInEvent);
         team_number_input.setAdapter(adapter);
         team_number_input.setThreshold(1);
@@ -208,10 +211,15 @@ public class Benchmarking extends AppCompatActivity {
         customWheel = findViewById(R.id.customWheel);
         customWheel.setVisibility(View.GONE);
         numWheels = findViewById(R.id.numWheels);
+        numWheels.setTransformationMethod(null);
         speed = findViewById(R.id.speed);
+        speed.setTransformationMethod(null);
         height = findViewById(R.id.height);
+        height.setTransformationMethod(null);
         weight = findViewById(R.id.weight);
+        weight.setTransformationMethod(null);
         groundClearance = findViewById(R.id.groundClearance);
+        groundClearance.setTransformationMethod(null);
         rankChoices = findViewById(R.id.rankStartTextView);
         prefGroup = findViewById(R.id.prefStartGroup);
         prefGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -350,8 +358,10 @@ public class Benchmarking extends AppCompatActivity {
         });
         howManySwitchPlaceAuto = findViewById(R.id.howManySwitchPlace);
         howManySwitchPlaceAuto.setVisibility(View.GONE);
+        howManySwitchPlaceAuto.setTransformationMethod(null);
         howManySwitchTossAuto = findViewById(R.id.howManySwitchToss);
         howManySwitchTossAuto.setVisibility(View.GONE);
+        howManySwitchTossAuto.setTransformationMethod(null);
         canScaleAuto = findViewById(R.id.canScoreScaleAuto);
         canScaleAuto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,8 +410,10 @@ public class Benchmarking extends AppCompatActivity {
         });
         howManyScalePlaceAuto = findViewById(R.id.howManyScalePlace);
         howManyScalePlaceAuto.setVisibility(View.GONE);
+        howManyScalePlaceAuto.setTransformationMethod(null);
         howManyScaleTossAuto = findViewById(R.id.howManyScaleToss);
         howManyScaleTossAuto.setVisibility(View.GONE);
+        howManyScaleTossAuto.setTransformationMethod(null);
         pickUpCubesInAuto = findViewById(R.id.pickUpCubesInAuto);
         pickUpCubesInAuto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -540,6 +552,7 @@ public class Benchmarking extends AppCompatActivity {
         howHighText.setVisibility(View.GONE);
         climb_height = findViewById(R.id.climb_height);
         climb_height.setVisibility(View.GONE);
+        climb_height.setTransformationMethod(null);
         attach_robot = findViewById(R.id.attach_robot);
         submit_button = findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
@@ -651,28 +664,30 @@ public class Benchmarking extends AppCompatActivity {
     private void restorePreferences(int teamNumber) {
         BenchmarkData restoreData = dataCollection.getBenchmarkData(teamNumber);
         if (restoreData != null) {
-            String currentDriveType = restoreData.getTypeOfDrive();
-            if (!currentDriveType.isEmpty()) {
-                boolean driveTypeInSpinner = Arrays.asList(driveTypesArray).contains(currentDriveType);
-                if (driveTypeInSpinner) {
-                    int positionInList = 0;
-                    for (int i = 0; i < driveTypesArray.length; i++) {
-                        if (driveTypesArray[i] == currentDriveType) {
-                            positionInList = i;
-                            break;
-                        }
-                    }
-                    driveTypeSpinner.setSelection(positionInList);
-                } else {
-                    driveTypeSpinner.setSelection(driveTypesArray.length - 1);
-                    customDrive.setVisibility(View.VISIBLE);
-                    customDrive.setText(currentDriveType);
-                }
-            }
-
-
+            setStringInSpinner(restoreData.getTypeOfDrive(), driveTypesArray, driveTypeSpinner, customDrive);
+            setStringInSpinner(restoreData.getTypeOfWheel(), wheelTypesArray, wheelTypeSpinner, customWheel);
+            setStringInSpinner(restoreData.getEndClimbAssistType(), climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
         }
+    }
 
+    private void setStringInSpinner(String currentValue, String[] positionArray, Spinner spinner, EditText custom){
+        if (!currentValue.isEmpty()) {
+            boolean inSpinner = Arrays.asList(positionArray).contains(currentValue);
+            if (inSpinner) {
+                int positionInList = 0;
+                for (int i = 0; i < positionArray.length; i++) {
+                    if (positionArray[i].contentEquals(currentValue)) {
+                        positionInList = i;
+                        break;
+                    }
+                }
+                spinner.setSelection(positionInList);
+            } else {
+                spinner.setSelection(positionArray.length - 1);
+                custom.setVisibility(View.VISIBLE);
+                custom.setText(currentValue);
+            }
+        }
     }
 
     private void dismissKeyboard() {
