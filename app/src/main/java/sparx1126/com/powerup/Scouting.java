@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,10 +53,14 @@ public class Scouting extends AppCompatActivity {
     private CheckBox playedDefenseEffectively;
     private RadioButton climbedRung;
     private RadioButton climbedRobot;
+    private RadioGroup assistedGroup;
+    private RadioGroup climbInfoGroup;
     private CheckBox canBeClimbOn;
     private RadioButton held1Robot;
     private RadioButton held2Robot;
+    private CheckBox assistedOthersClimb;
     private CheckBox climbedUnder15Secs;
+    private LinearLayout assistedClimbLayout;
 
 
     private TextWatcher watcher = new TextWatcher() {
@@ -74,7 +80,7 @@ public class Scouting extends AppCompatActivity {
             try {
                 String matchNumberStr = matchNumber.getText().toString();
 
-                for (BlueAllianceMatch match: matchesInEvent.values()) {
+                for (BlueAllianceMatch match : matchesInEvent.values()) {
                     if (match.getMatchNumber().equals(matchNumberStr)) {
                         SparseArray<String> teamKeys;
                         boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
@@ -93,13 +99,18 @@ public class Scouting extends AppCompatActivity {
                         String teamKeyStr = teamKeys.get(pref_TeamPosition);
                         String teamKeyToNumberStr = teamKeyStr.replace("frc", "");
                         teamNumber.setText(teamKeyToNumberStr);
-                        if(matchNumberStr.length() >= 2) {
+                        if (matchNumberStr.length() >= 2) {
                             dismissKeyboard();
                         }
                         int currenteamNumber = Integer.parseInt(teamKeyToNumberStr);
                         int currentMatchNumber =Integer.parseInt(matchNumberStr);
                         restorePreferences(currenteamNumber, currentMatchNumber);
                         scouting_main_layout.setVisibility(View.VISIBLE);
+
+                        break;
+                    } else {
+                        scouting_main_layout.setVisibility(View.INVISIBLE);
+
                     }
                 }
             } catch (Exception e) {
@@ -142,10 +153,42 @@ public class Scouting extends AppCompatActivity {
         playedDefenseEffectively = findViewById(R.id.playeddefensecheck);
         climbedRung = findViewById(R.id.climbRung);
         climbedRobot = findViewById(R.id.climbRobot);
-        canBeClimbOn = findViewById(R.id.climbOn);
-        held1Robot = findViewById(R.id.ClimbOn1);
-        held2Robot = findViewById(R.id.ClimbOn2);
+        assistedGroup = findViewById(R.id.assistedGroup);
+        assistedGroup.setVisibility(View.GONE);
+        climbInfoGroup = findViewById(R.id.climbInfo);
+        canBeClimbOn = findViewById(R.id.assistedClimb);
+        held1Robot = findViewById(R.id.assistedOne);
+        held2Robot = findViewById(R.id.assistedTwo);
+        assistedOthersClimb = findViewById(R.id.assistedClimb);
+
         climbedUnder15Secs = findViewById(R.id.Climb15secs);
+        assistedClimbLayout = findViewById(R.id.assistedClimbLayout);
+        assistedClimbLayout.setVisibility(View.GONE);
+
+        assistedOthersClimb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(assistedGroup.getVisibility() == View.GONE) {
+                    assistedGroup.setVisibility(View.VISIBLE);
+                } else {
+                    assistedGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        climbInfoGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton button = (RadioButton) group.findViewById(checkedId);
+                if (button.isChecked() && button.getId() == R.id.climbRung) {
+                    assistedClimbLayout.setVisibility(View.VISIBLE);
+                } else {
+                    assistedClimbLayout.setVisibility(View.GONE);
+                    assistedOthersClimb.setChecked(false);
+                    assistedGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
         Button submitButton = findViewById(R.id.submitbutton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
