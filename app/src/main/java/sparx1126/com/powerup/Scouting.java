@@ -218,6 +218,29 @@ public class Scouting extends AppCompatActivity {
             }
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
         }
+        else {
+            autoLineCrossed.setChecked(false);
+            autoScoredSwitch.setChecked(false);
+            autoScoredScale.setChecked(false);
+            autoPickedUpCube.setChecked(false);
+            autoCubeExchange.setChecked(false);
+            startingPositionLeft.setChecked(false);
+            startingPositionCenter.setChecked(false);
+            startingPositionRight.setChecked(false);
+            cubesPlacedOnScale.setValue(0);
+            cubesPlacedOnSwitch.setValue(0);
+            cubesAcquiredFromPlayer.setValue(0);
+            cubesPickedUpFromFloor.setValue(0);
+            cubesPlacedInExchange.setValue(0);
+            playedDefenseEffectively.setChecked(false);
+            climbedRung.setChecked(false);
+            climbedRobot.setChecked(false);
+            canBeClimbOn.setChecked(false);
+            climbedUnder15Secs.setChecked(false);
+            held1Robot.setChecked(false);
+            held2Robot.setChecked(false);
+            climbedUnder15Secs.setChecked(false);
+        }
     }
 
     private void dismissKeyboard() {
