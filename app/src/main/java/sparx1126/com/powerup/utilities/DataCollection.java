@@ -1,7 +1,5 @@
 package sparx1126.com.powerup.utilities;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +23,6 @@ public class DataCollection {
     private Map<String, BlueAllianceTeam> eventTeams;
     private Map<String, BlueAllianceMatch> eventMatches;
     private Map<Integer, BlueAllianceMatch> qualificationsMatches;
-    private static FileIO fileIO;
 
     public static synchronized DataCollection getInstance(){
         if(dataCollection == null ) {
@@ -41,7 +38,6 @@ public class DataCollection {
         eventTeams = new HashMap<>();
         eventMatches = new HashMap<>();
         qualificationsMatches = new HashMap<>();
-        fileIO = FileIO.getInstance();
     }
 
     public void setEventTeams(String _data){
@@ -56,7 +52,6 @@ public class DataCollection {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        fileIO.storeEventTeams(_data);
     }
     public Map<String, BlueAllianceTeam> getEventTeams(){
         return eventTeams;
@@ -81,7 +76,6 @@ public class DataCollection {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        fileIO.storeTeamEvents(_data);
     }
     public Map<String, BlueAllianceEvent> getTeamEvents(){
         return teamEvents;
@@ -105,7 +99,6 @@ public class DataCollection {
                 qualificationsMatches.put(Integer.valueOf(match.getMatchNumber()), match);
             }
         }
-        fileIO.storeEventMatches(_data);
     }
     public Map<String, BlueAllianceMatch> getEventMatches() {
         return eventMatches;
@@ -126,7 +119,6 @@ public class DataCollection {
         }
         matchMap.put(matchNumber, _data);
         scoutingDataMap.put(teamNumber, matchMap);
-        fileIO.storeScoutingData(_data.getJsonString(), String.valueOf(teamNumber), String.valueOf(matchNumber));
     }
     public Map<Integer, Map<Integer, ScoutingData>> getScoutingDataMap() {
         return scoutingDataMap;
@@ -152,7 +144,6 @@ public class DataCollection {
     public void addBenchmarkData(BenchmarkData _data){
         Integer teamNumber = _data.getTeamNumber();
         benchmarkDataMap.put(teamNumber, _data);
-        fileIO.storeBenchmarkData(_data.getJsonString(), String.valueOf(teamNumber));
     }
     public Map<Integer, BenchmarkData> getBenchmarkDataMap() {
         return benchmarkDataMap;
@@ -163,38 +154,5 @@ public class DataCollection {
             rtnData = benchmarkDataMap.get(_teamNumber);
         }
         return rtnData;
-    }
-
-    public void restore() {
-        String teamEvents = fileIO.fetchTeamEvents();
-        if (!teamEvents.isEmpty()) {
-            setTeamEvents(teamEvents);
-        }
-
-        String eventTeams = fileIO.fetchEventTeams();
-        if (!eventTeams.isEmpty()) {
-            setEventTeams(eventTeams);
-        }
-
-        String eventMatches = fileIO.fetchEventMatches();
-        if (!eventMatches.isEmpty()) {
-            setEventMatches(eventMatches);
-        }
-
-        Map<Integer, Map<Integer, String>> scoutingDatasByTeamMatchMap = fileIO.fetchScoutingDatas();
-        for(Map<Integer, String> match: scoutingDatasByTeamMatchMap.values()) {
-            for(String data: match.values()) {
-                ScoutingData scoutingData = new ScoutingData();
-                scoutingData.restoreFromJsonString(data);
-                addScoutingData(scoutingData);
-            }
-        }
-
-        Map<Integer, String> benchmarkDatasByTeamMap = fileIO.fetchBenchmarkDatas();
-        for (String data : benchmarkDatasByTeamMap.values()) {
-            BenchmarkData benchmarkData = new BenchmarkData();
-            benchmarkData.restoreFromJsonString(data);
-            addBenchmarkData(benchmarkData);
-        }
     }
 }

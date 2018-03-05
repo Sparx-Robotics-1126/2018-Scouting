@@ -6,15 +6,27 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import java.util.Map;
+
+import sparx1126.com.powerup.data_components.BenchmarkData;
+import sparx1126.com.powerup.data_components.ScoutingData;
+
 public class Utility {
     private static final String TAG = "Utility ";
     private static Utility instance;
+    private static DataCollection dataCollection;
+    private static FileIO fileIO;
 
     public static synchronized Utility getInstance() {
         if (instance == null) {
             instance = new Utility();
         }
         return instance;
+    }
+
+    private Utility() {
+        dataCollection = DataCollection.getInstance();
+        fileIO = FileIO.getInstance();
     }
 
     public Dialog getNoButtonDialog(Context _this, String _title, String _msg) {
@@ -55,6 +67,39 @@ public class Utility {
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         return dialog;
+    }
+
+    public void restore() {
+        String teamEvents = fileIO.fetchTeamEvents();
+        if (!teamEvents.isEmpty()) {
+            dataCollection.setTeamEvents(teamEvents);
+        }
+
+        String eventTeams = fileIO.fetchEventTeams();
+        if (!eventTeams.isEmpty()) {
+            dataCollection.setEventTeams(eventTeams);
+        }
+
+        String eventMatches = fileIO.fetchEventMatches();
+        if (!eventMatches.isEmpty()) {
+            dataCollection.setEventMatches(eventMatches);
+        }
+
+        Map<Integer, Map<Integer, String>> scoutingDatasByTeamMatchMap = fileIO.fetchScoutingDatas();
+        for(Map<Integer, String> match: scoutingDatasByTeamMatchMap.values()) {
+            for(String data: match.values()) {
+                ScoutingData scoutingData = new ScoutingData();
+                scoutingData.restoreFromJsonString(data);
+                dataCollection.addScoutingData(scoutingData);
+            }
+        }
+
+        Map<Integer, String> benchmarkDatasByTeamMap = fileIO.fetchBenchmarkDatas();
+        for (String data : benchmarkDatasByTeamMap.values()) {
+            BenchmarkData benchmarkData = new BenchmarkData();
+            benchmarkData.restoreFromJsonString(data);
+            dataCollection.addBenchmarkData(benchmarkData);
+        }
     }
 }
 

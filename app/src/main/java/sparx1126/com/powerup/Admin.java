@@ -21,6 +21,7 @@ import java.util.Map;
 import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.NetworkStatus;
 import sparx1126.com.powerup.utilities.Utility;
 
@@ -30,6 +31,7 @@ public class Admin extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private static BlueAllianceNetworking blueAlliance;
     private static DataCollection dataCollection;
+    private static FileIO fileIO;
     private static NetworkStatus networkStatus;
     private static Utility utility;
 
@@ -55,6 +57,7 @@ public class Admin extends AppCompatActivity {
         editor = settings.edit();
         blueAlliance = BlueAllianceNetworking.getInstance();
         dataCollection = DataCollection.getInstance();
+        fileIO = FileIO.getInstance();
         networkStatus = NetworkStatus.getInstance();
         utility = Utility.getInstance();
 
@@ -88,6 +91,7 @@ public class Admin extends AppCompatActivity {
                                             @Override
                                             public void handleFinishDownload(String _data) {
                                                 dataCollection.setEventMatches(_data);
+                                                fileIO.storeEventMatches(_data);
                                                 // this needs to run on the ui thread because of ui components in it
                                                 runOnUiThread(new Runnable() {
                                                     @Override
@@ -100,6 +104,7 @@ public class Admin extends AppCompatActivity {
                                                             @Override
                                                             public void handleFinishDownload(String _data) {
                                                                 dataCollection.setEventTeams(_data);
+                                                                fileIO.storeEventTeams(_data);
                                                                 // this needs to run on the ui thread because of ui components in it
                                                                 runOnUiThread(new Runnable() {
                                                                     @Override
@@ -178,6 +183,7 @@ public class Admin extends AppCompatActivity {
                                     @Override
                                     public void handleFinishDownload(String _data) {
                                         dataCollection.setTeamEvents(_data);
+                                        fileIO.storeTeamEvents(_data);
                                         // this needs to run on the ui thread because of ui components in it
                                         runOnUiThread(new Runnable() {
                                             @Override
