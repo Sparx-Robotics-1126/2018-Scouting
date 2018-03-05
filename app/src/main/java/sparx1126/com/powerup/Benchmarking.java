@@ -23,29 +23,29 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.utilities.DataCollection;
-
-import static android.text.InputType.TYPE_CLASS_TEXT;
+import sparx1126.com.powerup.utilities.FileIO;
 
 public class Benchmarking extends AppCompatActivity {
     private static final String TAG = "Benchmarking ";
 
     private static DataCollection dataCollection;
+    private static FileIO fileIO;
     private SharedPreferences settings;
     private List<Integer> teamsInEvent;
+    private String prefStart1;
+    private String prefStart2;
+    private String prefStart3;
     private String[] driveTypesArray;
     private String[] wheelTypesArray;
     private String[] climbAssistTypesArray;
 
-
-
-
     private AutoCompleteTextView team_number_input;
-
-
     private View benchmark_main_layout;
     private Spinner driveTypeSpinner;
     private EditText customDrive;
@@ -64,7 +64,7 @@ public class Benchmarking extends AppCompatActivity {
     private Button chooseAgainButton;
     private CheckBox start_w_cube;
     private CheckBox move_past_line;
-    private CheckBox canSwtichAuto;
+    private CheckBox canSwitchAuto;
     private CheckBox switchPlaceAuto;
     private CheckBox switchTossAuto;
     private EditText howManySwitchPlaceAuto;
@@ -74,10 +74,10 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox scaleTossAuto;
     private EditText howManyScalePlaceAuto;
     private EditText howManyScaleTossAuto;
-    private Button pickUpCubesInAuto;
+    private CheckBox pickUpCubesInAuto;
     private CheckBox fromPortalAuto;
     private CheckBox fromFloorAuto;
-    private CheckBox pickUpCubesInTeleop;
+    private CheckBox pickUpCubesInTeleOp;
     private CheckBox fromPortalTele;
     private CheckBox fromFloorTele;
     private CheckBox deposit_vault;
@@ -97,71 +97,67 @@ public class Benchmarking extends AppCompatActivity {
     private TextView canAssistPrompt;
     private Button submit_button;
 
-    private String prefStart1 = "none";
-    private String prefStart2 = "none";
-    private String prefStart3 = "none";
-
-    private TextWatcher watcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            try {
-                String teamNumberStrg = team_number_input.getText().toString();
-                int teamNumber = Integer.valueOf(teamNumberStrg);
-                boolean teamNumberFound = teamsInEvent.contains(teamNumber);
-                if (teamNumberFound) {
-                    Log.d(TAG, teamNumberStrg);
-                    BenchmarkData data = dataCollection.getBenchmarkData(teamNumber);
-                    if (data != null) {
-                        String msg = "Found Benchmark for " + teamNumber;
-                        Log.e(TAG, msg);
-                        Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
-                    }
-                    View view = findViewById(android.R.id.content).getRootView();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
-                    restorePreferences(teamNumber);
-                    benchmark_main_layout.setVisibility(View.VISIBLE);
-                } else {
-                    benchmark_main_layout.setVisibility(View.INVISIBLE);
-                }
-
-            } catch (Exception e) {
-                Log.e("Problem w/ team # txt", e.toString());
-            }
-
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.benchmarking);
 
         dataCollection = DataCollection.getInstance();
+        fileIO = FileIO.getInstance();
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         teamsInEvent = dataCollection.getTeamsInEvent();
+        prefStart1 = getResources().getString(R.string.none);
+        prefStart2 = getResources().getString(R.string.none);
+        prefStart3 = getResources().getString(R.string.none);
 
         team_number_input = findViewById(R.id.team_number);
         team_number_input.setTransformationMethod(null);
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, teamsInEvent);
         team_number_input.setAdapter(adapter);
         team_number_input.setThreshold(1);
-        team_number_input.addTextChangedListener(watcher);
+        team_number_input.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    String teamNumberStringg = team_number_input.getText().toString();
+                    int teamNumber = Integer.valueOf(teamNumberStringg);
+                    boolean teamNumberFound = teamsInEvent.contains(teamNumber);
+                    if (teamNumberFound) {
+                        Log.d(TAG, teamNumberStringg);
+                        BenchmarkData data = dataCollection.getBenchmarkData(teamNumber);
+                        if (data != null) {
+                            String msg = "Found Benchmark for " + teamNumber;
+                            Log.d(TAG, msg);
+                            Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                        }
+                        View view = findViewById(android.R.id.content).getRootView();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                        restorePreferences(teamNumber);
+                        benchmark_main_layout.setVisibility(View.VISIBLE);
+                    } else {
+                        benchmark_main_layout.setVisibility(View.INVISIBLE);
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Problem w/ team # txt", e.toString());
+                }
+
+            }
+        });
 
         benchmark_main_layout = findViewById(R.id.benchmark_main_layout);
         benchmark_main_layout.setVisibility(View.INVISIBLE);
@@ -225,40 +221,7 @@ public class Benchmarking extends AppCompatActivity {
         prefGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.pref_left:
-                        if (prefStart1.equals("none")) {
-                            prefStart1 = "Left";
-                        } else if (prefStart2.equals("none")) {
-                            prefStart2 = "Left";
-                        } else {
-                            prefStart3 = "Left";
-                        }
-                        prefGroup.removeView(findViewById(R.id.pref_left));
-                        break;
-                    case R.id.pref_center:
-                        if (prefStart1.equals("none")) {
-                            prefStart1 = "Center";
-                        } else if (prefStart2.equals("none")) {
-                            prefStart2 = "Center";
-                        } else {
-                            prefStart3 = "Center";
-                        }
-                        prefGroup.removeView(findViewById(R.id.pref_center));
-                        break;
-                    case R.id.pref_right:
-                        if (prefStart1.equals("none")) {
-                            prefStart1 = "Right";
-                        } else if (prefStart2.equals("none")) {
-                            prefStart2 = "Right";
-                        } else {
-                            prefStart3 = "Right";
-                        }
-                        prefGroup.removeView(findViewById(R.id.pref_right));
-                        break;
-                }
-
-                rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+                setPrefGroup(checkedId);
             }
         });
         pref_left = findViewById(R.id.pref_left);
@@ -269,63 +232,25 @@ public class Benchmarking extends AppCompatActivity {
         chooseAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                prefStart1 = "none";
-                prefStart2 = "none";
-                prefStart3 = "none";
-
-                //removed view so that they come back all in order; fresh start
-                prefGroup.removeView(pref_left);
-                prefGroup.removeView(pref_center);
-                prefGroup.removeView(pref_right);
-                //https://stackoverflow.com/questions/19929295/creating-radiogroup-programmatically
-                prefGroup.addView(pref_left);
-                prefGroup.addView(pref_center);
-                prefGroup.addView(pref_right);
-
-                pref_left.setChecked(false);
-                pref_right.setChecked(false);
-                pref_center.setChecked(false);
-                rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
-
-                //only worked if the button was pressed twice, just copy pasted the code and it works perfectly
-                prefStart1 = "none";
-                prefStart2 = "none";
-                prefStart3 = "none";
-
-                //removed view so that they come back all in order; fresh start
-                prefGroup.removeView(pref_left);
-                prefGroup.removeView(pref_center);
-                prefGroup.removeView(pref_right);
-                //https://stackoverflow.com/questions/19929295/creating-radiogroup-programmatically
-                prefGroup.addView(pref_left);
-                prefGroup.addView(pref_center);
-                prefGroup.addView(pref_right);
-
-                pref_left.setChecked(false);
-                pref_right.setChecked(false);
-                pref_center.setChecked(false);
-                rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+                chooseAgain();
             }
         });
         start_w_cube = findViewById(R.id.start_w_cube);
         move_past_line = findViewById(R.id.move_past_line);
-        canSwtichAuto = findViewById(R.id.canScoreSwitchAuto);
-        canSwtichAuto.setOnClickListener(new View.OnClickListener() {
+        canSwitchAuto = findViewById(R.id.canScoreSwitchAuto);
+        canSwitchAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (switchTossAuto.getVisibility() == View.VISIBLE) {
-                    switchTossAuto.setVisibility(View.GONE);
-                    switchPlaceAuto.setVisibility(View.GONE);
-                    switchTossAuto.setChecked(false);
-                    switchPlaceAuto.setChecked(false);
-                    howManySwitchPlaceAuto.setVisibility(View.GONE);
-                    howManySwitchPlaceAuto.setText("");
-                    howManySwitchTossAuto.setVisibility(View.GONE);
-                    howManySwitchTossAuto.setText("");
-                } else {
+                if (canSwitchAuto.isChecked()) {
                     switchTossAuto.setVisibility(View.VISIBLE);
                     switchPlaceAuto.setVisibility(View.VISIBLE);
+                } else {
+                    switchTossAuto.setChecked(false);
+                    switchPlaceAuto.setChecked(false);
+                    switchTossAuto.setVisibility(View.GONE);
+                    switchPlaceAuto.setVisibility(View.GONE);
+                    howManySwitchPlaceAuto.setVisibility(View.GONE);
+                    howManySwitchTossAuto.setVisibility(View.GONE);
                 }
             }
         });
@@ -334,10 +259,10 @@ public class Benchmarking extends AppCompatActivity {
         switchPlaceAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                howManySwitchPlaceAuto.setText("");
                 if (switchPlaceAuto.isChecked()) {
                     howManySwitchPlaceAuto.setVisibility(View.VISIBLE);
                 } else {
+                    howManySwitchPlaceAuto.setText("");
                     howManySwitchPlaceAuto.setVisibility(View.INVISIBLE);
                 }
             }
@@ -347,10 +272,10 @@ public class Benchmarking extends AppCompatActivity {
         switchTossAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                howManySwitchTossAuto.setText("");
                 if (switchTossAuto.isChecked()) {
                     howManySwitchTossAuto.setVisibility(View.VISIBLE);
                 } else {
+                    howManySwitchTossAuto.setText("");
                     howManySwitchTossAuto.setVisibility(View.INVISIBLE);
                 }
 
@@ -366,18 +291,16 @@ public class Benchmarking extends AppCompatActivity {
         canScaleAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (scaleTossAuto.getVisibility() == View.VISIBLE) {
-                    scaleTossAuto.setVisibility(View.GONE);
-                    scalePlaceAuto.setVisibility(View.GONE);
-                    scaleTossAuto.setChecked(false);
-                    scalePlaceAuto.setChecked(false);
-                    howManyScalePlaceAuto.setVisibility(View.GONE);
-                    howManyScalePlaceAuto.setText("");
-                    howManyScaleTossAuto.setVisibility(View.GONE);
-                    howManyScaleTossAuto.setText("");
-                } else {
+                if (canScaleAuto.isChecked()) {
                     scaleTossAuto.setVisibility(View.VISIBLE);
                     scalePlaceAuto.setVisibility(View.VISIBLE);
+                } else {
+                    scaleTossAuto.setChecked(false);
+                    scalePlaceAuto.setChecked(false);
+                    scaleTossAuto.setVisibility(View.GONE);
+                    scalePlaceAuto.setVisibility(View.GONE);
+                    howManyScalePlaceAuto.setVisibility(View.GONE);
+                    howManyScaleTossAuto.setVisibility(View.GONE);
                 }
             }
         });
@@ -386,10 +309,10 @@ public class Benchmarking extends AppCompatActivity {
         scalePlaceAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                howManyScalePlaceAuto.setText("");
                 if (scalePlaceAuto.isChecked()) {
                     howManyScalePlaceAuto.setVisibility(View.VISIBLE);
                 } else {
+                    howManyScalePlaceAuto.setText("");
                     howManyScalePlaceAuto.setVisibility(View.INVISIBLE);
                 }
             }
@@ -399,10 +322,10 @@ public class Benchmarking extends AppCompatActivity {
         scaleTossAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                howManyScaleTossAuto.setText("");
                 if (scaleTossAuto.isChecked()) {
                     howManyScaleTossAuto.setVisibility(View.VISIBLE);
                 } else {
+                    howManyScaleTossAuto.setText("");
                     howManyScaleTossAuto.setVisibility(View.INVISIBLE);
                 }
 
@@ -418,14 +341,14 @@ public class Benchmarking extends AppCompatActivity {
         pickUpCubesInAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fromPortalAuto.getVisibility() == View.VISIBLE) {
-                    fromPortalAuto.setVisibility(View.GONE);
-                    fromFloorAuto.setVisibility(View.GONE);
-                    fromPortalAuto.setChecked(false);
-                    fromFloorAuto.setChecked(false);
-                } else {
+                if (pickUpCubesInAuto.isChecked()) {
                     fromPortalAuto.setVisibility(View.VISIBLE);
                     fromFloorAuto.setVisibility(View.VISIBLE);
+                } else {
+                    fromPortalAuto.setChecked(false);
+                    fromFloorAuto.setChecked(false);
+                    fromPortalAuto.setVisibility(View.GONE);
+                    fromFloorAuto.setVisibility(View.GONE);
                 }
             }
         });
@@ -433,18 +356,18 @@ public class Benchmarking extends AppCompatActivity {
         fromPortalAuto.setVisibility(View.GONE);
         fromFloorAuto = findViewById(R.id.fromFloor);
         fromFloorAuto.setVisibility(View.GONE);
-        pickUpCubesInTeleop = findViewById(R.id.pickUpCubesInTeleop);
-        pickUpCubesInTeleop.setOnClickListener(new View.OnClickListener() {
+        pickUpCubesInTeleOp = findViewById(R.id.pickUpCubesInTeleop);
+        pickUpCubesInTeleOp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fromPortalTele.getVisibility() == View.VISIBLE) {
+                if (pickUpCubesInTeleOp.isChecked()) {
+                    fromPortalTele.setVisibility(View.VISIBLE);
+                    fromFloorTele.setVisibility(View.VISIBLE);
+                } else {
                     fromPortalTele.setVisibility(View.GONE);
                     fromFloorTele.setVisibility(View.GONE);
                     fromPortalTele.setChecked(false);
                     fromFloorTele.setChecked(false);
-                } else {
-                    fromPortalTele.setVisibility(View.VISIBLE);
-                    fromFloorTele.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -457,14 +380,14 @@ public class Benchmarking extends AppCompatActivity {
         scoreSwitchTele.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (switchTossTele.getVisibility() == View.VISIBLE) {
+                if (scoreSwitchTele.isChecked()) {
+                    switchTossTele.setVisibility(View.VISIBLE);
+                    switchPlaceTele.setVisibility(View.VISIBLE);
+                } else {
                     switchTossTele.setVisibility(View.GONE);
                     switchPlaceTele.setVisibility(View.GONE);
                     switchTossTele.setChecked(false);
                     switchPlaceTele.setChecked(false);
-                } else {
-                    switchTossTele.setVisibility(View.VISIBLE);
-                    switchPlaceTele.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -476,14 +399,14 @@ public class Benchmarking extends AppCompatActivity {
         scoreScaleTele.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (scaleTossTele.getVisibility() == View.VISIBLE) {
+                if(scoreScaleTele.isChecked()) {
+                    scaleTossTele.setVisibility(View.VISIBLE);
+                    scalePlaceTele.setVisibility(View.VISIBLE);
+                } else {
                     scaleTossTele.setVisibility(View.GONE);
                     scalePlaceTele.setVisibility(View.GONE);
                     scaleTossTele.setChecked(false);
                     scalePlaceTele.setChecked(false);
-                } else {
-                    scaleTossTele.setVisibility(View.VISIBLE);
-                    scalePlaceTele.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -498,7 +421,7 @@ public class Benchmarking extends AppCompatActivity {
         canAssist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (climbAssistTypeSpinner.getVisibility() == View.GONE) {
+                if (canAssist.isChecked()) {
                     climbAssistTypeSpinner.setVisibility(View.VISIBLE);
                 } else {
                     climbAssistTypeSpinner.setVisibility(View.GONE);
@@ -510,7 +433,7 @@ public class Benchmarking extends AppCompatActivity {
         climb_rung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (howHighText.getVisibility() == View.GONE) {
+                if (climb_rung.isChecked()) {
                     canAssist.setVisibility(View.VISIBLE);
                     canAssistPrompt.setVisibility(View.VISIBLE);
                     climb_height.setVisibility(View.VISIBLE);
@@ -567,14 +490,14 @@ public class Benchmarking extends AppCompatActivity {
                 if (driveType.equals(getResources().getString(R.string.other))) {
                     data.setTypeOfDrive(customDrive.getText().toString());
                 }
-                else if (!driveType.equals(getResources().getString(R.string.selectType))) {
+                else if (!driveType.contains(getResources().getString(R.string.selectType))) {
                     data.setTypeOfDrive(driveType);
                 }
                 String wheelType = wheelTypesArray[wheelTypeSpinner.getSelectedItemPosition()];
                 if (wheelType.equals(getResources().getString(R.string.other))) {
                     data.setTypeOfWheel(customWheel.getText().toString());
                 }
-                else if (!wheelType.equals(getResources().getString(R.string.selectType))) {
+                else if (!wheelType.contains(getResources().getString(R.string.selectType))) {
                     data.setTypeOfWheel(wheelType);
                 }
                 String NumWheelsString = numWheels.getText().toString();
@@ -642,7 +565,7 @@ public class Benchmarking extends AppCompatActivity {
                 if (climbAssistType.equals(getResources().getString(R.string.other))) {
                     data.setEndClimbAssistType(customClimbAssist.getText().toString());
                 }
-                else if (!climbAssistType.equals(getResources().getString(R.string.selectType))) {
+                else if (!climbAssistType.contains(getResources().getString(R.string.selectType))) {
                     data.setEndClimbAssistType(climbAssistType);
                 }
 
@@ -653,6 +576,7 @@ public class Benchmarking extends AppCompatActivity {
                 data.setEndClimbOnRobot(attach_robot.isChecked());
 
                 dataCollection.addBenchmarkData(data);
+                fileIO.storeBenchmarkData(data.getJsonString(), team_number_input.getText().toString());
                 String msg = "Data Stored";
                 Log.d(TAG, msg);
                 Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
@@ -661,16 +585,189 @@ public class Benchmarking extends AppCompatActivity {
         });
     }
 
+    private void setPrefGroup(int _checkedId) {
+        switch (_checkedId) {
+            case R.id.pref_left:
+                if (prefStart1.equals(getResources().getString(R.string.none))) {
+                    prefStart1 = getResources().getString(R.string.Left);
+                } else if (prefStart2.equals(getResources().getString(R.string.none))) {
+                    prefStart2 = getResources().getString(R.string.Left);
+                } else if (prefStart3.equals(getResources().getString(R.string.none))) {
+                    prefStart3 = getResources().getString(R.string.Left);
+                }
+                prefGroup.removeView(findViewById(R.id.pref_left));
+                break;
+            case R.id.pref_center:
+                if (prefStart1.equals(getResources().getString(R.string.none))) {
+                    prefStart1 = getResources().getString(R.string.Center);
+                } else if (prefStart2.equals(getResources().getString(R.string.none))) {
+                    prefStart2 = getResources().getString(R.string.Center);
+                } else if (prefStart3.equals(getResources().getString(R.string.none))) {
+                    prefStart3 = getResources().getString(R.string.Center);
+                }
+                prefGroup.removeView(findViewById(R.id.pref_center));
+                break;
+            case R.id.pref_right:
+                if (prefStart1.equals(getResources().getString(R.string.none))) {
+                    prefStart1 = getResources().getString(R.string.Right);
+                } else if (prefStart2.equals(getResources().getString(R.string.none))) {
+                    prefStart2 = getResources().getString(R.string.Right);
+                } else if (prefStart3.equals(getResources().getString(R.string.none))) {
+                    prefStart3 = getResources().getString(R.string.Right);
+                }
+                prefGroup.removeView(findViewById(R.id.pref_right));
+                break;
+        }
+
+        rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        chooseAgainButton.setVisibility(View.VISIBLE);
+    }
+
+    private  void chooseAgain() {
+        prefStart1 = getResources().getString(R.string.none);
+        prefStart2 = getResources().getString(R.string.none);
+        prefStart3 = getResources().getString(R.string.none);
+        rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        pref_left.setChecked(false);
+        pref_right.setChecked(false);
+        pref_center.setChecked(false);
+
+        //removed view so that they come back all in order; fresh start
+        prefGroup.removeView(pref_left);
+        prefGroup.removeView(pref_center);
+        prefGroup.removeView(pref_right);
+        //https://stackoverflow.com/questions/19929295/creating-radiogroup-programmatically
+        prefGroup.addView(pref_left);
+        prefGroup.addView(pref_center);
+        prefGroup.addView(pref_right);
+
+        chooseAgainButton.setVisibility(View.GONE);
+    }
+
+    void restorePrefStart(String _prefStart) {
+        if(_prefStart.equals(getResources().getString(R.string.Left))) {
+            setPrefGroup(R.id.pref_left);
+        }
+        else if(_prefStart.equals(getResources().getString(R.string.Center))) {
+            setPrefGroup(R.id.pref_center);
+        }
+        else if(_prefStart.equals(getResources().getString(R.string.Right))) {
+            setPrefGroup(R.id.pref_right);
+        }
+    }
+
     private void restorePreferences(int teamNumber) {
-        BenchmarkData restoreData = dataCollection.getBenchmarkData(teamNumber);
-        if (restoreData != null) {
-            setStringInSpinner(restoreData.getTypeOfDrive(), driveTypesArray, driveTypeSpinner, customDrive);
-            setStringInSpinner(restoreData.getTypeOfWheel(), wheelTypesArray, wheelTypeSpinner, customWheel);
-            setStringInSpinner(restoreData.getEndClimbAssistType(), climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
+        BenchmarkData data = dataCollection.getBenchmarkData(teamNumber);
+        if (data != null) {
+            setStringInSpinner(data.getTypeOfDrive(), driveTypesArray, driveTypeSpinner, customDrive);
+            setStringInSpinner(data.getTypeOfWheel(), wheelTypesArray, wheelTypeSpinner, customWheel);
+            numWheels.setText(String.valueOf(data.getNumberOfWheels()));
+            speed.setText(String.valueOf(data.getSpeed()));
+            height.setText(String.valueOf(data.getHeight()));
+            weight.setText(String.valueOf(data.getWeight()));
+            groundClearance.setText(String.valueOf(data.getGroundClearance()));
+            chooseAgain();
+            prefStart1 = data.getPreferedStartOne();
+            prefStart2 = data.getPreferedStartTwo();
+            prefStart3 = data.getPreferedStartThree();
+            restorePrefStart(prefStart1);
+            restorePrefStart(prefStart2);
+            restorePrefStart(prefStart3);
+            start_w_cube.setChecked(data.isCanStartWithCube());
+            move_past_line.setChecked(data.isAutoCrossLine());
+            howManySwitchPlaceAuto.setText(String.valueOf(data.getHowManyScoreSwitchPlaced()));
+            howManySwitchTossAuto.setText(String.valueOf(data.getHowManyScoreSwitchTossed()));
+            Map<CheckBox, EditText> canSwitchAutoChildren = new HashMap<>();
+            canSwitchAutoChildren.put(switchPlaceAuto, howManySwitchPlaceAuto);
+            canSwitchAutoChildren.put(switchTossAuto, howManySwitchTossAuto);
+            setVisibililtyOfGroup(canSwitchAuto, canSwitchAutoChildren);
+            howManyScalePlaceAuto.setText(String.valueOf(data.getHowManyScoreScalePlaced()));
+            howManyScaleTossAuto.setText(String.valueOf(data.getHowManyScoreScaleTossed()));
+            Map<CheckBox, EditText> canScaleAutoChildren = new HashMap<>();
+            canScaleAutoChildren.put(scalePlaceAuto, howManyScalePlaceAuto);
+            canScaleAutoChildren.put(scaleTossAuto, howManyScaleTossAuto);
+            setVisibililtyOfGroup(canScaleAuto, canScaleAutoChildren);
+            fromPortalAuto.setChecked(data.isAutoAcquirePortal());
+            fromFloorAuto.setChecked(data.isAutoAcquireFloor());
+            pickUpCubesInAuto.setChecked(fromPortalAuto.isChecked() || fromFloorAuto.isChecked());
+            pickUpCubesInAuto.callOnClick();
+            fromPortalTele.setChecked(data.isTeleAcquirePortal());
+            fromFloorTele.setChecked(data.isTeleAcquireFloor());
+            pickUpCubesInTeleOp.setChecked(fromPortalTele.isChecked() || fromFloorTele.isChecked());
+            pickUpCubesInTeleOp.callOnClick();
+            deposit_vault.setChecked(data.isTeleDepositVault());
+            switchPlaceTele.setChecked(data.isTelePlaceOnSwitch());
+            switchTossTele.setChecked(data.isTeleTossToSwitch());
+            scoreSwitchTele.setChecked(switchPlaceTele.isChecked() || switchTossTele.isChecked());
+            scoreSwitchTele.callOnClick();
+            scalePlaceTele.setChecked(data.isTelePlaceOnScale());
+            scaleTossTele.setChecked(data.isTeleTossToScale());
+            scoreScaleTele.setChecked(scalePlaceTele.isChecked() || scaleTossTele.isChecked());
+            scoreScaleTele.callOnClick();
+            climb_rung.setChecked(data.isEndClimbRung());
+            climb_rung.callOnClick();
+            if (!data.getEndClimbAssistType().isEmpty()) {
+                canAssist.setChecked(true);
+                canAssist.callOnClick();
+            }
+            setStringInSpinner(data.getEndClimbAssistType(), climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
+            climb_height.setText(String.valueOf(data.getEndClimbHeight()));
+            attach_robot.setChecked(data.isEndClimbOnRobot());
+        }
+        else {
+            setStringInSpinner("", driveTypesArray, driveTypeSpinner, customDrive);
+            setStringInSpinner("", wheelTypesArray, wheelTypeSpinner, customWheel);
+            numWheels.setText("");
+            speed.setText("");
+            height.setText("");
+            weight.setText("");
+            groundClearance.setText("");
+            chooseAgain();
+            start_w_cube.setChecked(false);
+            move_past_line.setChecked(false);
+            howManySwitchPlaceAuto.setText("");
+            howManySwitchTossAuto.setText("");
+            Map<CheckBox, EditText> canSwitchAutoChildren = new HashMap<>();
+            canSwitchAutoChildren.put(switchPlaceAuto, howManySwitchPlaceAuto);
+            canSwitchAutoChildren.put(switchTossAuto, howManySwitchTossAuto);
+            setVisibililtyOfGroup(canSwitchAuto, canSwitchAutoChildren);
+            howManyScalePlaceAuto.setText("");
+            howManyScaleTossAuto.setText("");
+            Map<CheckBox, EditText> canScaleAutoChildren = new HashMap<>();
+            canScaleAutoChildren.put(scalePlaceAuto, howManyScalePlaceAuto);
+            canScaleAutoChildren.put(scaleTossAuto, howManyScaleTossAuto);
+            setVisibililtyOfGroup(canScaleAuto, canScaleAutoChildren);
+            fromPortalAuto.setChecked(false);
+            fromFloorAuto.setChecked(false);
+            pickUpCubesInAuto.setChecked(false);
+            pickUpCubesInAuto.callOnClick();
+            fromPortalTele.setChecked(false);
+            fromFloorTele.setChecked(false);
+            pickUpCubesInTeleOp.setChecked(false);
+            pickUpCubesInTeleOp.callOnClick();
+            deposit_vault.setChecked(false);
+            switchPlaceTele.setChecked(false);
+            switchTossTele.setChecked(false);
+            scoreSwitchTele.setChecked(false);
+            scoreSwitchTele.callOnClick();
+            scalePlaceTele.setChecked(false);
+            scaleTossTele.setChecked(false);
+            scoreScaleTele.setChecked(false);
+            scoreScaleTele.callOnClick();
+            climb_rung.setChecked(false);
+            climb_rung.callOnClick();
+            canAssist.setChecked(false);
+            canAssist.callOnClick();
+            setStringInSpinner("", climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
+            climb_height.setText("");
+            attach_robot.setChecked(false);
         }
     }
 
     private void setStringInSpinner(String currentValue, String[] positionArray, Spinner spinner, EditText custom){
+        spinner.setSelection(0);
+        custom.setText("");
+        customDrive.setVisibility(View.GONE);
         if (!currentValue.isEmpty()) {
             boolean inSpinner = Arrays.asList(positionArray).contains(currentValue);
             if (inSpinner) {
@@ -684,35 +781,20 @@ public class Benchmarking extends AppCompatActivity {
                 spinner.setSelection(positionInList);
             } else {
                 spinner.setSelection(positionArray.length - 1);
-                custom.setVisibility(View.VISIBLE);
                 custom.setText(currentValue);
+                customDrive.setVisibility(View.VISIBLE);
             }
         }
     }
 
-    private void dismissKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    private void setVisibililtyOfGroup(CheckBox _parent, Map<CheckBox, EditText> _children) {
+        for(Map.Entry<CheckBox, EditText> entry: _children.entrySet()) {
+            if(!entry.getValue().getText().toString().isEmpty()) {
+                _parent.setChecked(true);
+                _parent.callOnClick();
+                entry.getKey().setChecked(true);
+                entry.getKey().callOnClick();
             }
         }
-    }
-
-    //https://ubuntuforums.org/showthread.php?t=752729
-    public int numTimesRegex(String str, String findStr) {
-        int lastIndex = 0;
-        int count = 0;
-
-        while (lastIndex != -1) {
-
-            lastIndex = str.indexOf(findStr, lastIndex);
-
-            if (lastIndex != -1) {
-                count++;
-            }
-        }
-        return count;
     }
 }

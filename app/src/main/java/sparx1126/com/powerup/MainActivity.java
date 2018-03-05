@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
         }
-        dataCollection.restore();
+        utility.restore();
     }
 
     @Override

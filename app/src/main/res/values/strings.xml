@@ -10,6 +10,10 @@
     <string name="testing_internet">Wait a moment. Testing internet...</string>
     <string name="selectType">Select Type</string>
     <string name="other">Other</string>
+    <string name="none">none</string>
+    <string name="Left">Left</string>
+    <string name="Center">Center</string>
+    <string name="Right">Right</string>
     <string-array name="students">
         <item>Michael Anderson</item>
         <item>Tyler Armstrong</item>
@@ -63,7 +67,7 @@
         <item>Jaren Cascino</item>
     </string-array>
     <string-array name="driveTypes">
-        <item>@string/selectType</item>
+        <item>Select Type of Drive</item>
         <item>Tank</item>
         <item>Mecanum</item>
         <item>Swerve</item>
@@ -71,7 +75,7 @@
         <item>@string/other</item>
     </string-array>
     <string-array name="wheelTypes">
-        <item>@string/selectType</item>
+        <item>Select Type of Wheels</item>
         <item>Traction Narrow</item>
         <item>Traction Wide</item>
         <item>Omni</item>
@@ -80,7 +84,7 @@
         <item>@string/other</item>
     </string-array>
     <string-array name="climbAssistTypes">
-        <item>@string/selectType</item>
+        <item>Select Type of Drive Climb Assist</item>
         <item>Rungs</item>
         <item>Ramp / Platform</item>
         <item>Forklift</item>

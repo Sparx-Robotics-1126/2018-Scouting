@@ -120,14 +120,13 @@ public class FileIO {
         File[] listOfFiles = dir.listFiles();
 
         for (File listOfFile : listOfFiles) {
-            String filePath = listOfFile.getPath();
             String fileName = listOfFile.getName();
             if (listOfFile.isFile() && fileName.contains(BENCHMARK_DATA_HEADER)) {
                 String[] fileNameParts = fileName.split("[_.]");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
 
                 Log.d(TAG, fileName);
-                String data = fetchData(filePath);
+                String data = fetchData(fileName);
                 rtnObj.put(team, data);
             }
         }

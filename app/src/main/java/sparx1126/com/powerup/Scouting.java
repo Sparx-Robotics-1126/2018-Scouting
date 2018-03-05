@@ -25,11 +25,13 @@ import sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout;
 import sparx1126.com.powerup.data_components.BlueAllianceMatch;
 import sparx1126.com.powerup.data_components.ScoutingData;
 import sparx1126.com.powerup.utilities.DataCollection;
+import sparx1126.com.powerup.utilities.FileIO;
 
 public class Scouting extends AppCompatActivity {
     private static final String TAG = "Scouting ";
 
     private static DataCollection dataCollection;
+    private static FileIO fileIO;
     private SharedPreferences settings;
     Map<Integer, BlueAllianceMatch> matchesInEvent;
 
@@ -62,76 +64,74 @@ public class Scouting extends AppCompatActivity {
     private CheckBox climbedUnder15Secs;
     private LinearLayout assistedClimbLayout;
 
-
-    private TextWatcher watcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            try {
-                String matchNumberStr = matchNumber.getText().toString();
-
-                for (BlueAllianceMatch match : matchesInEvent.values()) {
-                    if (match.getMatchNumber().equals(matchNumberStr)) {
-                        SparseArray<String> teamKeys;
-                        boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
-                        if (pref_BlueAlliance) {
-                            teamKeys = match.getBlueTeamKeys();
-                            allianceColor.setText("Blue Alliance");
-                            allianceColor.setTextColor(Color.BLUE);
-                        } else {
-                            teamKeys = match.getRedTeamKeys();
-                            allianceColor.setText("Red Alliance");
-                            allianceColor.setTextColor(Color.RED);
-                        }
-
-                        int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 0);
-
-                        String teamKeyStr = teamKeys.get(pref_TeamPosition);
-                        String teamKeyToNumberStr = teamKeyStr.replace("frc", "");
-                        teamNumber.setText(teamKeyToNumberStr);
-                        if (matchNumberStr.length() >= 2) {
-                            dismissKeyboard();
-                        }
-                        int currenteamNumber = Integer.parseInt(teamKeyToNumberStr);
-                        int currentMatchNumber =Integer.parseInt(matchNumberStr);
-                        restorePreferences(currenteamNumber, currentMatchNumber);
-                        scouting_main_layout.setVisibility(View.VISIBLE);
-
-                        break;
-                    } else {
-                        scouting_main_layout.setVisibility(View.INVISIBLE);
-
-                    }
-                }
-            } catch (Exception e) {
-                Log.e("Problem w/ match # txt", e.toString());
-            }
-
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scouting);
 
         dataCollection = DataCollection.getInstance();
+        fileIO = FileIO.getInstance();
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         matchesInEvent = dataCollection.getQualificationMatches();
 
         matchNumber = findViewById(R.id.matchNumInput);
         matchNumber.setTransformationMethod(null);
-        matchNumber.addTextChangedListener(watcher);
+        matchNumber.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    String matchNumberStr = matchNumber.getText().toString();
+
+                    for (BlueAllianceMatch match : matchesInEvent.values()) {
+                        if (match.getMatchNumber().equals(matchNumberStr)) {
+                            SparseArray<String> teamKeys;
+                            boolean pref_BlueAlliance = settings.getBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
+                            if (pref_BlueAlliance) {
+                                teamKeys = match.getBlueTeamKeys();
+                                allianceColor.setText("Blue Alliance");
+                                allianceColor.setTextColor(Color.BLUE);
+                            } else {
+                                teamKeys = match.getRedTeamKeys();
+                                allianceColor.setText("Red Alliance");
+                                allianceColor.setTextColor(Color.RED);
+                            }
+
+                            int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 0);
+
+                            String teamKeyStr = teamKeys.get(pref_TeamPosition);
+                            String teamKeyToNumberStr = teamKeyStr.replace("frc", "");
+                            teamNumber.setText(teamKeyToNumberStr);
+                            if (matchNumberStr.length() >= 2) {
+                                dismissKeyboard();
+                            }
+                            int currenteamNumber = Integer.parseInt(teamKeyToNumberStr);
+                            int currentMatchNumber =Integer.parseInt(matchNumberStr);
+                            restorePreferences(currenteamNumber, currentMatchNumber);
+                            scouting_main_layout.setVisibility(View.VISIBLE);
+
+                            break;
+                        } else {
+                            scouting_main_layout.setVisibility(View.INVISIBLE);
+
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("Problem w/ match # txt", e.toString());
+                }
+
+            }
+        });
 
         scouting_main_layout = findViewById(R.id.scouting_main_layout);
         scouting_main_layout.setVisibility(View.INVISIBLE);
@@ -224,6 +224,7 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setClimbedUnder15Secs(climbedUnder15Secs.isChecked());
 
                 dataCollection.addScoutingData(scoutingData);
+                fileIO.storeScoutingData(scoutingData.getJsonString(), teamNumber.getText().toString(), matchNumber.getText().toString());
                 String msg = "Data Stored";
                 Log.d(TAG, msg);
                 Toast.makeText(Scouting.this, TAG + msg, Toast.LENGTH_LONG).show();
