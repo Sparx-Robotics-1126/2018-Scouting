@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -38,11 +41,82 @@ public class MainActivity extends AppCompatActivity {
     private Dialog testingInternetDialog;
     private AutoCompleteTextView studentNameAutoTextView;
     private Button loginButton;
+    private TextView password;
+    private boolean rightPassword = false;
+
+    private TextWatcher watcherName = new TextWatcher() {
+
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            try {
+                String studentName = studentNameAutoTextView.getText().toString();
+                if(     studentName.equals("Jaret Mongeon") ||
+                        studentName.equals("Jack Griebel") ||
+                        studentName.equals("Michael Geraci") ||
+                        studentName.equals("Jaren Cascino") ||
+                        studentName.equals("Felix Huang")) {
+                    password.setVisibility(View.VISIBLE);
+                } else {
+                    password.setVisibility(View.GONE);
+                    rightPassword = true;
+                    password.setText("");
+                }
+            } catch (Exception e) {
+
+            }
+
+        }
+    };
+
+
+    private TextWatcher watcherPassword = new TextWatcher() {
+
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            try {
+                String passwordAttempt = password.getText().toString();
+                if(passwordAttempt.equals("mech sucks")) {
+                    rightPassword = true;
+                } else {
+                    rightPassword = false;
+                }
+            } catch (Exception e) {
+
+            }
+
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        password = findViewById(R.id.studentPassword);
+        password.setText("");
+        password.setVisibility(View.GONE);
+        password.addTextChangedListener(watcherPassword);
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         editor = settings.edit();
@@ -76,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        studentNameAutoTextView.addTextChangedListener(watcherName);
 
         loginButton = findViewById(R.id.logInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String studentName = studentNameAutoTextView.getText().toString();
                 boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
-                if (studentNameFound) {
+                if (studentNameFound && rightPassword) {
                     Log.d(TAG, studentName);
                     editor.putString(getResources().getString(R.string.pref_scouter), studentName);
                     editor.apply();
@@ -95,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         tryConnectToGoogleDrive();
         restorePreferences();
