@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
-import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.NetworkStatus;
@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int GOOGLE_REQUEST_CODE_SIGN_IN = 0;
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
-    private static DataCollection dataCollection;
     private static GoogleDriveNetworking googleDrive;
     private static NetworkStatus networkStatus;
     private static Utility utility;
@@ -40,88 +39,17 @@ public class MainActivity extends AppCompatActivity {
     private String[] studentList;
     private Dialog testingInternetDialog;
     private AutoCompleteTextView studentNameAutoTextView;
-    private Button loginButton;
     private TextView password;
-    private boolean rightPassword = false;
-
-    private TextWatcher watcherName = new TextWatcher() {
-
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            try {
-                String studentName = studentNameAutoTextView.getText().toString();
-                if(     studentName.equals("Jaret Mongeon") ||
-                        studentName.equals("Jack Griebel") ||
-                        studentName.equals("Michael Geraci") ||
-                        studentName.equals("Jaren Cascino") ||
-                        studentName.equals("Felix Huang")) {
-                    password.setVisibility(View.VISIBLE);
-                } else {
-                    password.setVisibility(View.GONE);
-                    rightPassword = true;
-                    password.setText("");
-                }
-            } catch (Exception e) {
-
-            }
-
-        }
-    };
-
-
-    private TextWatcher watcherPassword = new TextWatcher() {
-
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            try {
-                String passwordAttempt = password.getText().toString();
-                if(passwordAttempt.equals("mech sucks")) {
-                    rightPassword = true;
-                } else {
-                    rightPassword = false;
-                }
-            } catch (Exception e) {
-
-            }
-
-        }
-    };
-
+    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        password = findViewById(R.id.studentPassword);
-        password.setText("");
-        password.setVisibility(View.GONE);
-        password.addTextChangedListener(watcherPassword);
-
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         editor = settings.edit();
 
-        dataCollection = DataCollection.getInstance();
         FileIO fileIO = FileIO.getInstance();
         // This is done only once here in MainActivity
         fileIO.InitializeStorage(this);
@@ -141,16 +69,13 @@ public class MainActivity extends AppCompatActivity {
         studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                View currentFocussedView = MainActivity.this.getCurrentFocus();
-                if (currentFocussedView != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if(imm != null) {
-                        imm.hideSoftInputFromWindow(currentFocussedView.getWindowToken(), 0);
-                    }
-                }
+                studentNameItemSelected();
             }
         });
-        studentNameAutoTextView.addTextChangedListener(watcherName);
+
+        password = findViewById(R.id.studentPassword);
+        password.setTransformationMethod(new PasswordTransformationMethod());
+        password.setVisibility(View.GONE);
 
         loginButton = findViewById(R.id.logInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -158,19 +83,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String studentName = studentNameAutoTextView.getText().toString();
                 boolean studentNameFound = Arrays.asList(studentList).contains(studentName);
-                if (studentNameFound && rightPassword) {
-                    Log.d(TAG, studentName);
-                    editor.putString(getResources().getString(R.string.pref_scouter), studentName);
-                    editor.apply();
-                    Intent intent = new Intent(MainActivity.this, Directory.class);
-                    startActivity(intent);
+                if (studentNameFound) {
+                    String passwordAttempt = password.getText().toString();
+                    if (passwordAttempt.equals(getResources().getString(R.string.password))) {
+                        Intent intent = new Intent(MainActivity.this, Directory.class);
+                        startActivity(intent);
+                    } else {
+                        String msg = "Wrong password!";
+                        Log.e(TAG, msg);
+                        Toast.makeText(MainActivity.this, TAG + msg, Toast.LENGTH_LONG).show();
+                    }
+
                 }
                 else {
                     Log.e(TAG, "Student name not selected!");
                 }
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         tryConnectToGoogleDrive();
         restorePreferences();
@@ -214,13 +148,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restorePreferences() {
+        utility.restore();
         String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
         if (!scouterName.isEmpty()) {
-            Log.d(TAG, scouterName);
             studentNameAutoTextView.setText(scouterName);
             studentNameAutoTextView.dismissDropDown();
+            studentNameItemSelected();
         }
-        utility.restore();
+    }
+
+    private void studentNameItemSelected() {
+        String studentName = studentNameAutoTextView.getText().toString();
+        Log.d(TAG, studentName);
+        editor.putString(getResources().getString(R.string.pref_scouter), studentName);
+        editor.apply();
+        String[] adminList = getResources().getStringArray(R.array.admins);
+        boolean adminNameFound = Arrays.asList(adminList).contains(studentName);
+        if (adminNameFound) {
+            password.setText("");
+            password.setVisibility(View.VISIBLE);
+        } else {
+            password.setText(getResources().getString(R.string.password));
+            password.setVisibility(View.GONE);
+        }
+        dismissKeyboard();
+    }
+
+    private void dismissKeyboard() {
+        View currentFocussedView = MainActivity.this.getCurrentFocus();
+        if (currentFocussedView != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(imm != null) {
+                imm.hideSoftInputFromWindow(currentFocussedView.getWindowToken(), 0);
+            }
+        }
     }
 
     @Override
