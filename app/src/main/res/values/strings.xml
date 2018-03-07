@@ -14,6 +14,7 @@
     <string name="Left">Left</string>
     <string name="Center">Center</string>
     <string name="Right">Right</string>
+    <string name="password">gosparx</string>
     <string-array name="students">
         <item>Michael Anderson</item>
         <item>Tyler Armstrong</item>
