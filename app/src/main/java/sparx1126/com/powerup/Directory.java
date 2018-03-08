@@ -18,11 +18,11 @@ public class Directory extends AppCompatActivity {
     private SharedPreferences settings;
     private static Utility utility;
 
+    private Button admin;
     private LinearLayout normalButtons;
     private Button view;
     private Button scouting;
     private Button benchmarking;
-    private Button admin;
     private Button checklist;
 
     @Override
@@ -32,6 +32,17 @@ public class Directory extends AppCompatActivity {
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         utility = Utility.getInstance();
+
+        admin =findViewById(R.id.admin);
+        admin.setOnClickListener(new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                Intent intent = new Intent(Directory.this, Admin.class);
+                startActivity(intent);
+            }
+        });
+        admin.setVisibility(android.view.View.INVISIBLE);
 
         normalButtons = findViewById(R.id.normal_buttons);
 
@@ -64,17 +75,6 @@ public class Directory extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        admin =findViewById(R.id.admin);
-        admin.setOnClickListener(new android.view.View.OnClickListener() {
-
-            @Override
-            public void onClick(android.view.View view) {
-                Intent intent = new Intent(Directory.this, Admin.class);
-                startActivity(intent);
-            }
-        });
-        admin.setVisibility(android.view.View.INVISIBLE);
 
         checklist = findViewById(R.id.checklist);
         checklist.setOnClickListener(new android.view.View.OnClickListener() {

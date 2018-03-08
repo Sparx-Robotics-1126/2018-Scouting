@@ -2,43 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/normal_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <Button
-        android:id="@+id/benchmark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Benchmark" />
-
-    <Button
-        android:id="@+id/checklist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Checklist" />
-
-    <Button
-        android:id="@+id/scouting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Scouting" />
-
-    <Button
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View" />
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Admin" />
+
+    <LinearLayout
+        android:id="@+id/normal_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/benchmark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Benchmark" />
+
+        <Button
+            android:id="@+id/checklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Checklist" />
+
+        <Button
+            android:id="@+id/scouting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scouting" />
+
+        <Button
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -24,7 +24,7 @@
             android:layout_height="50dp"
             android:background="@drawable/my_btn_toggle"
             android:text="Toggle Button"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/white"
             android:textOff="Red Alliance"
             android:textOn="Blue Alliance" />
 

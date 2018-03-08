@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sparxRedDark">#05063e</color>
-    <color name="sparxRedMedium">#B41000</color>
-    <color name="sparxRedOne">#D50000</color>
-    <color name="sparxRedLight">#DB0000</color>
-    <color name="colorAccent">#40acff</color>
     <color name="black">#000000</color>
-    <color name="sparxRedVeryLight">#FF0000</color>
-    <color name="benchmarking_secondary_color">@color/sparxRedMedium</color>
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="Blue">#0000FF</color>
-    <color name="gray_on_red">#957070</color>
+    <color name="blue">#0000FF</color>
+    <color name="red">#D50000</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- jacks colors -->
     <color name="textColor">#f6f1ed</color>
