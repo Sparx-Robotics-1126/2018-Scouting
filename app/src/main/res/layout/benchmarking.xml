@@ -67,7 +67,7 @@
 
                     <EditText
                         android:id="@+id/numWheels"
-                        style="@style/J_ShortEditText"
+                        style="@style/J_NumberEditText"
                         android:maxLength="2" />
 
                 </LinearLayout>
@@ -83,7 +83,7 @@
 
                     <EditText
                         android:id="@+id/speed"
-                        style="@style/J_ShortEditText"
+                        style="@style/J_NumberEditText"
                         android:maxLength="2" />
 
                 </LinearLayout>
@@ -99,7 +99,7 @@
 
                     <EditText
                         android:id="@+id/height"
-                        style="@style/J_ShortEditText"
+                        style="@style/J_NumberEditText"
                         android:maxLength="2" />
 
                 </LinearLayout>
@@ -115,7 +115,7 @@
 
                     <EditText
                         android:id="@+id/weight"
-                        style="@style/J_ShortEditText"
+                        style="@style/J_NumberEditText"
                         android:maxLength="3" />
 
                 </LinearLayout>
@@ -131,7 +131,7 @@
 
                     <EditText
                         android:id="@+id/groundClearance"
-                        style="@style/J_ShortEditText"
+                        style="@style/J_NumberEditText"
                         android:maxLength="2" />
 
                 </LinearLayout>
@@ -609,7 +609,7 @@
 
                         <EditText
                             android:id="@+id/climb_height"
-                            style="@style/J_ShortEditText"
+                            style="@style/J_NumberEditText"
                             android:maxLength="2" />
 
                     </LinearLayout>
