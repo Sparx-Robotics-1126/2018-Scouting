@@ -35,11 +35,7 @@
                 <EditText
                     android:id="@+id/customDrive"
                     style="@style/J_basicTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Enter Custom Drive Type"
-                    android:textColor="@color/accentColor"
-                    android:textColorHint="@color/accentColorHint" />
+                    android:hint="Enter Custom Drive Type" />
 
                 <Spinner
                     android:id="@+id/wheel_type_spinner"
@@ -56,12 +52,9 @@
 
                 <EditText
                     android:id="@+id/customWheel"
-                    style="@style/J_basicTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/J_basicEditText"
                     android:hint="Enter Custom Wheel Type"
-                    android:textColor="@color/accentColor"
-                    android:textColorHint="@color/accentColorHint" />
+                   />
 
                 <LinearLayout
                     style="@style/J_horizontalLinearLayout"
