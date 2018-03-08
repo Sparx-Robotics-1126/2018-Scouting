@@ -164,7 +164,7 @@ public class Benchmarking extends AppCompatActivity {
         driveTypeSpinner = findViewById(R.id.drive_type_spinner);
         //for drive type dropdown selector
         driveTypesArray = getResources().getStringArray(R.array.driveTypes);
-        SpinnerAdapter driveAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, driveTypesArray);
+        SpinnerAdapter driveAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, driveTypesArray);
         driveTypeSpinner.setAdapter(driveAdapter);
         driveTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -187,7 +187,7 @@ public class Benchmarking extends AppCompatActivity {
         wheelTypeSpinner = findViewById(R.id.wheel_type_spinner);
         //for wheel type dropdown selector items
         wheelTypesArray = getResources().getStringArray(R.array.wheelTypes);
-        SpinnerAdapter wheelAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wheelTypesArray);
+        SpinnerAdapter wheelAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, wheelTypesArray);
         wheelTypeSpinner.setAdapter(wheelAdapter);
         wheelTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -619,7 +619,7 @@ public class Benchmarking extends AppCompatActivity {
                 break;
         }
 
-        rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
         chooseAgainButton.setVisibility(View.VISIBLE);
     }
 
@@ -627,7 +627,7 @@ public class Benchmarking extends AppCompatActivity {
         prefStart1 = getResources().getString(R.string.none);
         prefStart2 = getResources().getString(R.string.none);
         prefStart3 = getResources().getString(R.string.none);
-        rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
         pref_left.setChecked(false);
         pref_right.setChecked(false);
         pref_center.setChecked(false);

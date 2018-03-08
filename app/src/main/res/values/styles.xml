@@ -14,7 +14,9 @@
         <item name="android:textColor">@color/accentColor</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColorHint">@color/accentColorHint</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
     <style name="HorizontalNumberPicker" parent="basic">
@@ -27,6 +29,7 @@
         <item name="android:maxLength">3</item>
         <item name="android:gravity">right</item>
         <item name="android:hint">00</item>
+        <item name="android:layout_weight">.25</item>
     </style>
 
     <style name="J_checkBox" parent="basic">
@@ -39,23 +42,29 @@
         <item name="android:layoutDirection">ltr</item>
     </style>
 
-    <style name="J_verticalLinearLayout" parent="basic">
+    <style name="J_verticalLinearLayout">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@color/backgroundColor</item>
     </style>
 
-    <style name="J_horizontalLinearLayout" parent="basic">
+    <style name="J_horizontalLinearLayout">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:background">@color/backgroundColor</item>
     </style>
 
-    <style name="J_basicTextView" parent="basic">
+    <style name="J_NormalSizeTextView" parent="basic">
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="J_basicEditText" parent="basic">
+    <style name="J_BigSizeTextView" parent="J_NormalSizeTextView">
+        <item name="android:textSize">@dimen/text_size_big</item>
+    </style>
+
+    <style name="J_NormalSizeEditText" parent="basic">
         <item name="android:textColor">@color/textColor</item>
         <item name="android:maxLength">50</item>
     </style>
@@ -64,25 +73,31 @@
         <item name="android:textSize">@dimen/text_size_header</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">0dp</item>
     </style>
 
     <style name="J_numberAutoCompleteTextView" parent="basic">
+        <item name="android:textSize">@dimen/text_size_big</item>
         <item name="android:inputType">numberPassword</item>
         <item name="android:digits">1234567890</item>
         <item name="android:maxLength">4</item>
         <item name="android:gravity">right</item>
+        <item name="android:layout_weight">.3</item>
     </style>
 
-    <style name="J_spinner" parent="basic">
+    <style name="J_spinner">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:paddingBottom">15dp</item>
-        <item name="android:background">@color/accentColor</item>
-        <item name="android:dropDownWidth">match_parent</item>
-        <item name="android:popupBackground">@color/accentColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
     </style>
 
     <style name="J_radioButton" parent="basic">
         <item name="android:buttonTint">@color/accentColor</item>
+    </style>
+
+    <style name="J_radioGroup" parent="basic">
+        <item name="android:buttonTint">@color/accentColor</item>
+        <item name="android:paddingLeft">30dp</item>
     </style>
 </resources>

@@ -1,68 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <LinearLayout style="@style/J_verticalLinearLayout" >
+    <LinearLayout style="@style/J_verticalLinearLayout">
 
         <!--intro-->
-        <LinearLayout style="@style/J_verticalLinearLayout" >
+        <LinearLayout style="@style/J_verticalLinearLayout">
 
-            <LinearLayout style="@style/J_horizontalLinearLayout" >
+            <LinearLayout style="@style/J_horizontalLinearLayout">
 
-                <TextView style="@style/J_basicTextView"
+                <TextView
+                    style="@style/J_BigSizeTextView"
                     android:text="Team Number" />
 
-                <AutoCompleteTextView  style="@style/J_numberAutoCompleteTextView"
-                    android:id="@+id/team_number" />
+                <AutoCompleteTextView
+                    android:id="@+id/team_number"
+                    style="@style/J_numberAutoCompleteTextView" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout style="@style/J_verticalLinearLayout"
-            android:id="@+id/benchmark_main_layout" >
+        <LinearLayout
+            android:id="@+id/benchmark_main_layout"
+            style="@style/J_verticalLinearLayout">
 
             <!--About-->
-            <LinearLayout style="@style/J_verticalLinearLayout" >
+            <LinearLayout style="@style/J_verticalLinearLayout">
 
-                <TextView style="@style/J_headingTextView"
+                <TextView
+                    style="@style/J_headingTextView"
                     android:text="About" />
 
-                <Spinner style="@style/J_spinner"
-                    android:id="@+id/drive_type_spinner" />
+                <Spinner
+                    android:id="@+id/drive_type_spinner"
+                    style="@style/J_spinner" />
 
                 <EditText
                     android:id="@+id/customDrive"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:hint="Enter Custom Drive Type" />
 
                 <Spinner
                     android:id="@+id/wheel_type_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#f2b632"
-                    android:dropDownWidth="match_parent"
-                    android:popupBackground="@color/accentColor"
-                    android:textColor="@color/accentColor"
-
-                    android:textColorHint="@color/accentColorHint" />
-
+                    style="@style/J_spinner" />
 
                 <EditText
                     android:id="@+id/customWheel"
-                    style="@style/J_basicEditText"
-                    android:hint="Enter Custom Wheel Type"
-                   />
+                    style="@style/J_NormalSizeTextView"
+                    android:hint="Enter Custom Wheel Type" />
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Number Of Wheels" />
 
                     <EditText
@@ -72,13 +64,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Speed (ft/s)" />
 
                     <EditText
@@ -88,13 +77,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Height (ft)" />
 
                     <EditText
@@ -104,13 +90,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Weight (lb)" />
 
                     <EditText
@@ -120,13 +103,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Ground Clearance (in)" />
 
                     <EditText
@@ -137,29 +117,33 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <!--Start-->
             <LinearLayout style="@style/J_verticalLinearLayout">
 
                 <TextView
-                    style="@style/J_basicTextView"
-                    android:text="Start"
-                    android:textStyle="bold" />
+                    style="@style/J_headingTextView"
+                    android:text="Start" />
 
-                <TextView
-                    android:id="@+id/rankStartTextView"
-                    style="@style/J_basicTextView"
-                    android:text="Favored Start Positions:                               1. none 2. none 3. none"
-                    android:textSize="33dp" />
+                <LinearLayout style="@style/J_verticalLinearLayout">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/J_NormalSizeTextView"
+                        android:text="Ranked Favored Start Positions:"
+                        android:textSize="@dimen/text_size_big" />
+
+                    <TextView
+                        android:id="@+id/rankStartTextView"
+                        style="@style/J_NormalSizeTextView"
+                        android:text="1. none 2. none 3. none" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <RadioGroup
                         android:id="@+id/prefStartGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        style="@style/J_radioGroup"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -198,7 +182,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Start With Cube" />
 
                     <CheckBox
@@ -215,7 +199,7 @@
                 android:background="@color/backgroundColor">
 
                 <TextView
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Auto"
                     android:textStyle="bold" />
 
@@ -225,7 +209,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Move Past Line" />
 
                     <CheckBox
@@ -245,7 +229,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            style="@style/J_basicTextView"
+                            style="@style/J_NormalSizeTextView"
                             android:text="Can Score On Switch" />
 
                         <CheckBox
@@ -280,7 +264,7 @@
 
                     <EditText
                         android:id="@+id/howManySwitchPlace"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:hint="How Many (place)"
                         android:inputType="numberPassword"
                         android:maxLength="1"
@@ -289,7 +273,7 @@
 
                     <EditText
                         android:id="@+id/howManySwitchToss"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:hint="How Many (toss)"
                         android:inputType="numberPassword"
                         android:maxLength="1"
@@ -309,7 +293,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            style="@style/J_basicTextView"
+                            style="@style/J_NormalSizeTextView"
                             android:text="Can Score On Scale" />
 
                         <CheckBox
@@ -344,7 +328,7 @@
 
                     <EditText
                         android:id="@+id/howManyScalePlace"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:hint="How Many (place)"
                         android:inputType="numberPassword"
                         android:maxLength="1"
@@ -353,7 +337,7 @@
 
                     <EditText
                         android:id="@+id/howManyScaleToss"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:hint="How Many (toss)"
                         android:inputType="numberPassword"
                         android:maxLength="1"
@@ -373,7 +357,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            style="@style/J_basicTextView"
+                            style="@style/J_NormalSizeTextView"
                             android:text="Can Pick Up Cubes" />
 
                         <CheckBox
@@ -406,7 +390,7 @@
             <LinearLayout style="@style/J_verticalLinearLayout">
 
                 <TextView
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Teleop"
                     android:textStyle="bold" />
 
@@ -417,7 +401,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Pick Up Cubes In Teleop" />
 
                     <CheckBox
@@ -451,7 +435,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Deposit to Vault" />
 
                     <CheckBox
@@ -466,7 +450,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Score Switch" />
 
                     <CheckBox
@@ -500,7 +484,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Score scale" />
 
                     <CheckBox
@@ -537,14 +521,14 @@
                 android:background="@color/backgroundColor">
 
                 <TextView
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Climbing"
                     android:textStyle="bold" />
 
                 <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Climb Without Assist" />
 
                     <CheckBox
@@ -561,7 +545,7 @@
 
                     <TextView
                         android:id="@+id/canAssistOthersInClimbing"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can assist others in climb" />
 
                     <CheckBox
@@ -590,7 +574,7 @@
 
                     <EditText
                         android:id="@+id/customClimbAssist"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Enter Custom Climb Assist Type"
@@ -604,7 +588,7 @@
 
                         <TextView
                             android:id="@+id/howHighText"
-                            style="@style/J_basicTextView"
+                            style="@style/J_NormalSizeTextView"
                             android:text="Max Height From Platform(ft)" />
 
                         <EditText
@@ -619,7 +603,7 @@
                 <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Can Attach to Another Robot" />
 
                     <CheckBox

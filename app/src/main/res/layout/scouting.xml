@@ -16,14 +16,14 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/J_basicTextView"
+                style="@style/J_NormalSizeTextView"
                 android:text="Match #:"
                 android:textColor="@color/textColor" />
 
             <EditText
                 android:inputType="numberPassword"
                 android:id="@+id/matchNumInput"
-                style="@style/J_basicTextView"
+                style="@style/J_NormalSizeTextView"
                 android:digits="1234567890"
                 android:maxLength="2"
                 android:textColor="@color/accentColor"/>
@@ -41,13 +41,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Team Number:"
                     android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/teamnumber"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text=""
                     android:textSize="40sp" />
 
@@ -62,7 +62,7 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:text="Alliance Color"
@@ -72,7 +72,7 @@
 
                 <TextView
                     android:id="@+id/allianceColor"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="" />
@@ -88,7 +88,7 @@
 
                 <TextView
                     android:id="@+id/auto"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Autonomous"
                     android:textColor="@color/textColor"
                     android:textSize="45sp"
@@ -101,7 +101,7 @@
 
                     <TextView
                         android:id="@+id/textView6"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Starting Positon" />
 
                     <RadioGroup
@@ -136,7 +136,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Crossed Auto Line" />
 
                     <CheckBox
@@ -151,7 +151,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Scored Switch" />
 
                     <CheckBox
@@ -167,7 +167,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Scored Scale" />
 
                     <CheckBox
@@ -182,7 +182,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Picked Up Cube" />
 
                     <CheckBox
@@ -197,7 +197,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Placed Cube In Exchange" />
 
                     <CheckBox
@@ -217,7 +217,7 @@
 
                 <TextView
                     android:id="@+id/teleop"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Teleoperated"
                     android:textColor="@color/textColor"
                     android:textSize="45sp"
@@ -231,7 +231,7 @@
 
                     <TextView
                         android:id="@+id/Switch"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Times Scored Switch" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
@@ -248,7 +248,7 @@
 
                     <TextView
                         android:id="@+id/textView5"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Times scored scale" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
@@ -264,7 +264,7 @@
 
                     <TextView
                         android:id="@+id/textView16"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Times placed cube in exchange" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
@@ -280,7 +280,7 @@
 
                     <TextView
                         android:id="@+id/textView17"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Cubes picked up from floor" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
@@ -296,7 +296,7 @@
 
                     <TextView
                         android:id="@+id/textView18"
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Cubes Acquired From Players" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
@@ -312,7 +312,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Effectively Played defense" />
 
                     <CheckBox
@@ -330,7 +330,7 @@
 
                 <TextView
                     android:id="@+id/Endgame"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="End Game"
                     android:textColor="@color/textColor"
                     android:textSize="45sp"
@@ -338,7 +338,7 @@
 
                 <TextView
                     android:id="@+id/Climbing"
-                    style="@style/J_basicTextView"
+                    style="@style/J_NormalSizeTextView"
                     android:text="Climbed on:" />
 
                 <RadioGroup
@@ -370,7 +370,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Assisted others in climb" />
 
                     <CheckBox
@@ -407,7 +407,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/J_basicTextView"
+                        style="@style/J_NormalSizeTextView"
                         android:text="Climbed In under 15 seconds"
                         android:textSize="32sp" />
 
