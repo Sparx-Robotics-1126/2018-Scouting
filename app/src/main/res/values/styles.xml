@@ -35,36 +35,36 @@
     <style name="J_checkBox" parent="basic">
         <item name="android:buttonTint">@color/accentColor</item>
         <item name="android:layoutDirection">rtl</item>
+        <item name="android:layout_marginRight">15dp</item>
     </style>
 
 <!--parent these 2 /\  \/  -->
-    <style name="J_word_checkBox" parent="J_checkBox">
+    <style name="J_labeled_checkBox" parent="J_checkBox">
         <item name="android:layoutDirection">ltr</item>
+        <item name="android:layout_marginLeft">15dp</item>
     </style>
 
     <style name="J_verticalLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:background">@color/backgroundColor</item>
     </style>
 
     <style name="J_horizontalLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/backgroundColor</item>
     </style>
 
-    <style name="J_NormalSizeTextView" parent="basic">
+    <style name="J_NormalTextView" parent="basic">
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="J_BigSizeTextView" parent="J_NormalSizeTextView">
+    <style name="J_BigTextView" parent="J_NormalTextView">
         <item name="android:textSize">@dimen/text_size_big</item>
     </style>
 
-    <style name="J_NormalSizeEditText" parent="basic">
+    <style name="J_NormalEditText" parent="basic">
         <item name="android:textColor">@color/textColor</item>
         <item name="android:maxLength">50</item>
     </style>
@@ -99,5 +99,16 @@
     <style name="J_radioGroup" parent="basic">
         <item name="android:buttonTint">@color/accentColor</item>
         <item name="android:paddingLeft">30dp</item>
+    </style>
+
+    <style name="J_NormalButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:backgroundTint">@color/accentColor</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 </resources>

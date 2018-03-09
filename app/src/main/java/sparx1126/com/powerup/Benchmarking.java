@@ -273,6 +273,9 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (switchTossAuto.isChecked()) {
+                    if(!switchPlaceAuto.isChecked()) {
+                        howManySwitchPlaceAuto.setVisibility(View.INVISIBLE);
+                    }
                     howManySwitchTossAuto.setVisibility(View.VISIBLE);
                 } else {
                     howManySwitchTossAuto.setText("");
@@ -323,6 +326,9 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (scaleTossAuto.isChecked()) {
+                    if(!scalePlaceAuto.isChecked()) {
+                        howManyScalePlaceAuto.setVisibility(View.INVISIBLE);
+                    }
                     howManyScaleTossAuto.setVisibility(View.VISIBLE);
                 } else {
                     howManyScaleTossAuto.setText("");
@@ -451,7 +457,7 @@ public class Benchmarking extends AppCompatActivity {
         climbAssistTypeSpinner.setVisibility(View.GONE);
         //for wheel type dropdown selector items
         climbAssistTypesArray = getResources().getStringArray(R.array.climbAssistTypes);
-        SpinnerAdapter climbAssistAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, climbAssistTypesArray);
+        SpinnerAdapter climbAssistAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, climbAssistTypesArray);
         climbAssistTypeSpinner.setAdapter(climbAssistAdapter);
         climbAssistTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -619,7 +625,7 @@ public class Benchmarking extends AppCompatActivity {
                 break;
         }
 
-        rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        rankChoices.setText("1. " + prefStart1 + "          2. " + prefStart2 + "          3. " + prefStart3);
         chooseAgainButton.setVisibility(View.VISIBLE);
     }
 
@@ -627,7 +633,7 @@ public class Benchmarking extends AppCompatActivity {
         prefStart1 = getResources().getString(R.string.none);
         prefStart2 = getResources().getString(R.string.none);
         prefStart3 = getResources().getString(R.string.none);
-        rankChoices.setText("1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        rankChoices.setText("1. " + prefStart1 + "          2. " + prefStart2 + "          3. " + prefStart3);
         pref_left.setChecked(false);
         pref_right.setChecked(false);
         pref_center.setChecked(false);
@@ -789,7 +795,7 @@ public class Benchmarking extends AppCompatActivity {
 
     private void setVisibililtyOfGroup(CheckBox _parent, Map<CheckBox, EditText> _children) {
         for(Map.Entry<CheckBox, EditText> entry: _children.entrySet()) {
-            if(!entry.getValue().getText().toString().isEmpty()) {
+            if(!entry.getValue().getText().toString().isEmpty() && !entry.getValue().getText().toString().equals("0")) {
                 _parent.setChecked(true);
                 _parent.callOnClick();
                 entry.getKey().setChecked(true);
