@@ -1,9 +1,14 @@
 package sparx1126.com.powerup;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.widget.EditText;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -20,9 +25,9 @@ import sparx1126.com.powerup.utilities.DataCollection;
 public class View extends AppCompatActivity {
     private static final String TAG = "View ";
     private static DataCollection dataCollection;
+    private List<Integer> teamsInEvent;
 
-    EditText teamnumber;
-    private Button teamNumberButton;
+    private AutoCompleteTextView teamnumber;
     private ExpandableListView expandableListView;
 
     @Override
@@ -31,21 +36,51 @@ public class View extends AppCompatActivity {
         setContentView(R.layout.view);
 
         dataCollection = DataCollection.getInstance();
+        teamsInEvent = dataCollection.getTeamsInEvent();
 
-        teamnumber = findViewById(R.id.teamNumber);
-        teamNumberButton = findViewById(R.id.teamNumberButton);
-        teamNumberButton.setOnClickListener(new android.view.View.OnClickListener() {
+        teamnumber = findViewById(R.id.team_number);
+        teamnumber.setTransformationMethod(null);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.custom_list_item, teamsInEvent);
+        teamnumber.setAdapter(adapter);
+        teamnumber.setThreshold(1);
+        teamnumber.addTextChangedListener(new TextWatcher() {
+
             @Override
-            public void onClick(android.view.View view) {
-                int teamNumber = Integer.valueOf(teamnumber.getText().toString());
-
-                HashMap<String, List<String>> expandableListDetail = getData(teamNumber);
-                List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-                ExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(View.this, expandableListTitle, expandableListDetail);
-                expandableListView.setAdapter(expandableListAdapter);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    String teamNumberStringg = teamnumber.getText().toString();
+                    int teamNumber = Integer.valueOf(teamNumberStringg);
+                    boolean teamNumberFound = teamsInEvent.contains(teamNumber);
+                    HashMap<String, List<String>> expandableListDetail = new HashMap<>();
+                    if (teamNumberFound) {
+                        Log.d(TAG, teamNumberStringg);
+                        expandableListDetail = getData(teamNumber);
+                        android.view.View view = findViewById(android.R.id.content).getRootView();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                    List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+                    ExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(View.this, expandableListTitle, expandableListDetail);
+                    expandableListView.setAdapter(expandableListAdapter);
+
+                } catch (Exception e) {
+                    Log.e("Problem w/ team # txt", e.toString());
+                }
+            }
         });
+
         expandableListView = findViewById(R.id.expandableListView);
     }
 
@@ -65,30 +100,41 @@ public class View extends AppCompatActivity {
 
         int numberOfDatas = datas.size();
 
-        rtnList.add("<font color=\"black\"><b>Matches scouted: </b></font>" + numberOfDatas);
+        rtnList.add("<b>\tMatches scouted: </b>" + numberOfDatas);
         Map<String, Integer> booleanValueSumsMap = new HashMap<>();
         Map<String, Integer> intValueSumsMap = new HashMap<>();
         for (ScoutingData data : datas.values()) {
             Map<String, Boolean> booleanValuesMap = data.getBooleanValuesMap();
             for(String key: booleanValuesMap.keySet()) {
                 if(booleanValuesMap.get(key)) {
-                    booleanValueSumsMap.put(key, booleanValueSumsMap.get(key) + 1);
+                    int increment = 1;
+                    if(booleanValueSumsMap.containsKey(key)) {
+                        increment += booleanValueSumsMap.get(key);
+                    }
+                    booleanValueSumsMap.put(key, increment);
                 }
             }
 
             Map<String, Integer> intValuesMap = data.getIntValuesMap();
             for(String key: intValuesMap.keySet()) {
-                intValueSumsMap.put(key, intValueSumsMap.get(key) + intValuesMap.get(key));
+                int total = intValuesMap.get(key);
+                if(intValueSumsMap.containsKey(key)) {
+                    total += intValueSumsMap.get(key);
+                }
+                // excluding team number
+                if(!key.equals(BenchmarkData.TEAM_NUMBER)) {
+                    intValueSumsMap.put(key, total);
+                }
             }
         }
 
         if (numberOfDatas != 0) {
             for(Map.Entry<String, Integer> entry : booleanValueSumsMap.entrySet()) {
-                rtnList.add("<font color=\"black\"><b> " + entry.getKey() + ": </b></font>" + entry.getValue() + " times");
+                rtnList.add("<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue() + " times");
             }
             for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
                 float average = entry.getValue() / numberOfDatas;
-                rtnList.add("<font color=\"black\"><b> \" + entry.getKey() + \": </b></font>" + average + " average");
+                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + average + " average");
             }
         }
 
@@ -101,12 +147,12 @@ public class View extends AppCompatActivity {
         BenchmarkData data = dataCollection.getBenchmarkData(_teamNumber);
 
         if(data == null) {
-            rtnList.add("<font color=\"black\"><b>Has not been benchmarked!</b></font>");
+            rtnList.add("<b>\tHas not been benchmarked!</b>");
         }
         else {
             Map<String, String> stringValuesMap = data.getStringValuesMap();
             for(Map.Entry<String, String> entry : stringValuesMap.entrySet()) {
-                rtnList.add("<font color=\"black\"><b> " + entry.getKey() + ". </b></font>");
+                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue());
             }
             Map<String, Boolean> booleanValuesMap = data.getBooleanValuesMap();
             for(Map.Entry<String, Boolean> entry : booleanValuesMap.entrySet()) {
@@ -114,11 +160,11 @@ public class View extends AppCompatActivity {
                 if(entry.getValue()){
                     result = "True";
                 }
-                rtnList.add("<font color=\"black\"><b> " + entry.getKey() + ": </b></font>" + result);
+                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + result);
             }
-            Map<String, Integer> intValueSumsMap = new HashMap<>();
+            Map<String, Integer> intValueSumsMap = data.getIntValuesMap();
             for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
-                rtnList.add("<font color=\"black\"><b> \" + entry.getKey() + \": </b></font>" + entry.getValue());
+                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue());
             }
         }
 

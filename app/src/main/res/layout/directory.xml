@@ -5,41 +5,45 @@
     android:background="@color/backgroundColor"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/admin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Admin" />
+    <LinearLayout
+        android:id="@+id/admin_button_layout"
+        style="@style/J_verticalLinearLayout">
+
+        <Button
+            android:id="@+id/admin"
+            style="@style/J_StretchedButton"
+            android:text="Admin" />
+
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/normal_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:id="@+id/normal_buttons_layout"
+        style="@style/J_verticalLinearLayout">
 
         <Button
             android:id="@+id/benchmark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/J_StretchedButton"
             android:text="Benchmark" />
 
         <Button
-            android:id="@+id/checklist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Checklist" />
-
-        <Button
             android:id="@+id/scouting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/J_StretchedButton"
             android:text="Scouting" />
 
         <Button
             android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/J_StretchedButton"
             android:text="View" />
+
+        <Button
+            android:id="@+id/checklist"
+            style="@style/J_StretchedButton"
+            android:text="Checklist" />
+
+        <Button
+            android:id="@+id/submit"
+            style="@style/J_StretchedButton"
+            android:text="Submit Online" />
 
     </LinearLayout>
 

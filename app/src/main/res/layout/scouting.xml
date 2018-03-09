@@ -1,139 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/backgroundColor"
-        android:orientation="vertical">
+        style="@style/J_verticalLinearLayout">
 
         <LinearLayout
             android:id="@+id/match"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/J_horizontalLinearLayout">
 
             <TextView
-                style="@style/J_NormalTextView"
                 android:text="Match #:"
-                android:textColor="@color/textColor" />
+                style="@style/J_BigTextView" />
 
             <EditText
-                android:inputType="numberPassword"
+                style="@style/J_NumberEditText"
                 android:id="@+id/matchNumInput"
-                style="@style/J_NormalTextView"
-                android:digits="1234567890"
                 android:maxLength="2"
-                android:textColor="@color/accentColor"/>
+                android:textSize="@dimen/text_size_big"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/scouting_main_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/J_verticalLinearLayout">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout"
+                android:background="@color/backgroundColorLight">
 
                 <TextView
                     style="@style/J_NormalTextView"
                     android:text="Team Number:"
-                    android:textColor="@color/textColor" />
+                    android:textSize="@dimen/text_size_big" />
 
                 <TextView
                     android:id="@+id/teamnumber"
                     style="@style/J_NormalTextView"
-                    android:text=""
-                    android:textSize="40sp" />
-
+                    android:textSize="@dimen/text_size_big" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/allianceLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/J_horizontalLinearLayout">
 
                 <TextView
-                    android:id="@+id/textView3"
                     style="@style/J_NormalTextView"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:text="Alliance Color"
-                    android:textColor="@color/textColor">
-
-                </TextView>
+                    android:textSize="@dimen/text_size_big"/>
 
                 <TextView
                     android:id="@+id/allianceColor"
                     style="@style/J_NormalTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="" />
+                    android:textSize="@dimen/text_size_big"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/autoLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/auto"
-                android:orientation="vertical">
+                style="@style/J_verticalLinearLayout"
+                android:background="@color/backgroundColorLight">
 
+                <!--Auto-->
                 <TextView
-                    android:id="@+id/auto"
-                    style="@style/J_NormalTextView"
-                    android:text="Autonomous"
-                    android:textColor="@color/textColor"
-                    android:textSize="45sp"
-                    android:textStyle="bold" />
+                    style="@style/J_headingTextView"
+                    android:text="Autonomous:"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    style="@style/J_verticalLinearLayout">
 
                     <TextView
-                        android:id="@+id/textView6"
                         style="@style/J_NormalTextView"
                         android:text="Starting Positon" />
 
                     <RadioGroup
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        style="@style/J_radioGroup"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/startLeftbtn"
                             style="@style/J_radioButton"
-                            android:padding="6dp"
                             android:text="Left" />
 
                         <RadioButton
                             android:id="@+id/startCenterbtn"
                             style="@style/J_radioButton"
-                            android:padding="6dp"
                             android:text="Center" />
 
                         <RadioButton
                             android:id="@+id/startRightbtn"
                             style="@style/J_radioButton"
-                            android:padding="6dp"
                             android:text="Right" />
                     </RadioGroup>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -146,9 +111,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -160,11 +123,8 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -177,9 +137,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -192,9 +150,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -206,31 +162,20 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/teleLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                style="@style/J_verticalLinearLayout">
 
+                <!--Tele-->
                 <TextView
-                    android:id="@+id/teleop"
-                    style="@style/J_NormalTextView"
-                    android:text="Teleoperated"
-                    android:textColor="@color/textColor"
-                    android:textSize="45sp"
-                    android:textStyle="bold" />
+                    style="@style/J_headingTextView"
+                    android:text="Teleoperated:"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        android:id="@+id/Switch"
                         style="@style/J_NormalTextView"
                         android:text="Times Scored Switch" />
 
@@ -241,13 +186,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        android:id="@+id/textView5"
                         style="@style/J_NormalTextView"
                         android:text="Times scored scale" />
 
@@ -258,12 +199,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        android:id="@+id/textView16"
                         style="@style/J_NormalTextView"
                         android:text="Times placed cube in exchange" />
 
@@ -274,12 +212,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        android:id="@+id/textView17"
                         style="@style/J_NormalTextView"
                         android:text="Cubes picked up from floor" />
 
@@ -290,12 +225,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
-                        android:id="@+id/textView18"
                         style="@style/J_NormalTextView"
                         android:text="Cubes Acquired From Players" />
 
@@ -307,9 +239,7 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -318,33 +248,27 @@
                     <CheckBox
                         android:id="@+id/playeddefensecheck"
                         style="@style/J_checkBox" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/climbLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                style="@style/J_verticalLinearLayout"
+                android:background="@color/backgroundColorLight">
+
+                <!--End-->
+                <TextView
+                    style="@style/J_headingTextView"
+                    android:text="End Game:"/>
 
                 <TextView
-                    android:id="@+id/Endgame"
-                    style="@style/J_NormalTextView"
-                    android:text="End Game"
-                    android:textColor="@color/textColor"
-                    android:textSize="45sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/Climbing"
                     style="@style/J_NormalTextView"
                     android:text="Climbed on:" />
 
                 <RadioGroup
                     android:id="@+id/climbInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/J_radioGroup"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -361,13 +285,12 @@
                         android:id="@+id/climbDoesnt"
                         style="@style/J_radioButton"
                         android:text="Doesn't Climb" />
+
                 </RadioGroup>
 
                 <LinearLayout
                     android:id="@+id/assistedClimbLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -381,35 +304,27 @@
 
                 <RadioGroup
                     android:id="@+id/assistedGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/J_radioGroup"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/assistedOne"
                         style="@style/J_radioButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Helped one robot" />
 
                     <RadioButton
                         android:id="@+id/assistedTwo"
                         style="@style/J_radioButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="Helped two robots" />
+
                 </RadioGroup>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Climbed In under 15 seconds"
-                        android:textSize="32sp" />
+                        android:text="Climbed In under 15 seconds" />
 
                     <CheckBox
                         android:id="@+id/Climb15secs"
@@ -419,17 +334,13 @@
 
                 <Button
                     android:id="@+id/submitbutton"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@color/accentColor"
-                    android:text="SUBMIT"
-                    android:textColor="@color/backgroundColor"
-                    android:textSize="40sp" />
+                    style="@style/J_StretchedButton"
+                    android:text="SUBMIT" />
 
             </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

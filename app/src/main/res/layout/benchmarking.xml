@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor">
 
-    <LinearLayout style="@style/J_verticalLinearLayout"
-        android:background="@color/backgroundColor">
+    <LinearLayout
+        style="@style/J_verticalLinearLayout">
 
         <!--intro-->
         <LinearLayout style="@style/J_verticalLinearLayout">
@@ -28,7 +30,8 @@
             style="@style/J_verticalLinearLayout">
 
             <!--About-->
-            <LinearLayout style="@style/J_verticalLinearLayout"
+            <LinearLayout
+                style="@style/J_verticalLinearLayout"
                 android:background="@color/backgroundColorLight">
 
                 <TextView
@@ -132,6 +135,7 @@
                     <TextView
                         style="@style/J_NormalTextView"
                         android:text="Ranked Favored Start Positions:"
+                        android:textColor="@color/accentColor"
                         android:textSize="@dimen/text_size_big" />
 
                     <TextView
@@ -170,7 +174,7 @@
 
                 <Button
                     android:id="@+id/chooseAgainButton"
-                    style="@style/J_NormalButton"
+                    style="@style/J_StretchedButton"
                     android:text="choose again" />
 
                 <LinearLayout style="@style/J_horizontalLinearLayout">
@@ -181,7 +185,7 @@
 
                     <CheckBox
                         android:id="@+id/start_w_cube"
-                        style="@style/J_checkBox"/>
+                        style="@style/J_checkBox" />
 
                 </LinearLayout>
 
@@ -193,7 +197,7 @@
 
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="Auto:"/>
+                    android:text="Auto:" />
 
                 <LinearLayout style="@style/J_horizontalLinearLayout">
 
@@ -249,7 +253,7 @@
                         android:id="@+id/howManySwitchToss"
                         style="@style/J_NumberEditText"
                         android:hint="How Many (toss)"
-                        android:maxLength="1"/>
+                        android:maxLength="1" />
 
                 </LinearLayout>
 
@@ -289,13 +293,13 @@
                         android:id="@+id/howManyScalePlace"
                         style="@style/J_NumberEditText"
                         android:hint="How Many (place)"
-                        android:maxLength="1"/>
+                        android:maxLength="1" />
 
                     <EditText
                         android:id="@+id/howManyScaleToss"
                         style="@style/J_NumberEditText"
                         android:hint="How Many (toss)"
-                        android:maxLength="1"/>
+                        android:maxLength="1" />
 
                 </LinearLayout>
 
@@ -335,7 +339,7 @@
 
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="Teleop:"/>
+                    android:text="Teleop:" />
 
 
                 <LinearLayout style="@style/J_horizontalLinearLayout">
@@ -439,7 +443,7 @@
 
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="End:"/>
+                    android:text="End:" />
 
                 <LinearLayout style="@style/J_horizontalLinearLayout">
 
@@ -462,7 +466,7 @@
 
                     <CheckBox
                         android:id="@+id/canAssistOthers"
-                        style="@style/J_checkBox"/>
+                        style="@style/J_checkBox" />
 
                 </LinearLayout>
 
@@ -475,7 +479,7 @@
                     <EditText
                         android:id="@+id/customClimbAssist"
                         style="@style/J_NormalTextView"
-                        android:hint="Enter Custom Climb Assist Type"/>
+                        android:hint="Enter Custom Climb Assist Type" />
 
                     <LinearLayout style="@style/J_horizontalLinearLayout">
 
@@ -509,8 +513,9 @@
             <!--button-->
             <Button
                 android:id="@+id/submit_button"
-                style="@style/J_NormalButton"
-                android:text="SUBMIT"/>
+                style="@style/J_StretchedButton"
+                android:text="SUBMIT" />
+
         </LinearLayout>
 
     </LinearLayout>

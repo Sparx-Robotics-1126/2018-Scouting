@@ -73,8 +73,11 @@ public class Admin extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 final String selectedItem = eventSpinner.getSelectedItem().toString();
                 if (!selectedItem.isEmpty() && !selectedItem.contains(getResources().getString(R.string.selectEvent))) {
+                    String previousSelectedEvent = settings.getString(getResources().getString(R.string.pref_SelectedEvent), "");
+                    if(!previousSelectedEvent.equals(selectedItem)) {
+                        reset();
+                    }
                     editor.putString(getResources().getString(R.string.pref_SelectedEvent), selectedItem);
-                    editor.apply();
 
                     testingInternetDialog.show();
                     networkStatus.isOnline(new NetworkStatus.Callback() {
@@ -132,7 +135,6 @@ public class Admin extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
-
         });
 
         adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
@@ -239,7 +241,7 @@ public class Admin extends AppCompatActivity {
                 }
             }
         }
-        SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, android.R.layout.simple_spinner_item, eventSpinnerList);
+        SpinnerAdapter eventAdapter = new ArrayAdapter<>(Admin.this, R.layout.custom_spinner_item, eventSpinnerList);
         eventSpinner.setAdapter(eventAdapter);
     }
 
@@ -258,5 +260,16 @@ public class Admin extends AppCompatActivity {
         } else {
             adminSelectionLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void reset() {
+        editor.putBoolean(getResources().getString(R.string.pref_BlueAlliance), false);
+        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 0);
+        editor.putBoolean(getResources().getString(R.string.tablet_Configured), false);
+        editor.apply();
+        blueSelectedToggle.setChecked(false);
+        teamNumber1SelectedButton.setChecked(false);
+        teamNumber2SelectedButton.setChecked(false);
+        teamNumber3SelectedButton.setChecked(false);
     }
 }

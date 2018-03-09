@@ -20,6 +20,7 @@
     </style>
 
     <style name="HorizontalNumberPicker" parent="basic">
+        <item name="android:layout_weight">.2</item>
         <item name="android:layoutDirection">rtl</item>
     </style>
 
@@ -76,8 +77,11 @@
         <item name="android:paddingLeft">0dp</item>
     </style>
 
-    <style name="J_numberAutoCompleteTextView" parent="basic">
+    <style name="J_autoCompleteTextView" parent="basic">
         <item name="android:textSize">@dimen/text_size_big</item>
+    </style>
+
+    <style name="J_numberAutoCompleteTextView" parent="J_autoCompleteTextView">
         <item name="android:inputType">numberPassword</item>
         <item name="android:digits">1234567890</item>
         <item name="android:maxLength">4</item>
@@ -101,14 +105,13 @@
         <item name="android:paddingLeft">30dp</item>
     </style>
 
-    <style name="J_NormalButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:backgroundTint">@color/accentColor</item>
+    <style name="J_NormalButton" parent="basic">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:padding">25dp</item>
+        <item name="android:backgroundTint">@color/accentColor</item>
+    </style>
+
+    <style name="J_StretchedButton"  parent="J_NormalButton">
+        <item name="android:layout_width">match_parent</item>
     </style>
 </resources>

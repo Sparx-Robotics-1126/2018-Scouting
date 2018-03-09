@@ -112,7 +112,7 @@ public class Benchmarking extends AppCompatActivity {
 
         team_number_input = findViewById(R.id.team_number);
         team_number_input.setTransformationMethod(null);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, teamsInEvent);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.custom_list_item, teamsInEvent);
         team_number_input.setAdapter(adapter);
         team_number_input.setThreshold(1);
         team_number_input.addTextChangedListener(new TextWatcher() {
@@ -261,6 +261,9 @@ public class Benchmarking extends AppCompatActivity {
             public void onClick(View view) {
                 if (switchPlaceAuto.isChecked()) {
                     howManySwitchPlaceAuto.setVisibility(View.VISIBLE);
+                    if(!switchTossAuto.isChecked()) {
+                        howManySwitchTossAuto.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     howManySwitchPlaceAuto.setText("");
                     howManySwitchPlaceAuto.setVisibility(View.INVISIBLE);
@@ -314,6 +317,9 @@ public class Benchmarking extends AppCompatActivity {
             public void onClick(View view) {
                 if (scalePlaceAuto.isChecked()) {
                     howManyScalePlaceAuto.setVisibility(View.VISIBLE);
+                    if(!scaleTossAuto.isChecked()) {
+                        howManyScaleTossAuto.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     howManyScalePlaceAuto.setText("");
                     howManyScalePlaceAuto.setVisibility(View.INVISIBLE);
@@ -721,52 +727,7 @@ public class Benchmarking extends AppCompatActivity {
             attach_robot.setChecked(data.isEndClimbOnRobot());
         }
         else {
-            setStringInSpinner("", driveTypesArray, driveTypeSpinner, customDrive);
-            setStringInSpinner("", wheelTypesArray, wheelTypeSpinner, customWheel);
-            numWheels.setText("");
-            speed.setText("");
-            height.setText("");
-            weight.setText("");
-            groundClearance.setText("");
-            chooseAgain();
-            start_w_cube.setChecked(false);
-            move_past_line.setChecked(false);
-            howManySwitchPlaceAuto.setText("");
-            howManySwitchTossAuto.setText("");
-            Map<CheckBox, EditText> canSwitchAutoChildren = new HashMap<>();
-            canSwitchAutoChildren.put(switchPlaceAuto, howManySwitchPlaceAuto);
-            canSwitchAutoChildren.put(switchTossAuto, howManySwitchTossAuto);
-            setVisibililtyOfGroup(canSwitchAuto, canSwitchAutoChildren);
-            howManyScalePlaceAuto.setText("");
-            howManyScaleTossAuto.setText("");
-            Map<CheckBox, EditText> canScaleAutoChildren = new HashMap<>();
-            canScaleAutoChildren.put(scalePlaceAuto, howManyScalePlaceAuto);
-            canScaleAutoChildren.put(scaleTossAuto, howManyScaleTossAuto);
-            setVisibililtyOfGroup(canScaleAuto, canScaleAutoChildren);
-            fromPortalAuto.setChecked(false);
-            fromFloorAuto.setChecked(false);
-            pickUpCubesInAuto.setChecked(false);
-            pickUpCubesInAuto.callOnClick();
-            fromPortalTele.setChecked(false);
-            fromFloorTele.setChecked(false);
-            pickUpCubesInTeleOp.setChecked(false);
-            pickUpCubesInTeleOp.callOnClick();
-            deposit_vault.setChecked(false);
-            switchPlaceTele.setChecked(false);
-            switchTossTele.setChecked(false);
-            scoreSwitchTele.setChecked(false);
-            scoreSwitchTele.callOnClick();
-            scalePlaceTele.setChecked(false);
-            scaleTossTele.setChecked(false);
-            scoreScaleTele.setChecked(false);
-            scoreScaleTele.callOnClick();
-            climb_rung.setChecked(false);
-            climb_rung.callOnClick();
-            canAssist.setChecked(false);
-            canAssist.callOnClick();
-            setStringInSpinner("", climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
-            climb_height.setText("");
-            attach_robot.setChecked(false);
+            reset();
         }
     }
 
@@ -802,5 +763,54 @@ public class Benchmarking extends AppCompatActivity {
                 entry.getKey().callOnClick();
             }
         }
+    }
+
+    private void reset() {
+        setStringInSpinner("", driveTypesArray, driveTypeSpinner, customDrive);
+        setStringInSpinner("", wheelTypesArray, wheelTypeSpinner, customWheel);
+        numWheels.setText("");
+        speed.setText("");
+        height.setText("");
+        weight.setText("");
+        groundClearance.setText("");
+        chooseAgain();
+        start_w_cube.setChecked(false);
+        move_past_line.setChecked(false);
+        canSwitchAuto.setChecked(false);
+        switchPlaceAuto.setChecked(false);
+        switchTossAuto.setChecked(false);
+        howManySwitchPlaceAuto.setText("");
+        howManySwitchTossAuto.setText("");
+        canSwitchAuto.callOnClick(); // resets visibility
+        canScaleAuto.setChecked(false);
+        scalePlaceAuto.setChecked(false);
+        scaleTossAuto.setChecked(false);
+        howManyScalePlaceAuto.setText("");
+        howManyScaleTossAuto.setText("");
+        canScaleAuto.callOnClick(); // resets visibility
+        fromPortalAuto.setChecked(false);
+        fromFloorAuto.setChecked(false);
+        pickUpCubesInAuto.setChecked(false);
+        pickUpCubesInAuto.callOnClick();
+        fromPortalTele.setChecked(false);
+        fromFloorTele.setChecked(false);
+        pickUpCubesInTeleOp.setChecked(false);
+        pickUpCubesInTeleOp.callOnClick();
+        deposit_vault.setChecked(false);
+        switchPlaceTele.setChecked(false);
+        switchTossTele.setChecked(false);
+        scoreSwitchTele.setChecked(false);
+        scoreSwitchTele.callOnClick();
+        scalePlaceTele.setChecked(false);
+        scaleTossTele.setChecked(false);
+        scoreScaleTele.setChecked(false);
+        scoreScaleTele.callOnClick();
+        climb_rung.setChecked(false);
+        climb_rung.callOnClick();
+        canAssist.setChecked(false);
+        canAssist.callOnClick();
+        setStringInSpinner("", climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
+        climb_height.setText("");
+        attach_robot.setChecked(false);
     }
 }

@@ -3,43 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/backgroundColor">
 
     <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@color/backgroundColor"
-        android:orientation="horizontal">
+        style="@style/J_horizontalLinearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:textColor="@color/textColor"
-            android:text="Enter Team Number" />
+            style="@style/J_BigTextView"
+            android:text="Team Number" />
 
-        <EditText
-            android:id="@+id/teamNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number"
-            android:textColor="@color/accentColor"/>
+        <AutoCompleteTextView
+            android:id="@+id/team_number"
+            style="@style/J_numberAutoCompleteTextView" />
+
     </LinearLayout>
-
-    <Button
-        android:id="@+id/teamNumberButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit Team Number"
-        android:textSize="30sp" />
 
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/black"
-        android:dividerHeight="0.5dp"
+        android:divider="@color/white"
+        android:dividerHeight="1dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+
 </LinearLayout>
