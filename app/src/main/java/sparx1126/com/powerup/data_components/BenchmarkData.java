@@ -11,7 +11,7 @@ import java.util.Map;
 public class BenchmarkData extends JsonData {
     // keys
     private static final String SCOUTER_NAME = "scouterName";
-    public static final String TEAM_NUMBER = "teamNumber";
+    private static final String TEAM_NUMBER = "teamNumber";
     private static final String TYPE_OF_DRIVE = "typeOfDrive";
     private static final String TYPE_OF_WHEEL = "typeOfWheel";
     private static final String NUMBER_OF_WHEELS = "numberOfWheels";
