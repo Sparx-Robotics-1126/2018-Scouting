@@ -41,9 +41,14 @@
             android:text="Checklist" />
 
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/upload"
             style="@style/J_StretchedButton"
-            android:text="Submit Online" />
+            android:text="Upload" />
+
+        <Button
+            android:id="@+id/download"
+            style="@style/J_StretchedButton"
+            android:text="Download" />
 
     </LinearLayout>
 

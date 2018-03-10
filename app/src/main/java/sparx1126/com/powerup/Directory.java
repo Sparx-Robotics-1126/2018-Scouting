@@ -10,13 +10,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.Arrays;
+import java.util.Map;
 
+import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
+import sparx1126.com.powerup.utilities.NetworkStatus;
 import sparx1126.com.powerup.utilities.Utility;
 
 public class Directory extends AppCompatActivity {
     private static final String TAG = "Directory ";
     private SharedPreferences settings;
+    private static FileIO fileIO;
+    private static GoogleDriveNetworking googleDrive;
+    private static NetworkStatus networkStatus;
     private static Utility utility;
+
+    private Dialog testingInternetDialog;
 
     private Button admin;
     private LinearLayout adminButton;
@@ -25,6 +34,8 @@ public class Directory extends AppCompatActivity {
     private Button scouting;
     private Button view;
     private Button checklist;
+    private Button upload;
+    private Button download;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +43,14 @@ public class Directory extends AppCompatActivity {
         setContentView(R.layout.directory);
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+        fileIO = FileIO.getInstance();
+        googleDrive = GoogleDriveNetworking.getInstance();
+        networkStatus = NetworkStatus.getInstance();
         utility = Utility.getInstance();
 
-        admin =findViewById(R.id.admin);
+        testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
+
+        admin = findViewById(R.id.admin);
         admin.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
@@ -88,17 +104,68 @@ public class Directory extends AppCompatActivity {
             }
         });
 
+        upload = findViewById(R.id.upload);
+        upload.setOnClickListener(new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                testingInternetDialog.show();
+                networkStatus.isOnline(new NetworkStatus.Callback() {
+                    @Override
+                    public void handleConnected(final boolean _success) {
+                        // this needs to run on the ui thread because of ui components in it
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                testingInternetDialog.dismiss();
+                                if (_success) {
+                                    Map<Integer, Map<Integer, String>> scoutingDatas = fileIO.fetchScoutingDatas();
+                                    for (Map.Entry<Integer, Map<Integer, String>> entryTeam : scoutingDatas.entrySet()) {
+                                        for (Map.Entry<Integer, String> entryMatch : entryTeam.getValue().entrySet()) {
+                                            String fileName = FileIO.SCOUTING_DATA_HEADER + "_" + FileIO.TEAM
+                                                    + String.valueOf(entryTeam.getKey()) + "_" + FileIO.MATCH
+                                                    + String.valueOf(entryMatch.getKey()) + ".json";
+                                            googleDrive.uploadContentToGoogleDrive(entryMatch.getValue(), fileName, Directory.this);
+                                        }
+                                    }
+
+                                    Map<Integer, String> benchmarkingDatas = fileIO.fetchBenchmarkDatas();
+                                    for (Map.Entry<Integer, String> entryTeam : benchmarkingDatas.entrySet()) {
+                                        String fileName = FileIO.BENCHMARK_DATA_HEADER + "_" + FileIO.TEAM
+                                                + String.valueOf(entryTeam.getKey()) + ".json";
+                                        googleDrive.uploadContentToGoogleDrive(entryTeam.getValue(), fileName, Directory.this);
+                                    }
+
+                                } else {
+                                    showConnectToInternetDialog();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        download = findViewById(R.id.download);
+        download.setOnClickListener(new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                Intent intent = new Intent(Directory.this, CheckList.class);
+                startActivity(intent);
+            }
+        });
+
         boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
-        if(!isTableConfigured) {
+        if (!isTableConfigured) {
             String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
             String[] adminList = getResources().getStringArray(R.array.admins);
             boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
-            if(adminNameFound) {
+            if (adminNameFound) {
                 Log.d(TAG, "Admin");
                 Intent intent = new Intent(Directory.this, Admin.class);
                 startActivity(intent);
-            }
-            else {
+            } else {
                 Dialog dialog = utility.getNegativeButtonDialog(this, TAG,
                         "Have an Admin Setup Tablet!",
                         "Go Back");
@@ -119,16 +186,22 @@ public class Directory extends AppCompatActivity {
         String[] adminList = getResources().getStringArray(R.array.admins);
         boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
 
-        if(adminNameFound) {
+        if (adminNameFound) {
             adminButton.setVisibility(android.view.View.VISIBLE);
         }
 
         boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
-        if(isTableConfigured) {
+        if (isTableConfigured) {
             normalButtons.setVisibility(android.view.View.VISIBLE);
-        }
-        else {
+        } else {
             normalButtons.setVisibility(android.view.View.INVISIBLE);
         }
+    }
+
+    private void showConnectToInternetDialog() {
+        Dialog dialog = utility.getPositiveButtonDialog(this, TAG,
+                "You NEED to connect to the internet!",
+                "Okay");
+        dialog.show();
     }
 }
