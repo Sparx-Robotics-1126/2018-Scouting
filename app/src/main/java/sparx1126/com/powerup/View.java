@@ -122,9 +122,10 @@ public class View extends AppCompatActivity {
                     total += intValueSumsMap.get(key);
                 }
                 // excluding team number
-                if(!key.equals(BenchmarkData.TEAM_NUMBER)) {
+                if(!key.equals(ScoutingData.TEAM_NUMBER) && !key.equals(ScoutingData.MATCH_NUMBER)) {
                     intValueSumsMap.put(key, total);
                 }
+
             }
         }
 
