@@ -1,5 +1,7 @@
 package sparx1126.com.powerup.utilities;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,6 +120,18 @@ public class DataCollection {
             matchMap = scoutingDataMap.get(teamNumber);
         }
         matchMap.put(matchNumber, _data);
+        String result = "false";
+        if (_data.isAutoScoredScale()){
+            result="true";
+        }
+        Log.e("jaren", result);
+
+        ScoutingData storedsd = getScoutingData(teamNumber, matchNumber);
+        result ="false";
+        if((storedsd != null) && storedsd.isAutoScoredScale()){
+            result="true";
+        }
+        Log.e("jaren2", result);
         scoutingDataMap.put(teamNumber, matchMap);
     }
     public Map<Integer, Map<Integer, ScoutingData>> getScoutingDataMap() {

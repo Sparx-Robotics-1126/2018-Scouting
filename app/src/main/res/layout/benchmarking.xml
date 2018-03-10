@@ -203,7 +203,7 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Can Move Past Line" />
+                        android:text="Can Cross Auto Line" />
 
                     <CheckBox
                         android:id="@+id/move_past_line"

@@ -23,13 +23,13 @@ public class BenchmarkData extends JsonData {
     private static final String PREFER_START_TWO = "preferStartTwo";
     private static final String PREFER_START_THREE = "preferStartThree";
     private static final String CAN_START_WITH_CUBE = "canStartWithCube";
-    private static final String AUTO_CROSS_LINE = "autoCrossLine";
+    private static final String AUTO_CROSS_LINE = "crossedAutoLine";/*changed*/
     private static final String AUTO_HOW_MANY_SCORE_SWITCH_PLACED = "autoHowManyScoreSwitchPlaced";
     private static final String AUTO_HOW_MANY_SCORE_SWITCH_TOSSED = "autoHowManyScoreSwitchTossed";
     private static final String AUTO_HOW_MANY_SCORE_SCALE_PLACED = "autoHowManyScoreScalePlaced";
     private static final String AUTO_HOW_MANY_SCORE_SCALE_TOSSED = "autoHowManyScoreScaleTossed";
-    private static final String AUTO_ACQUIRE_PORTAL = "autoAcquirePortal";
-    private static final String AUTO_ACQUIRE_FLOOR = "autoAcquireFloor";
+    private static final String AUTO_ACQUIRE_PORTAL = "canAcquirePortalAuto";/*changed*/
+    private static final String AUTO_ACQUIRE_FLOOR = "canAcquireFloorAuto";/*changed*/
     private static final String TELE_ACQUIRE_PORTAL = "teleAcquirePortal";
     private static final String TELE_ACQUIRE_FLOOR = "teleAcquireFloor";
     private static final String TELE_DEPOSIT_VAULT = "teleDeposit_vault";
@@ -37,10 +37,10 @@ public class BenchmarkData extends JsonData {
     private static final String TELE_TOSS_TO_SWITCH = "teleTossToSwitch";
     private static final String TELE_PLACE_ON_SCALE = "telePlaceOnScale";
     private static final String TELE_TOSS_TO_SCALE = "teleTossToScale";
-    private static final String END_CLIMB_RUNG = "endClimbRung";
+    private static final String END_CLIMB_RUNG = "endClimbWithoutAssist";/*changed*/
     private static final String END_CLIMB_ASSIST_TYPE = "endClimbAssistType";
     private static final String END_CLIMB_HEIGHT = "endClimbHeight";
-    private static final String END_CLIMB_ON_ROBOT = "endClimbOnRobot";
+    private static final String END_CLIMB_ON_ROBOT = "endAttachToRobot";/*changed*/
 
     public BenchmarkData() {
         // Initialize

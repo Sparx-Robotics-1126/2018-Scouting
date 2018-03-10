@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical">
 
-    <AutoCompleteTextView
-        android:id="@+id/studentNameAutoText"
-        style="@style/J_autoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_centerInParent="true"
-        android:hint="Scouter Name"/>
+    <LinearLayout style="@style/J_verticalLinearLayout">
 
-    <EditText
-        android:id="@+id/studentPassword"
-        style="@style/J_NormalEditText"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/studentNameAutoText"
-        android:hint="Password" />
+        <AutoCompleteTextView
+            android:id="@+id/studentNameAutoText"
+            style="@style/J_autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:hint="Scouter Name"
+            android:layout_marginTop="300dp"/>
 
-    <Button
-        android:id="@+id/logInButton"
-        style="@style/J_NormalButton"
-        android:layout_below="@+id/studentPassword"
-        android:layout_centerHorizontal="true"
-        android:text="Log On"/>
+        <EditText
+            android:id="@+id/studentPassword"
+            style="@style/J_NormalEditText"
+            android:layout_width="match_parent"
+            android:hint="Password" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/logInButton"
+            style="@style/J_NormalButton"
+            android:text="Log On"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>
