@@ -1,14 +1,15 @@
 package sparx1126.com.powerup;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.SparseArray;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.data_components.BenchmarkData;
@@ -18,6 +19,8 @@ import sparx1126.com.powerup.utilities.DataCollection;
 
 public class CheckList extends AppCompatActivity {
     private static final String TAG = "CheckList ";
+    public static final float HEADER_TEXT_SIZE = 24;
+    public static final float TEXT_SIZE = 20;
     private static DataCollection dataCollection;
 
     private TableLayout masterTable;
@@ -27,27 +30,40 @@ public class CheckList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checklist);
 
-        DataCollection data = DataCollection.getInstance();
+        dataCollection = DataCollection.getInstance();
 
-        Map<String, BlueAllianceTeam> teamsInEvent = data.getEventTeams();
-        Map<Integer, BenchmarkData> becnhmarkData = data.getBenchmarkDataMap();
-        Map<Integer, Map<Integer, ScoutingData>> scoutingData = data.getScoutingDataMap();
+        Map<String, BlueAllianceTeam> teamsInEvent = dataCollection.getEventTeams();
+        Map<Integer, BenchmarkData> becnhmarkData = dataCollection.getBenchmarkDataMap();
+        Map<Integer, Map<Integer, ScoutingData>> scoutingData = dataCollection.getScoutingDataMap();
 
         masterTable = findViewById(R.id.masterTable);
+        Drawable cellBackground = ResourcesCompat.getDrawable(getResources(), R.drawable.check_list_cell, null);
 
         int index = 0;
         TableRow heading = new TableRow(this);
 
         TextView teamNumberHeading = new TextView(this);
         teamNumberHeading.setText("TEAM");
+        teamNumberHeading.setTextColor(Color.BLACK);
+        teamNumberHeading.setTextSize(HEADER_TEXT_SIZE);
+        teamNumberHeading.setBackground(cellBackground);
+        teamNumberHeading.setTypeface(null, Typeface.BOLD);
         heading.addView(teamNumberHeading);
 
         TextView benchmarkHeading = new TextView(this);
         benchmarkHeading.setText("BENCHMARKED");
+        benchmarkHeading.setTextColor(Color.BLACK);
+        benchmarkHeading.setTextSize(HEADER_TEXT_SIZE);
+        benchmarkHeading.setBackground(cellBackground);
+        benchmarkHeading.setTypeface(null, Typeface.BOLD);
         heading.addView(benchmarkHeading);
 
         TextView scoutingHeading = new TextView(this);
         scoutingHeading.setText("SCOUTED");
+        scoutingHeading.setTextColor(Color.BLACK);
+        scoutingHeading.setTextSize(HEADER_TEXT_SIZE);
+        scoutingHeading.setBackground(cellBackground);
+        scoutingHeading.setTypeface(null, Typeface.BOLD);
         heading.addView(scoutingHeading);
 
         masterTable.addView(heading, index);
@@ -59,14 +75,23 @@ public class CheckList extends AppCompatActivity {
 
             TextView teamNumberText = new TextView(this);
             teamNumberText.setText(blueAllianceTeamData.getNumber());
+            teamNumberText.setTextColor(Color.BLACK);
+            teamNumberText.setTextSize(TEXT_SIZE);
+            teamNumberText.setBackground(cellBackground);
             child.addView(teamNumberText);
 
             TextView benchmark = new TextView(this);
             String benchmarkStr = "No";
             if(becnhmarkData.get(teamNumber) != null) {
                 benchmarkStr = "Yes";
+                benchmark.setTextColor(Color.GREEN);
+            }
+            else {
+                benchmark.setTextColor(Color.BLACK);
             }
             benchmark.setText(benchmarkStr);
+            benchmark.setTextSize(TEXT_SIZE);
+            benchmark.setBackground(cellBackground);
             child.addView(benchmark);
 
             TextView scouting = new TextView(this);
@@ -74,8 +99,15 @@ public class CheckList extends AppCompatActivity {
             if(scoutingData.get(teamNumber) != null) {
                 int howMany = scoutingData.get(teamNumber).size();
                 scoutingStr = String.valueOf(howMany);
+                if(howMany > 0) {
+                    scouting.setTextColor(Color.GREEN);
+                } else {
+                    scouting.setTextColor(Color.BLACK);
+                }
             }
             scouting.setText(scoutingStr);
+            scouting.setTextSize(TEXT_SIZE);
+            scouting.setBackground(cellBackground);
             child.addView(scouting);
 
             masterTable.addView(child, index);

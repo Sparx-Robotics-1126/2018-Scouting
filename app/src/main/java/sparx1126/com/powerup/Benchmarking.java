@@ -112,7 +112,7 @@ public class Benchmarking extends AppCompatActivity {
 
         team_number_input = findViewById(R.id.team_number);
         team_number_input.setTransformationMethod(null);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, teamsInEvent);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.custom_list_item, teamsInEvent);
         team_number_input.setAdapter(adapter);
         team_number_input.setThreshold(1);
         team_number_input.addTextChangedListener(new TextWatcher() {
@@ -164,7 +164,7 @@ public class Benchmarking extends AppCompatActivity {
         driveTypeSpinner = findViewById(R.id.drive_type_spinner);
         //for drive type dropdown selector
         driveTypesArray = getResources().getStringArray(R.array.driveTypes);
-        SpinnerAdapter driveAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, driveTypesArray);
+        SpinnerAdapter driveAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, driveTypesArray);
         driveTypeSpinner.setAdapter(driveAdapter);
         driveTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -187,7 +187,7 @@ public class Benchmarking extends AppCompatActivity {
         wheelTypeSpinner = findViewById(R.id.wheel_type_spinner);
         //for wheel type dropdown selector items
         wheelTypesArray = getResources().getStringArray(R.array.wheelTypes);
-        SpinnerAdapter wheelAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wheelTypesArray);
+        SpinnerAdapter wheelAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, wheelTypesArray);
         wheelTypeSpinner.setAdapter(wheelAdapter);
         wheelTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -261,6 +261,9 @@ public class Benchmarking extends AppCompatActivity {
             public void onClick(View view) {
                 if (switchPlaceAuto.isChecked()) {
                     howManySwitchPlaceAuto.setVisibility(View.VISIBLE);
+                    if(!switchTossAuto.isChecked()) {
+                        howManySwitchTossAuto.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     howManySwitchPlaceAuto.setText("");
                     howManySwitchPlaceAuto.setVisibility(View.INVISIBLE);
@@ -273,6 +276,9 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (switchTossAuto.isChecked()) {
+                    if(!switchPlaceAuto.isChecked()) {
+                        howManySwitchPlaceAuto.setVisibility(View.INVISIBLE);
+                    }
                     howManySwitchTossAuto.setVisibility(View.VISIBLE);
                 } else {
                     howManySwitchTossAuto.setText("");
@@ -311,6 +317,9 @@ public class Benchmarking extends AppCompatActivity {
             public void onClick(View view) {
                 if (scalePlaceAuto.isChecked()) {
                     howManyScalePlaceAuto.setVisibility(View.VISIBLE);
+                    if(!scaleTossAuto.isChecked()) {
+                        howManyScaleTossAuto.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     howManyScalePlaceAuto.setText("");
                     howManyScalePlaceAuto.setVisibility(View.INVISIBLE);
@@ -323,6 +332,9 @@ public class Benchmarking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (scaleTossAuto.isChecked()) {
+                    if(!scalePlaceAuto.isChecked()) {
+                        howManyScalePlaceAuto.setVisibility(View.INVISIBLE);
+                    }
                     howManyScaleTossAuto.setVisibility(View.VISIBLE);
                 } else {
                     howManyScaleTossAuto.setText("");
@@ -451,7 +463,7 @@ public class Benchmarking extends AppCompatActivity {
         climbAssistTypeSpinner.setVisibility(View.GONE);
         //for wheel type dropdown selector items
         climbAssistTypesArray = getResources().getStringArray(R.array.climbAssistTypes);
-        SpinnerAdapter climbAssistAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, climbAssistTypesArray);
+        SpinnerAdapter climbAssistAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, climbAssistTypesArray);
         climbAssistTypeSpinner.setAdapter(climbAssistAdapter);
         climbAssistTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -619,7 +631,7 @@ public class Benchmarking extends AppCompatActivity {
                 break;
         }
 
-        rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        rankChoices.setText("1. " + prefStart1 + "          2. " + prefStart2 + "          3. " + prefStart3);
         chooseAgainButton.setVisibility(View.VISIBLE);
     }
 
@@ -627,7 +639,7 @@ public class Benchmarking extends AppCompatActivity {
         prefStart1 = getResources().getString(R.string.none);
         prefStart2 = getResources().getString(R.string.none);
         prefStart3 = getResources().getString(R.string.none);
-        rankChoices.setText("Favored Start Positions:                               " + "1. " + prefStart1 + " 2. " + prefStart2 + " 3. " + prefStart3);
+        rankChoices.setText("1. " + prefStart1 + "          2. " + prefStart2 + "          3. " + prefStart3);
         pref_left.setChecked(false);
         pref_right.setChecked(false);
         pref_center.setChecked(false);
@@ -715,52 +727,7 @@ public class Benchmarking extends AppCompatActivity {
             attach_robot.setChecked(data.isEndClimbOnRobot());
         }
         else {
-            setStringInSpinner("", driveTypesArray, driveTypeSpinner, customDrive);
-            setStringInSpinner("", wheelTypesArray, wheelTypeSpinner, customWheel);
-            numWheels.setText("");
-            speed.setText("");
-            height.setText("");
-            weight.setText("");
-            groundClearance.setText("");
-            chooseAgain();
-            start_w_cube.setChecked(false);
-            move_past_line.setChecked(false);
-            howManySwitchPlaceAuto.setText("");
-            howManySwitchTossAuto.setText("");
-            Map<CheckBox, EditText> canSwitchAutoChildren = new HashMap<>();
-            canSwitchAutoChildren.put(switchPlaceAuto, howManySwitchPlaceAuto);
-            canSwitchAutoChildren.put(switchTossAuto, howManySwitchTossAuto);
-            setVisibililtyOfGroup(canSwitchAuto, canSwitchAutoChildren);
-            howManyScalePlaceAuto.setText("");
-            howManyScaleTossAuto.setText("");
-            Map<CheckBox, EditText> canScaleAutoChildren = new HashMap<>();
-            canScaleAutoChildren.put(scalePlaceAuto, howManyScalePlaceAuto);
-            canScaleAutoChildren.put(scaleTossAuto, howManyScaleTossAuto);
-            setVisibililtyOfGroup(canScaleAuto, canScaleAutoChildren);
-            fromPortalAuto.setChecked(false);
-            fromFloorAuto.setChecked(false);
-            pickUpCubesInAuto.setChecked(false);
-            pickUpCubesInAuto.callOnClick();
-            fromPortalTele.setChecked(false);
-            fromFloorTele.setChecked(false);
-            pickUpCubesInTeleOp.setChecked(false);
-            pickUpCubesInTeleOp.callOnClick();
-            deposit_vault.setChecked(false);
-            switchPlaceTele.setChecked(false);
-            switchTossTele.setChecked(false);
-            scoreSwitchTele.setChecked(false);
-            scoreSwitchTele.callOnClick();
-            scalePlaceTele.setChecked(false);
-            scaleTossTele.setChecked(false);
-            scoreScaleTele.setChecked(false);
-            scoreScaleTele.callOnClick();
-            climb_rung.setChecked(false);
-            climb_rung.callOnClick();
-            canAssist.setChecked(false);
-            canAssist.callOnClick();
-            setStringInSpinner("", climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
-            climb_height.setText("");
-            attach_robot.setChecked(false);
+            reset();
         }
     }
 
@@ -789,12 +756,61 @@ public class Benchmarking extends AppCompatActivity {
 
     private void setVisibililtyOfGroup(CheckBox _parent, Map<CheckBox, EditText> _children) {
         for(Map.Entry<CheckBox, EditText> entry: _children.entrySet()) {
-            if(!entry.getValue().getText().toString().isEmpty()) {
+            if(!entry.getValue().getText().toString().isEmpty() && !entry.getValue().getText().toString().equals("0")) {
                 _parent.setChecked(true);
                 _parent.callOnClick();
                 entry.getKey().setChecked(true);
                 entry.getKey().callOnClick();
             }
         }
+    }
+
+    private void reset() {
+        setStringInSpinner("", driveTypesArray, driveTypeSpinner, customDrive);
+        setStringInSpinner("", wheelTypesArray, wheelTypeSpinner, customWheel);
+        numWheels.setText("");
+        speed.setText("");
+        height.setText("");
+        weight.setText("");
+        groundClearance.setText("");
+        chooseAgain();
+        start_w_cube.setChecked(false);
+        move_past_line.setChecked(false);
+        canSwitchAuto.setChecked(false);
+        switchPlaceAuto.setChecked(false);
+        switchTossAuto.setChecked(false);
+        howManySwitchPlaceAuto.setText("");
+        howManySwitchTossAuto.setText("");
+        canSwitchAuto.callOnClick(); // resets visibility
+        canScaleAuto.setChecked(false);
+        scalePlaceAuto.setChecked(false);
+        scaleTossAuto.setChecked(false);
+        howManyScalePlaceAuto.setText("");
+        howManyScaleTossAuto.setText("");
+        canScaleAuto.callOnClick(); // resets visibility
+        fromPortalAuto.setChecked(false);
+        fromFloorAuto.setChecked(false);
+        pickUpCubesInAuto.setChecked(false);
+        pickUpCubesInAuto.callOnClick();
+        fromPortalTele.setChecked(false);
+        fromFloorTele.setChecked(false);
+        pickUpCubesInTeleOp.setChecked(false);
+        pickUpCubesInTeleOp.callOnClick();
+        deposit_vault.setChecked(false);
+        switchPlaceTele.setChecked(false);
+        switchTossTele.setChecked(false);
+        scoreSwitchTele.setChecked(false);
+        scoreSwitchTele.callOnClick();
+        scalePlaceTele.setChecked(false);
+        scaleTossTele.setChecked(false);
+        scoreScaleTele.setChecked(false);
+        scoreScaleTele.callOnClick();
+        climb_rung.setChecked(false);
+        climb_rung.callOnClick();
+        canAssist.setChecked(false);
+        canAssist.callOnClick();
+        setStringInSpinner("", climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
+        climb_height.setText("");
+        attach_robot.setChecked(false);
     }
 }

@@ -1,63 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/masterView">
+    android:orientation="vertical"
+    android:background="@color/backgroundColor">
 
     <Spinner
         android:id="@+id/eventSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@android:drawable/btn_dropdown" />
+        style="@style/J_spinner" />
 
     <LinearLayout
         android:id="@+id/adminSelectionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        style="@style/J_verticalLinearLayout">
 
         <ToggleButton
             android:id="@+id/blueSelectedToggle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
             android:background="@drawable/my_btn_toggle"
             android:text="Toggle Button"
             android:textColor="@color/white"
             android:textOff="Red Alliance"
-            android:textOn="Blue Alliance" />
+            android:textOn="Blue Alliance"
+            android:textSize="@dimen/text_size_big"/>
 
         <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            style="@style/J_radioGroup"
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/team1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_radioButton"
                 android:text="Team 1" />
 
             <RadioButton
                 android:id="@+id/team2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_radioButton"
                 android:text="Team 2" />
 
             <RadioButton
                 android:id="@+id/team3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/J_radioButton"
                 android:text="Team 3" />
 
         </RadioGroup>
 
     <Button
         android:id="@+id/selectStuff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Position"
-        android:textSize="18sp" />
+        style="@style/J_StretchedButton"
+        android:text="Select Position" />
 
     </LinearLayout>
 

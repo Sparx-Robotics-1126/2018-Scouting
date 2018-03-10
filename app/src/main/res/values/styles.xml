@@ -7,121 +7,111 @@
         <item name="colorAccent">@color/accentColor</item>
     </style>
 
-    <style name="HorizontalNumberPicker">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
-    </style>
-
-    <style name="J_ShortEditText">
-        <item name="android:layout_width">100sp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
-        <item name="android:textColor">@color/accentColor</item>
-        <item name="android:inputType">numberPassword</item>
-        <item name="android:digits">1234567890</item>
-        <item name="android:maxLength">4</item>
-        <item name="android:hint">00</item>
-        <item name="android:colorActivatedHighlight">@color/accentColor</item>
-        <item name="android:textColorHint">@color/accentColorHint</item>
-    </style>
-
-    <style name="J_checkBox">
+    <style name="basic">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:buttonTint">@color/accentColor</item>
-        <item name="android:layout_weight">1</item>        
-        <item name="android:layoutDirection">rtl</item>
-    </style>
-
-<!--parent these 2 /\  \/  -->
-    <style name="J_word_checkBox">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:buttonTint">@color/accentColor</item>
         <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:textColor">@color/accentColor</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:textColorHint">@color/accentColorHint</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+    </style>
+
+    <style name="HorizontalNumberPicker" parent="basic">
+        <item name="android:layout_weight">.2</item>
+        <item name="android:layoutDirection">rtl</item>
+    </style>
+
+    <style name="J_NumberEditText" parent="basic">
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:digits">1234567890</item>
+        <item name="android:maxLength">3</item>
+        <item name="android:gravity">right</item>
+        <item name="android:hint">00</item>
+        <item name="android:layout_weight">.25</item>
+    </style>
+
+    <style name="J_checkBox" parent="basic">
+        <item name="android:buttonTint">@color/accentColor</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+<!--parent these 2 /\  \/  -->
+    <style name="J_labeled_checkBox" parent="J_checkBox">
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:layout_marginLeft">15dp</item>
     </style>
 
     <style name="J_verticalLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:background">@color/backgroundColor</item>
     </style>
 
     <style name="J_horizontalLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/backgroundColor</item>
     </style>
 
-    <style name="J_basicTextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
+    <style name="J_NormalTextView" parent="basic">
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="J_basicEditText" parent="J_basicTextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/accentColor</item>
-        <item name="android:textColorHint">@color/accentColorHint</item>
+    <style name="J_BigTextView" parent="J_NormalTextView">
+        <item name="android:textSize">@dimen/text_size_big</item>
     </style>
 
-    <style name="J_headingTextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
+    <style name="J_NormalEditText" parent="basic">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:maxLength">50</item>
+    </style>
+
+    <style name="J_headingTextView" parent="basic">
         <item name="android:textSize">@dimen/text_size_header</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">0dp</item>
     </style>
 
-    <style name="J_numberAutoCompleteTextView">
-        <item name="android:layout_width">100sp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:digits">1234567890</item>
-        <item name="android:gravity">right</item>
+    <style name="J_autoCompleteTextView" parent="basic">
+        <item name="android:textSize">@dimen/text_size_big</item>
+    </style>
+
+    <style name="J_numberAutoCompleteTextView" parent="J_autoCompleteTextView">
         <item name="android:inputType">numberPassword</item>
+        <item name="android:digits">1234567890</item>
         <item name="android:maxLength">4</item>
-        <item name="android:textColor">@color/accentColor</item>
-        <item name="android:textColorHint">@color/accentColorHint</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_weight">.3</item>
     </style>
 
     <style name="J_spinner">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:background">@color/accentColor</item>
-        <item name="android:dropDownWidth">match_parent</item>
-        <item name="android:popupBackground">@color/accentColor</item>
-        <item name="android:textColor">@color/accentColorHint</item>
-        <item name="android:textColorHint">@color/accentColorHint</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
-    </style>
-
-    <style name="J_radioButton">
-        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
+    </style>
+
+    <style name="J_radioButton" parent="basic">
         <item name="android:buttonTint">@color/accentColor</item>
-        <item name="android:textColor">@color/accentColor</item>
-
     </style>
 
-    <style name="spinnerDropDownItemStyle">
-        <item name="android:padding">20dp</item>
-        <item name="android:textSize">300sp</item>
+    <style name="J_radioGroup" parent="basic">
+        <item name="android:buttonTint">@color/accentColor</item>
+        <item name="android:paddingLeft">30dp</item>
     </style>
 
+    <style name="J_NormalButton" parent="basic">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">25dp</item>
+        <item name="android:backgroundTint">@color/accentColor</item>
+    </style>
 
-
+    <style name="J_StretchedButton"  parent="J_NormalButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>

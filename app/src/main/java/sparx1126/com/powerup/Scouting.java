@@ -100,11 +100,11 @@ public class Scouting extends AppCompatActivity {
                             if (pref_BlueAlliance) {
                                 teamKeys = match.getBlueTeamKeys();
                                 allianceColor.setText("Blue Alliance");
-                                allianceColor.setTextColor(Color.BLUE);
+                                allianceColor.setBackgroundColor(Color.BLUE);
                             } else {
                                 teamKeys = match.getRedTeamKeys();
                                 allianceColor.setText("Red Alliance");
-                                allianceColor.setTextColor(Color.RED);
+                                allianceColor.setBackgroundColor(Color.RED);
                             }
 
                             int pref_TeamPosition = settings.getInt(getResources().getString(R.string.pref_TeamPosition), 0);
@@ -123,7 +123,6 @@ public class Scouting extends AppCompatActivity {
                             break;
                         } else {
                             scouting_main_layout.setVisibility(View.INVISIBLE);
-
                         }
                     }
                 } catch (Exception e) {
@@ -263,27 +262,7 @@ public class Scouting extends AppCompatActivity {
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
         }
         else {
-            autoLineCrossed.setChecked(false);
-            autoScoredSwitch.setChecked(false);
-            autoScoredScale.setChecked(false);
-            autoPickedUpCube.setChecked(false);
-            autoCubeExchange.setChecked(false);
-            startingPositionLeft.setChecked(false);
-            startingPositionCenter.setChecked(false);
-            startingPositionRight.setChecked(false);
-            cubesPlacedOnScale.setValue(0);
-            cubesPlacedOnSwitch.setValue(0);
-            cubesAcquiredFromPlayer.setValue(0);
-            cubesPickedUpFromFloor.setValue(0);
-            cubesPlacedInExchange.setValue(0);
-            playedDefenseEffectively.setChecked(false);
-            climbedRung.setChecked(false);
-            climbedRobot.setChecked(false);
-            canBeClimbOn.setChecked(false);
-            climbedUnder15Secs.setChecked(false);
-            held1Robot.setChecked(false);
-            held2Robot.setChecked(false);
-            climbedUnder15Secs.setChecked(false);
+            reset();
         }
     }
 
@@ -295,6 +274,30 @@ public class Scouting extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    private void reset() {
+        autoLineCrossed.setChecked(false);
+        autoScoredSwitch.setChecked(false);
+        autoScoredScale.setChecked(false);
+        autoPickedUpCube.setChecked(false);
+        autoCubeExchange.setChecked(false);
+        startingPositionLeft.setChecked(false);
+        startingPositionCenter.setChecked(false);
+        startingPositionRight.setChecked(false);
+        cubesPlacedOnScale.setValue(0);
+        cubesPlacedOnSwitch.setValue(0);
+        cubesAcquiredFromPlayer.setValue(0);
+        cubesPickedUpFromFloor.setValue(0);
+        cubesPlacedInExchange.setValue(0);
+        playedDefenseEffectively.setChecked(false);
+        climbedRung.setChecked(false);
+        climbedRobot.setChecked(false);
+        canBeClimbOn.setChecked(false);
+        climbedUnder15Secs.setChecked(false);
+        held1Robot.setChecked(false);
+        held2Robot.setChecked(false);
+        climbedUnder15Secs.setChecked(false);
     }
 }
 

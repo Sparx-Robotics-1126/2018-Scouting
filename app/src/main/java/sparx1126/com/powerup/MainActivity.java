@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
 
         studentNameAutoTextView = findViewById(R.id.studentNameAutoText);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, studentList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.custom_list_item, studentList);
         studentNameAutoTextView.setAdapter(adapter);
         studentNameAutoTextView.setThreshold(2);
         studentNameAutoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

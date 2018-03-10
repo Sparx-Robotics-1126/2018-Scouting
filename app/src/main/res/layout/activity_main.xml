@@ -6,39 +6,23 @@
 
     <AutoCompleteTextView
         android:id="@+id/studentNameAutoText"
+        style="@style/J_autoCompleteTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:hint="Scouter Name"
-        android:textSize="30sp"
-        android:textColorHint="@color/accentColorHint"
-        android:textColor="@color/accentColor"
-        android:shadowColor="@color/textColor"/>
+        android:hint="Scouter Name"/>
 
     <EditText
         android:id="@+id/studentPassword"
+        style="@style/J_NormalEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/studentNameAutoText"
-        android:hint="Password"
-        android:shadowColor="@color/textColor"
-        android:textColor="@color/accentColor"
-        android:textColorHint="@color/accentColorHint"
-        android:textSize="30sp" />
+        android:hint="Password" />
 
     <Button
         android:id="@+id/logInButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/J_NormalButton"
         android:layout_below="@+id/studentPassword"
         android:layout_centerHorizontal="true"
-        android:width="190dp"
-        android:height="75dp"
-        android:backgroundTint="@color/accentColor"
-        android:text="Log On"
-        android:textColor="@color/backgroundColor"
-        android:textSize="20sp" />
+        android:text="Log On"/>
 
 </RelativeLayout>

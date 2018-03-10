@@ -19,10 +19,11 @@ public class Directory extends AppCompatActivity {
     private static Utility utility;
 
     private Button admin;
+    private LinearLayout adminButton;
     private LinearLayout normalButtons;
-    private Button view;
-    private Button scouting;
     private Button benchmarking;
+    private Button scouting;
+    private Button view;
     private Button checklist;
 
     @Override
@@ -42,16 +43,17 @@ public class Directory extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        admin.setVisibility(android.view.View.INVISIBLE);
 
-        normalButtons = findViewById(R.id.normal_buttons);
+        adminButton = findViewById(R.id.admin_button_layout);
+        adminButton.setVisibility(android.view.View.GONE);
+        normalButtons = findViewById(R.id.normal_buttons_layout);
 
-        view = findViewById(R.id.view);
-        view.setOnClickListener(new android.view.View.OnClickListener() {
+        benchmarking = findViewById(R.id.benchmark);
+        benchmarking.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(Directory.this, View.class);
+                Intent intent = new Intent(Directory.this, Benchmarking.class);
                 startActivity(intent);
             }
         });
@@ -66,12 +68,12 @@ public class Directory extends AppCompatActivity {
             }
         });
 
-        benchmarking = findViewById(R.id.benchmark);
-        benchmarking.setOnClickListener(new android.view.View.OnClickListener() {
+        view = findViewById(R.id.view);
+        view.setOnClickListener(new android.view.View.OnClickListener() {
 
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(Directory.this, Benchmarking.class);
+                Intent intent = new Intent(Directory.this, View.class);
                 startActivity(intent);
             }
         });
@@ -118,7 +120,7 @@ public class Directory extends AppCompatActivity {
         boolean adminNameFound = Arrays.asList(adminList).contains(scouterName);
 
         if(adminNameFound) {
-            admin.setVisibility(android.view.View.VISIBLE);
+            adminButton.setVisibility(android.view.View.VISIBLE);
         }
 
         boolean isTableConfigured = settings.getBoolean(getResources().getString(R.string.tablet_Configured), false);
