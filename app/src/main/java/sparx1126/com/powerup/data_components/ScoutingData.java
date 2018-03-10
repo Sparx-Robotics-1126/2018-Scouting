@@ -11,11 +11,6 @@ public class ScoutingData extends JsonData {
     private static final String SCOUTER_NAME = "scouterName";
     public static final String MATCH_NUMBER = "matchNumber";
     public static final String TEAM_NUMBER = "teamNumber";
-    private static final String AUTO_LINE_CROSSED = "autoLineCrossed";
-    private static final String AUTO_SCORED_SWITCH = "autoScoredSwitch";
-    private static final String AUTO_PICKED_UP_CUBE = "autoPickedUpCube";
-    private static final String AUTO_SCORED_SCALE = "autoScoredScale";
-    private static final String AUTO_CUBE_EXCHANGE = "autoCubeExchange";
     private static final String STARTED_LEFT_POSITION = "startedLeftPosition";
     private static final String STARTED_CENTER_POSITION = "startedCenterPosition";
     private static final String STARTED_RIGHT_POSITION = "startedRightPosition";
