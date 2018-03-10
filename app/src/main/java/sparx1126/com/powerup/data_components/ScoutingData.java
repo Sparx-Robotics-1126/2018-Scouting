@@ -9,8 +9,8 @@ import java.util.Map;
 public class ScoutingData extends JsonData {
     // keys
     private static final String SCOUTER_NAME = "scouterName";
-    private static final String MATCH_NUMBER = "matchNumber";
-    private static final String TEAM_NUMBER = "teamNumber";
+    public static final String MATCH_NUMBER = "matchNumber";
+    public static final String TEAM_NUMBER = "teamNumber";
     private static final String AUTO_LINE_CROSSED = "autoLineCrossed";
     private static final String AUTO_SCORED_SWITCH = "autoScoredSwitch";
     private static final String AUTO_PICKED_UP_CUBE = "autoPickedUpCube";
