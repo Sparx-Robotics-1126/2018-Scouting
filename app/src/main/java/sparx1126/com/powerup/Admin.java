@@ -78,6 +78,7 @@ public class Admin extends AppCompatActivity {
                         reset();
                     }
                     editor.putString(getResources().getString(R.string.pref_SelectedEvent), selectedItem);
+                    editor.apply();
 
                     testingInternetDialog.show();
                     networkStatus.isOnline(new NetworkStatus.Callback() {

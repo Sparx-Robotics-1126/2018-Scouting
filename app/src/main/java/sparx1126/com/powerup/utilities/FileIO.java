@@ -20,10 +20,10 @@ public class FileIO {
     private static final String TEAM_EVENTS_FILE_NAME = "teamEvents.json";
     private static final String EVENT_MATCHES_FILE_NAME = "eventMatches.json";
     private static final String EVENT_TEAMS_FILE_NAME = "eventTeams.json";
-    private static final String SCOUTING_DATA_HEADER = "scoutingData";
-    private static final String BENCHMARK_DATA_HEADER = "benchmarkData";
-    private static final String TEAM = "Team";
-    private static final String MATCH = "Match";
+    public static final String SCOUTING_DATA_HEADER = "scoutingData";
+    public static final String BENCHMARK_DATA_HEADER = "benchmarkData";
+    public static final String TEAM = "Team";
+    public static final String MATCH = "Match";
 
     private static FileIO instance;
     private File dir;
@@ -88,8 +88,6 @@ public class FileIO {
                 String[] fileNameParts = fileName.split("[_.]");
                 Integer team = Integer.parseInt(fileNameParts[1].replace(TEAM, ""));
                 Integer match = Integer.parseInt(fileNameParts[2].replace(MATCH, ""));
-                Log.e("JTATER", String.valueOf(team));
-                Log.e("JTATER", String.valueOf(match));
 
                 Map<Integer, String> matchMap;
                 if (rtnObj.get(team) != null) {
@@ -100,7 +98,6 @@ public class FileIO {
 
                 Log.d(TAG, fileName);
                 String data = fetchData(fileName);
-                Log.e("JTATER", data);
                 matchMap.put(match, data);
                 rtnObj.put(team, matchMap);
             }
