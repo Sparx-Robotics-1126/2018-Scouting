@@ -9,7 +9,10 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.drive.Metadata;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.utilities.FileIO;
@@ -151,8 +154,25 @@ public class Directory extends AppCompatActivity {
 
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(Directory.this, CheckList.class);
-                startActivity(intent);
+                testingInternetDialog.show();
+                networkStatus.isOnline(new NetworkStatus.Callback() {
+                    @Override
+                    public void handleConnected(final boolean _success) {
+                        // this needs to run on the ui thread because of ui components in it
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                testingInternetDialog.dismiss();
+                                if (_success) {
+                                    googleDrive.downloadContents(Directory.this);
+
+                                } else {
+                                    showConnectToInternetDialog();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
 

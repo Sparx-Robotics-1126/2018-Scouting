@@ -69,7 +69,7 @@ public class Utility {
         return dialog;
     }
 
-    public void restore() {
+    public void restoreFromTablet() {
         String teamEvents = fileIO.fetchTeamEvents();
         if (!teamEvents.isEmpty()) {
             dataCollection.setTeamEvents(teamEvents);

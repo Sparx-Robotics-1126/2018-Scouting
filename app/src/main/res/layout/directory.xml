@@ -43,12 +43,12 @@
         <Button
             android:id="@+id/upload"
             style="@style/J_StretchedButton"
-            android:text="Upload" />
+            android:text="Upload To Google Drive" />
 
         <Button
             android:id="@+id/download"
             style="@style/J_StretchedButton"
-            android:text="Download" />
+            android:text="Download From Google Drive" />
 
     </LinearLayout>
 

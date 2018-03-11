@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restorePreferences() {
-        utility.restore();
+        utility.restoreFromTablet();
         String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
         if (!scouterName.isEmpty()) {
             studentNameAutoTextView.setText(scouterName);
@@ -198,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         Dialog dialog = utility.getPositiveButtonDialog(this, TAG,
-                                "Sign-in Into Google failed: Try again later!.",
+                                "Sign-in Into Google failed: Try again later!",
                                 "Okay");
                         dialog.show();
                     }
