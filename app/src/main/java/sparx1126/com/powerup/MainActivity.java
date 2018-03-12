@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private void tryConnectToGoogleDrive() {
         testingInternetDialog.show();
 
-        networkStatus.isOnline(new NetworkStatus.Callback() {
+        networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
             @Override
             public void handleConnected(final boolean _success) {
                 // this needs to run on the ui thread because of ui components in it
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case GOOGLE_REQUEST_CODE_SIGN_IN:
                 if (resultCode == RESULT_OK) {
-                    if(googleDrive.tryInitializeDriveClient(data, this)) {
+                    if(googleDrive.tryInitializeDriveClient(this, data)) {
                         String msg = "Signed Into Google!";
                         Log.d(TAG, msg);
                         Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();

@@ -8,6 +8,8 @@
     <string name="selectEvent">Select Event</string>
     <string name="tablet_Configured">tablet_Configured</string>
     <string name="testing_internet">Wait a moment. Testing internet...</string>
+    <string name="downloading_internet">Wait a moment. Downloading from internet...</string>
+    <string name="uploading_internet">Wait a moment. Uploading to internet...</string>
     <string name="selectType">Select Type</string>
     <string name="other">Other</string>
     <string name="none">none</string>

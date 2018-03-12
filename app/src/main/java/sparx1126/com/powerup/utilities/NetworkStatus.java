@@ -4,7 +4,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class NetworkStatus {
-    public interface Callback {
+    public interface NetworkCallback {
         void handleConnected(boolean _success);
     }
     private static final String TAG = "NetworkStatus ";
@@ -35,7 +35,7 @@ public class NetworkStatus {
         return ((activeNetwork != null) && activeNetwork.isConnectedOrConnecting());
     }
 
-    public void isOnline(final Callback _connected) {
+    public void isOnline(final NetworkCallback _connected) {
 
         if(isInternetConnected()) {
             Thread t = new Thread(new Runnable() {
@@ -51,8 +51,6 @@ public class NetworkStatus {
             });
 
             t.start();
-
-
         }
         else {
             _connected.handleConnected(false);

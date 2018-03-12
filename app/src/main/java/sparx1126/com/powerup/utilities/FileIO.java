@@ -130,6 +130,21 @@ public class FileIO {
         return rtnObj;
     }
 
+    public void storeGoogleData(String _fileName, String _content) {
+        if(_fileName.contains(SCOUTING_DATA_HEADER)) {
+            String[] fileNameParts = _fileName.split("[_.]");
+            String team = fileNameParts[1].replace(TEAM, "");
+            String match = fileNameParts[2].replace(MATCH, "");
+            storeScoutingData(_content, team, match);
+        } else if (_fileName.contains(BENCHMARK_DATA_HEADER)) {
+            String[] fileNameParts = _fileName.split("[_.]");
+            String team = fileNameParts[1].replace(TEAM, "");
+            storeBenchmarkData(_content, team);
+        } else {
+            Log.e(TAG, "Don't know what u talking about Willi's: " + _fileName);
+        }
+    }
+
     private void storeData(String _fileName, String _input) {
         if (dir == null) throw new AssertionError("Not Initialize" + this);
 

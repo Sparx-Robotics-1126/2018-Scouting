@@ -124,14 +124,12 @@ public class DataCollection {
         if (_data.isAutoScoredScale()){
             result="true";
         }
-        Log.e("jaren", result);
 
         ScoutingData storedsd = getScoutingData(teamNumber, matchNumber);
         result ="false";
         if((storedsd != null) && storedsd.isAutoScoredScale()){
             result="true";
         }
-        Log.e("jaren2", result);
         scoutingDataMap.put(teamNumber, matchMap);
     }
     public Map<Integer, Map<Integer, ScoutingData>> getScoutingDataMap() {

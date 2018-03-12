@@ -81,7 +81,7 @@ public class Admin extends AppCompatActivity {
                     editor.apply();
 
                     testingInternetDialog.show();
-                    networkStatus.isOnline(new NetworkStatus.Callback() {
+                    networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
                         @Override
                         public void handleConnected(final boolean _success) {
                             // this needs to run on the ui thread because of ui components in it
@@ -172,7 +172,7 @@ public class Admin extends AppCompatActivity {
         Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
         if (data.isEmpty()) {
             testingInternetDialog.show();
-            networkStatus.isOnline(new NetworkStatus.Callback() {
+            networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
                 @Override
                 public void handleConnected(final boolean _success) {
                     // this needs to run on the ui thread because of ui components in it
