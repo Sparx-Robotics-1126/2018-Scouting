@@ -98,7 +98,7 @@ public class View extends AppCompatActivity {
 
         Map<Integer, ScoutingData> datas = dataCollection.getScoutingDatasForTeam(_teamNumber);
 
-        int numberOfDatas = datas.size();
+        float numberOfDatas = datas.size();
 
         rtnList.add("<b>\tMatches scouted: </b>" + numberOfDatas);
         Map<String, Integer> booleanValueSumsMap = new HashMap<>();
@@ -135,7 +135,9 @@ public class View extends AppCompatActivity {
             }
             for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
                 float average = entry.getValue() / numberOfDatas;
-                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + average + " average");
+                String averageValue = String.format("%.2f", average);
+                Log.e("roundedNumber", averageValue);
+                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + averageValue + " average");
             }
         }
 

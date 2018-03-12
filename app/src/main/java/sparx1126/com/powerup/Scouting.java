@@ -162,20 +162,23 @@ public class Scouting extends AppCompatActivity {
 
         climbedUnder15Secs = findViewById(R.id.Climb15secs);
         assistedClimbLayout = findViewById(R.id.assistedClimbLayout);
-        assistedClimbLayout.setVisibility(View.GONE);
+        //assistedClimbLayout.setVisibility(View.GONE);
 
         assistedOthersClimb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(assistedGroup.getVisibility() == View.GONE) {
+                if(assistedOthersClimb.isChecked()) {
                     assistedGroup.setVisibility(View.VISIBLE);
                 } else {
                     assistedGroup.setVisibility(View.GONE);
+                    held1Robot.setChecked(false);
+                    held2Robot.setChecked(false);
                 }
             }
         });
 
-        climbInfoGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+        /*climbInfoGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton button = (RadioButton) group.findViewById(checkedId);
                 if (button.isChecked() && button.getId() == R.id.climbRung) {
@@ -186,7 +189,7 @@ public class Scouting extends AppCompatActivity {
                     assistedGroup.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
         Button submitButton = findViewById(R.id.submitbutton);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -198,8 +201,8 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setMatchNumber(Integer.parseInt(matchNumber.getText().toString()));
                 scoutingData.setTeamNumber(Integer.parseInt(teamNumber.getText().toString()));
                 scoutingData.setAutoLineCrossed(autoLineCrossed.isChecked());
-                scoutingData.setAutoScoredScale(autoScoredSwitch.isChecked());
-                scoutingData.setAutoScoredSwitch(autoScoredScale.isChecked());
+                scoutingData.setAutoScoredScale(autoScoredScale.isChecked());
+                scoutingData.setAutoScoredSwitch(autoScoredSwitch.isChecked());
                 scoutingData.setAutoPickedUpCube(autoPickedUpCube.isChecked());
                 scoutingData.setAutoCubeExchange(autoCubeExchange.isChecked());
                 scoutingData.setStartedLeftPosition(startingPositionLeft.isChecked());
@@ -256,9 +259,12 @@ public class Scouting extends AppCompatActivity {
 
             if (scoutingData.getNumberOfRobotsHeld()== 1) {
                 held1Robot.setChecked(true);
+                assistedOthersClimb.setChecked(true);
             } else if (scoutingData.getNumberOfRobotsHeld() == 2) {
                 held2Robot.setChecked(true);
+                assistedOthersClimb.setChecked(true);
             }
+            assistedOthersClimb.callOnClick();
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
         }
         else {

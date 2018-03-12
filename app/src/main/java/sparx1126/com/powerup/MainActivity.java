@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private void tryConnectToGoogleDrive() {
         testingInternetDialog.show();
 
-        networkStatus.isOnline(new NetworkStatus.Callback() {
+        networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
             @Override
             public void handleConnected(final boolean _success) {
                 // this needs to run on the ui thread because of ui components in it
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restorePreferences() {
-        utility.restore();
+        utility.restoreFromTablet();
         String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
         if (!scouterName.isEmpty()) {
             studentNameAutoTextView.setText(scouterName);
@@ -191,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case GOOGLE_REQUEST_CODE_SIGN_IN:
                 if (resultCode == RESULT_OK) {
-                    if(googleDrive.tryInitializeDriveClient(data, this)) {
+                    if(googleDrive.tryInitializeDriveClient(this, data)) {
                         String msg = "Signed Into Google!";
                         Log.d(TAG, msg);
                         Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
                     }
                     else {
                         Dialog dialog = utility.getPositiveButtonDialog(this, TAG,
-                                "Sign-in Into Google failed: Try again later!.",
+                                "Sign-in Into Google failed: Try again later!",
                                 "Okay");
                         dialog.show();
                     }

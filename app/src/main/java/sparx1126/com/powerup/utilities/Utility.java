@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class Utility {
     private static Utility instance;
     private static DataCollection dataCollection;
     private static FileIO fileIO;
+    private static GoogleDriveNetworking googleDrive;
 
     public static synchronized Utility getInstance() {
         if (instance == null) {
@@ -27,6 +29,7 @@ public class Utility {
     private Utility() {
         dataCollection = DataCollection.getInstance();
         fileIO = FileIO.getInstance();
+        googleDrive = GoogleDriveNetworking.getInstance();
     }
 
     public Dialog getNoButtonDialog(Context _this, String _title, String _msg) {
@@ -69,7 +72,7 @@ public class Utility {
         return dialog;
     }
 
-    public void restore() {
+    public void restoreFromTablet() {
         String teamEvents = fileIO.fetchTeamEvents();
         if (!teamEvents.isEmpty()) {
             dataCollection.setTeamEvents(teamEvents);
@@ -100,6 +103,14 @@ public class Utility {
             benchmarkData.restoreFromJsonString(data);
             dataCollection.addBenchmarkData(benchmarkData);
         }
+    }
+
+    public void restoreFromGoogleDrive() {
+        Map<String, String> contentData = googleDrive.getContentMap();
+        for(Map.Entry<String, String> entry: contentData.entrySet()) {
+            fileIO.storeGoogleData(entry.getKey(), entry.getValue());
+        }
+        restoreFromTablet();
     }
 }
 

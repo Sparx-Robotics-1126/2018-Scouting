@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import sparx1126.com.powerup.utilities.FileIO;
@@ -26,6 +28,8 @@ public class Directory extends AppCompatActivity {
     private static Utility utility;
 
     private Dialog testingInternetDialog;
+    private Dialog downloadInternetDialog;
+    private Dialog uploadInternetDialog;
 
     private Button admin;
     private LinearLayout adminButton;
@@ -49,6 +53,8 @@ public class Directory extends AppCompatActivity {
         utility = Utility.getInstance();
 
         testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
+        downloadInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.downloading_internet));
+        uploadInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.uploading_internet));
 
         admin = findViewById(R.id.admin);
         admin.setOnClickListener(new android.view.View.OnClickListener() {
@@ -110,7 +116,7 @@ public class Directory extends AppCompatActivity {
             @Override
             public void onClick(android.view.View view) {
                 testingInternetDialog.show();
-                networkStatus.isOnline(new NetworkStatus.Callback() {
+                networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
                     @Override
                     public void handleConnected(final boolean _success) {
                         // this needs to run on the ui thread because of ui components in it
@@ -119,13 +125,15 @@ public class Directory extends AppCompatActivity {
                             public void run() {
                                 testingInternetDialog.dismiss();
                                 if (_success) {
+                                    Map<String, String> fileData = new HashMap<>();
+
                                     Map<Integer, Map<Integer, String>> scoutingDatas = fileIO.fetchScoutingDatas();
                                     for (Map.Entry<Integer, Map<Integer, String>> entryTeam : scoutingDatas.entrySet()) {
                                         for (Map.Entry<Integer, String> entryMatch : entryTeam.getValue().entrySet()) {
                                             String fileName = FileIO.SCOUTING_DATA_HEADER + "_" + FileIO.TEAM
                                                     + String.valueOf(entryTeam.getKey()) + "_" + FileIO.MATCH
                                                     + String.valueOf(entryMatch.getKey()) + ".json";
-                                            googleDrive.uploadContentToGoogleDrive(entryMatch.getValue(), fileName, Directory.this);
+                                            fileData.put(fileName, entryMatch.getValue());
                                         }
                                     }
 
@@ -133,9 +141,29 @@ public class Directory extends AppCompatActivity {
                                     for (Map.Entry<Integer, String> entryTeam : benchmarkingDatas.entrySet()) {
                                         String fileName = FileIO.BENCHMARK_DATA_HEADER + "_" + FileIO.TEAM
                                                 + String.valueOf(entryTeam.getKey()) + ".json";
-                                        googleDrive.uploadContentToGoogleDrive(entryTeam.getValue(), fileName, Directory.this);
+                                        fileData.put(fileName, entryTeam.getValue());
                                     }
 
+                                    uploadInternetDialog.show();
+                                    googleDrive.uploadContentToGoogleDrive(Directory.this, fileData,
+                                            new GoogleDriveNetworking.GoogleCompletedCallback() {
+                                                @Override
+                                                public void handleOnSuccess() {
+                                                    uploadInternetDialog.dismiss();
+                                                    String msg = "Uploaded to Internet";
+                                                    Log.d(TAG, msg);
+                                                    Toast.makeText(Directory.this, TAG + msg, Toast.LENGTH_LONG).show();
+                                                }
+
+                                                @Override
+                                                public void handleOnFailure(String _reason) {
+                                                    uploadInternetDialog.dismiss();
+                                                    Dialog dialog = utility.getNegativeButtonDialog(Directory.this, TAG,
+                                                            _reason,
+                                                            "Okay");
+                                                    dialog.show();
+                                                }
+                                            });
                                 } else {
                                     showConnectToInternetDialog();
                                 }
@@ -151,8 +179,44 @@ public class Directory extends AppCompatActivity {
 
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(Directory.this, CheckList.class);
-                startActivity(intent);
+                testingInternetDialog.show();
+                networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
+                    @Override
+                    public void handleConnected(final boolean _success) {
+                        // this needs to run on the ui thread because of ui components in it
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                testingInternetDialog.dismiss();
+                                if (_success) {
+                                    downloadInternetDialog.show();
+                                    googleDrive.downloadContentsFromGoogleDrive(Directory.this,
+                                            new GoogleDriveNetworking.GoogleCompletedCallback() {
+                                                @Override
+                                                public void handleOnSuccess() {
+                                                    downloadInternetDialog.dismiss();
+                                                    String msg = "Downloaded from Internet";
+                                                    Log.d(TAG, msg);
+                                                    Toast.makeText(Directory.this, TAG + msg, Toast.LENGTH_LONG).show();
+                                                    utility.restoreFromGoogleDrive();
+                                                }
+
+                                                @Override
+                                                public void handleOnFailure(String _reason) {
+                                                    downloadInternetDialog.dismiss();
+                                                    Dialog dialog = utility.getNegativeButtonDialog(Directory.this, TAG,
+                                                            _reason,
+                                                            "Okay");
+                                                    dialog.show();
+                                                }
+                                            });
+                                } else {
+                                    showConnectToInternetDialog();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
 
