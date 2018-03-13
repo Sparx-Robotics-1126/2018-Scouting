@@ -41,6 +41,7 @@ public class BenchmarkData extends JsonData {
     private static final String END_CLIMB_ASSIST_TYPE = "endClimbAssistType";
     private static final String END_CLIMB_HEIGHT = "endClimbHeight";
     private static final String END_CLIMB_ON_ROBOT = "endAttachToRobot";/*changed*/
+    private static final String COMMENTS = "comments";
 
     public BenchmarkData() {
         // Initialize
@@ -51,6 +52,7 @@ public class BenchmarkData extends JsonData {
         stringValuesMap.put(PREFER_START_TWO, "");
         stringValuesMap.put(PREFER_START_THREE, "");
         stringValuesMap.put(END_CLIMB_ASSIST_TYPE, "");
+        stringValuesMap.put(COMMENTS, "");
 
         intValuesMap.put(TEAM_NUMBER, 0);
         intValuesMap.put(NUMBER_OF_WHEELS, 0);
@@ -222,4 +224,7 @@ public class BenchmarkData extends JsonData {
     public void setEndClimbOnRobot(boolean _value) {
         booleanValuesMap.put(END_CLIMB_ON_ROBOT, _value);
     }
+
+    public String getComments() { return stringValuesMap.get(COMMENTS); }
+    public void setComments(String _value) { stringValuesMap.put(COMMENTS, _value);}
 }

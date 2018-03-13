@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -63,6 +64,8 @@ public class Scouting extends AppCompatActivity {
     private CheckBox assistedOthersClimb;
     private CheckBox climbedUnder15Secs;
     private LinearLayout assistedClimbLayout;
+    private EditText comments;
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +179,7 @@ public class Scouting extends AppCompatActivity {
                 }
             }
         });
+        comments = findViewById(R.id.comments);
 
 
         /*climbInfoGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -191,7 +195,7 @@ public class Scouting extends AppCompatActivity {
             }
         });*/
 
-        Button submitButton = findViewById(R.id.submitbutton);
+        submitButton = findViewById(R.id.submitbutton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,6 +228,7 @@ public class Scouting extends AppCompatActivity {
                     scoutingData.setNumberOfRobotsHeld(2);
                 }
                 scoutingData.setClimbedUnder15Secs(climbedUnder15Secs.isChecked());
+                scoutingData.setComments(comments.getText().toString());
 
                 dataCollection.addScoutingData(scoutingData);
                 fileIO.storeScoutingData(scoutingData.getJsonString(), teamNumber.getText().toString(), matchNumber.getText().toString());
@@ -266,6 +271,7 @@ public class Scouting extends AppCompatActivity {
             }
             assistedOthersClimb.callOnClick();
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
+            comments.setText(scoutingData.getComments());
         }
         else {
             reset();
@@ -304,6 +310,7 @@ public class Scouting extends AppCompatActivity {
         held1Robot.setChecked(false);
         held2Robot.setChecked(false);
         climbedUnder15Secs.setChecked(false);
+        comments.setText("");
     }
 }
 

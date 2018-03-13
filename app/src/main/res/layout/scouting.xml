@@ -332,6 +332,15 @@
 
                 </LinearLayout>
 
+                <LinearLayout style="@style/J_verticalLinearLayout">
+
+                    <EditText
+                        android:id="@+id/comments"
+                        style="@style/J_NormalEditText"
+                        android:hint="Comments (max 50 chars)" />
+
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/submitbutton"
                     style="@style/J_StretchedButton"

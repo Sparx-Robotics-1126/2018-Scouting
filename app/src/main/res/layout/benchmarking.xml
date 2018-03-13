@@ -44,7 +44,7 @@
 
                 <EditText
                     android:id="@+id/customDrive"
-                    style="@style/J_NormalTextView"
+                    style="@style/J_NormalEditText"
                     android:hint="Enter Custom Drive Type" />
 
                 <Spinner
@@ -53,7 +53,7 @@
 
                 <EditText
                     android:id="@+id/customWheel"
-                    style="@style/J_NormalTextView"
+                    style="@style/J_NormalEditText"
                     android:hint="Enter Custom Wheel Type" />
 
                 <LinearLayout style="@style/J_horizontalLinearLayout">
@@ -478,7 +478,7 @@
 
                     <EditText
                         android:id="@+id/customClimbAssist"
-                        style="@style/J_NormalTextView"
+                        style="@style/J_NormalEditText"
                         android:hint="Enter Custom Climb Assist Type" />
 
                     <LinearLayout style="@style/J_horizontalLinearLayout">
@@ -508,6 +508,14 @@
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout style="@style/J_verticalLinearLayout">
+
+                <EditText
+                    android:id="@+id/comments"
+                    style="@style/J_NormalEditText"
+                    android:hint="Comments (max 50 chars)" />
 
             </LinearLayout>
             <!--button-->

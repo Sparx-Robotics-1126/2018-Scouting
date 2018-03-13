@@ -101,6 +101,7 @@ public class View extends AppCompatActivity {
         float numberOfDatas = datas.size();
 
         rtnList.add("<b>\tMatches scouted: </b>" + numberOfDatas);
+        // Notice no String Map. It would look wrong to show ALL strings for ALL scouting in one field
         Map<String, Integer> booleanValueSumsMap = new HashMap<>();
         Map<String, Integer> intValueSumsMap = new HashMap<>();
         for (ScoutingData data : datas.values()) {
