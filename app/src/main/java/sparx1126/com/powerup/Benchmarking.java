@@ -95,6 +95,7 @@ public class Benchmarking extends AppCompatActivity {
     private CheckBox attach_robot;
     private CheckBox canAssist;
     private TextView canAssistPrompt;
+    private EditText comments;
     private Button submit_button;
 
     @Override
@@ -489,6 +490,7 @@ public class Benchmarking extends AppCompatActivity {
         climb_height.setVisibility(View.GONE);
         climb_height.setTransformationMethod(null);
         attach_robot = findViewById(R.id.attach_robot);
+        comments = findViewById(R.id.comments);
         submit_button = findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
 
@@ -586,6 +588,7 @@ public class Benchmarking extends AppCompatActivity {
                     data.setEndClimbHeight(Integer.parseInt(climbHeightString));
                 }
                 data.setEndClimbOnRobot(attach_robot.isChecked());
+                data.setComments(comments.getText().toString());
 
                 dataCollection.addBenchmarkData(data);
                 fileIO.storeBenchmarkData(data.getJsonString(), team_number_input.getText().toString());
@@ -725,6 +728,7 @@ public class Benchmarking extends AppCompatActivity {
             setStringInSpinner(data.getEndClimbAssistType(), climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
             climb_height.setText(String.valueOf(data.getEndClimbHeight()));
             attach_robot.setChecked(data.isEndClimbOnRobot());
+            comments.setText(data.getComments());
         }
         else {
             reset();
@@ -812,5 +816,6 @@ public class Benchmarking extends AppCompatActivity {
         setStringInSpinner("", climbAssistTypesArray, climbAssistTypeSpinner, customClimbAssist);
         climb_height.setText("");
         attach_robot.setChecked(false);
+        comments.setText("");
     }
 }

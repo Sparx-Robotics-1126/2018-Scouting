@@ -30,10 +30,12 @@ public class ScoutingData extends JsonData {
     private static final String CAN_BE_CLIMB_ON = "assistedOthersInClimb";
     private static final String NUMBER_OF_ROBOTS_HELD = "numberOfRobotsAssisted";
     private static final String CLIMBED_UNDER_15_SECS = "climbedUnder15Secs";
+    private static final String COMMENTS = "comments";
 
     public ScoutingData() {
         // Initialize
         stringValuesMap.put(SCOUTER_NAME, "");
+        stringValuesMap.put(COMMENTS, "");
 
         intValuesMap.put(MATCH_NUMBER, 0);
         intValuesMap.put(TEAM_NUMBER, 0);
@@ -166,4 +168,7 @@ public class ScoutingData extends JsonData {
     public void setClimbedUnder15Secs(boolean _value) {
         booleanValuesMap.put(CLIMBED_UNDER_15_SECS, _value);
     }
+
+    public String getComments() { return stringValuesMap.get(COMMENTS); }
+    public void setComments(String _value) { stringValuesMap.put(COMMENTS, _value);}
 }
