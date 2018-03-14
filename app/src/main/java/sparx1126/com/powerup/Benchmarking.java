@@ -97,6 +97,12 @@ public class Benchmarking extends AppCompatActivity {
     private TextView canAssistPrompt;
     private EditText comments;
     private Button submit_button;
+    private Button goHomeButton;
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(Benchmarking.this, "To exit press the submit / return home button", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +225,14 @@ public class Benchmarking extends AppCompatActivity {
         groundClearance.setTransformationMethod(null);
         rankChoices = findViewById(R.id.rankStartTextView);
         prefGroup = findViewById(R.id.prefStartGroup);
+        goHomeButton = findViewById(R.id.goHomeButton);
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Benchmarking.this, "Current data deleted", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
         prefGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -734,6 +748,8 @@ public class Benchmarking extends AppCompatActivity {
             reset();
         }
     }
+
+
 
     private void setStringInSpinner(String currentValue, String[] positionArray, Spinner spinner, EditText custom){
         spinner.setSelection(0);

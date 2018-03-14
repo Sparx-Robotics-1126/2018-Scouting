@@ -59,6 +59,7 @@ public class Scouting extends AppCompatActivity {
     private RadioGroup assistedGroup;
     private RadioGroup climbInfoGroup;
     private CheckBox canBeClimbOn;
+    private Button goHomeButton;
     private RadioButton held1Robot;
     private RadioButton held2Robot;
     private CheckBox assistedOthersClimb;
@@ -66,6 +67,11 @@ public class Scouting extends AppCompatActivity {
     private LinearLayout assistedClimbLayout;
     private EditText comments;
     private Button submitButton;
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(Scouting.this, "To exit press the submit / return home button", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +159,14 @@ public class Scouting extends AppCompatActivity {
         cubesPickedUpFromFloor = findViewById(R.id.cubesfromfloorpicker);
         cubesAcquiredFromPlayer = findViewById(R.id.cubesfromplayers);
         playedDefenseEffectively = findViewById(R.id.playeddefensecheck);
+        goHomeButton = findViewById(R.id.goHomeButton);
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Scouting.this, "Current data deleted", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
         climbedRung = findViewById(R.id.climbRung);
         climbedRobot = findViewById(R.id.climbRobot);
         assistedGroup = findViewById(R.id.assistedGroup);
