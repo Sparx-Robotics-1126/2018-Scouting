@@ -345,6 +345,10 @@
                     android:id="@+id/submitbutton"
                     style="@style/J_StretchedButton"
                     android:text="SUBMIT" />
+                <Button
+                    android:id="@+id/goHomeButton"
+                    style="@style/J_StretchedButton"
+                    android:text="Go Home And Delete Current Data" />
 
             </LinearLayout>
 
