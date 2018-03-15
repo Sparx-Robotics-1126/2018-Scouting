@@ -1,8 +1,14 @@
 package sparx1126.com.powerup;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -22,6 +29,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,12 +39,15 @@ import java.util.Map;
 import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.Utility;
 
 public class Benchmarking extends AppCompatActivity {
     private static final String TAG = "Benchmarking ";
+    private static final int REQUEST_TAKE_PHOTO = 1;
 
     private static DataCollection dataCollection;
     private static FileIO fileIO;
+    private static Utility utility;
     private SharedPreferences settings;
     private List<Integer> teamsInEvent;
     private String prefStart1;
@@ -48,6 +60,7 @@ public class Benchmarking extends AppCompatActivity {
     private AutoCompleteTextView team_number_input;
     private Button goHomeButton;
     private View benchmark_main_layout;
+    private ImageButton cameraButton;
     private Spinner driveTypeSpinner;
     private EditText customDrive;
     private Spinner wheelTypeSpinner;
@@ -111,6 +124,7 @@ public class Benchmarking extends AppCompatActivity {
 
         dataCollection = DataCollection.getInstance();
         fileIO = FileIO.getInstance();
+        utility = Utility.getInstance();
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
         teamsInEvent = dataCollection.getTeamsInEvent();
         prefStart1 = getResources().getString(R.string.none);
@@ -175,6 +189,40 @@ public class Benchmarking extends AppCompatActivity {
         });
         benchmark_main_layout = findViewById(R.id.benchmark_main_layout);
         benchmark_main_layout.setVisibility(View.INVISIBLE);
+        cameraButton = findViewById(R.id.cameraButton);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // Ensure that there's a camera activity to handle the intent
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    File photoFile = null;
+                    try {
+                        long epochInSeconds = System.currentTimeMillis() / 1000;
+                        String imageFileName = getResources().getString(R.string.pictureHeader) +
+                                team_number_input.getText().toString() + "_" +
+                                String.valueOf(epochInSeconds);
+                        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                        photoFile = File.createTempFile(imageFileName,".jpg", storageDir);
+                    } catch (IOException e) {
+                        String msg = "Can't take picture";
+                        Log.e(TAG, msg, e);
+                        Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                    }
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(Benchmarking.this,
+                                "sparx1126.com.powerup.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    }
+                } else {
+                    String msg = "Can't take picture";
+                    Log.e(TAG, msg);
+                    Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         driveTypeSpinner = findViewById(R.id.drive_type_spinner);
         //for drive type dropdown selector
         driveTypesArray = getResources().getStringArray(R.array.driveTypes);
@@ -748,8 +796,6 @@ public class Benchmarking extends AppCompatActivity {
         }
     }
 
-
-
     private void setStringInSpinner(String currentValue, String[] positionArray, Spinner spinner, EditText custom){
         spinner.setSelection(0);
         custom.setText("");
@@ -832,5 +878,25 @@ public class Benchmarking extends AppCompatActivity {
         climb_height.setText("");
         attach_robot.setChecked(false);
         comments.setText("");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    String msg = "Picture Saved!";
+                    Log.d(TAG, msg);
+                    Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Dialog dialog = utility.getPositiveButtonDialog(this, TAG,
+                            "Failed to save picture: Tell a developer!.",
+                            "Okay");
+                    dialog.show();
+                }
+                break;
+        }
     }
 }

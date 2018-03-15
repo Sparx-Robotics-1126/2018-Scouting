@@ -4,14 +4,18 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import sparx1126.com.powerup.utilities.FileIO;
@@ -125,7 +129,7 @@ public class Directory extends AppCompatActivity {
                             public void run() {
                                 testingInternetDialog.dismiss();
                                 if (_success) {
-                                    Map<String, String> fileData = new HashMap<>();
+                                    Map<String, String> stringData = new HashMap<>();
 
                                     Map<Integer, Map<Integer, String>> scoutingDatas = fileIO.fetchScoutingDatas();
                                     for (Map.Entry<Integer, Map<Integer, String>> entryTeam : scoutingDatas.entrySet()) {
@@ -133,7 +137,7 @@ public class Directory extends AppCompatActivity {
                                             String fileName = FileIO.SCOUTING_DATA_HEADER + "_" + FileIO.TEAM
                                                     + String.valueOf(entryTeam.getKey()) + "_" + FileIO.MATCH
                                                     + String.valueOf(entryMatch.getKey()) + ".json";
-                                            fileData.put(fileName, entryMatch.getValue());
+                                            stringData.put(fileName, entryMatch.getValue());
                                         }
                                     }
 
@@ -141,11 +145,30 @@ public class Directory extends AppCompatActivity {
                                     for (Map.Entry<Integer, String> entryTeam : benchmarkingDatas.entrySet()) {
                                         String fileName = FileIO.BENCHMARK_DATA_HEADER + "_" + FileIO.TEAM
                                                 + String.valueOf(entryTeam.getKey()) + ".json";
-                                        fileData.put(fileName, entryTeam.getValue());
+                                        stringData.put(fileName, entryTeam.getValue());
                                     }
 
+                                    Map<String, File> photoData = new HashMap<>();
+                                    File storageDir = Directory.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                    if(storageDir != null) {
+                                        String path = storageDir.getAbsolutePath();
+                                        File directory = new File(path);
+                                        File[] files = directory.listFiles();
+                                        for (int i = 0; i < files.length; i++) {
+                                            String fileName = files[i].getName();
+                                            if(fileName.contains(getResources().getString(R.string.pictureHeader))) {
+                                                photoData.put(fileName, files[i]);
+                                            }
+                                        }
+                                    } else {
+                                        String msg = "Could not access: " + storageDir.getName();
+                                        Log.e(TAG, msg);
+                                        Toast.makeText(Directory.this, TAG + msg, Toast.LENGTH_LONG).show();
+                                    }
+
+
                                     uploadInternetDialog.show();
-                                    googleDrive.uploadContentToGoogleDrive(Directory.this, fileData,
+                                    googleDrive.uploadContentToGoogleDrive(Directory.this, stringData, photoData,
                                             new GoogleDriveNetworking.GoogleCompletedCallback() {
                                                 @Override
                                                 public void handleOnSuccess() {

@@ -31,7 +31,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -40,6 +43,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import sparx1126.com.powerup.Benchmarking;
 
 public class GoogleDriveNetworking {
     public interface GoogleCompletedCallback {
@@ -59,7 +64,7 @@ public class GoogleDriveNetworking {
     private static GoogleDriveNetworking instance;
     private Map<String, Metadata> metadataMap;
     private Map<String, String> contentMap;
-    private int filesToProcess;
+    private int metaDatasToProcess;
     private String failedReason;
 
     // synchronized means that the method cannot be executed by two threads at the same time
@@ -74,7 +79,7 @@ public class GoogleDriveNetworking {
         driveResourceClient = null;
         metadataMap = new HashMap<>();
         contentMap = new HashMap<>();
-        filesToProcess = 0;
+        metaDatasToProcess = 0;
         failedReason = "";
     }
 
@@ -113,8 +118,8 @@ public class GoogleDriveNetworking {
         driveClient = Drive.getDriveClient(_context, signInAccount);
     }
 
-    public void uploadContentToGoogleDrive(final Context _context, final Map<String, String> _fileData,
-                                           final GoogleCompletedCallback _callback) {
+    public void uploadContentToGoogleDrive(final Context _context, final Map<String, String> _stringData,
+                                           final Map<String, File> _photoData, final GoogleCompletedCallback _callback) {
         if (driveResourceClient != null) {
             syncDrive(_context, 10, new GoogleCompletedCallback() {
                 @Override
@@ -122,46 +127,71 @@ public class GoogleDriveNetworking {
                     downloadMetadatas(_context, 10, new GoogleCompletedCallback() {
                         @Override
                         public void handleOnSuccess() {
-                            filesToProcess = _fileData.size();
+                            metaDatasToProcess = _stringData.size() + _photoData.size();
                             failedReason = "";
-                            if(_fileData.size() == 0) {
+                            if(metaDatasToProcess == 0) {
                                 Log.d(TAG, "Nothing to do, no data in tablet!");
                                 _callback.handleOnSuccess();
                             } else {
-                                for (Map.Entry<String, String> entry : _fileData.entrySet()) {
+                                for (Map.Entry<String, String> entry : _stringData.entrySet()) {
                                     if (metadataMap.containsKey(entry.getKey())) {
                                         Metadata metadata = metadataMap.get(entry.getKey());
-                                        updateFile(_context, entry.getKey(), metadata, entry.getValue(),
+                                        updateStringData(_context, entry.getKey(), metadata, entry.getValue(),
                                                 new GoogleCompletedCallback() {
                                                     @Override
                                                     public void handleOnSuccess() {
-                                                        filesToProcess--;
+                                                        metaDatasToProcess--;
                                                         testIsFinishedWithOperation(_callback);
                                                     }
 
                                                     @Override
                                                     public void handleOnFailure(String _reason) {
-                                                        filesToProcess--;
+                                                        metaDatasToProcess--;
                                                         failedReason = failedReason + " " + _reason;
                                                         testIsFinishedWithOperation(_callback);
                                                     }
                                                 });
                                     } else {
-                                        createFile(_context, entry.getKey(), entry.getValue(),
+                                        createStringData(_context, entry.getKey(), entry.getValue(),
                                                 new GoogleCompletedCallback() {
                                                     @Override
                                                     public void handleOnSuccess() {
-                                                        filesToProcess--;
+                                                        metaDatasToProcess--;
                                                         testIsFinishedWithOperation(_callback);
                                                     }
 
                                                     @Override
                                                     public void handleOnFailure(String _reason) {
-                                                        filesToProcess--;
+                                                        metaDatasToProcess--;
                                                         failedReason = failedReason + " " + _reason;
                                                         testIsFinishedWithOperation(_callback);
                                                     }
                                                 });
+                                    }
+                                }
+
+                                for (Map.Entry<String, File> entry : _photoData.entrySet()) {
+                                    Log.e("hiram", entry.getKey());
+                                    Log.e("hiram2", metadataMap.toString());
+                                    if (!metadataMap.containsKey(entry.getKey())) {
+                                        createFileData(_context, entry.getKey(), entry.getValue(),
+                                                new GoogleCompletedCallback() {
+                                                    @Override
+                                                    public void handleOnSuccess() {
+                                                        metaDatasToProcess--;
+                                                        testIsFinishedWithOperation(_callback);
+                                                    }
+
+                                                    @Override
+                                                    public void handleOnFailure(String _reason) {
+                                                        metaDatasToProcess--;
+                                                        failedReason = failedReason + " " + _reason;
+                                                        testIsFinishedWithOperation(_callback);
+                                                    }
+                                                });
+                                    } else {
+                                        metaDatasToProcess--;
+                                        testIsFinishedWithOperation(_callback);
                                     }
                                 }
                             }
@@ -194,29 +224,32 @@ public class GoogleDriveNetworking {
                         @Override
                         public void handleOnSuccess() {
                             contentMap.clear();
-                            filesToProcess = metadataMap.size();
+                            metaDatasToProcess = metadataMap.size();
                             failedReason = "";
                             if(metadataMap.size() == 0) {
                                 Log.d(TAG, "Nothing to do, no data in Google!");
                                 _callback.handleOnSuccess();
                             } else {
                                 for (Map.Entry<String, Metadata> entry : metadataMap.entrySet()) {
-                                    restoreContent(_context, entry.getKey(), entry.getValue().getDriveId().asDriveFile(),
-                                            new GoogleContentCallback() {
-                                                @Override
-                                                public void handleOnSuccess(String _fileName, String _content) {
-                                                    filesToProcess--;
-                                                    contentMap.put(_fileName, _content);
-                                                    testIsFinishedWithOperation(_callback);
-                                                }
+                                    metaDatasToProcess--;
+                                    String fileName = entry.getKey();
+                                    if(fileName.contains(FileIO.BENCHMARK_DATA_HEADER) ||
+                                            fileName.contains(FileIO.SCOUTING_DATA_HEADER)) {
+                                        restoreStringContent(_context, fileName, entry.getValue().getDriveId().asDriveFile(),
+                                                new GoogleContentCallback() {
+                                                    @Override
+                                                    public void handleOnSuccess(String _fileName, String _content) {
+                                                        contentMap.put(_fileName, _content);
+                                                        testIsFinishedWithOperation(_callback);
+                                                    }
 
-                                                @Override
-                                                public void handleOnFailure(String _reason) {
-                                                    filesToProcess--;
-                                                    failedReason = failedReason + " " + _reason;
-                                                    testIsFinishedWithOperation(_callback);
-                                                }
-                                            });
+                                                    @Override
+                                                    public void handleOnFailure(String _reason) {
+                                                        failedReason = failedReason + " " + _reason;
+                                                        testIsFinishedWithOperation(_callback);
+                                                    }
+                                                });
+                                    }
                                 }
                             }
                         }
@@ -241,7 +274,7 @@ public class GoogleDriveNetworking {
     }
 
     private void testIsFinishedWithOperation(GoogleCompletedCallback _callback) {
-        if (filesToProcess == 0) {
+        if (metaDatasToProcess == 0) {
             if (failedReason.isEmpty()) {
                 _callback.handleOnSuccess();
             } else {
@@ -279,7 +312,7 @@ public class GoogleDriveNetworking {
                                 public void run() {
                                     syncDrive(_context, _attempts - 1, _callback);
                                 }
-                            }, 5000);
+                            }, 3000);
                         } else {
                             _callback.handleOnFailure(msg + e.getMessage());
                         }
@@ -291,7 +324,8 @@ public class GoogleDriveNetworking {
                                    final GoogleCompletedCallback _callback) {
         metadataMap.clear();
         Query query = new Query.Builder()
-                .addFilter(Filters.eq(SearchableField.MIME_TYPE, "text/plain"))
+                .addFilter(Filters.or(Filters.eq(SearchableField.MIME_TYPE, "text/plain"),
+                        Filters.eq(SearchableField.MIME_TYPE, "image/jpeg")))
                 .build();
 
         Task<MetadataBuffer> queryTask = driveResourceClient.query(query);
@@ -316,7 +350,7 @@ public class GoogleDriveNetworking {
                                                 public void run() {
                                                     downloadMetadatas(_context, _attempts - 1, _callback);
                                                 }
-                                            }, 5000);
+                                            }, 3000);
                                         } else {
                                             _callback.handleOnFailure(msg);
                                         }
@@ -342,8 +376,8 @@ public class GoogleDriveNetworking {
                 });
     }
 
-    private void updateFile(final Context _context, final String _fileName, final Metadata _metadata,
-                            final String _content, final GoogleCompletedCallback _callback) {
+    private void updateStringData(final Context _context, final String _fileName, final Metadata _metadata,
+                                  final String _content, final GoogleCompletedCallback _callback) {
         DriveFile file = _metadata.getDriveId().asDriveFile();
         Task<DriveContents> openTask =
                 driveResourceClient.openFile(file, DriveFile.MODE_WRITE_ONLY);
@@ -385,8 +419,8 @@ public class GoogleDriveNetworking {
                 });
     }
 
-    private void createFile(final Context _context, final String _fileName,final String _content,
-                            final GoogleCompletedCallback _callback) {
+    private void createStringData(final Context _context, final String _fileName, final String _content,
+                                  final GoogleCompletedCallback _callback) {
         final Task<DriveFolder> rootFolderTask = driveResourceClient.getRootFolder();
         final Task<DriveContents> createContentsTask = driveResourceClient.createContents();
         Tasks.whenAll(rootFolderTask, createContentsTask)
@@ -426,8 +460,68 @@ public class GoogleDriveNetworking {
                 });
     }
 
-    private void restoreContent (final Context _context, final String _fileName, DriveFile _file,
-                                 final GoogleContentCallback _callback) {
+    private void createFileData(final Context _context, final String _fileName, final File _content,
+                                  final GoogleCompletedCallback _callback) {
+        final Task<DriveFolder> rootFolderTask = driveResourceClient.getRootFolder();
+        final Task<DriveContents> createContentsTask = driveResourceClient.createContents();
+        Tasks.whenAll(rootFolderTask, createContentsTask)
+                .continueWithTask(new Continuation<Void, Task<DriveFile>>() {
+                    @Override
+                    public Task<DriveFile> then(@NonNull Task<Void> task) throws Exception {
+                        DriveFolder parent = rootFolderTask.getResult();
+                        DriveContents contents = createContentsTask.getResult();
+                        OutputStream outputStream = contents.getOutputStream();
+                        try
+                        {
+                            InputStream dbInputStream = new FileInputStream(_content);
+
+                            byte[] buffer = new byte[1024];
+                            int length;
+                            int counter = 0;
+                            while((length = dbInputStream.read(buffer)) > 0)
+                            {
+                                ++counter;
+                                outputStream.write(buffer, 0, length);
+                            }
+
+                            dbInputStream.close();
+                            outputStream.flush();
+                            outputStream.close();
+
+                        } catch (IOException e) {
+                            String msg = "Unable to create file: " + _fileName;
+                            Log.e(TAG, msg, e);
+                            _callback.handleOnFailure(msg + ": " + e.getMessage());
+                        }
+
+                        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                .setTitle(_fileName)
+                                .setMimeType("image/jpeg")
+                                .setStarred(true)
+                                .build();
+
+                        return driveResourceClient.createFile(parent, changeSet, contents);
+                    }
+                })
+                .addOnSuccessListener((Activity) _context,
+                        new OnSuccessListener<DriveFile>() {
+                            @Override
+                            public void onSuccess(DriveFile driveFile) {
+                                _callback.handleOnSuccess();
+                            }
+                        })
+                .addOnFailureListener((Activity) _context, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        String msg = "Unable to create file: " + _fileName;
+                        Log.e(TAG, msg, e);
+                        _callback.handleOnFailure(msg + ": " + e.getMessage());
+                    }
+                });
+    }
+
+    private void restoreStringContent(final Context _context, final String _fileName, DriveFile _file,
+                                      final GoogleContentCallback _callback) {
         Task<DriveContents> openFileTask =
                 driveResourceClient.openFile(_file, DriveFile.MODE_READ_ONLY);
         openFileTask
