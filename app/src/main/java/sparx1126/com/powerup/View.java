@@ -67,7 +67,7 @@ public class View extends AppCompatActivity {
                         expandableListDetail = getData(teamNumber);
                         android.view.View view = findViewById(android.R.id.content).getRootView();
                         if (view != null) {
-                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
                     }
@@ -106,40 +106,39 @@ public class View extends AppCompatActivity {
         Map<String, Integer> intValueSumsMap = new HashMap<>();
         for (ScoutingData data : datas.values()) {
             Map<String, Boolean> booleanValuesMap = data.getBooleanValuesMap();
-            for(String key: booleanValuesMap.keySet()) {
-                if(booleanValuesMap.get(key)) {
-                    int increment = 1;
-                    if(booleanValueSumsMap.containsKey(key)) {
+            int increment = 0;
+            for (String key : booleanValuesMap.keySet()) {
+                if (booleanValuesMap.get(key)) {
+                    if (booleanValueSumsMap.containsKey(key)) {
                         increment += booleanValueSumsMap.get(key);
+                    } else {
+                        increment = 1;
                     }
-                    booleanValueSumsMap.put(key, increment);
                 }
+                booleanValueSumsMap.put(key, increment);
             }
 
             Map<String, Integer> intValuesMap = data.getIntValuesMap();
-            for(String key: intValuesMap.keySet()) {
+            for (String key : intValuesMap.keySet()) {
                 int total = intValuesMap.get(key);
-                if(intValueSumsMap.containsKey(key)) {
+                if (intValueSumsMap.containsKey(key)) {
                     total += intValueSumsMap.get(key);
                 }
-                // excluding team number
-                if(!key.equals(ScoutingData.TEAM_NUMBER) && !key.equals(ScoutingData.MATCH_NUMBER)) {
+                // excluding team number and match number
+                if (!key.equals(ScoutingData.TEAM_NUMBER) && !key.equals(ScoutingData.MATCH_NUMBER)) {
                     intValueSumsMap.put(key, total);
                 }
 
             }
         }
 
-        if (numberOfDatas != 0) {
-            for(Map.Entry<String, Integer> entry : booleanValueSumsMap.entrySet()) {
-                rtnList.add("<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue() + " times");
-            }
-            for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
-                float average = entry.getValue() / numberOfDatas;
-                String averageValue = String.format("%.2f", average);
-                Log.e("roundedNumber", averageValue);
-                rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + averageValue + " average");
-            }
+        for (Map.Entry<String, Integer> entry : booleanValueSumsMap.entrySet()) {
+            rtnList.add("<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue() + " times");
+        }
+        for (Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
+            float average = entry.getValue() / numberOfDatas;
+            String averageValue = String.format("%.2f", average);
+            rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + averageValue + " average");
         }
 
         return rtnList;
@@ -150,24 +149,23 @@ public class View extends AppCompatActivity {
 
         BenchmarkData data = dataCollection.getBenchmarkData(_teamNumber);
 
-        if(data == null) {
+        if (data == null) {
             rtnList.add("<b>\tHas not been benchmarked!</b>");
-        }
-        else {
+        } else {
             Map<String, String> stringValuesMap = data.getStringValuesMap();
-            for(Map.Entry<String, String> entry : stringValuesMap.entrySet()) {
+            for (Map.Entry<String, String> entry : stringValuesMap.entrySet()) {
                 rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue());
             }
             Map<String, Boolean> booleanValuesMap = data.getBooleanValuesMap();
-            for(Map.Entry<String, Boolean> entry : booleanValuesMap.entrySet()) {
+            for (Map.Entry<String, Boolean> entry : booleanValuesMap.entrySet()) {
                 String result = "False";
-                if(entry.getValue()){
+                if (entry.getValue()) {
                     result = "True";
                 }
                 rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + result);
             }
             Map<String, Integer> intValueSumsMap = data.getIntValuesMap();
-            for(Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
                 rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue());
             }
         }

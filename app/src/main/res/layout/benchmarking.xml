@@ -2,28 +2,27 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical">
 
-    <LinearLayout
-        style="@style/J_verticalLinearLayout">
+    <LinearLayout style="@style/J_verticalLinearLayout">
 
-        <!--intro-->
-        <LinearLayout style="@style/J_verticalLinearLayout">
+        <LinearLayout style="@style/J_horizontalLinearLayout">
 
-            <LinearLayout style="@style/J_horizontalLinearLayout">
+            <TextView
+                style="@style/J_BigTextView"
+                android:text="Team Number" />
 
-                <TextView
-                    style="@style/J_BigTextView"
-                    android:text="Team Number" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/team_number"
-                    style="@style/J_numberAutoCompleteTextView" />
-
-            </LinearLayout>
+            <AutoCompleteTextView
+                android:id="@+id/team_number"
+                style="@style/J_numberAutoCompleteTextView" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/goHomeButton"
+            style="@style/J_StretchedButton"
+            android:text="Go Home And Delete Current Data" />
 
         <LinearLayout
             android:id="@+id/benchmark_main_layout"
@@ -510,6 +509,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout style="@style/J_verticalLinearLayout">
 
                 <EditText
@@ -523,11 +523,6 @@
                 android:id="@+id/submit_button"
                 style="@style/J_StretchedButton"
                 android:text="SUBMIT" />
-            <Button
-                android:id="@+id/goHomeButton"
-                style="@style/J_StretchedButton"
-                android:text="Go Home And Delete Current Data" />
-
         </LinearLayout>
 
     </LinearLayout>
