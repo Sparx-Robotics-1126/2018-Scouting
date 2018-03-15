@@ -28,14 +28,21 @@
             android:id="@+id/benchmark_main_layout"
             style="@style/J_verticalLinearLayout">
 
-            <!--About-->
+            <!--General-->
             <LinearLayout
                 style="@style/J_verticalLinearLayout"
                 android:background="@color/backgroundColorLight">
 
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="About:" />
+                    android:text="General:" />
+
+                <ImageButton android:id="@+id/cameraButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_a_photo_black_24dp"
+                    android:backgroundTint="@color/accentColor"
+                    android:contentDescription="Use Camera"/>
 
                 <Spinner
                     android:id="@+id/drive_type_spinner"

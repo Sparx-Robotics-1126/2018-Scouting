@@ -17,6 +17,7 @@
     <string name="Center">Center</string>
     <string name="Right">Right</string>
     <string name="password">q</string>
+    <string name="pictureHeader">Robot_</string>
     <string-array name="admins">
         <item>Jack Griebel</item>
         <item>Jaret Mongeon</item>
