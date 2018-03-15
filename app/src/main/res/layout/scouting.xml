@@ -2,27 +2,31 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical">
 
-    <LinearLayout
-        style="@style/J_verticalLinearLayout">
+    <LinearLayout style="@style/J_verticalLinearLayout">
 
         <LinearLayout
             android:id="@+id/match"
             style="@style/J_horizontalLinearLayout">
 
             <TextView
-                android:text="Match #:"
-                style="@style/J_BigTextView" />
+                style="@style/J_BigTextView"
+                android:text="Match #:" />
 
             <EditText
-                style="@style/J_NumberEditText"
                 android:id="@+id/matchNumInput"
+                style="@style/J_NumberEditText"
                 android:maxLength="2"
-                android:textSize="@dimen/text_size_big"/>
+                android:textSize="@dimen/text_size_big" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/goHomeButton"
+            style="@style/J_StretchedButton"
+            android:text="Go Home And Delete Current Data" />
 
         <LinearLayout
             android:id="@+id/scouting_main_layout"
@@ -44,18 +48,17 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/J_horizontalLinearLayout">
+            <LinearLayout style="@style/J_horizontalLinearLayout">
 
                 <TextView
                     style="@style/J_NormalTextView"
                     android:text="Alliance Color"
-                    android:textSize="@dimen/text_size_big"/>
+                    android:textSize="@dimen/text_size_big" />
 
                 <TextView
                     android:id="@+id/allianceColor"
                     style="@style/J_NormalTextView"
-                    android:textSize="@dimen/text_size_big"/>
+                    android:textSize="@dimen/text_size_big" />
 
             </LinearLayout>
 
@@ -66,10 +69,9 @@
                 <!--Auto-->
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="Autonomous:"/>
+                    android:text="Autonomous:" />
 
-                <LinearLayout
-                    style="@style/J_verticalLinearLayout">
+                <LinearLayout style="@style/J_verticalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -97,8 +99,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -110,8 +111,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -123,8 +123,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -136,8 +135,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -149,8 +147,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -164,16 +161,14 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/J_verticalLinearLayout">
+            <LinearLayout style="@style/J_verticalLinearLayout">
 
                 <!--Tele-->
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="Teleoperated:"/>
+                    android:text="Teleoperated:" />
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -185,8 +180,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -198,8 +192,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -211,8 +204,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -224,8 +216,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -238,8 +229,7 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -260,7 +250,7 @@
                 <!--End-->
                 <TextView
                     style="@style/J_headingTextView"
-                    android:text="End Game:"/>
+                    android:text="End Game:" />
 
                 <TextView
                     style="@style/J_NormalTextView"
@@ -319,8 +309,7 @@
 
                 </RadioGroup>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -345,10 +334,6 @@
                     android:id="@+id/submitbutton"
                     style="@style/J_StretchedButton"
                     android:text="SUBMIT" />
-                <Button
-                    android:id="@+id/goHomeButton"
-                    style="@style/J_StretchedButton"
-                    android:text="Go Home And Delete Current Data" />
 
             </LinearLayout>
 

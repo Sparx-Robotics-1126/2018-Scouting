@@ -37,6 +37,7 @@ public class Scouting extends AppCompatActivity {
     Map<Integer, BlueAllianceMatch> matchesInEvent;
 
     private TextView matchNumber;
+    private Button goHomeButton;
     private View scouting_main_layout;
     private TextView teamNumber;
     private TextView allianceColor;
@@ -59,7 +60,6 @@ public class Scouting extends AppCompatActivity {
     private RadioGroup assistedGroup;
     private RadioGroup climbInfoGroup;
     private CheckBox canBeClimbOn;
-    private Button goHomeButton;
     private RadioButton held1Robot;
     private RadioButton held2Robot;
     private CheckBox assistedOthersClimb;
@@ -140,7 +140,14 @@ public class Scouting extends AppCompatActivity {
 
             }
         });
-
+        goHomeButton = findViewById(R.id.goHomeButton);
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Scouting.this, "Current data deleted", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
         scouting_main_layout = findViewById(R.id.scouting_main_layout);
         scouting_main_layout.setVisibility(View.INVISIBLE);
         teamNumber = findViewById(R.id.teamnumber);
@@ -159,14 +166,6 @@ public class Scouting extends AppCompatActivity {
         cubesPickedUpFromFloor = findViewById(R.id.cubesfromfloorpicker);
         cubesAcquiredFromPlayer = findViewById(R.id.cubesfromplayers);
         playedDefenseEffectively = findViewById(R.id.playeddefensecheck);
-        goHomeButton = findViewById(R.id.goHomeButton);
-        goHomeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(Scouting.this, "Current data deleted", Toast.LENGTH_LONG).show();
-                finish();
-            }
-        });
         climbedRung = findViewById(R.id.climbRung);
         climbedRobot = findViewById(R.id.climbRobot);
         assistedGroup = findViewById(R.id.assistedGroup);

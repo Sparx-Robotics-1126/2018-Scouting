@@ -79,6 +79,7 @@
 
     <style name="J_autoCompleteTextView" parent="basic">
         <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:inputType">text</item>
     </style>
 
     <style name="J_numberAutoCompleteTextView" parent="J_autoCompleteTextView">

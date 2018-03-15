@@ -17,50 +17,6 @@
     <string name="Center">Center</string>
     <string name="Right">Right</string>
     <string name="password">q</string>
-    <string-array name="students">
-        <item>Michael Anderson</item>
-        <item>Tyler Armstrong</item>
-        <item>Owen Aser</item>
-        <item>Kevin Bates</item>
-        <item>Jaren Cascino</item>
-        <item>Nick Canstronova</item>
-        <item>Zack Charlebois</item>
-        <item>Peter Compton</item>
-        <item>Andrew D\'Ambrosio</item>
-        <item>Adam Daniels</item>
-        <item>Spenser Dewey</item>
-        <item>Skyler Ferrante</item>
-        <item>Justin Fici</item>
-        <item>Jeffary Graf</item>
-        <item>Jack Griebel</item>
-        <item>James Hart</item>
-        <item>Nathan Hunt</item>
-        <item>Brian Jimenez</item>
-        <item>Jaret Mongeon</item>
-        <item>Michael Geraci</item>
-        <item>Giovanni Mannino</item>
-        <item>Olivia Markovitz</item>
-        <item>Aaron Mayernik</item>
-        <item>Ryan McVeigh</item>
-        <item>Alex Monroe</item>
-        <item>Ronan Moody</item>
-        <item>Tyler Mosher</item>
-        <item>Ethen Nguyen</item>
-        <item>Logan Ogden</item>
-        <item>Nicolas Pietrantoni</item>
-        <item>Darwinch Pray</item>
-        <item>Peyton Roemer</item>
-        <item>Justin Rogers</item>
-        <item>Levi Seibert</item>
-        <item>Mason Seibert</item>
-        <item>Niko Stathopoulos</item>
-        <item>Andrew Thompson</item>
-        <item>David Tomer</item>
-        <item>Emory Towne</item>
-        <item>Liana Tutt</item>
-        <item>Alessandria Vigneri</item>
-        <item>Felix Huang</item>
-    </string-array>
     <string-array name="admins">
         <item>Jack Griebel</item>
         <item>Jaret Mongeon</item>
@@ -68,6 +24,66 @@
         <item>Alex Monroe</item>
         <item>Felix Huang</item>
         <item>Jaren Cascino</item>
+    </string-array>
+    <string-array name="students">
+        <item>Jack Griebel</item>
+        <item>Jaret Mongeon</item>
+        <item>Michael Geraci</item>
+        <item>Alex Monroe</item>
+        <item>Felix Huang</item>
+        <item>Jaren Cascino</item>
+        <item>Michael Anderson</item>
+        <item>Tyler Armstrong</item>
+        <item>Owen Aser</item>
+        <item>Tyler Baker</item>
+        <item>Kevin Bates</item>
+        <item>Andrew Bixler</item>
+        <item>Karina Bryant</item>
+        <item>Nick Castrnova</item>
+        <item>Zack Charlebois</item>
+        <item>Aidan Cheeseman</item>
+        <item>Brandon Connor</item>
+        <item>Matthew Connor</item>
+        <item>Andrew D'Ambrosio</item>
+        <item>Adam Daniels</item>
+        <item>Spenser Dewey</item>
+        <item>Skyler Ferrante</item>
+        <item>Justin Fici</item>
+        <item>Adam Gesner</item>
+        <item>Spencer Griebel</item>
+        <item>Evan Hart</item>
+        <item>James Hart</item>
+        <item>Nathan Hunt</item>
+        <item>Brian Jimenez</item>
+        <item>Stone Li</item>
+        <item>Jensen Li</item>
+        <item>Giovanni Mannino</item>
+        <item>Olivia Markovitz</item>
+        <item>Rebekah Mayernik</item>
+        <item>Aaron Mayernik</item>
+        <item>Ryan McVeigh</item>
+        <item>Tyler Moser</item>
+        <item>Andrew Moulton</item>
+        <item>Ethan Nguyen</item>
+        <item>Logan Ogden</item>
+        <item>Andrew Ophardt</item>
+        <item>Gus Pellett</item>
+        <item>Darwin Pray</item>
+        <item>Joshua Ramph</item>
+        <item>Helena Robinson</item>
+        <item>Peyton Roemer</item>
+        <item>Zach Rogers</item>
+        <item>Justin Rogers</item>
+        <item>Mason Seibert</item>
+        <item>Thomas Shannon</item>
+        <item>JD Thomann</item>
+        <item>Colin Thompson</item>
+        <item>Andrew Thompson</item>
+        <item>David Tomer</item>
+        <item>Emory Towne</item>
+        <item>Alessandria Vign</item>eri
+        <item>Chris Voigt</item>
+        <item>Nolan White</item>
     </string-array>
     <string-array name="driveTypes">
         <item>Select Type of Drive</item>

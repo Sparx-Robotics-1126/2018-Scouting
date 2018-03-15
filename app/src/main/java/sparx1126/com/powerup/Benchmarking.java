@@ -46,6 +46,7 @@ public class Benchmarking extends AppCompatActivity {
     private String[] climbAssistTypesArray;
 
     private AutoCompleteTextView team_number_input;
+    private Button goHomeButton;
     private View benchmark_main_layout;
     private Spinner driveTypeSpinner;
     private EditText customDrive;
@@ -97,7 +98,6 @@ public class Benchmarking extends AppCompatActivity {
     private TextView canAssistPrompt;
     private EditText comments;
     private Button submit_button;
-    private Button goHomeButton;
 
     @Override
     public void onBackPressed() {
@@ -165,7 +165,14 @@ public class Benchmarking extends AppCompatActivity {
 
             }
         });
-
+        goHomeButton = findViewById(R.id.goHomeButton);
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Benchmarking.this, "Current data deleted", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
         benchmark_main_layout = findViewById(R.id.benchmark_main_layout);
         benchmark_main_layout.setVisibility(View.INVISIBLE);
         driveTypeSpinner = findViewById(R.id.drive_type_spinner);
@@ -225,14 +232,6 @@ public class Benchmarking extends AppCompatActivity {
         groundClearance.setTransformationMethod(null);
         rankChoices = findViewById(R.id.rankStartTextView);
         prefGroup = findViewById(R.id.prefStartGroup);
-        goHomeButton = findViewById(R.id.goHomeButton);
-        goHomeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(Benchmarking.this, "Current data deleted", Toast.LENGTH_LONG).show();
-                finish();
-            }
-        });
         prefGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
