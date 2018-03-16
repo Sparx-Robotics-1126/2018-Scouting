@@ -115,6 +115,30 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
+                        android:text="Picked Up Cube" />
+
+                    <CheckBox
+                        android:id="@+id/pickupcubecheck"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Attempt Scored Switch" />
+
+                    <CheckBox
+                        android:id="@+id/autoAttemptScoredSwitch"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
                         android:text="Scored Switch" />
 
                     <CheckBox
@@ -127,10 +151,10 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Scored Scale" />
+                        android:text="Attempt Scored Scale" />
 
                     <CheckBox
-                        android:id="@+id/autoScoredScale"
+                        android:id="@+id/autoAttemptScoredScale"
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
@@ -139,10 +163,10 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Picked Up Cube" />
+                        android:text="Scored Scale" />
 
                     <CheckBox
-                        android:id="@+id/pickupcubecheck"
+                        android:id="@+id/autoScoredScale"
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
@@ -172,10 +196,34 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
+                        android:text="Attempt Times Scored Switch" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/atempttimesscoredswitchpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
                         android:text="Times Scored Switch" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
                         android:id="@+id/timesscoredswitchpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Attempt Times scored scale" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/attempttimesscoredscalepicker"
                         style="@style/HorizontalNumberPicker" />
 
                 </LinearLayout>
@@ -251,6 +299,32 @@
                 <TextView
                     style="@style/J_headingTextView"
                     android:text="End Game:" />
+
+                <LinearLayout
+                    style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Ended on Platform" />
+
+                    <CheckBox
+                        android:id="@+id/endedOnPlatform"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Attempt to Climb" />
+
+                    <CheckBox
+                        android:id="@+id/attemptToClimb"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
 
                 <TextView
                     style="@style/J_NormalTextView"
