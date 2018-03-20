@@ -582,22 +582,22 @@ public class Benchmarking extends AppCompatActivity {
 
                 String speedString = speed.getText().toString();
                 if(!speedString.isEmpty()) {
-                    data.setSpeed(Integer.parseInt(speedString));
+                    data.setSpeed(Float.parseFloat(speedString));
                 }
 
                 String heightString = height.getText().toString();
                 if(!heightString.isEmpty()){
-                    data.setHeight(Integer.parseInt(heightString));
+                    data.setHeight(Float.parseFloat(heightString));
                 }
 
                 String weightString = weight.getText().toString();
                 if(!weightString.isEmpty()) {
-                    data.setWeight(Integer.parseInt(weightString));
+                    data.setWeight(Float.parseFloat(weightString));
                 }
 
                 String clearanceString = groundClearance.getText().toString();
                 if(!clearanceString.isEmpty()) {
-                    data.setGroundClearance(Integer.parseInt(clearanceString));
+                    data.setGroundClearance(Float.parseFloat(clearanceString));
                 }
 
                 data.setPreferedStartOne(prefStart1);
@@ -646,7 +646,7 @@ public class Benchmarking extends AppCompatActivity {
 
                 String climbHeightString = climb_height.getText().toString();
                 if(!climbHeightString.isEmpty()) {
-                    data.setEndClimbHeight(Integer.parseInt(climbHeightString));
+                    data.setEndClimbHeight(Float.parseFloat(climbHeightString));
                 }
                 data.setEndClimbOnRobot(attach_robot.isChecked());
                 data.setComments(comments.getText().toString());

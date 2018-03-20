@@ -11,6 +11,8 @@ public class JsonData {
 
     protected Map<String, String> stringValuesMap;
     protected Map<String, Integer> intValuesMap;
+    //TODO loop through float values map when uploading
+    protected Map<String, Float> floatValuesMap;
     protected Map<String, Boolean> booleanValuesMap;
     protected Map<String, JSONObject> jsonObjectsMap;
     protected Map<String, JSONArray> jsonArraysMap;
@@ -18,6 +20,7 @@ public class JsonData {
     public JsonData() {
         stringValuesMap = new HashMap<>(0);
         intValuesMap = new HashMap<>(0);
+        floatValuesMap = new HashMap<>(0);
         booleanValuesMap = new HashMap<>(0);
         jsonObjectsMap = new HashMap<>(0);
         jsonArraysMap = new HashMap<>(0);

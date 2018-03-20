@@ -51,7 +51,8 @@
                 <EditText
                     android:id="@+id/customDrive"
                     style="@style/J_NormalEditText"
-                    android:hint="Enter Custom Drive Type" />
+                    android:hint="Enter Custom Drive Type"
+                    />
 
                 <Spinner
                     android:id="@+id/wheel_type_spinner"
@@ -71,7 +72,8 @@
                     <EditText
                         android:id="@+id/numWheels"
                         style="@style/J_NumberEditText"
-                        android:maxLength="2" />
+                        android:maxLength="2"
+                        />
 
                 </LinearLayout>
 
@@ -84,7 +86,8 @@
                     <EditText
                         android:id="@+id/speed"
                         style="@style/J_NumberEditText"
-                        android:maxLength="2" />
+                        android:maxLength="4"
+                        android:inputType="numberDecimal"/>
 
                 </LinearLayout>
 
@@ -97,7 +100,8 @@
                     <EditText
                         android:id="@+id/height"
                         style="@style/J_NumberEditText"
-                        android:maxLength="2" />
+                        android:maxLength="4"
+                        android:inputType="numberDecimal" />
 
                 </LinearLayout>
 
@@ -110,7 +114,8 @@
                     <EditText
                         android:id="@+id/weight"
                         style="@style/J_NumberEditText"
-                        android:maxLength="3" />
+                        android:maxLength="5"
+                        android:inputType="numberDecimal" />
 
                 </LinearLayout>
 
@@ -123,7 +128,8 @@
                     <EditText
                         android:id="@+id/groundClearance"
                         style="@style/J_NumberEditText"
-                        android:maxLength="2" />
+                        android:maxLength="4"
+                        android:inputType="numberDecimal" />
 
                 </LinearLayout>
 
@@ -497,7 +503,8 @@
                         <EditText
                             android:id="@+id/climb_height"
                             style="@style/J_NumberEditText"
-                            android:maxLength="2" />
+                            android:maxLength="4"
+                            android:inputType="numberDecimal" />
 
                     </LinearLayout>
 
