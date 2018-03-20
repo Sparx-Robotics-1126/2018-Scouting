@@ -24,7 +24,9 @@ public class ScoutingData extends JsonData {
     private static final String CUBES_PLACED_IN_EXCHANGE = "tele_CubesPlacedInExchange";
     private static final String CUBES_PICKED_UP_FROM_FLOOR = "tele_CubesPickedUpFromFloor";
     private static final String CUBES_ACQUIRE_FROM_PLAYER = "tele_CubesAcquireFromPlayer";
+    private static final String PLAYED_DEFENSE = "tele_PlayedDefense";
     private static final String PLAYED_DEFENSE_EFFECTIVELY = "tele_PlayedDefenseEffectively";
+    private static final String PLAYED_DEFENSE_INEFFECTIVELY = "tele_PlayedDefenseIneffectiveness";
     private static final String CLIMBED_RUNG = "end_ClimbedRung";
     private static final String CLIMBED_ON_ROBOT = "end_ClimbedOnRobot";
     private static final String CAN_BE_CLIMB_ON = "end_AssistedOthersInClimb";
@@ -45,7 +47,6 @@ public class ScoutingData extends JsonData {
         intValuesMap.put(CUBES_PICKED_UP_FROM_FLOOR, 0);
         intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, 0);
         intValuesMap.put(NUMBER_OF_ROBOTS_HELD, 0);
-
         booleanValuesMap.put(AUTO_LINE_CROSSED, false);
         booleanValuesMap.put(AUTO_SCORED_SWITCH, false);
         booleanValuesMap.put(AUTO_SCORED_SCALE, false);
@@ -54,6 +55,7 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(STARTED_LEFT_POSITION, false);
         booleanValuesMap.put(STARTED_CENTER_POSITION, false);
         booleanValuesMap.put(STARTED_RIGHT_POSITION, false);
+        booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, false);
         booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, false);
         booleanValuesMap.put(CLIMBED_RUNG, false);
         booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
@@ -139,10 +141,6 @@ public class ScoutingData extends JsonData {
         intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, _value);
     }
 
-    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_EFFECTIVELY); }
-    public void setPlayedDefenseEffectively(boolean _value) {
-        booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, _value);
-    }
 
     public boolean isClimbedRung() { return booleanValuesMap.get(CLIMBED_RUNG); }
     public void setClimbedRung(boolean _value) {
@@ -163,6 +161,19 @@ public class ScoutingData extends JsonData {
     public void setNumberOfRobotsHeld(int _value) {
         intValuesMap.put(NUMBER_OF_ROBOTS_HELD, _value);
     }
+    public boolean isPlayedDefense() { return booleanValuesMap.get(NUMBER_OF_ROBOTS_HELD); }
+    public void setPlayedDefense(boolean _value) {
+        booleanValuesMap.put(NUMBER_OF_ROBOTS_HELD, _value);
+    }
+    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(STARTED_LEFT_POSITION); }
+    public void setPlayedDefenseEffectively(boolean _value) {
+        booleanValuesMap.put(STARTED_LEFT_POSITION, _value);
+    }
+    public boolean isPlayedDefenseIneffectively() { return booleanValuesMap.get(STARTED_LEFT_POSITION); }
+    public void setPlayedDefenseIneffectively(boolean _value) {
+        booleanValuesMap.put(STARTED_LEFT_POSITION, _value);
+    }
+
 
     public boolean isClimbedUnder15Secs() { return booleanValuesMap.get(CLIMBED_UNDER_15_SECS); }
     public void setClimbedUnder15Secs(boolean _value) {

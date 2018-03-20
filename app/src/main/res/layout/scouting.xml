@@ -233,13 +233,33 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Effectively Played defense" />
+                        android:text="Played Defense" />
 
                     <CheckBox
                         android:id="@+id/playeddefensecheck"
                         style="@style/J_checkBox" />
 
+
                 </LinearLayout>
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+                    <RadioGroup
+                        android:id="@+id/defenseGroup"
+                        style="@style/J_radioGroup"
+                        android:orientation="horizontal">
+
+
+                2<RadioButton
+                    android:id="@+id/effectiveDefense"
+                    style="@style/J_radioButton"
+                    android:text="Effective" />
+
+                <RadioButton
+                    android:id="@+id/ineffectiveDefense"
+                    style="@style/J_radioButton"
+                    android:text="Ineffective" />
+                    </RadioGroup>
+                </LinearLayout>
+
 
             </LinearLayout>
 
