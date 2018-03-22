@@ -340,6 +340,18 @@
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="On Platfrom At the End of Match" />
+
+                    <CheckBox
+                        android:id="@+id/onPlatform"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
 
                 <LinearLayout style="@style/J_verticalLinearLayout">
 

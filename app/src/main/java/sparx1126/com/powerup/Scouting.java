@@ -67,6 +67,7 @@ public class Scouting extends AppCompatActivity {
     private RadioButton effectiveDefense;
     private RadioButton ineffectiveDefense;
     private CheckBox climbedUnder15Secs;
+    private CheckBox onPlatform;
     private LinearLayout assistedClimbLayout;
     private EditText comments;
     private Button submitButton;
@@ -184,6 +185,7 @@ public class Scouting extends AppCompatActivity {
         assistedOthersClimb = findViewById(R.id.assistedClimb);
 
         climbedUnder15Secs = findViewById(R.id.Climb15secs);
+        onPlatform = findViewById(R.id.onPlatform);
         assistedClimbLayout = findViewById(R.id.assistedClimbLayout);
         //assistedClimbLayout.setVisibility(View.GONE);
 
@@ -244,6 +246,7 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setClimbedRung(climbedRung.isChecked());
                 scoutingData.setClimbedOnRobot(climbedRobot.isChecked());
                 scoutingData.setCanBeClimbOn(canBeClimbOn.isChecked());
+                scoutingData.setOnPlatform(onPlatform.isChecked());
 
                 if (held1Robot.isChecked()) {
                     scoutingData.setNumberOfRobotsHeld(1);
@@ -283,9 +286,11 @@ public class Scouting extends AppCompatActivity {
             playedDefense.setChecked(scoutingData.isPlayedDefense());
             effectiveDefense.setChecked(scoutingData.isPlayedDefenseEffectively());
             ineffectiveDefense.setChecked(scoutingData.isPlayedDefenseIneffectively());
+            playedDefense.callOnClick();
             climbedRung.setChecked(scoutingData.isClimbedRung());
             climbedRobot.setChecked(scoutingData.isClimbedOnRobot());
             canBeClimbOn.setChecked(scoutingData.isCanBeClimbOn());
+            onPlatform.setChecked(scoutingData.isonPlatform());
 
             if (scoutingData.getNumberOfRobotsHeld() == 1) {
                 held1Robot.setChecked(true);
@@ -296,6 +301,7 @@ public class Scouting extends AppCompatActivity {
 
             }
             assistedOthersClimb.callOnClick();
+
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
             comments.setText(scoutingData.getComments());
         } else {
@@ -337,6 +343,7 @@ public class Scouting extends AppCompatActivity {
         held1Robot.setChecked(false);
         held2Robot.setChecked(false);
         climbedUnder15Secs.setChecked(false);
+        onPlatform.setChecked(false);
         comments.setText("");
     }
 }

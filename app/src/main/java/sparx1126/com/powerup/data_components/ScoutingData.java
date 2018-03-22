@@ -32,6 +32,7 @@ public class ScoutingData extends JsonData {
     private static final String CAN_BE_CLIMB_ON = "end_AssistedOthersInClimb";
     private static final String NUMBER_OF_ROBOTS_HELD = "end_NumberOfRobotsAssisted";
     private static final String CLIMBED_UNDER_15_SECS = "end_ClimbedUnder15Secs";
+    private static final String ON_PLATFORM = "end_OnPlatformAtTheEndOfMatch";
     private static final String COMMENTS = "comments";
 
     public ScoutingData() {
@@ -61,7 +62,7 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
         booleanValuesMap.put(CAN_BE_CLIMB_ON, false);
         booleanValuesMap.put(CLIMBED_UNDER_15_SECS, false);
-    }
+        booleanValuesMap.put(ON_PLATFORM, false);    }
 
     public String getScouterName() { return stringValuesMap.get(SCOUTER_NAME); }
     public void setScouterName(String _value) { stringValuesMap.put(SCOUTER_NAME, _value);}
@@ -165,19 +166,23 @@ public class ScoutingData extends JsonData {
     public void setPlayedDefense(boolean _value) {
         booleanValuesMap.put(NUMBER_OF_ROBOTS_HELD, _value);
     }
-    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(STARTED_LEFT_POSITION); }
+    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_EFFECTIVELY); }
     public void setPlayedDefenseEffectively(boolean _value) {
-        booleanValuesMap.put(STARTED_LEFT_POSITION, _value);
+        booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, _value);
     }
-    public boolean isPlayedDefenseIneffectively() { return booleanValuesMap.get(STARTED_LEFT_POSITION); }
+    public boolean isPlayedDefenseIneffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_INEFFECTIVELY); }
     public void setPlayedDefenseIneffectively(boolean _value) {
-        booleanValuesMap.put(STARTED_LEFT_POSITION, _value);
+        booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, _value);
     }
 
 
     public boolean isClimbedUnder15Secs() { return booleanValuesMap.get(CLIMBED_UNDER_15_SECS); }
     public void setClimbedUnder15Secs(boolean _value) {
         booleanValuesMap.put(CLIMBED_UNDER_15_SECS, _value);
+    }
+    public boolean isonPlatform() { return booleanValuesMap.get(ON_PLATFORM); }
+    public void setOnPlatform(boolean _value) {
+        booleanValuesMap.put(ON_PLATFORM, _value);
     }
 
     public String getComments() { return stringValuesMap.get(COMMENTS); }
