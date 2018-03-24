@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -210,6 +211,9 @@ public class Benchmarking extends AppCompatActivity {
                         Toast.makeText(Benchmarking.this, TAG + msg, Toast.LENGTH_LONG).show();
                     }
                     if (photoFile != null) {
+                        String teamNumberStringg = team_number_input.getText().toString();
+                        int teamNumber = Integer.valueOf(teamNumberStringg);
+                        dataCollection.pictureTaken(teamNumber);
                         Uri photoURI = FileProvider.getUriForFile(Benchmarking.this,
                                 "sparx1126.com.powerup.fileprovider",
                                 photoFile);
@@ -882,7 +886,6 @@ public class Benchmarking extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
@@ -898,5 +901,6 @@ public class Benchmarking extends AppCompatActivity {
                 }
                 break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
