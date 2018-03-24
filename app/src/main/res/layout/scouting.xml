@@ -26,7 +26,7 @@
         <Button
             android:id="@+id/goHomeButton"
             style="@style/J_StretchedButton"
-            android:text="Go Home And Delete Current Data" />
+            android:text="Go home and revert to last submit" />
 
         <LinearLayout
             android:id="@+id/scouting_main_layout"
@@ -296,7 +296,7 @@
                         android:orientation="horizontal">
 
 
-                2<RadioButton
+                <RadioButton
                     android:id="@+id/effectiveDefense"
                     style="@style/J_radioButton"
                     android:text="Effective" />
@@ -338,17 +338,13 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Attempt to Climb" />
+                        android:text="Attempted to Climb" />
 
                     <CheckBox
                         android:id="@+id/attemptToClimb"
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
-
-                <TextView
-                    style="@style/J_NormalTextView"
-                    android:text="Climbed on:" />
 
                 <RadioGroup
                     android:id="@+id/climbInfo"
@@ -358,17 +354,17 @@
                     <RadioButton
                         android:id="@+id/climbRung"
                         style="@style/J_radioButton"
-                        android:text="Main Rung" />
+                        android:text="On Main Rung" />
 
                     <RadioButton
                         android:id="@+id/climbRobot"
                         style="@style/J_radioButton"
-                        android:text="Other robot" />
+                        android:text="On Another robot" />
 
                     <RadioButton
-                        android:id="@+id/climbDoesnt"
+                        android:id="@+id/climbFailed"
                         style="@style/J_radioButton"
-                        android:text="Doesn't Climb" />
+                        android:text="Failed to climb" />
 
                 </RadioGroup>
 

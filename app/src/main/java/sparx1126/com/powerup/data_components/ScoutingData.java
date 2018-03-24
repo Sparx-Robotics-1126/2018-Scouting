@@ -65,6 +65,7 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(STARTED_LEFT_POSITION, false);
         booleanValuesMap.put(STARTED_CENTER_POSITION, false);
         booleanValuesMap.put(STARTED_RIGHT_POSITION, false);
+        booleanValuesMap.put(PLAYED_DEFENSE, false);
         booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, false);
         booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, false);
         booleanValuesMap.put(ENDED_ON_PLATFORM, false);

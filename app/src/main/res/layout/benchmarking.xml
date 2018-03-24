@@ -22,7 +22,7 @@
         <Button
             android:id="@+id/goHomeButton"
             style="@style/J_StretchedButton"
-            android:text="Go Home And Delete Current Data" />
+            android:text="Go home and revert to last submit" />
 
         <LinearLayout
             android:id="@+id/benchmark_main_layout"

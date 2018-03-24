@@ -20,8 +20,8 @@
     </style>
 
     <style name="HorizontalNumberPicker" parent="basic">
-        <item name="android:layout_weight">.2</item>
-        <item name="android:layoutDirection">rtl</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_weight">0</item>
     </style>
 
     <style name="J_NumberEditText" parent="basic">
