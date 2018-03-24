@@ -171,8 +171,6 @@ public class GoogleDriveNetworking {
                                 }
 
                                 for (Map.Entry<String, File> entry : _photoData.entrySet()) {
-                                    Log.e("hiram", entry.getKey());
-                                    Log.e("hiram2", metadataMap.toString());
                                     if (!metadataMap.containsKey(entry.getKey())) {
                                         createFileData(_context, entry.getKey(), entry.getValue(),
                                                 new GoogleCompletedCallback() {
@@ -324,8 +322,6 @@ public class GoogleDriveNetworking {
                                    final GoogleCompletedCallback _callback) {
         metadataMap.clear();
         Query query = new Query.Builder()
-                .addFilter(Filters.or(Filters.eq(SearchableField.MIME_TYPE, "text/plain"),
-                        Filters.eq(SearchableField.MIME_TYPE, "image/jpeg")))
                 .build();
 
         Task<MetadataBuffer> queryTask = driveResourceClient.query(query);
@@ -337,9 +333,10 @@ public class GoogleDriveNetworking {
                                 boolean success = true;
                                 for (int index = 0; index < metadataBuffer.getCount(); index++) {
                                     Metadata metadata = metadataBuffer.get(index);
+                                    Log.e("Hiram", metadata.getMimeType());
                                     // for some strange reason sometimes the sync returns success but,
                                     // the metadata is not ready
-                                    if(metadata.getOriginalFilename() == null) {
+                                    if(metadata.getOriginalFilename() == null && !metadata.getMimeType().contentEquals("application/vnd.google-apps.folder")) {
                                         success = false;
                                         String msg = "Error with metadata";
                                         Log.e(TAG, msg);
@@ -355,7 +352,10 @@ public class GoogleDriveNetworking {
                                             _callback.handleOnFailure(msg);
                                         }
                                         break;
-                                    } else {
+                                    } else if (metadata.getMimeType().contentEquals("application/vnd.google-apps.folder")) {
+                                        Log.e("Hiram", "skipped");
+                                    }
+                                    else {
                                         String msg = "Found in google drive: " + metadata.getOriginalFilename();
                                         Log.d(TAG, msg);
                                         metadataMap.put(metadata.getOriginalFilename(), metadata);
