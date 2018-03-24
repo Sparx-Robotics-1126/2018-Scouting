@@ -78,7 +78,7 @@ public class CheckList extends AppCompatActivity {
         masterTable.addView(heading, index);
         index++;
 
-        
+
         for (BlueAllianceTeam blueAllianceTeamData : teamsInEvent.values()) {
             int teamNumber = Integer.valueOf(blueAllianceTeamData.getNumber());
             TableRow child = new TableRow(this);
