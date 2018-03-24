@@ -67,7 +67,7 @@
 
     <style name="J_NormalEditText" parent="basic">
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:maxLength">50</item>
+        <item name="android:maxLength">150</item>
     </style>
 
     <style name="J_headingTextView" parent="basic">

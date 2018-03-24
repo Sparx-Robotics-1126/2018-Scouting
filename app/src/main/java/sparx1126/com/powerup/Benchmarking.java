@@ -183,7 +183,7 @@ public class Benchmarking extends AppCompatActivity {
         goHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Benchmarking.this, "Current data deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(Benchmarking.this, "Current data not stored", Toast.LENGTH_LONG).show();
                 finish();
             }
         });

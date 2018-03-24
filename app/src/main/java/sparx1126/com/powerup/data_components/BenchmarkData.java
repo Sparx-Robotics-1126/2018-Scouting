@@ -94,7 +94,8 @@ public class BenchmarkData extends JsonData {
     public void setTypeOfDrive(String _value) {
         Log.e("Jaren", _value);
 
-        stringValuesMap.put(TYPE_OF_DRIVE, _value);}
+        stringValuesMap.put(TYPE_OF_DRIVE, _value);
+    }
 
     public String getTypeOfWheel() { return stringValuesMap.get(TYPE_OF_WHEEL); }
     public void setTypeOfWheel(String _value) { stringValuesMap.put(TYPE_OF_WHEEL, _value);}

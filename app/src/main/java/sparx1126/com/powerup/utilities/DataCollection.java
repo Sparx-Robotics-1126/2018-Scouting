@@ -165,6 +165,7 @@ public class DataCollection {
         if(benchmarkDataMap.get(_teamNumber) != null){
             rtnData = benchmarkDataMap.get(_teamNumber);
         }
+        Log.e("Benchmaking data", benchmarkDataMap.toString());
         return rtnData;
     }
 }
