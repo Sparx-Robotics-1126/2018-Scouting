@@ -76,7 +76,6 @@ public class Scouting extends AppCompatActivity {
     private RadioButton effectiveDefense;
     private RadioButton ineffectiveDefense;
     private CheckBox climbedUnder15Secs;
-//    private LinearLayout assistedClimbLayout;
     private EditText comments;
     private Button submitButton;
 
