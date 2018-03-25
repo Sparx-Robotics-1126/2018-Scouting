@@ -19,8 +19,8 @@ import sparx1126.com.powerup.utilities.DataCollection;
 
 public class CheckList extends AppCompatActivity {
     private static final String TAG = "CheckList ";
-    public static final float HEADER_TEXT_SIZE = 24;
-    public static final float TEXT_SIZE = 20;
+    public static final float HEADER_TEXT_SIZE = 20;
+    public static final float TEXT_SIZE = 16;
     private static DataCollection dataCollection;
 
     private TableLayout masterTable;
@@ -35,6 +35,7 @@ public class CheckList extends AppCompatActivity {
         Map<String, BlueAllianceTeam> teamsInEvent = dataCollection.getEventTeams();
         Map<Integer, BenchmarkData> becnhmarkData = dataCollection.getBenchmarkDataMap();
         Map<Integer, Map<Integer, ScoutingData>> scoutingData = dataCollection.getScoutingDataMap();
+        Map<Integer, Integer> teamNumberOfPhotos = dataCollection.getTeamNumberOfPhotos();
 
         masterTable = findViewById(R.id.masterTable);
         Drawable cellBackground = ResourcesCompat.getDrawable(getResources(), R.drawable.check_list_cell, null);
@@ -66,8 +67,17 @@ public class CheckList extends AppCompatActivity {
         scoutingHeading.setTypeface(null, Typeface.BOLD);
         heading.addView(scoutingHeading);
 
+        TextView photosHeading = new TextView(this);
+        photosHeading.setText("PHOTOS");
+        photosHeading.setTextColor(Color.BLACK);
+        photosHeading.setTextSize(HEADER_TEXT_SIZE);
+        photosHeading.setBackground(cellBackground);
+        photosHeading.setTypeface(null, Typeface.BOLD);
+        heading.addView(photosHeading);
+
         masterTable.addView(heading, index);
         index++;
+
 
         for (BlueAllianceTeam blueAllianceTeamData : teamsInEvent.values()) {
             int teamNumber = Integer.valueOf(blueAllianceTeamData.getNumber());
@@ -109,6 +119,23 @@ public class CheckList extends AppCompatActivity {
             scouting.setTextSize(TEXT_SIZE);
             scouting.setBackground(cellBackground);
             child.addView(scouting);
+//for photos//
+            TextView photos = new TextView(this);
+            String photoStr = "0";
+            if(teamNumberOfPhotos.get(teamNumber) != null) {
+                int howMany = teamNumberOfPhotos.get(teamNumber);
+                photoStr = String.valueOf(howMany);
+                if(howMany > 0) {
+                    photos.setTextColor(Color.GREEN);
+                } else {
+                    scouting.setTextColor(Color.BLACK);
+                }
+            }
+            photos.setText(photoStr);
+            photos.setTextSize(TEXT_SIZE);
+            photos.setBackground(cellBackground);
+            child.addView(photos);
+
 
             masterTable.addView(child, index);
             index++;

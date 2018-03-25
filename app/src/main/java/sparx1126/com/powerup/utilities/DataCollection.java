@@ -25,6 +25,7 @@ public class DataCollection {
     private Map<String, BlueAllianceTeam> eventTeams;
     private Map<String, BlueAllianceMatch> eventMatches;
     private Map<Integer, BlueAllianceMatch> qualificationsMatches;
+    private Map<Integer, Integer> teamNumberOfPhotos;
 
     public static synchronized DataCollection getInstance(){
         if(dataCollection == null ) {
@@ -40,6 +41,7 @@ public class DataCollection {
         eventTeams = new HashMap<>();
         eventMatches = new HashMap<>();
         qualificationsMatches = new HashMap<>();
+        teamNumberOfPhotos = new HashMap<>();
     }
 
     public void setEventTeams(String _data){
@@ -166,5 +168,18 @@ public class DataCollection {
             rtnData = benchmarkDataMap.get(_teamNumber);
         }
         return rtnData;
+    }
+
+    public void pictureTaken(int teamNumber){
+        if (teamNumberOfPhotos.containsKey(teamNumber)){
+            int numberOfPhotos = teamNumberOfPhotos.get(teamNumber);
+            teamNumberOfPhotos.put(teamNumber, numberOfPhotos++);
+        }
+        else {
+            teamNumberOfPhotos.put(teamNumber, 1);
+        }
+    }
+    public Map<Integer, Integer> getTeamNumberOfPhotos(){
+        return teamNumberOfPhotos;
     }
 }

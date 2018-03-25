@@ -36,8 +36,8 @@
 
             <RadioButton
                 android:id="@+id/team2"
-                style="@style/J_radioButton"
-                android:text="Team 2" />
+            style="@style/J_radioButton"
+            android:text="Team 2" />
 
             <RadioButton
                 android:id="@+id/team3"
@@ -51,6 +51,15 @@
         style="@style/J_StretchedButton"
         android:text="Select Position" />
 
+        <Button
+            android:id="@+id/forceUpload"
+            style="@style/J_StretchedButton"
+            android:text="Force Upload" />
+
+        <Button
+            android:id="@+id/download"
+            style="@style/J_StretchedButton"
+            android:text="Download" />
     </LinearLayout>
 
 </LinearLayout>

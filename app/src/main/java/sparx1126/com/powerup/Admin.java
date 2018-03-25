@@ -39,6 +39,8 @@ public class Admin extends AppCompatActivity {
     private Dialog matchesDialog;
     private Dialog teamsDialog;
     private Dialog testingInternetDialog;
+    private Dialog downloadInternetDialog;
+    private Dialog uploadInternetDialog;
 
     private Spinner eventSpinner;
     private View adminSelectionLayout;
@@ -47,6 +49,8 @@ public class Admin extends AppCompatActivity {
     private RadioButton teamNumber2SelectedButton;
     private RadioButton teamNumber3SelectedButton;
     private Button stuffSelectedButton;
+    private Button upload;
+    private Button download;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,9 @@ public class Admin extends AppCompatActivity {
         matchesDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Matches...");
         teamsDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Teams...");
         testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
+        downloadInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.downloading_internet));
+        uploadInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.uploading_internet));
+
 
         eventSpinner = findViewById(R.id.eventSpinner);
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
