@@ -15,16 +15,22 @@ public class ScoutingData extends JsonData {
     private static final String STARTED_CENTER_POSITION = "startedCenterPosition";
     private static final String STARTED_RIGHT_POSITION = "startedRightPosition";
     private static final String AUTO_LINE_CROSSED = "auto_LineCrossed";
+    private static final String AUTO_ATTEMPT_SCORED_SWITCH = "auto_AttemptScoredSwitch";
     private static final String AUTO_SCORED_SWITCH = "auto_ScoredSwitch";
+    private static final String AUTO_ATTEMPT_SCORED_SCALE = "auto_AttemptScoredScale";
     private static final String AUTO_SCORED_SCALE = "auto_ScoredScale";
     private static final String AUTO_PICKED_UP_CUBE = "auto_PickedUpCube";
     private static final String AUTO_CUBE_EXCHANGE = "auto_PlacedCubeExchange";/*changed*/
+    private static final String ATTEMPT_CUBES_PLACED_ON_SWITCH = "tele_AttemptCubesPlacedOnSwitch";
     private static final String CUBES_PLACED_ON_SWITCH = "tele_CubesPlacedOnSwitch";
+    private static final String ATTEMPT_CUBES_PLACED_ON_SCALE = "tele_AttemptCubesPlacedOnScale";
     private static final String CUBES_PLACED_ON_SCALE = "tele_CubesPlacedOnScale";
     private static final String CUBES_PLACED_IN_EXCHANGE = "tele_CubesPlacedInExchange";
     private static final String CUBES_PICKED_UP_FROM_FLOOR = "tele_CubesPickedUpFromFloor";
     private static final String CUBES_ACQUIRE_FROM_PLAYER = "tele_CubesAcquireFromPlayer";
     private static final String PLAYED_DEFENSE = "tele_PlayedDefense";
+    private static final String ENDED_ON_PLATFORM = "end_OnPlatform";
+    private static final String ATTEMPT_CLIMB = "end_AttemptToClimb";
     private static final String PLAYED_DEFENSE_EFFECTIVELY = "tele_PlayedDefenseEffectively";
     private static final String PLAYED_DEFENSE_INEFFECTIVELY = "tele_PlayedDefenseIneffectiveness";
     private static final String CLIMBED_RUNG = "end_ClimbedRung";
@@ -41,22 +47,29 @@ public class ScoutingData extends JsonData {
 
         intValuesMap.put(MATCH_NUMBER, 0);
         intValuesMap.put(TEAM_NUMBER, 0);
+        intValuesMap.put(ATTEMPT_CUBES_PLACED_ON_SWITCH, 0);
         intValuesMap.put(CUBES_PLACED_ON_SWITCH, 0);
+        intValuesMap.put(ATTEMPT_CUBES_PLACED_ON_SCALE, 0);
         intValuesMap.put(CUBES_PLACED_ON_SCALE, 0);
         intValuesMap.put(CUBES_PLACED_IN_EXCHANGE, 0);
         intValuesMap.put(CUBES_PICKED_UP_FROM_FLOOR, 0);
         intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, 0);
         intValuesMap.put(NUMBER_OF_ROBOTS_HELD, 0);
         booleanValuesMap.put(AUTO_LINE_CROSSED, false);
+        booleanValuesMap.put(AUTO_ATTEMPT_SCORED_SWITCH, false);
         booleanValuesMap.put(AUTO_SCORED_SWITCH, false);
+        booleanValuesMap.put(AUTO_ATTEMPT_SCORED_SCALE, false);
         booleanValuesMap.put(AUTO_SCORED_SCALE, false);
         booleanValuesMap.put(AUTO_PICKED_UP_CUBE, false);
         booleanValuesMap.put(AUTO_CUBE_EXCHANGE, false);
         booleanValuesMap.put(STARTED_LEFT_POSITION, false);
         booleanValuesMap.put(STARTED_CENTER_POSITION, false);
         booleanValuesMap.put(STARTED_RIGHT_POSITION, false);
-        booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, false);
+        booleanValuesMap.put(PLAYED_DEFENSE, false);
         booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, false);
+        booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, false);
+        booleanValuesMap.put(ENDED_ON_PLATFORM, false);
+        booleanValuesMap.put(ATTEMPT_CLIMB, false);
         booleanValuesMap.put(CLIMBED_RUNG, false);
         booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
         booleanValuesMap.put(CAN_BE_CLIMB_ON, false);
@@ -81,9 +94,19 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(AUTO_LINE_CROSSED, _value);
     }
 
+    public boolean isAutoAttemptScoredSwitch() { return booleanValuesMap.get(AUTO_ATTEMPT_SCORED_SWITCH); }
+    public void setAutoAttemptScoredSwitch(boolean _value) {
+        booleanValuesMap.put(AUTO_ATTEMPT_SCORED_SWITCH, _value);
+    }
+
     public boolean isAutoScoredSwitch() { return booleanValuesMap.get(AUTO_SCORED_SWITCH); }
     public void setAutoScoredSwitch(boolean _value) {
         booleanValuesMap.put(AUTO_SCORED_SWITCH, _value);
+    }
+
+    public boolean isAutoAttemptScoredScale() { return booleanValuesMap.get(AUTO_ATTEMPT_SCORED_SCALE); }
+    public void setAutoAttemptScoredScale(boolean _value) {
+        booleanValuesMap.put(AUTO_ATTEMPT_SCORED_SCALE, _value);
     }
 
     public boolean isAutoScoredScale() { return booleanValuesMap.get(AUTO_SCORED_SCALE); }
@@ -116,9 +139,19 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(STARTED_RIGHT_POSITION, _value);
     }
 
+    public int getAttemptCubesPlacedOnSwitch() { return intValuesMap.get(ATTEMPT_CUBES_PLACED_ON_SWITCH); }
+    public void setAttemptCubesPlacedOnSwitch(int _value) {
+        intValuesMap.put(ATTEMPT_CUBES_PLACED_ON_SWITCH, _value);
+    }
+
     public int getCubesPlacedOnSwitch() { return intValuesMap.get(CUBES_PLACED_ON_SWITCH); }
     public void setCubesPlacedOnSwitch(int _value) {
         intValuesMap.put(CUBES_PLACED_ON_SWITCH, _value);
+    }
+
+    public int getAttemptCubesPlacedOnScale() { return intValuesMap.get(ATTEMPT_CUBES_PLACED_ON_SCALE); }
+    public void setAttemptCubesPlacedOnScale(int _value) {
+        intValuesMap.put(ATTEMPT_CUBES_PLACED_ON_SCALE, _value);
     }
 
     public int getCubesPlacedOnScale() { return intValuesMap.get(CUBES_PLACED_ON_SCALE); }
@@ -141,6 +174,16 @@ public class ScoutingData extends JsonData {
         intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, _value);
     }
 
+
+    public boolean isEndedOnPlatform() { return booleanValuesMap.get(ENDED_ON_PLATFORM); }
+    public void setEndedOnPlatform(boolean _value) {
+        booleanValuesMap.put(ENDED_ON_PLATFORM, _value);
+    }
+
+    public boolean isAttemptToClimb() { return booleanValuesMap.get(ATTEMPT_CLIMB); }
+    public void setAttemptToClimb(boolean _value) {
+        booleanValuesMap.put(ATTEMPT_CLIMB, _value);
+    }
 
     public boolean isClimbedRung() { return booleanValuesMap.get(CLIMBED_RUNG); }
     public void setClimbedRung(boolean _value) {

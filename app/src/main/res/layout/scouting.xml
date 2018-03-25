@@ -26,7 +26,7 @@
         <Button
             android:id="@+id/goHomeButton"
             style="@style/J_StretchedButton"
-            android:text="Go Home And Delete Current Data" />
+            android:text="Go home and revert to last submit" />
 
         <LinearLayout
             android:id="@+id/scouting_main_layout"
@@ -115,6 +115,30 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
+                        android:text="Picked Up Cube" />
+
+                    <CheckBox
+                        android:id="@+id/pickupcubecheck"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Attempt Scored Switch" />
+
+                    <CheckBox
+                        android:id="@+id/autoAttemptScoredSwitch"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
                         android:text="Scored Switch" />
 
                     <CheckBox
@@ -127,10 +151,10 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Scored Scale" />
+                        android:text="Attempt Scored Scale" />
 
                     <CheckBox
-                        android:id="@+id/autoScoredScale"
+                        android:id="@+id/autoAttemptScoredScale"
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
@@ -139,10 +163,10 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
-                        android:text="Picked Up Cube" />
+                        android:text="Scored Scale" />
 
                     <CheckBox
-                        android:id="@+id/pickupcubecheck"
+                        android:id="@+id/autoScoredScale"
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
@@ -172,10 +196,34 @@
 
                     <TextView
                         style="@style/J_NormalTextView"
+                        android:text="Attempt Times Scored Switch" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/atempttimesscoredswitchpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
                         android:text="Times Scored Switch" />
 
                     <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
                         android:id="@+id/timesscoredswitchpicker"
+                        style="@style/HorizontalNumberPicker" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Attempt Times scored scale" />
+
+                    <sparx1126.com.powerup.custom_layouts.PlusMinusEditTextLinearLayout
+                        android:id="@+id/attempttimesscoredscalepicker"
                         style="@style/HorizontalNumberPicker" />
 
                 </LinearLayout>
@@ -248,7 +296,7 @@
                         android:orientation="horizontal">
 
 
-                2<RadioButton
+                <RadioButton
                     android:id="@+id/effectiveDefense"
                     style="@style/J_radioButton"
                     android:text="Effective" />
@@ -272,9 +320,31 @@
                     style="@style/J_headingTextView"
                     android:text="End Game:" />
 
-                <TextView
-                    style="@style/J_NormalTextView"
-                    android:text="Climbed on:" />
+                <LinearLayout
+                    style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Ended on Platform" />
+
+                    <CheckBox
+                        android:id="@+id/endedOnPlatform"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Attempted to Climb" />
+
+                    <CheckBox
+                        android:id="@+id/attemptToClimb"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
 
                 <RadioGroup
                     android:id="@+id/climbInfo"
@@ -284,17 +354,17 @@
                     <RadioButton
                         android:id="@+id/climbRung"
                         style="@style/J_radioButton"
-                        android:text="Main Rung" />
+                        android:text="On Main Rung" />
 
                     <RadioButton
                         android:id="@+id/climbRobot"
                         style="@style/J_radioButton"
-                        android:text="Other robot" />
+                        android:text="On Another robot" />
 
                     <RadioButton
-                        android:id="@+id/climbDoesnt"
+                        android:id="@+id/climbFailed"
                         style="@style/J_radioButton"
-                        android:text="Doesn't Climb" />
+                        android:text="Failed to climb" />
 
                 </RadioGroup>
 
