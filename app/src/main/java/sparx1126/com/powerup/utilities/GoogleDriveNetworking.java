@@ -229,7 +229,6 @@ public class GoogleDriveNetworking {
                                 _callback.handleOnSuccess();
                             } else {
                                 for (Map.Entry<String, Metadata> entry : metadataMap.entrySet()) {
-                                    metaDatasToProcess--;
                                     String fileName = entry.getKey();
                                     if(fileName.contains(FileIO.BENCHMARK_DATA_HEADER) ||
                                             fileName.contains(FileIO.SCOUTING_DATA_HEADER)) {
@@ -237,12 +236,14 @@ public class GoogleDriveNetworking {
                                                 new GoogleContentCallback() {
                                                     @Override
                                                     public void handleOnSuccess(String _fileName, String _content) {
+                                                        metaDatasToProcess--;
                                                         contentMap.put(_fileName, _content);
                                                         testIsFinishedWithOperation(_callback);
                                                     }
 
                                                     @Override
                                                     public void handleOnFailure(String _reason) {
+                                                        metaDatasToProcess--;
                                                         failedReason = failedReason + " " + _reason;
                                                         testIsFinishedWithOperation(_callback);
                                                     }

@@ -154,7 +154,7 @@ public class Scouting extends AppCompatActivity {
         goHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Scouting.this, "Current data deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(Scouting.this, "Current data not saved", Toast.LENGTH_LONG).show();
                 finish();
             }
         });

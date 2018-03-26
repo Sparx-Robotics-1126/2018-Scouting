@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public class JsonData {
 
     protected Map<String, String> stringValuesMap;
     protected Map<String, Integer> intValuesMap;
+    protected Map<String, Float> floatValuesMap;
     protected Map<String, Boolean> booleanValuesMap;
     protected Map<String, JSONObject> jsonObjectsMap;
     protected Map<String, JSONArray> jsonArraysMap;
@@ -18,6 +20,7 @@ public class JsonData {
     public JsonData() {
         stringValuesMap = new HashMap<>(0);
         intValuesMap = new HashMap<>(0);
+        floatValuesMap = new HashMap<>(0);
         booleanValuesMap = new HashMap<>(0);
         jsonObjectsMap = new HashMap<>(0);
         jsonArraysMap = new HashMap<>(0);
@@ -26,6 +29,7 @@ public class JsonData {
     public Map<String, String> getStringValuesMap() { return stringValuesMap; }
     public Map<String, Integer> getIntValuesMap() { return intValuesMap; }
     public Map<String, Boolean> getBooleanValuesMap() { return booleanValuesMap; }
+    public Map<String, Float> getFloatValuesMap() { return floatValuesMap; }
     public Map<String, JSONObject> getJsonObjectsMap() { return jsonObjectsMap; }
     public Map<String, JSONArray> getJsonArraysMap() { return jsonArraysMap; }
 
@@ -45,6 +49,9 @@ public class JsonData {
         for (String key : intValuesMap.keySet()) {
             intValuesMap.put(key, getInt(_jsonObj, key));
         }
+        for (String key : floatValuesMap.keySet()) {
+            floatValuesMap.put(key, getFloat(_jsonObj, key));
+        }
         for (String key : booleanValuesMap.keySet()) {
             booleanValuesMap.put(key, getBoolean(_jsonObj, key));
         }
@@ -61,6 +68,19 @@ public class JsonData {
 
         try {
             rtnData = _jsonObj.getInt(_key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return rtnData;
+    }
+
+    protected float getFloat(JSONObject _jsonObj, String _key) {
+        float rtnData = (float)0.0;
+
+        try {
+            //https://ourcodeworld.com/articles/read/367/how-to-get-a-float-value-from-a-json-object-in-java
+            rtnData = BigDecimal.valueOf(_jsonObj.getDouble(_key)).floatValue();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -123,6 +143,9 @@ public class JsonData {
                 jsonObj.put(entry.getKey(), entry.getValue());
             }
             for (Map.Entry<String, Integer> entry : intValuesMap.entrySet()) {
+                jsonObj.put(entry.getKey(), entry.getValue());
+            }
+            for (Map.Entry<String, Float> entry : floatValuesMap.entrySet()) {
                 jsonObj.put(entry.getKey(), entry.getValue());
             }
             for (Map.Entry<String, Boolean> entry : booleanValuesMap.entrySet()) {
