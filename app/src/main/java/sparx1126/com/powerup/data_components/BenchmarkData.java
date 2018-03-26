@@ -56,15 +56,16 @@ public class BenchmarkData extends JsonData {
 
         intValuesMap.put(TEAM_NUMBER, 0);
         intValuesMap.put(NUMBER_OF_WHEELS, 0);
-        intValuesMap.put(SPEED, 0);
-        intValuesMap.put(HEIGHT, 0);
-        intValuesMap.put(WEIGHT, 0);
-        intValuesMap.put(GROUND_CLEARANCE, 0);
         intValuesMap.put(AUTO_HOW_MANY_SCORE_SWITCH_PLACED, 0);
         intValuesMap.put(AUTO_HOW_MANY_SCORE_SWITCH_TOSSED, 0);
         intValuesMap.put(AUTO_HOW_MANY_SCORE_SCALE_PLACED, 0);
         intValuesMap.put(AUTO_HOW_MANY_SCORE_SCALE_TOSSED, 0);
-        intValuesMap.put(END_CLIMB_HEIGHT, 0);
+
+        floatValuesMap.put(SPEED, (float)0.0);
+        floatValuesMap.put(HEIGHT, (float)0.0);
+        floatValuesMap.put(WEIGHT, (float)0.0);
+        floatValuesMap.put(GROUND_CLEARANCE, (float)0.0);
+        floatValuesMap.put(END_CLIMB_HEIGHT, (float)0.0);
 
         booleanValuesMap.put(CAN_START_WITH_CUBE, false);
         booleanValuesMap.put(AUTO_CROSS_LINE, false);
@@ -93,7 +94,8 @@ public class BenchmarkData extends JsonData {
     public void setTypeOfDrive(String _value) {
         Log.e("Jaren", _value);
 
-        stringValuesMap.put(TYPE_OF_DRIVE, _value);}
+        stringValuesMap.put(TYPE_OF_DRIVE, _value);
+    }
 
     public String getTypeOfWheel() { return stringValuesMap.get(TYPE_OF_WHEEL); }
     public void setTypeOfWheel(String _value) { stringValuesMap.put(TYPE_OF_WHEEL, _value);}
@@ -103,24 +105,24 @@ public class BenchmarkData extends JsonData {
         intValuesMap.put(NUMBER_OF_WHEELS, _value);
     }
 
-    public int getSpeed() { return intValuesMap.get(SPEED); }
-    public void setSpeed(int _value) {
-        intValuesMap.put(SPEED, _value);
+    public float getSpeed() { return floatValuesMap.get(SPEED); }
+    public void setSpeed(float _value) {
+        floatValuesMap.put(SPEED, _value);
     }
 
-    public int getHeight() { return intValuesMap.get(HEIGHT); }
-    public void setHeight(int _value) {
-        intValuesMap.put(HEIGHT, _value);
+    public float getHeight() { return floatValuesMap.get(HEIGHT); }
+    public void setHeight(float _value) {
+        floatValuesMap.put(HEIGHT, _value);
     }
 
-    public int getWeight() { return intValuesMap.get(WEIGHT); }
-    public void setWeight(int _value) {
-        intValuesMap.put(WEIGHT, _value);
+    public float getWeight() { return floatValuesMap.get(WEIGHT); }
+    public void setWeight(float _value) {
+        floatValuesMap.put(WEIGHT, _value);
     }
 
-    public int getGroundClearance() { return intValuesMap.get(GROUND_CLEARANCE); }
-    public void setGroundClearance(int _value) {
-        intValuesMap.put(GROUND_CLEARANCE, _value);
+    public float getGroundClearance() { return floatValuesMap.get(GROUND_CLEARANCE); }
+    public void setGroundClearance(float _value) {
+        floatValuesMap.put(GROUND_CLEARANCE, _value);
     }
 
     public String getPreferedStartOne() { return stringValuesMap.get(PREFER_START_ONE); }
@@ -215,9 +217,9 @@ public class BenchmarkData extends JsonData {
     public String getEndClimbAssistType() { return stringValuesMap.get(END_CLIMB_ASSIST_TYPE); }
     public void setEndClimbAssistType(String _value) { stringValuesMap.put(END_CLIMB_ASSIST_TYPE, _value);}
 
-    public int getEndClimbHeight() { return intValuesMap.get(END_CLIMB_HEIGHT); }
-    public void setEndClimbHeight(int _value) {
-        intValuesMap.put(END_CLIMB_HEIGHT, _value);
+    public float getEndClimbHeight() { return floatValuesMap.get(END_CLIMB_HEIGHT); }
+    public void setEndClimbHeight(float _value) {
+        floatValuesMap.put(END_CLIMB_HEIGHT, _value);
     }
 
     public boolean isEndClimbOnRobot() { return booleanValuesMap.get(END_CLIMB_ON_ROBOT); }

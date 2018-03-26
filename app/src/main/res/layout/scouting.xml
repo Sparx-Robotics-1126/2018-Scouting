@@ -26,7 +26,7 @@
         <Button
             android:id="@+id/goHomeButton"
             style="@style/J_StretchedButton"
-            android:text="Go home and revert to last submit" />
+            android:text="Go Home And Don't Save Current Data" />
 
         <LinearLayout
             android:id="@+id/scouting_main_layout"
@@ -44,7 +44,8 @@
                 <TextView
                     android:id="@+id/teamnumber"
                     style="@style/J_NormalTextView"
-                    android:textSize="@dimen/text_size_big" />
+                    android:textSize="@dimen/text_size_big"
+                    />
 
             </LinearLayout>
 
@@ -428,7 +429,8 @@
                     <EditText
                         android:id="@+id/comments"
                         style="@style/J_NormalEditText"
-                        android:hint="Comments (max 50 chars)" />
+                        android:hint="Comments"
+                        android:layout_width="match_parent"/>
 
                 </LinearLayout>
 
