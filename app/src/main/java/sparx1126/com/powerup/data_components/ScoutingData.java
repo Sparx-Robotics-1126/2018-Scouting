@@ -30,14 +30,15 @@ public class ScoutingData extends JsonData {
     private static final String CUBES_ACQUIRE_FROM_PLAYER = "tele_CubesAcquireFromPlayer";
     private static final String PLAYED_DEFENSE = "tele_PlayedDefense";
     private static final String ENDED_ON_PLATFORM = "end_OnPlatform";
-    private static final String ATTEMPT_CLIMB = "end_AttemptToClimb";
     private static final String PLAYED_DEFENSE_EFFECTIVELY = "tele_PlayedDefenseEffectively";
     private static final String PLAYED_DEFENSE_INEFFECTIVELY = "tele_PlayedDefenseIneffectiveness";
+    private static final String ATTEMPT_CLIMB = "end_AttemptToClimb";
     private static final String CLIMBED_RUNG = "end_ClimbedRung";
     private static final String CLIMBED_ON_ROBOT = "end_ClimbedOnRobot";
     private static final String CAN_BE_CLIMB_ON = "end_AssistedOthersInClimb";
     private static final String NUMBER_OF_ROBOTS_HELD = "end_NumberOfRobotsAssisted";
     private static final String CLIMBED_UNDER_15_SECS = "end_ClimbedUnder15Secs";
+    private static final String DISABLED = "end_disabled";
     private static final String ON_PLATFORM = "end_OnPlatformAtTheEndOfMatch";
     private static final String COMMENTS = "comments";
 
@@ -75,6 +76,7 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
         booleanValuesMap.put(CAN_BE_CLIMB_ON, false);
         booleanValuesMap.put(CLIMBED_UNDER_15_SECS, false);
+        booleanValuesMap.put(DISABLED, false);
         booleanValuesMap.put(ON_PLATFORM, false);    }
 
     public String getScouterName() { return stringValuesMap.get(SCOUTER_NAME); }
@@ -218,11 +220,16 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, _value);
     }
 
-
     public boolean isClimbedUnder15Secs() { return booleanValuesMap.get(CLIMBED_UNDER_15_SECS); }
     public void setClimbedUnder15Secs(boolean _value) {
         booleanValuesMap.put(CLIMBED_UNDER_15_SECS, _value);
     }
+
+    public boolean isDisabled() { return booleanValuesMap.get(DISABLED); }
+    public void setDisabled(boolean _value) {
+        booleanValuesMap.put(DISABLED, _value);
+    }
+
     public boolean isonPlatform() { return booleanValuesMap.get(ON_PLATFORM); }
     public void setOnPlatform(boolean _value) {
         booleanValuesMap.put(ON_PLATFORM, _value);
