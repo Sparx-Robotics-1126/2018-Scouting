@@ -44,8 +44,7 @@
                 <TextView
                     android:id="@+id/teamnumber"
                     style="@style/J_NormalTextView"
-                    android:textSize="@dimen/text_size_big"
-                    />
+                    android:textSize="@dimen/text_size_big" />
 
             </LinearLayout>
 
@@ -290,25 +289,25 @@
 
 
                 </LinearLayout>
+
                 <LinearLayout style="@style/J_horizontalLinearLayout">
+
                     <RadioGroup
                         android:id="@+id/defenseGroup"
                         style="@style/J_radioGroup"
                         android:orientation="horizontal">
 
+                        <RadioButton
+                            android:id="@+id/effectiveDefense"
+                            style="@style/J_radioButton"
+                            android:text="Effective" />
 
-                <RadioButton
-                    android:id="@+id/effectiveDefense"
-                    style="@style/J_radioButton"
-                    android:text="Effective" />
-
-                <RadioButton
-                    android:id="@+id/ineffectiveDefense"
-                    style="@style/J_radioButton"
-                    android:text="Ineffective" />
+                        <RadioButton
+                            android:id="@+id/ineffectiveDefense"
+                            style="@style/J_radioButton"
+                            android:text="Ineffective" />
                     </RadioGroup>
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -321,8 +320,7 @@
                     style="@style/J_headingTextView"
                     android:text="End Game:" />
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -334,8 +332,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/J_horizontalLinearLayout">
+                <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
                         style="@style/J_NormalTextView"
@@ -411,6 +408,7 @@
                         style="@style/J_checkBox" />
 
                 </LinearLayout>
+
                 <LinearLayout style="@style/J_horizontalLinearLayout">
 
                     <TextView
@@ -423,14 +421,26 @@
 
                 </LinearLayout>
 
+                <LinearLayout style="@style/J_horizontalLinearLayout">
+
+                    <TextView
+                        style="@style/J_NormalTextView"
+                        android:text="Robot Disabled for most of the match:" />
+
+                    <CheckBox
+                        android:id="@+id/disabled"
+                        style="@style/J_checkBox" />
+
+                </LinearLayout>
+
 
                 <LinearLayout style="@style/J_verticalLinearLayout">
 
                     <EditText
                         android:id="@+id/comments"
                         style="@style/J_NormalEditText"
-                        android:hint="Comments"
-                        android:layout_width="match_parent"/>
+                        android:layout_width="match_parent"
+                        android:hint="Comments" />
 
                 </LinearLayout>
 
