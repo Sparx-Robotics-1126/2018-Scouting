@@ -3,6 +3,7 @@ package sparx1126.com.powerup;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +13,12 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +26,7 @@ import sparx1126.com.powerup.data_components.BlueAllianceEvent;
 import sparx1126.com.powerup.utilities.BlueAllianceNetworking;
 import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.FileIO;
+import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.NetworkStatus;
 import sparx1126.com.powerup.utilities.Utility;
 
@@ -35,6 +40,8 @@ public class Admin extends AppCompatActivity {
     private static NetworkStatus networkStatus;
     private static Utility utility;
 
+
+    private static GoogleDriveNetworking googleDrive;
     private Dialog eventsWeAreInDialog;
     private Dialog matchesDialog;
     private Dialog teamsDialog;
@@ -64,6 +71,7 @@ public class Admin extends AppCompatActivity {
         fileIO = FileIO.getInstance();
         networkStatus = NetworkStatus.getInstance();
         utility = Utility.getInstance();
+        googleDrive = GoogleDriveNetworking.getInstance();
 
         eventsWeAreInDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Events...");
         matchesDialog = utility.getNoButtonDialog(this, TAG, "Wait a moment. Downloading Matches...");
@@ -145,6 +153,135 @@ public class Admin extends AppCompatActivity {
             }
         });
 
+
+        upload = findViewById(R.id.uploadAdmin);
+        upload.setOnClickListener(new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                testingInternetDialog.show();
+                networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
+                    @Override
+                    public void handleConnected(final boolean _success) {
+                        // this needs to run on the ui thread because of ui components in it
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                testingInternetDialog.dismiss();
+                                if (_success) {
+                                    Map<String, String> stringData = new HashMap<>();
+
+                                    Map<Integer, Map<Integer, String>> scoutingDatas = fileIO.fetchScoutingDatas();
+                                    for (Map.Entry<Integer, Map<Integer, String>> entryTeam : scoutingDatas.entrySet()) {
+                                        for (Map.Entry<Integer, String> entryMatch : entryTeam.getValue().entrySet()) {
+                                            String fileName = FileIO.SCOUTING_DATA_HEADER + "_" + FileIO.TEAM
+                                                    + String.valueOf(entryTeam.getKey()) + "_" + FileIO.MATCH
+                                                    + String.valueOf(entryMatch.getKey()) + ".json";
+                                            stringData.put(fileName, entryMatch.getValue());
+                                        }
+                                    }
+
+                                    Map<Integer, String> benchmarkingDatas = fileIO.fetchBenchmarkDatas();
+                                    for (Map.Entry<Integer, String> entryTeam : benchmarkingDatas.entrySet()) {
+                                        String fileName = FileIO.BENCHMARK_DATA_HEADER + "_" + FileIO.TEAM
+                                                + String.valueOf(entryTeam.getKey()) + ".json";
+                                        stringData.put(fileName, entryTeam.getValue());
+                                    }
+
+                                    Map<String, File> photoData = new HashMap<>();
+                                    File storageDir = Admin.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                    if(storageDir != null) {
+                                        String path = storageDir.getAbsolutePath();
+                                        File directory = new File(path);
+                                        File[] files = directory.listFiles();
+                                        for (int i = 0; i < files.length; i++) {
+                                            String fileName = files[i].getName();
+                                            if(fileName.contains(getResources().getString(R.string.pictureHeader))) {
+                                                photoData.put(fileName, files[i]);
+                                            }
+                                        }
+                                    } else {
+                                        String msg = "Could not access: " + storageDir.getName();
+                                        Log.e(TAG, msg);
+                                        Toast.makeText(Admin.this, TAG + msg, Toast.LENGTH_LONG).show();
+                                    }
+
+
+                                    uploadInternetDialog.show();
+                                    googleDrive.uploadContentToGoogleDrive(Admin.this, stringData, photoData,
+                                            new GoogleDriveNetworking.GoogleCompletedCallback() {
+                                                @Override
+                                                public void handleOnSuccess() {
+                                                    uploadInternetDialog.dismiss();
+                                                    String msg = "Uploaded to Internet";
+                                                    Log.d(TAG, msg);
+                                                    Toast.makeText(Admin.this, TAG + msg, Toast.LENGTH_LONG).show();
+                                                }
+
+                                                @Override
+                                                public void handleOnFailure(String _reason) {
+                                                    uploadInternetDialog.dismiss();
+                                                    Dialog dialog = utility.getNegativeButtonDialog(Admin.this, TAG,
+                                                            _reason,
+                                                            "Okay");
+                                                    dialog.show();
+                                                }
+                                            });
+                                } else {
+                                    showConnectToInternetDialog();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        download = findViewById(R.id.downloadAdmin);
+        download.setOnClickListener(new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View view) {
+                testingInternetDialog.show();
+                networkStatus.isOnline(new NetworkStatus.NetworkCallback() {
+                    @Override
+                    public void handleConnected(final boolean _success) {
+                        // this needs to run on the ui thread because of ui components in it
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                testingInternetDialog.dismiss();
+                                if (_success) {
+                                    downloadInternetDialog.show();
+                                    googleDrive.downloadContentsFromGoogleDrive(Admin.this,
+                                            new GoogleDriveNetworking.GoogleCompletedCallback() {
+                                                @Override
+                                                public void handleOnSuccess() {
+                                                    downloadInternetDialog.dismiss();
+                                                    String msg = "Downloaded from Internet";
+                                                    Log.d(TAG, msg);
+                                                    Toast.makeText(Admin.this, TAG + msg, Toast.LENGTH_LONG).show();
+                                                    utility.restoreFromGoogleDrive();
+                                                }
+
+                                                @Override
+                                                public void handleOnFailure(String _reason) {
+                                                    downloadInternetDialog.dismiss();
+                                                    Dialog dialog = utility.getNegativeButtonDialog(Admin.this, TAG,
+                                                            _reason,
+                                                            "Okay");
+                                                    dialog.show();
+                                                }
+                                            });
+                                } else {
+                                    showConnectToInternetDialog();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
         adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
         blueSelectedToggle = findViewById(R.id.blueSelectedToggle);
         teamNumber1SelectedButton = findViewById(R.id.team1);
@@ -174,6 +311,8 @@ public class Admin extends AppCompatActivity {
         restorePreferences();
         showButtons();
     }
+
+
 
     private void restorePreferences() {
         Map<String, BlueAllianceEvent> data = dataCollection.getTeamEvents();
