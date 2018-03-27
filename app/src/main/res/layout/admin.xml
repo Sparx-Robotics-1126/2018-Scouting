@@ -51,15 +51,16 @@
         style="@style/J_StretchedButton"
         android:text="Select Position" />
 
-        <Button
-            android:id="@+id/forceUpload"
-            style="@style/J_StretchedButton"
-            android:text="Force Upload" />
 
         <Button
-            android:id="@+id/download"
+            android:id="@+id/downloadAdmin"
             style="@style/J_StretchedButton"
             android:text="Download" />
+
+        <Button
+            android:id="@+id/uploadAdmin"
+            style="@style/J_StretchedButton"
+            android:text="Upload" />
     </LinearLayout>
 
 </LinearLayout>
