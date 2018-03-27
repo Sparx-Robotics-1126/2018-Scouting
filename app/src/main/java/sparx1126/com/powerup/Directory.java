@@ -49,7 +49,7 @@ public class Directory extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+         super.onCreate(savedInstanceState);
         setContentView(R.layout.directory);
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
