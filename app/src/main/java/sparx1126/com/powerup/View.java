@@ -97,12 +97,13 @@ public class View extends AppCompatActivity {
 
     private List<String> getScoutingData(int _teamNumber) {
         List<String> rtnList = new ArrayList<>();
+        Map<String, Object> masterMap = new HashMap<>();
 
         Map<Integer, ScoutingData> datas = dataCollection.getScoutingDatasForTeam(_teamNumber);
 
         float numberOfDatas = datas.size();
 
-        rtnList.add("<b>\tMatches scouted: </b>" + numberOfDatas);
+        rtnList.add("<b>\tMatches scouted: </b>" + (int)numberOfDatas);
         // Notice no String Map. It would look wrong to show ALL strings for ALL scouting in one field
         Map<String, Integer> booleanValueSumsMap = new HashMap<>();
         Map<String, Integer> intValueSumsMap = new HashMap<>();
@@ -117,8 +118,10 @@ public class View extends AppCompatActivity {
                         increment = 1;
                     }
                 }
-                booleanValueSumsMap.put(key, increment);
+                masterMap.put(key, increment);
             }
+
+
 
             Map<String, Integer> intValuesMap = data.getIntValuesMap();
             for (String key : intValuesMap.keySet()) {
@@ -134,13 +137,57 @@ public class View extends AppCompatActivity {
             }
         }
 
-        for (Map.Entry<String, Integer> entry : booleanValueSumsMap.entrySet()) {
-            rtnList.add("<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue() + " times");
+        for (Map.Entry<String, Object> entry : masterMap.entrySet()) {
+        //  rtnList.add("<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + entry.getValue() + " times");
         }
         for (Map.Entry<String, Integer> entry : intValueSumsMap.entrySet()) {
             float average = entry.getValue() / numberOfDatas;
-            String averageValue = String.format("%.2f", average);
-            rtnList.add("\t<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + averageValue + " average");
+            masterMap.put(entry.getKey(), average);
+        //    rtnList.add("<font color=\"yellow\">\t\t" + entry.getKey() + ":  </font>" + average + " times");
+        }
+        rtnList.add("<font color=\"yellow\">\t\t" + "Auto");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Started Right" + ":  </font>" + masterMap.get("startedRightPosition") + " time(s)");
+        masterMap.remove("startedRightPosition");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Started Center" + ":  </font>" + masterMap.get("startedCenterPosition") + " time(s)");
+        masterMap.remove("startedCenterPosition");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Started Left" + ":  </font>" + masterMap.get("startedLeftPosition") + " time(s)");
+        masterMap.remove("startedLeftPosition");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Auto Line Crossed" + ":  </font>" + masterMap.get("auto_LineCrossed") + " time(s)");
+        masterMap.remove("auto_LineCrossed");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Placed Cube On Switch" + ":  </font>" + masterMap.get("auto_ScoredSwitch") + " time(s)");
+        masterMap.remove("auto_ScoredSwitch");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Placed Cube On Scale" + ":  </font>" + masterMap.get("auto_ScoredScale") + " time(s)");
+        masterMap.remove("auto_ScoredScale");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Picked Up Cube" + ":  </font>" + masterMap.get("auto_PickedUpCube") + " time(s)");
+        masterMap.remove("auto_PickedUpCube");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Placed Cube In Exchange" + ":  </font>" + masterMap.get("auto_PlacedCubeExchange") + " time(s)");
+        masterMap.remove("auto_PlacedCubeExchange");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Teleop");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Avg. Cubes Placed In Exchange" + ":  </font>" + masterMap.get("tele_CubesPlacedInExchange") + " time(s)");
+        masterMap.remove("tele_CubesPlacedInExchange");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Avg. Picked Up From Floor" + ":  </font>" + masterMap.get("tele_CubesPickedUpFromFloor") + " average");
+        masterMap.remove("tele_CubesPickedUpFromFloor");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Avg. Placed On Switch" + ":  </font>" + masterMap.get("tele_CubesPlacedOnSwitch") + " average");
+        masterMap.remove("tele_CubesPlacedOnSwitch");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Avg. Cubes Places On Scale" + ":  </font>" + masterMap.get("tele_CubesPlacedOnScale") + " average");
+        masterMap.remove("tele_CubesPlacedOnScale");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Avg. Cubes Acquired From Player" + ":  </font>" + masterMap.get("tele_CubesAcquireFromPlayer") + " average");
+        masterMap.remove("tele_CubesAcquireFromPlayer");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Played Defense Effectivly" + ":  </font>" + masterMap.get("tele_PlayedDefenseEffectively") + " time(s)");
+        masterMap.remove("tele_PlayedDefenseEffectively");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Climbed Rung" + ":  </font>" + masterMap.get("end_ClimbedRung") + " time(s)");
+        masterMap.remove("end_ClimbedRung");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Climbed On A Robot" + ":  </font>" + masterMap.get("end_ClimbedOnRobot") + " time(s)");
+        masterMap.remove("end_ClimedOnRobot");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Climbed Under 15 Seconds" + ":  </font>" + masterMap.get("end_ClimbedUnder15Secs") + " time(s)");
+        masterMap.remove("end_ClimbedUnder15Seconds");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Helped A Robot Climb" + ":  </font>" + masterMap.get("end_AssistedOthersInClimb") + " time(s)");
+        masterMap.remove("end_AssistedOthersInClimb");
+        rtnList.add("<font color=\"yellow\">\t\t" + "Avg. Robots Helped" + ":  </font>" + masterMap.get("end_NumberOfRobotsAssisted") + " average");
+        masterMap.remove("end_NumberOfRobotsAssisted");
+
+        for (Map.Entry<String, Object> entry : masterMap.entrySet()) {
+            rtnList.add("<font color=\"yellow\">\t\t" + fixKey(entry.getKey()) + ":  </font>" + entry.getValue());
         }
 
         return rtnList;
