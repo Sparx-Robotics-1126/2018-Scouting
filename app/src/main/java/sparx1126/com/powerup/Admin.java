@@ -40,7 +40,6 @@ public class Admin extends AppCompatActivity {
     private static NetworkStatus networkStatus;
     private static Utility utility;
 
-
     private static GoogleDriveNetworking googleDrive;
     private Dialog eventsWeAreInDialog;
     private Dialog matchesDialog;
@@ -79,7 +78,6 @@ public class Admin extends AppCompatActivity {
         testingInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.testing_internet));
         downloadInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.downloading_internet));
         uploadInternetDialog = utility.getNoButtonDialog(this, TAG, getResources().getString(R.string.uploading_internet));
-
 
         eventSpinner = findViewById(R.id.eventSpinner);
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -153,6 +151,31 @@ public class Admin extends AppCompatActivity {
             }
         });
 
+        adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
+        blueSelectedToggle = findViewById(R.id.blueSelectedToggle);
+        teamNumber1SelectedButton = findViewById(R.id.team1);
+        teamNumber2SelectedButton = findViewById(R.id.team2);
+        teamNumber3SelectedButton = findViewById(R.id.team3);
+
+        stuffSelectedButton = findViewById(R.id.selectStuff);
+        stuffSelectedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (teamNumber1SelectedButton.isChecked() || teamNumber2SelectedButton.isChecked() || teamNumber3SelectedButton.isChecked()) {
+                    editor.putBoolean(getResources().getString(R.string.pref_BlueAlliance), blueSelectedToggle.isChecked());
+                    if (teamNumber1SelectedButton.isChecked()) {
+                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 1);
+                    } else if (teamNumber2SelectedButton.isChecked()) {
+                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 2);
+                    } else if (teamNumber3SelectedButton.isChecked()) {
+                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 3);
+                    }
+                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), true);
+                    editor.apply();
+                    finish();
+                }
+            }
+        });
 
         upload = findViewById(R.id.uploadAdmin);
         upload.setOnClickListener(new android.view.View.OnClickListener() {
@@ -188,27 +211,11 @@ public class Admin extends AppCompatActivity {
                                         stringData.put(fileName, entryTeam.getValue());
                                     }
 
-                                    Map<String, File> photoData = new HashMap<>();
                                     File storageDir = Admin.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                                    if(storageDir != null) {
-                                        String path = storageDir.getAbsolutePath();
-                                        File directory = new File(path);
-                                        File[] files = directory.listFiles();
-                                        for (int i = 0; i < files.length; i++) {
-                                            String fileName = files[i].getName();
-                                            if(fileName.contains(getResources().getString(R.string.pictureHeader))) {
-                                                photoData.put(fileName, files[i]);
-                                            }
-                                        }
-                                    } else {
-                                        String msg = "Could not access: " + storageDir.getName();
-                                        Log.e(TAG, msg);
-                                        Toast.makeText(Admin.this, TAG + msg, Toast.LENGTH_LONG).show();
-                                    }
-
+                                    Map<String, File> photoDatas = fileIO.fetchRobotPicturesTaken(storageDir);
 
                                     uploadInternetDialog.show();
-                                    googleDrive.uploadContentToGoogleDrive(Admin.this, stringData, photoData,
+                                    googleDrive.uploadContentToGoogleDrive(Admin.this, stringData, photoDatas,
                                             new GoogleDriveNetworking.GoogleCompletedCallback() {
                                                 @Override
                                                 public void handleOnSuccess() {
@@ -253,7 +260,7 @@ public class Admin extends AppCompatActivity {
                                 testingInternetDialog.dismiss();
                                 if (_success) {
                                     downloadInternetDialog.show();
-                                    googleDrive.downloadContentsFromGoogleDrive(Admin.this,
+                                    googleDrive.downloadALLContentsFromGoogleDrive(Admin.this,
                                             new GoogleDriveNetworking.GoogleCompletedCallback() {
                                                 @Override
                                                 public void handleOnSuccess() {
@@ -262,6 +269,7 @@ public class Admin extends AppCompatActivity {
                                                     Log.d(TAG, msg);
                                                     Toast.makeText(Admin.this, TAG + msg, Toast.LENGTH_LONG).show();
                                                     utility.restoreFromGoogleDrive();
+                                                    utility.restoreFromTablet(Admin.this);
                                                 }
 
                                                 @Override
@@ -280,31 +288,6 @@ public class Admin extends AppCompatActivity {
                         });
                     }
                 });
-            }
-        });
-        adminSelectionLayout = findViewById(R.id.adminSelectionLayout);
-        blueSelectedToggle = findViewById(R.id.blueSelectedToggle);
-        teamNumber1SelectedButton = findViewById(R.id.team1);
-        teamNumber2SelectedButton = findViewById(R.id.team2);
-        teamNumber3SelectedButton = findViewById(R.id.team3);
-
-        stuffSelectedButton = findViewById(R.id.selectStuff);
-        stuffSelectedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (teamNumber1SelectedButton.isChecked() || teamNumber2SelectedButton.isChecked() || teamNumber3SelectedButton.isChecked()) {
-                    editor.putBoolean(getResources().getString(R.string.pref_BlueAlliance), blueSelectedToggle.isChecked());
-                    if (teamNumber1SelectedButton.isChecked()) {
-                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 1);
-                    } else if (teamNumber2SelectedButton.isChecked()) {
-                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 2);
-                    } else if (teamNumber3SelectedButton.isChecked()) {
-                        editor.putInt(getResources().getString(R.string.pref_TeamPosition), 3);
-                    }
-                    editor.putBoolean(getResources().getString(R.string.tablet_Configured), true);
-                    editor.apply();
-                    finish();
-                }
             }
         });
 

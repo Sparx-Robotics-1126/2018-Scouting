@@ -10,38 +10,38 @@ import java.util.Map;
 
 public class BenchmarkData extends JsonData {
     // keys
-    private static final String SCOUTER_NAME = "scouterName";
-    private static final String TEAM_NUMBER = "teamNumber";
-    private static final String TYPE_OF_DRIVE = "typeOfDrive";
-    private static final String TYPE_OF_WHEEL = "typeOfWheel";
-    private static final String NUMBER_OF_WHEELS = "numberOfWheels";
-    private static final String SPEED = "speed";
-    private static final String HEIGHT = "height";
-    private static final String WEIGHT = "weight";
-    private static final String GROUND_CLEARANCE = "groundClearance";
-    private static final String PREFER_START_ONE = "preferStartOne";
-    private static final String PREFER_START_TWO = "preferStartTwo";
-    private static final String PREFER_START_THREE = "preferStartThree";
-    private static final String CAN_START_WITH_CUBE = "canStartWithCube";
-    private static final String AUTO_CROSS_LINE = "auto_LineCrossed";/*changed*/
-    private static final String AUTO_HOW_MANY_SCORE_SWITCH_PLACED = "auto_HowManySwitchPlaced";
-    private static final String AUTO_HOW_MANY_SCORE_SWITCH_TOSSED = "auto_HowManySwitchTossed";
-    private static final String AUTO_HOW_MANY_SCORE_SCALE_PLACED = "auto_HowManyScalePlaced";
-    private static final String AUTO_HOW_MANY_SCORE_SCALE_TOSSED = "auto_HowManyScaleTossed";
-    private static final String AUTO_ACQUIRE_PORTAL = "auto_CanAcquirePortal";/*changed*/
-    private static final String AUTO_ACQUIRE_FLOOR = "auto_CanAcquireFloor";/*changed*/
-    private static final String TELE_ACQUIRE_PORTAL = "tele_AcquirePortal";
-    private static final String TELE_ACQUIRE_FLOOR = "tele_AcquireFloor";
-    private static final String TELE_DEPOSIT_VAULT = "tele_Deposit_vault";
-    private static final String TELE_PLACE_ON_SWITCH = "tele_PlaceOnSwitch";
-    private static final String TELE_TOSS_TO_SWITCH = "tele_TossToSwitch";
-    private static final String TELE_PLACE_ON_SCALE = "tele_PlaceOnScale";
-    private static final String TELE_TOSS_TO_SCALE = "tele_TossToScale";
-    private static final String END_CLIMB_RUNG = "end_ClimbWithoutAssist";/*changed*/
-    private static final String END_CLIMB_ASSIST_TYPE = "end_ClimbAssistType";
-    private static final String END_CLIMB_HEIGHT = "end_ClimbHeight";
-    private static final String END_CLIMB_ON_ROBOT = "end_AttachToRobot";/*changed*/
-    private static final String COMMENTS = "comments";
+    public static final String SCOUTER_NAME = "gen_scouterName";
+    public static final String TEAM_NUMBER = "gen_teamNumber";
+    public static final String TYPE_OF_DRIVE = "gen_typeOfDrive";
+    public static final String TYPE_OF_WHEEL = "gen_typeOfWheel";
+    public static final String NUMBER_OF_WHEELS = "gen_numberOfWheels";
+    public static final String SPEED = "gen_speed";
+    public static final String HEIGHT = "gen_height";
+    public static final String WEIGHT = "gen_weight";
+    public static final String GROUND_CLEARANCE = "gen_groundClearance";
+    public static final String PREFER_START_ONE = "start_preferStartOne";
+    public static final String PREFER_START_TWO = "start_preferStartTwo";
+    public static final String PREFER_START_THREE = "start_preferStartThree";
+    public static final String CAN_START_WITH_CUBE = "start_canStartWithCube";
+    public static final String AUTO_CROSS_LINE = "auto_LineCrossed";/*changed*/
+    public static final String AUTO_HOW_MANY_SCORE_SWITCH_PLACED = "auto_HowManySwitchPlaced";
+    public static final String AUTO_HOW_MANY_SCORE_SWITCH_TOSSED = "auto_HowManySwitchTossed";
+    public static final String AUTO_HOW_MANY_SCORE_SCALE_PLACED = "auto_HowManyScalePlaced";
+    public static final String AUTO_HOW_MANY_SCORE_SCALE_TOSSED = "auto_HowManyScaleTossed";
+    public static final String AUTO_ACQUIRE_PORTAL = "auto_CanAcquirePortal";/*changed*/
+    public static final String AUTO_ACQUIRE_FLOOR = "auto_CanAcquireFloor";/*changed*/
+    public static final String TELE_ACQUIRE_PORTAL = "tele_AcquirePortal";
+    public static final String TELE_ACQUIRE_FLOOR = "tele_AcquireFloor";
+    public static final String TELE_DEPOSIT_VAULT = "tele_DepositVault";
+    public static final String TELE_PLACE_ON_SWITCH = "tele_PlaceOnSwitch";
+    public static final String TELE_TOSS_TO_SWITCH = "tele_TossToSwitch";
+    public static final String TELE_PLACE_ON_SCALE = "tele_PlaceOnScale";
+    public static final String TELE_TOSS_TO_SCALE = "tele_TossToScale";
+    public static final String END_CLIMB_RUNG = "end_ClimbWithoutAssist";/*changed*/
+    public static final String END_CLIMB_ASSIST_TYPE = "end_ClimbAssistType";
+    public static final String END_CLIMB_HEIGHT = "end_ClimbHeight";
+    public static final String END_CLIMB_ON_ROBOT = "end_AttachToRobot";/*changed*/
+    public static final String COMMENTS = "gen_comments";
 
     public BenchmarkData() {
         // Initialize

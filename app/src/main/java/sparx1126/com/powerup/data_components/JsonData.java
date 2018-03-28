@@ -16,6 +16,7 @@ public class JsonData {
     protected Map<String, Boolean> booleanValuesMap;
     protected Map<String, JSONObject> jsonObjectsMap;
     protected Map<String, JSONArray> jsonArraysMap;
+    private boolean latestChangesUploaded;
 
     public JsonData() {
         stringValuesMap = new HashMap<>(0);
@@ -32,6 +33,9 @@ public class JsonData {
     public Map<String, Float> getFloatValuesMap() { return floatValuesMap; }
     public Map<String, JSONObject> getJsonObjectsMap() { return jsonObjectsMap; }
     public Map<String, JSONArray> getJsonArraysMap() { return jsonArraysMap; }
+    public void setDataNeedsUpload() { latestChangesUploaded = false;}
+    public void setDataUploaded() { latestChangesUploaded = true;}
+    public boolean isLatestChangesUploaded() { return latestChangesUploaded;}
 
     public void restoreFromJsonString(String _jsonString) {
         try {
