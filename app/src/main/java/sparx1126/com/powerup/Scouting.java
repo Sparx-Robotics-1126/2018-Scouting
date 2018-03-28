@@ -215,11 +215,6 @@ public class Scouting extends AppCompatActivity {
         held1Robot = findViewById(R.id.assistedOne);
         held2Robot = findViewById(R.id.assistedTwo);
         playedDefense = findViewById(R.id.playeddefensecheck);
-        defenseGroup = findViewById(R.id.defenseGroup);
-        defenseGroup.setVisibility(View.GONE);
-        effectiveDefense = findViewById(R.id.effectiveDefense);
-        ineffectiveDefense = findViewById(R.id.ineffectiveDefense);
-        climbedUnder15Secs = findViewById(R.id.Climb15secs);
         playedDefense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,6 +227,11 @@ public class Scouting extends AppCompatActivity {
                 }
             }
         });
+        defenseGroup = findViewById(R.id.defenseGroup);
+        defenseGroup.setVisibility(View.GONE);
+        effectiveDefense = findViewById(R.id.effectiveDefense);
+        ineffectiveDefense = findViewById(R.id.ineffectiveDefense);
+        climbedUnder15Secs = findViewById(R.id.Climb15secs);
 /////////////////////////////////////////////////////////////////////////////////////////
         disabled = findViewById(R.id.disabled);
         comments = findViewById(R.id.comments);
@@ -279,6 +279,8 @@ public class Scouting extends AppCompatActivity {
                 scoutingData.setClimbedUnder15Secs(climbedUnder15Secs.isChecked());
                 scoutingData.setDisabled(disabled.isChecked());
                 scoutingData.setComments(comments.getText().toString());
+                scoutingData.setDataNeedsUpload();
+
                 dataCollection.addScoutingData(scoutingData);
                 fileIO.storeScoutingData(scoutingData.getJsonString(), teamNumber.getText().toString(), matchNumber.getText().toString());
                 String msg = "Data Stored";
@@ -316,27 +318,20 @@ public class Scouting extends AppCompatActivity {
             climbedRobot.setChecked(scoutingData.isClimbedOnRobot());
             climbFailed.setChecked(attemptClimb.isChecked() && !climbedRung.isChecked() && !climbedRobot.isChecked());
             playedDefense.setChecked(scoutingData.isPlayedDefense());
+            if (scoutingData.isPlayedDefenseEffectively()) {
+                effectiveDefense.setChecked(true);
+            }
+            if (scoutingData.isPlayedDefenseIneffectively()) {
+                ineffectiveDefense.setChecked(true);
+            }
+            playedDefense.callOnClick();
             assistedOthersClimb.setChecked(scoutingData.isCanBeClimbOn());
-            int test = scoutingData.getNumberOfRobotsHeld();
-            String testtest = Integer.toString(test);
-            Log.e(TAG, testtest);
             if (scoutingData.getNumberOfRobotsHeld() == 1) {
                 held1Robot.setChecked(true);
             } else if (scoutingData.getNumberOfRobotsHeld() == 2) {
                 held2Robot.setChecked(true);
             }
             assistedOthersClimb.callOnClick();
-/////////////THESE TWO\\\\\\\\\\\\\\\\\\\\\\\THESE TWO//////////////////////////////
-            if (scoutingData.isPlayedDefenseEffectively()) {
-                effectiveDefense.setChecked(true);
-            }
-
-            if (scoutingData.isPlayedDefenseIneffectively()) {
-                ineffectiveDefense.setChecked(true);
-            }
-
-            playedDefense.callOnClick();
-
             climbedUnder15Secs.setChecked(scoutingData.isClimbedUnder15Secs());
             disabled.setChecked(scoutingData.isDisabled());
             comments.setText(scoutingData.getComments());

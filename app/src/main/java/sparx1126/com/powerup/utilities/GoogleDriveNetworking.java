@@ -44,7 +44,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import sparx1126.com.powerup.Benchmarking;
+import sparx1126.com.powerup.data_components.BenchmarkData;
+import sparx1126.com.powerup.data_components.ScoutingData;
 
 public class GoogleDriveNetworking {
     public interface GoogleCompletedCallback {
@@ -62,6 +63,7 @@ public class GoogleDriveNetworking {
     private DriveResourceClient driveResourceClient;
     private DriveClient driveClient;
     private static GoogleDriveNetworking instance;
+    private static DataCollection dataCollection;
     private Map<String, Metadata> metadataMap;
     private Map<String, String> contentMap;
     private int metaDatasToProcess;
@@ -77,6 +79,7 @@ public class GoogleDriveNetworking {
 
     private GoogleDriveNetworking() {
         driveResourceClient = null;
+        dataCollection = DataCollection.getInstance();
         metadataMap = new HashMap<>();
         contentMap = new HashMap<>();
         metaDatasToProcess = 0;
@@ -134,13 +137,15 @@ public class GoogleDriveNetworking {
                                 _callback.handleOnSuccess();
                             } else {
                                 for (Map.Entry<String, String> entry : _stringData.entrySet()) {
-                                    if (metadataMap.containsKey(entry.getKey())) {
-                                        Metadata metadata = metadataMap.get(entry.getKey());
-                                        updateStringData(_context, entry.getKey(), metadata, entry.getValue(),
+                                    final String fileName = entry.getKey();
+                                    if (metadataMap.containsKey(fileName)) {
+                                        Metadata metadata = metadataMap.get(fileName);
+                                        updateStringData(_context, fileName, metadata, entry.getValue(),
                                                 new GoogleCompletedCallback() {
                                                     @Override
                                                     public void handleOnSuccess() {
                                                         metaDatasToProcess--;
+                                                        setUploaded(fileName);
                                                         testIsFinishedWithOperation(_callback);
                                                     }
 
@@ -157,6 +162,7 @@ public class GoogleDriveNetworking {
                                                     @Override
                                                     public void handleOnSuccess() {
                                                         metaDatasToProcess--;
+                                                        setUploaded(fileName);
                                                         testIsFinishedWithOperation(_callback);
                                                     }
 
@@ -171,12 +177,15 @@ public class GoogleDriveNetworking {
                                 }
 
                                 for (Map.Entry<String, File> entry : _photoData.entrySet()) {
-                                    if (!metadataMap.containsKey(entry.getKey())) {
-                                        createFileData(_context, entry.getKey(), entry.getValue(),
+                                    final String fileName = entry.getKey();
+                                    if (!metadataMap.containsKey(fileName)) {
+                                        createFileData(_context, fileName, entry.getValue(),
                                                 new GoogleCompletedCallback() {
                                                     @Override
                                                     public void handleOnSuccess() {
                                                         metaDatasToProcess--;
+                                                        Log.e(TAG, "Hiram 1" + fileName);
+                                                        setUploaded(fileName);
                                                         testIsFinishedWithOperation(_callback);
                                                     }
 
@@ -189,6 +198,7 @@ public class GoogleDriveNetworking {
                                                 });
                                     } else {
                                         metaDatasToProcess--;
+                                        Log.d(TAG, "Skipped: " + fileName);
                                         testIsFinishedWithOperation(_callback);
                                     }
                                 }
@@ -214,6 +224,17 @@ public class GoogleDriveNetworking {
 
     public void downloadContentsFromGoogleDrive(final Context _context,
                                  final GoogleCompletedCallback _callback) {
+        download(_context, false, _callback);
+
+    }
+
+    public void downloadALLContentsFromGoogleDrive(final Context _context,
+                                                final GoogleCompletedCallback _callback) {
+        download(_context, true, _callback);
+    }
+
+    private void download(final Context _context, final Boolean _allData,
+                          final GoogleCompletedCallback _callback) {
         if (driveResourceClient != null) {
             syncDrive(_context, 10, new GoogleCompletedCallback() {
                 @Override
@@ -230,8 +251,36 @@ public class GoogleDriveNetworking {
                             } else {
                                 for (Map.Entry<String, Metadata> entry : metadataMap.entrySet()) {
                                     String fileName = entry.getKey();
-                                    if(fileName.contains(FileIO.BENCHMARK_DATA_HEADER) ||
-                                            fileName.contains(FileIO.SCOUTING_DATA_HEADER)) {
+                                    boolean restore = _allData;
+                                    if(fileName.contains(FileIO.BENCHMARK_DATA_HEADER)) {
+                                        String[] fileNameParts = fileName.split("[_.]");
+                                        String team = fileNameParts[1].replace(FileIO.TEAM, "");
+                                        BenchmarkData bd = dataCollection.getBenchmarkData(Integer.parseInt(team));
+                                        if(bd == null) {
+                                            restore = true;
+                                        }
+                                    }
+                                    if(fileName.contains(FileIO.SCOUTING_DATA_HEADER)) {
+                                        String[] fileNameParts = fileName.split("[_.]");
+                                        String team = fileNameParts[1].replace(FileIO.TEAM, "");
+                                        String match = fileNameParts[2].replace(FileIO.MATCH, "");
+                                        ScoutingData sd = dataCollection.getScoutingData(Integer.parseInt(team), Integer.parseInt(match));
+                                        if(sd == null) {
+                                            restore = true;
+                                        }
+                                    }
+                                    if(fileName.contains(FileIO.ROBOT_PIC_HEADER)) {
+                                        String[] fileNameParts = fileName.split("[_]");
+                                        String teamNumberStrg = fileNameParts[1];
+                                        Integer teamNumber = Integer.parseInt(teamNumberStrg);
+                                        Map<Integer, Integer> teamNumberOfPhotos = dataCollection.getTeamNumberOfPhotos();
+                                        if(!teamNumberOfPhotos.containsKey(teamNumber)) {
+                                            dataCollection.pictureTaken(teamNumber);
+                                        }
+                                        restore = false;
+                                    }
+
+                                    if(restore) {
                                         restoreStringContent(_context, fileName, entry.getValue().getDriveId().asDriveFile(),
                                                 new GoogleContentCallback() {
                                                     @Override
@@ -248,6 +297,10 @@ public class GoogleDriveNetworking {
                                                         testIsFinishedWithOperation(_callback);
                                                     }
                                                 });
+                                    } else {
+                                        Log.d(TAG, "Skipped:" + fileName);
+                                        metaDatasToProcess--;
+                                        testIsFinishedWithOperation(_callback);
                                     }
                                 }
                             }
@@ -323,6 +376,8 @@ public class GoogleDriveNetworking {
                                    final GoogleCompletedCallback _callback) {
         metadataMap.clear();
         Query query = new Query.Builder()
+                .addFilter(Filters.or(Filters.eq(SearchableField.MIME_TYPE, "text/plain"),
+                        Filters.eq(SearchableField.MIME_TYPE, "image/jpeg")))
                 .build();
 
         Task<MetadataBuffer> queryTask = driveResourceClient.query(query);
@@ -334,10 +389,9 @@ public class GoogleDriveNetworking {
                                 boolean success = true;
                                 for (int index = 0; index < metadataBuffer.getCount(); index++) {
                                     Metadata metadata = metadataBuffer.get(index);
-                                    Log.e("Hiram", metadata.getMimeType());
                                     // for some strange reason sometimes the sync returns success but,
                                     // the metadata is not ready
-                                    if(metadata.getOriginalFilename() == null && !metadata.getMimeType().contentEquals("application/vnd.google-apps.folder")) {
+                                    if(metadata.getOriginalFilename() == null) {
                                         success = false;
                                         String msg = "Error with metadata";
                                         Log.e(TAG, msg);
@@ -353,10 +407,7 @@ public class GoogleDriveNetworking {
                                             _callback.handleOnFailure(msg);
                                         }
                                         break;
-                                    } else if (metadata.getMimeType().contentEquals("application/vnd.google-apps.folder")) {
-                                        Log.e("Hiram", "skipped");
-                                    }
-                                    else {
+                                    } else {
                                         String msg = "Found in google drive: " + metadata.getOriginalFilename();
                                         Log.d(TAG, msg);
                                         metadataMap.put(metadata.getOriginalFilename(), metadata);
@@ -555,5 +606,20 @@ public class GoogleDriveNetworking {
                         _callback.handleOnFailure(msg + ": " + e.getMessage());
                     }
                 });
+    }
+
+    private void setUploaded(String _filename) {
+        if(_filename.contains(FileIO.SCOUTING_DATA_HEADER)) {
+            String[] fileNameParts = _filename.split("[_.]");
+            String team = fileNameParts[1].replace(FileIO.TEAM, "");
+            String match = fileNameParts[2].replace(FileIO.MATCH, "");
+            ScoutingData sd = dataCollection.getScoutingData(Integer.parseInt(team), Integer.parseInt(match));
+            sd.setDataUploaded();
+        } else if(_filename.contains(FileIO.BENCHMARK_DATA_HEADER)) {
+            String[] fileNameParts = _filename.split("[_.]");
+            String team = fileNameParts[1].replace(FileIO.TEAM, "");
+            BenchmarkData bd = dataCollection.getBenchmarkData(Integer.parseInt(team));
+            bd.setDataUploaded();
+        }
     }
 }

@@ -136,7 +136,6 @@ public class CheckList extends AppCompatActivity {
             photos.setBackground(cellBackground);
             child.addView(photos);
 
-
             masterTable.addView(child, index);
             index++;
         }

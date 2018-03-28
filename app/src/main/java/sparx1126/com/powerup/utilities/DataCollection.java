@@ -1,7 +1,5 @@
 package sparx1126.com.powerup.utilities;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -167,14 +165,13 @@ public class DataCollection {
         if(benchmarkDataMap.get(_teamNumber) != null){
             rtnData = benchmarkDataMap.get(_teamNumber);
         }
-        Log.e("Benchmaking data", benchmarkDataMap.toString());
         return rtnData;
     }
 
     public void pictureTaken(int teamNumber){
         if (teamNumberOfPhotos.containsKey(teamNumber)){
-            int numberOfPhotos = teamNumberOfPhotos.get(teamNumber);
-            teamNumberOfPhotos.put(teamNumber, numberOfPhotos++);
+            int numberOfPhotos = teamNumberOfPhotos.get(teamNumber) +1;
+            teamNumberOfPhotos.put(teamNumber, numberOfPhotos);
         }
         else {
             teamNumberOfPhotos.put(teamNumber, 1);

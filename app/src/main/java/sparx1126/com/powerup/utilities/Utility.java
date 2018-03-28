@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
 import java.util.Map;
 
+import sparx1126.com.powerup.Directory;
+import sparx1126.com.powerup.R;
 import sparx1126.com.powerup.data_components.BenchmarkData;
 import sparx1126.com.powerup.data_components.ScoutingData;
 
@@ -72,7 +77,7 @@ public class Utility {
         return dialog;
     }
 
-    public void restoreFromTablet() {
+    public void restoreFromTablet(ContextWrapper _context) {
         String teamEvents = fileIO.fetchTeamEvents();
         if (!teamEvents.isEmpty()) {
             dataCollection.setTeamEvents(teamEvents);
@@ -103,6 +108,14 @@ public class Utility {
             benchmarkData.restoreFromJsonString(data);
             dataCollection.addBenchmarkData(benchmarkData);
         }
+
+        File storageDir = _context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        Map<String, File> photoDatas = fileIO.fetchRobotPicturesTaken(storageDir);
+        for (String key : photoDatas.keySet()) {
+            String[] nameParts = key.split("_");
+            String teamString = nameParts[1];
+            dataCollection.pictureTaken(Integer.parseInt(teamString));
+        }
     }
 
     public void restoreFromGoogleDrive() {
@@ -110,7 +123,6 @@ public class Utility {
         for(Map.Entry<String, String> entry: contentData.entrySet()) {
             fileIO.storeGoogleData(entry.getKey(), entry.getValue());
         }
-        restoreFromTablet();
     }
 }
 

@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -57,6 +56,7 @@ public class Benchmarking extends AppCompatActivity {
     private String[] driveTypesArray;
     private String[] wheelTypesArray;
     private String[] climbAssistTypesArray;
+    private int lastPictureTeamNumber;
 
     private AutoCompleteTextView team_number_input;
     private Button goHomeButton;
@@ -200,7 +200,7 @@ public class Benchmarking extends AppCompatActivity {
                     File photoFile = null;
                     try {
                         long epochInSeconds = System.currentTimeMillis() / 1000;
-                        String imageFileName = getResources().getString(R.string.pictureHeader) +
+                        String imageFileName = FileIO.ROBOT_PIC_HEADER +
                                 team_number_input.getText().toString() + "_" +
                                 String.valueOf(epochInSeconds);
                         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -213,7 +213,7 @@ public class Benchmarking extends AppCompatActivity {
                     if (photoFile != null) {
                         String teamNumberStringg = team_number_input.getText().toString();
                         int teamNumber = Integer.valueOf(teamNumberStringg);
-                        dataCollection.pictureTaken(teamNumber);
+                        lastPictureTeamNumber = teamNumber;
                         Uri photoURI = FileProvider.getUriForFile(Benchmarking.this,
                                 "sparx1126.com.powerup.fileprovider",
                                 photoFile);
@@ -654,6 +654,7 @@ public class Benchmarking extends AppCompatActivity {
                 }
                 data.setEndClimbOnRobot(attach_robot.isChecked());
                 data.setComments(comments.getText().toString());
+                data.setDataNeedsUpload();
 
                 dataCollection.addBenchmarkData(data);
                 fileIO.storeBenchmarkData(data.getJsonString(), team_number_input.getText().toString());
@@ -892,6 +893,7 @@ public class Benchmarking extends AppCompatActivity {
                     String msg = "Picture Saved!";
                     Log.d(TAG, msg);
                     Toast.makeText(this, TAG + msg, Toast.LENGTH_LONG).show();
+                    dataCollection.pictureTaken(lastPictureTeamNumber);
                 }
                 else {
                     Dialog dialog = utility.getPositiveButtonDialog(this, TAG,

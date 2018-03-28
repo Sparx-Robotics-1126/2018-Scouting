@@ -8,39 +8,38 @@ import java.util.Map;
 
 public class ScoutingData extends JsonData {
     // keys
-    private static final String SCOUTER_NAME = "scouterName";
-    public static final String MATCH_NUMBER = "matchNumber";
-    public static final String TEAM_NUMBER = "teamNumber";
-    private static final String STARTED_LEFT_POSITION = "startedLeftPosition";
-    private static final String STARTED_CENTER_POSITION = "startedCenterPosition";
-    private static final String STARTED_RIGHT_POSITION = "startedRightPosition";
-    private static final String AUTO_LINE_CROSSED = "auto_LineCrossed";
-    private static final String AUTO_ATTEMPT_SCORED_SWITCH = "auto_AttemptScoredSwitch";
-    private static final String AUTO_SCORED_SWITCH = "auto_ScoredSwitch";
-    private static final String AUTO_ATTEMPT_SCORED_SCALE = "auto_AttemptScoredScale";
-    private static final String AUTO_SCORED_SCALE = "auto_ScoredScale";
-    private static final String AUTO_PICKED_UP_CUBE = "auto_PickedUpCube";
-    private static final String AUTO_CUBE_EXCHANGE = "auto_PlacedCubeExchange";/*changed*/
-    private static final String ATTEMPT_CUBES_PLACED_ON_SWITCH = "tele_AttemptCubesPlacedOnSwitch";
-    private static final String CUBES_PLACED_ON_SWITCH = "tele_CubesPlacedOnSwitch";
-    private static final String ATTEMPT_CUBES_PLACED_ON_SCALE = "tele_AttemptCubesPlacedOnScale";
-    private static final String CUBES_PLACED_ON_SCALE = "tele_CubesPlacedOnScale";
-    private static final String CUBES_PLACED_IN_EXCHANGE = "tele_CubesPlacedInExchange";
-    private static final String CUBES_PICKED_UP_FROM_FLOOR = "tele_CubesPickedUpFromFloor";
-    private static final String CUBES_ACQUIRE_FROM_PLAYER = "tele_CubesAcquireFromPlayer";
-    private static final String PLAYED_DEFENSE = "tele_PlayedDefense";
-    private static final String ENDED_ON_PLATFORM = "end_OnPlatform";
-    private static final String PLAYED_DEFENSE_EFFECTIVELY = "tele_PlayedDefenseEffectively";
-    private static final String PLAYED_DEFENSE_INEFFECTIVELY = "tele_PlayedDefenseIneffectiveness";
-    private static final String ATTEMPT_CLIMB = "end_AttemptToClimb";
-    private static final String CLIMBED_RUNG = "end_ClimbedRung";
-    private static final String CLIMBED_ON_ROBOT = "end_ClimbedOnRobot";
-    private static final String CAN_BE_CLIMB_ON = "end_AssistedOthersInClimb";
-    private static final String NUMBER_OF_ROBOTS_HELD = "end_NumberOfRobotsAssisted";
-    private static final String CLIMBED_UNDER_15_SECS = "end_ClimbedUnder15Secs";
-    private static final String DISABLED = "end_disabled";
-    private static final String ON_PLATFORM = "end_OnPlatformAtTheEndOfMatch";
-    private static final String COMMENTS = "comments";
+    public static final String SCOUTER_NAME = "gen_scouterName";
+    public static final String MATCH_NUMBER = "gen_matchNumber";
+    public static final String TEAM_NUMBER = "gen_teamNumber";
+    public static final String STARTED_LEFT_POSITION = "start_leftPosition";
+    public static final String STARTED_CENTER_POSITION = "start_centerPosition";
+    public static final String STARTED_RIGHT_POSITION = "start_rightPosition";
+    public static final String AUTO_LINE_CROSSED = "auto_LineCrossed";
+    public static final String AUTO_ATTEMPT_SCORED_SWITCH = "auto_AttemptScoredSwitch";
+    public static final String AUTO_SCORED_SWITCH = "auto_ScoredSwitch";
+    public static final String AUTO_ATTEMPT_SCORED_SCALE = "auto_AttemptScoredScale";
+    public static final String AUTO_SCORED_SCALE = "auto_ScoredScale";
+    public static final String AUTO_PICKED_UP_CUBE = "auto_PickedUpCube";
+    public static final String AUTO_CUBE_EXCHANGE = "auto_PlacedCubeExchange";/*changed*/
+    public static final String ATTEMPT_CUBES_PLACED_ON_SWITCH = "tele_AttemptCubesPlacedOnSwitch";
+    public static final String CUBES_PLACED_ON_SWITCH = "tele_CubesPlacedOnSwitch";
+    public static final String ATTEMPT_CUBES_PLACED_ON_SCALE = "tele_AttemptCubesPlacedOnScale";
+    public static final String CUBES_PLACED_ON_SCALE = "tele_CubesPlacedOnScale";
+    public static final String CUBES_PLACED_IN_EXCHANGE = "tele_CubesPlacedInExchange";
+    public static final String CUBES_PICKED_UP_FROM_FLOOR = "tele_CubesPickedUpFromFloor";
+    public static final String CUBES_ACQUIRE_FROM_PLAYER = "tele_CubesAcquireFromPlayer";
+    public static final String PLAYED_DEFENSE = "tele_PlayedDefense";
+    public static final String PLAYED_DEFENSE_EFFECTIVELY = "tele_PlayedDefenseEffectively";
+    public static final String PLAYED_DEFENSE_INEFFECTIVELY = "tele_PlayedDefenseIneffectiveness";
+    public static final String ENDED_ON_PLATFORM = "end_OnPlatform";
+    public static final String ATTEMPT_CLIMB = "end_AttemptToClimb";
+    public static final String CLIMBED_RUNG = "end_ClimbedRung";
+    public static final String CLIMBED_UNDER_15_SECS = "end_ClimbedUnder15Secs";
+    public static final String CAN_BE_CLIMB_ON = "end_AssistedOthersInClimb";
+    public static final String NUMBER_OF_ROBOTS_HELD = "end_NumberOfRobotsAssisted";
+    public static final String CLIMBED_ON_ROBOT = "end_ClimbedOnRobot";
+    public static final String DISABLED = "end_disabled";
+    public static final String COMMENTS = "gen_comments";
 
     public ScoutingData() {
         // Initialize
@@ -73,11 +72,11 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(ENDED_ON_PLATFORM, false);
         booleanValuesMap.put(ATTEMPT_CLIMB, false);
         booleanValuesMap.put(CLIMBED_RUNG, false);
+        booleanValuesMap.put(CLIMBED_UNDER_15_SECS, false);
         booleanValuesMap.put(CLIMBED_ON_ROBOT, false);
         booleanValuesMap.put(CAN_BE_CLIMB_ON, false);
-        booleanValuesMap.put(CLIMBED_UNDER_15_SECS, false);
         booleanValuesMap.put(DISABLED, false);
-        booleanValuesMap.put(ON_PLATFORM, false);    }
+    }
 
     public String getScouterName() { return stringValuesMap.get(SCOUTER_NAME); }
     public void setScouterName(String _value) { stringValuesMap.put(SCOUTER_NAME, _value);}
@@ -177,6 +176,20 @@ public class ScoutingData extends JsonData {
         intValuesMap.put(CUBES_ACQUIRE_FROM_PLAYER, _value);
     }
 
+    public boolean isPlayedDefense() { return booleanValuesMap.get(PLAYED_DEFENSE); }
+    public void setPlayedDefense(boolean _value) {
+        booleanValuesMap.put(PLAYED_DEFENSE, _value);
+    }
+
+    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_EFFECTIVELY); }
+    public void setPlayedDefenseEffectively(boolean _value) {
+        booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, _value);
+    }
+
+    public boolean isPlayedDefenseIneffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_INEFFECTIVELY); }
+    public void setPlayedDefenseIneffectively(boolean _value) {
+        booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, _value);
+    }
 
     public boolean isEndedOnPlatform() { return booleanValuesMap.get(ENDED_ON_PLATFORM); }
     public void setEndedOnPlatform(boolean _value) {
@@ -193,6 +206,11 @@ public class ScoutingData extends JsonData {
         booleanValuesMap.put(CLIMBED_RUNG, _value);
     }
 
+    public boolean isClimbedUnder15Secs() { return booleanValuesMap.get(CLIMBED_UNDER_15_SECS); }
+    public void setClimbedUnder15Secs(boolean _value) {
+        booleanValuesMap.put(CLIMBED_UNDER_15_SECS, _value);
+    }
+
     public boolean isClimbedOnRobot() { return booleanValuesMap.get(CLIMBED_ON_ROBOT); }
     public void setClimbedOnRobot(boolean _value) {
         booleanValuesMap.put(CLIMBED_ON_ROBOT, _value);
@@ -207,32 +225,10 @@ public class ScoutingData extends JsonData {
     public void setNumberOfRobotsHeld(int _value) {
         intValuesMap.put(NUMBER_OF_ROBOTS_HELD, _value);
     }
-    public boolean isPlayedDefense() { return booleanValuesMap.get(NUMBER_OF_ROBOTS_HELD); }
-    public void setPlayedDefense(boolean _value) {
-        booleanValuesMap.put(NUMBER_OF_ROBOTS_HELD, _value);
-    }
-    public boolean isPlayedDefenseEffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_EFFECTIVELY); }
-    public void setPlayedDefenseEffectively(boolean _value) {
-        booleanValuesMap.put(PLAYED_DEFENSE_EFFECTIVELY, _value);
-    }
-    public boolean isPlayedDefenseIneffectively() { return booleanValuesMap.get(PLAYED_DEFENSE_INEFFECTIVELY); }
-    public void setPlayedDefenseIneffectively(boolean _value) {
-        booleanValuesMap.put(PLAYED_DEFENSE_INEFFECTIVELY, _value);
-    }
-
-    public boolean isClimbedUnder15Secs() { return booleanValuesMap.get(CLIMBED_UNDER_15_SECS); }
-    public void setClimbedUnder15Secs(boolean _value) {
-        booleanValuesMap.put(CLIMBED_UNDER_15_SECS, _value);
-    }
 
     public boolean isDisabled() { return booleanValuesMap.get(DISABLED); }
     public void setDisabled(boolean _value) {
         booleanValuesMap.put(DISABLED, _value);
-    }
-
-    public boolean isonPlatform() { return booleanValuesMap.get(ON_PLATFORM); }
-    public void setOnPlatform(boolean _value) {
-        booleanValuesMap.put(ON_PLATFORM, _value);
     }
 
     public String getComments() { return stringValuesMap.get(COMMENTS); }

@@ -6,20 +6,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Scene;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sparx1126.com.powerup.data_components.BenchmarkData;
+import sparx1126.com.powerup.data_components.ScoutingData;
+import sparx1126.com.powerup.utilities.DataCollection;
 import sparx1126.com.powerup.utilities.FileIO;
 import sparx1126.com.powerup.utilities.GoogleDriveNetworking;
 import sparx1126.com.powerup.utilities.NetworkStatus;
@@ -28,6 +28,7 @@ import sparx1126.com.powerup.utilities.Utility;
 public class Directory extends AppCompatActivity {
     private static final String TAG = "Directory ";
     private SharedPreferences settings;
+    private static DataCollection dataCollection;
     private static FileIO fileIO;
     private static GoogleDriveNetworking googleDrive;
     private static NetworkStatus networkStatus;
@@ -53,6 +54,7 @@ public class Directory extends AppCompatActivity {
         setContentView(R.layout.directory);
 
         settings = getSharedPreferences(getResources().getString(R.string.pref_name), 0);
+        dataCollection = DataCollection.getInstance();
         fileIO = FileIO.getInstance();
         googleDrive = GoogleDriveNetworking.getInstance();
         networkStatus = NetworkStatus.getInstance();
@@ -136,41 +138,35 @@ public class Directory extends AppCompatActivity {
                                     Map<Integer, Map<Integer, String>> scoutingDatas = fileIO.fetchScoutingDatas();
                                     for (Map.Entry<Integer, Map<Integer, String>> entryTeam : scoutingDatas.entrySet()) {
                                         for (Map.Entry<Integer, String> entryMatch : entryTeam.getValue().entrySet()) {
+                                            ScoutingData sd = dataCollection.getScoutingData(entryTeam.getKey(), entryMatch.getKey());
                                             String fileName = FileIO.SCOUTING_DATA_HEADER + "_" + FileIO.TEAM
                                                     + String.valueOf(entryTeam.getKey()) + "_" + FileIO.MATCH
                                                     + String.valueOf(entryMatch.getKey()) + ".json";
-                                            stringData.put(fileName, entryMatch.getValue());
+                                            if(!sd.isLatestChangesUploaded()) {
+                                                stringData.put(fileName, entryMatch.getValue());
+                                            } else {
+                                                Log.d(TAG, "Skipped: " + fileName);
+                                            }
                                         }
                                     }
 
                                     Map<Integer, String> benchmarkingDatas = fileIO.fetchBenchmarkDatas();
                                     for (Map.Entry<Integer, String> entryTeam : benchmarkingDatas.entrySet()) {
+                                        BenchmarkData bd = dataCollection.getBenchmarkData(entryTeam.getKey());
                                         String fileName = FileIO.BENCHMARK_DATA_HEADER + "_" + FileIO.TEAM
                                                 + String.valueOf(entryTeam.getKey()) + ".json";
-                                        stringData.put(fileName, entryTeam.getValue());
-                                    }
-
-                                    Map<String, File> photoData = new HashMap<>();
-                                    File storageDir = Directory.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                                    if(storageDir != null) {
-                                        String path = storageDir.getAbsolutePath();
-                                        File directory = new File(path);
-                                        File[] files = directory.listFiles();
-                                        for (int i = 0; i < files.length; i++) {
-                                            String fileName = files[i].getName();
-                                            if(fileName.contains(getResources().getString(R.string.pictureHeader))) {
-                                                photoData.put(fileName, files[i]);
-                                            }
+                                        if(!bd.isLatestChangesUploaded()) {
+                                            stringData.put(fileName, entryTeam.getValue());
+                                        } else {
+                                            Log.d(TAG, "Skipped: " + fileName);
                                         }
-                                    } else {
-                                        String msg = "Could not access: " + storageDir.getName();
-                                        Log.e(TAG, msg);
-                                        Toast.makeText(Directory.this, TAG + msg, Toast.LENGTH_LONG).show();
                                     }
 
+                                    File storageDir = Directory.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                    Map<String, File> photoDatas = fileIO.fetchRobotPicturesTaken(storageDir);
 
                                     uploadInternetDialog.show();
-                                    googleDrive.uploadContentToGoogleDrive(Directory.this, stringData, photoData,
+                                    googleDrive.uploadContentToGoogleDrive(Directory.this, stringData, photoDatas,
                                             new GoogleDriveNetworking.GoogleCompletedCallback() {
                                                 @Override
                                                 public void handleOnSuccess() {
@@ -224,6 +220,7 @@ public class Directory extends AppCompatActivity {
                                                     Log.d(TAG, msg);
                                                     Toast.makeText(Directory.this, TAG + msg, Toast.LENGTH_LONG).show();
                                                     utility.restoreFromGoogleDrive();
+                                                    utility.restoreFromTablet(Directory.this);
                                                 }
 
                                                 @Override

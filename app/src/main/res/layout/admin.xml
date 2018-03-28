@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical">
 
     <Spinner
         android:id="@+id/eventSpinner"
@@ -17,13 +17,13 @@
             android:id="@+id/blueSelectedToggle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="25dp"
             android:background="@drawable/my_btn_toggle"
+            android:padding="25dp"
             android:text="Toggle Button"
             android:textColor="@color/white"
             android:textOff="Red Alliance"
             android:textOn="Blue Alliance"
-            android:textSize="@dimen/text_size_big"/>
+            android:textSize="@dimen/text_size_big" />
 
         <RadioGroup
             style="@style/J_radioGroup"
@@ -36,8 +36,8 @@
 
             <RadioButton
                 android:id="@+id/team2"
-            style="@style/J_radioButton"
-            android:text="Team 2" />
+                style="@style/J_radioButton"
+                android:text="Team 2" />
 
             <RadioButton
                 android:id="@+id/team3"
@@ -46,21 +46,21 @@
 
         </RadioGroup>
 
-    <Button
-        android:id="@+id/selectStuff"
-        style="@style/J_StretchedButton"
-        android:text="Select Position" />
-
-
         <Button
-            android:id="@+id/downloadAdmin"
+            android:id="@+id/selectStuff"
             style="@style/J_StretchedButton"
-            android:text="Download" />
+            android:text="Select Position" />
 
         <Button
             android:id="@+id/uploadAdmin"
             style="@style/J_StretchedButton"
-            android:text="Upload" />
+            android:text="Force Upload ALL" />
+
+        <Button
+            android:id="@+id/downloadAdmin"
+            style="@style/J_StretchedButton"
+            android:text="Force Download ALL" />
+
     </LinearLayout>
 
 </LinearLayout>

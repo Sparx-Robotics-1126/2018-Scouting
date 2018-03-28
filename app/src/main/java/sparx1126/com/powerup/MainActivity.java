@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restorePreferences() {
-        utility.restoreFromTablet();
+        utility.restoreFromTablet(this);
         String scouterName = settings.getString(getResources().getString(R.string.pref_scouter), "");
         if (!scouterName.isEmpty()) {
             studentNameAutoTextView.setText(scouterName);
