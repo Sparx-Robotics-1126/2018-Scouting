@@ -30,7 +30,7 @@
         <item name="android:maxLength">3</item>
         <item name="android:gravity">right</item>
         <item name="android:hint">00</item>
-        <item name="android:layout_weight">.25</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="J_checkBox" parent="basic">
@@ -39,7 +39,6 @@
         <item name="android:layout_marginRight">15dp</item>
     </style>
 
-<!--parent these 2 /\  \/  -->
     <style name="J_labeled_checkBox" parent="J_checkBox">
         <item name="android:layoutDirection">ltr</item>
         <item name="android:layout_marginLeft">15dp</item>

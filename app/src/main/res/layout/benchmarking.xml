@@ -22,7 +22,7 @@
         <Button
             android:id="@+id/goHomeButton"
             style="@style/J_StretchedButton"
-            android:text="Go Home And Don't Save Current Data" />
+            android:text="Go Home And Don't Save Changes" />
 
         <LinearLayout
             android:id="@+id/benchmark_main_layout"
